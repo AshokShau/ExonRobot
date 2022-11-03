@@ -17,7 +17,7 @@ cryptg
 cryptography
 dateparser==1.1.1
 dnspython
-emoji==1.7.0
+emoji==2.2.0
 envparse
 faker
 feedparser
