@@ -1,0 +1,213 @@
+{
+      "name": "EXON v1",
+      "description": "A Telegram group management bot.",
+      "logo": "https://telegra.ph/file/550a1524598af2578cbf3.jpg", 
+      "keywords": [
+         "telegram",
+         "anime",
+         "group",
+         "manager",
+         "Exon"
+      ],   
+   "repository": "https://github.com/Abishnoi69/ExonRobot",
+   "addons": [
+      {
+         "options": {
+            "version": "12"
+         },
+         "plan": "heroku-postgresql"
+      }
+   ],
+   "env": {
+      "TOKEN": {
+         "description": "Your bot token. Can be obtained from https://telegram.dog/BotFather/",
+         "required": true,
+         "value": "YOUR BOT_TOKEN"
+      },
+      "API_ID": {
+         "description": "Get API_ID from my.telegram.org, used for telethon based modules.",
+         "required": true,
+         "value": "13600724"
+      },
+      "API_HASH": {
+         "description": "Get API_HASH from my.telegram.org, used for telethon based modules.",
+         "required": true,
+         "value": "ee59fd28d0d065c6b7d105082c6a0ba0"
+      },
+      "APP_ID": {
+         "description": "Same as API_ID, BUT  2nd idi",
+         "required": true,
+         "value": "13600724"
+      },
+      "APP_HASH": {
+         "description": "Same as API_HASH, but 2nd id",
+         "required": true,
+         "value": "ee59fd28d0d065c6b7d105082c6a0ba0"
+      },  
+      "DATABASE_URL": {
+         "description": "Your Postgres SQL DataBase URI, Get one from https://customer.elephantsql.com/login",
+         "required": true,
+         "value": "postgres://qszfsijv:y6sYqkEb8Z9lFGBmriG7AYjbSbgAJBVk@peanut.db.elephantsql.com/qszfsijv"
+      },  
+      "SQLALCHEMY_DATABASE_URI": {
+         "description": "Your Postgres SQL DataBase URI, Get one from https://customer.elephantsql.com/login (DATABASE_URL)",
+         "required": true,
+         "value": "postgres://qszfsijv:y6sYqkEb8Z9lFGBmriG7AYjbSbgAJBVk@peanut.db.elephantsql.com/qszfsijv"
+      },
+      "DATABASE_URL2": {
+         "description": "Your one extra Mongo DataBase URI, Get one from mongodb.com",
+         "required": true,
+         "value": "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"
+      }, 
+      "REDIS_URL": {
+         "description": "Your Redis URL, Get one from redislabs.com",
+         "required": true,
+         "value": "redis://Madharjoot:GuKhao123_@redis-12276.c275.us-east-1-4.ec2.cloud.redislabs.com:12276/Madharjoot"
+      }, 
+     "REM_BG_API_KEY": {
+         "description": "From:- https://www.remove.bg/",
+         "required": false,
+         "value": "LSdLgCceYz8vNqFgJVzrkDgR"
+      }, 
+      "OWNER_ID": {
+         "description": "Your Telegram User ID as an integer.",
+         "required": true,
+         "value": "1452219013"
+      },
+      "BOT_ID": {
+         "description": "Your Telegram Bot ID.",
+         "required": true,
+         "value": "5662485106"
+      },
+      "OWNER_USERNAME": {
+         "description": "Your Telegram username without the @",
+         "value": "Abishnoi1M"
+      },
+      "SUPPORT_CHAT": {
+         "description": "The Telegram Support Group Where Users of your Bot can Go and ask their Questions.",
+         "required": true,
+         "value": "AbishnoiMF"
+      },
+     "UPDATES_CHANNEL": {
+         "description": "The Telegram News/Update Channel Where Users of your Bot can Go and check updates by you.",
+         "required": true,
+         "value": "Abishnoi_bots"
+      },     
+      "EVENT_LOGS": {
+         "description": "Event logs CHANNEL to note down important bot level events, recommend to make this public. ex: '-123456'",
+         "required": true,
+         "value": "-1001497222182"
+      },
+      "JOIN_LOGGER": {
+         "description": "A CHANNEL  where bot will print who added it to what group, useful during debugging or spam handling.",
+         "required": true,
+         "value": "-1001497222182"
+      },      
+      "TIME_API_KEY": {
+         "description": "Required for timezone information. Get yours from https://timezonedb.com/api",
+         "required": false,
+         "value": "5LB4TAKPEKZ0"
+      },
+     "START_IMG": {
+         "description": "A Start img link",
+         "required": false,
+         "value": "https://telegra.ph/file/0191f2041ae33e11c1267.jpg"
+      },
+      "DEV_USERS": {
+         "description": "Enter the IDs of the users who are the Developers of the Bot. If you are newbie and want help from us Itself, then keep the IDs as they are and add yours",
+         "required": false,
+         "value": "1452219013"
+      },
+      "SPAMWATCH_API": {
+         "description": "Spamwatch API Token, Get one from @SpamWatchBot.",
+         "required": false,
+         "value": "AHT~6SSflemqFZa5tfkKFQeiLnJUwoowWYozC3SN2ZY_aSGh83~9pItAmM4Mi40E"
+      }, 
+      "DRAGONS": {
+         "description": "A space separated list of user IDs who you want to assign as sudo users.",
+         "required": false,
+         "value": "1452219013"
+      },
+      "STRICT_GBAN": {
+         "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
+         "value": "True"
+      },
+      "DEMONS": {
+         "description": "A space separated list of user IDs who can use Gban From Your Bot",
+         "required": false,
+         "value": "1452219013"
+      },
+      "TIGERS": {
+         "description": "A space separated list of user IDs who can not be banned by your Bot",
+         "required": false,
+         "value": "1452219013"
+      },
+      "WOLVES": {
+         "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
+         "required": false,
+         "value": "1452219013"
+      },
+      "ENV": {
+         "description": "Setting this to ANYTHING will enable environment variables. Leave it as it is",
+         "value": "ANYTHING"
+      },
+      "URL": {
+         "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
+         "required": false,
+         "value": "https://example69.herokuapp.com/"
+      },
+      "GENIUS_API_TOKEN": {
+         "description": "Genius API Token get one from genius.com/api-client",
+         "required": false,
+         "value": "gIgMyTXuwJoY9VCPNwKdb_RUOA_9mCMmRlbrrdODmNvcpslww_2RIbbWOB8YdBW9"
+      },
+      "DONATION_LINK": {
+         "description": "Optional: link where you would like to receive donations. If you are a noob, better leave it linking to paul",
+         "required": false,
+         "value": "https://t.me/Abishnoi1M"
+      },
+      "MONGO_DB_URL": {
+         "description": "Your Mongo DB URI",
+         "required": true,
+         "value": "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"
+      },
+      "HEROKU_API_KEY": {
+         "description": "Your Heroku API Key from heroku profile",
+         "required": false,
+         "value": ""
+      },
+      "HEROKU_APP_NAME": {
+         "description": "Your Heroku APP name",
+         "required": false,
+         "value": ""
+      },
+      "INFOPIC": {
+         "description": "Don't change",
+         "required": true,
+         "value": "True"
+      },
+      "ARQ_API_KEY": {
+         "description": "Get one @ARQRobot on Telegram",
+         "required": true,
+         "value": "SNEOSP-HQSCLP-BMVHJF-FQLQTR-ARQ"
+      },
+      "ARQ_API_URL": {
+         "description": "Leave it as it is",
+         "required": true,
+         "value": "arq.hamker.dev"
+      },
+      "ERROR_LOGS": {
+         "description": "The ID of the Group where the bot will spam with shitty errors and techy stuff",
+         "required": true,
+         "value": "-1001497222182"
+      }
+   },   
+      "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    }
+  ]
+}
