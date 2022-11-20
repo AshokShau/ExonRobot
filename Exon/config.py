@@ -29,11 +29,9 @@ SOFTWARE.
 import json
 import os
 
+from dotenv import load_dotenv
 
-def get_user_list(config, key):
-    with open("{}/Exon/{}".format(os.getcwd(), config), "r") as json_file:
-        return json.load(json_file)[key]
-
+load_dotenv()
 
 class Config(object):
     LOGGER = True
