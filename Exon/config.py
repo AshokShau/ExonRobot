@@ -26,12 +26,11 @@ SOFTWARE.
 #     MY ALL BOTS :- Abishnoi_bots
 #     GITHUB :- KingAbishnoi ""
 
-import json
-import os
 
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 class Config(object):
     LOGGER = True
