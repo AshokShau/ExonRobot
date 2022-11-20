@@ -325,7 +325,7 @@ print("[Exon]: ᴛᴇʟᴇɢʀᴀᴘʜ ɪɴsᴛᴀʟʟɪɴɢ")
 telegraph = Telegraph()
 print("[EXON ]: ᴛᴇʟᴇɢʀᴀᴘʜ ᴀᴄᴄᴏᴜɴᴛ ᴄʀᴇᴀᴛɪɴɢ")
 telegraph.create_account(short_name="Exon")
-# updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+
 
 
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
@@ -345,10 +345,17 @@ pgram = Client(
     bot_token=TOKEN,
 )
 print("[EXON ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ sᴇʀᴠᴇʀ")
-mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
-motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
-db = motor[MONGO_DB]
-engine = AIOEngine(motor, MONGO_DB)
+
+db = MongoClient(MONGO_DB_URI)
+
+try:
+    db.list_database_names()
+except errors.ServerSelectionTimeoutError:
+    print("ғᴀɪʟᴜʀᴇ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ ᴍᴏɴɢᴏᴅʙ")
+
+DB = db.get_database("bot")
+
+
 print("[INFO]: ɪɴɪᴛɪᴀʟᴢɪɴɢ ᴀɪᴏʜᴛᴛᴘ sᴇssɪᴏɴ")
 aiohttpsession = ClientSession()
 # ARQ Client
@@ -356,6 +363,7 @@ print("[INFO]: ɪɴɪᴛɪᴀʟɪᴢɪɴɢ ᴀʀǫ ᴄʟɪᴇɴᴛ")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 print("[ᴇxᴏɴ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ • PostgreSQL ᴅᴀᴛᴀʙᴀsᴇ")
 # ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
+ubot = None
 print("[ᴇxᴏɴ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ • ᴜsᴇʀʙᴏᴛ (t.me/AbishnoiMF)")
 
 
