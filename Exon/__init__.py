@@ -39,8 +39,8 @@ import telegram.ext as tg
 from aiohttp import ClientSession
 from motor import motor_asyncio
 from odmantic import AIOEngine
-from pymongo import MongoClient
-from pyrogram import Client
+from pymongo import MongoClient, errors
+from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
 from Python_ARQ import ARQ
 from redis import StrictRedis
