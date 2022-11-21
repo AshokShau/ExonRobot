@@ -136,14 +136,14 @@ if ENV:
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))  # Don't Change
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))  # Use `True` Value
     WORKERS = int(os.environ.get("WORKERS", 8))  # Don't Change
-    BAN_STICKER = os.environ.get(
-        "BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg"
-    )  
+    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)  # Don't Change
     TEMP_DOWNLOAD_DIRECTORY = os.environ.get(
         "TEMP_DOWNLOAD_DIRECTORY", "./"
     )  # Don't Change
-    CASH_API_KEY = os.environ.get("CASH_API_KEY", None)  # From:- https://www.alphavantage.co/support/#api-key
+    CASH_API_KEY = os.environ.get(
+        "CASH_API_KEY", None
+    )  # From:- https://www.alphavantage.co/support/#api-key
     TIME_API_KEY = os.environ.get(
         "TIME_API_KEY", None
     )  # From:- https://timezonedb.com/api
