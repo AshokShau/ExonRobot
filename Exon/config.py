@@ -77,16 +77,14 @@ class Config(object):
 
     REDIS_URL = ""
 
-    
-    DRAGONS = get_user_list("elevated_users.json", "sudos") #don't edit
-    DEV_USERS = get_user_list("elevated_users.json", "devs") # ""
-    REQUESTER = get_user_list("elevated_users.json", "whitelists") #""
-    DEMONS = get_user_list("elevated_users.json", "supports") #""
-    INSPECTOR = get_user_list("elevated_users.json", "sudos")#""
-    TIGERS = get_user_list("elevated_users.json", "tigers")#""
-    WOLVES = get_user_list("elevated_users.json", "whitelists")#""
+    DRAGONS = get_user_list("elevated_users.json", "sudos")  # don't edit
+    DEV_USERS = get_user_list("elevated_users.json", "devs")  # ""
+    REQUESTER = get_user_list("elevated_users.json", "whitelists")  # ""
+    DEMONS = get_user_list("elevated_users.json", "supports")  # ""
+    INSPECTOR = get_user_list("elevated_users.json", "sudos")  # ""
+    TIGERS = get_user_list("elevated_users.json", "tigers")  # ""
+    WOLVES = get_user_list("elevated_users.json", "whitelists")  # ""
 
-    
     DONATION_LINK = "https://t.me/Abishnoi1M"
     CERT_PATH = None
     STRICT_GBAN = "True"
@@ -112,7 +110,7 @@ class Config(object):
     CF_API_KEY = "KISS"
     BL_CHATS = []
     MONGO_PORT = "27017"
-    MONGO_DB = "EXON" #""
+    MONGO_DB = "EXON"  # ""
     PHOTO = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
     HELP_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
     START_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
