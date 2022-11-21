@@ -108,7 +108,7 @@ if ENV:
     )  # Info Pic (use True[Value] If You Want To Show In /info.)
     EVENT_LOGS = os.environ.get("EVENT_LOGS", None)  # G-Ban Logs (Channel) (-100)
     ERROR_LOGS = os.environ.get(
-        "ERROR_LOGS", None
+        "EVENT_LOGS", None
     )  # Error Logs (Channel Ya Group Choice Is Yours) (-100)
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
     ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
@@ -138,12 +138,12 @@ if ENV:
     WORKERS = int(os.environ.get("WORKERS", 8))  # Don't Change
     BAN_STICKER = os.environ.get(
         "BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg"
-    )  # Don't Change
+    )  
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)  # Don't Change
     TEMP_DOWNLOAD_DIRECTORY = os.environ.get(
         "TEMP_DOWNLOAD_DIRECTORY", "./"
     )  # Don't Change
-    # CASH_API_KEY = os.environ.get("CASH_API_KEY", None)  # From:- https://www.alphavantage.co/support/#api-key
+    CASH_API_KEY = os.environ.get("CASH_API_KEY", None)  # From:- https://www.alphavantage.co/support/#api-key
     TIME_API_KEY = os.environ.get(
         "TIME_API_KEY", None
     )  # From:- https://timezonedb.com/api
@@ -178,8 +178,8 @@ if ENV:
     )  # From https://t.me/SpamWatchBot
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")  # Bot Username
     # Telethon Based String Session (2nd ID) [ From https://repl.it/@SpEcHiDe/GenerateStringSession ]
-    API_ID = os.environ.get("APP_ID", None)  # 2nd ID
-    API_HASH = os.environ.get("APP_HASH", None)  # 2nd ID
+    API_ID = os.environ.get("API_ID", None)  # 2nd ID
+    API_HASH = os.environ.get("API_HASH", None)  # 2nd ID
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True)  # Heroku App Name
     HEROKU_API_KEY = os.environ.get(
         "HEROKU_API_KEY", True
@@ -237,7 +237,7 @@ else:
 
     INFOPIC = Config.INFOPIC
     EVENT_LOGS = Config.EVENT_LOGS
-    ERROR_LOGS = Config.ERROR_LOGS
+    ERROR_LOGS = Config.EVENT_LOGS
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
     PORT = Config.PORT
@@ -269,8 +269,8 @@ else:
     SPAMWATCH_API = Config.SPAMWATCH_API
     REM_BG_API_KEY = Config.REM_BG_API_KEY
     OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
-    APP_ID = Config.APP_ID
-    APP_HASH2 = Config.APP_HASH
+    APP_ID = Config.API_ID
+    APP_HASH2 = Config.API_HASH
     GENIUS_API_TOKEN = Config.GENIUS_API_TOKEN
     # YOUTUBE_API_KEY = Config.YOUTUBE_API_KEY
     HELP_IMG = Config.HELP_IMG
