@@ -277,7 +277,8 @@ else:
     START_IMG = Config.START_IMG
     ALLOW_EXCL = Config.ALLOW_EXCL
     BOT_API_URL = Config.BOT_API_URL
-
+    HEROKU_APP_NAME = Config.HEROKU_APP_NAME
+    HEROKU_API_KEY = Config.HEROKU_API_KEY
 # try:
 # BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
 # except ValueError:
