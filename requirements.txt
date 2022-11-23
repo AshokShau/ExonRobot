@@ -15,7 +15,7 @@ countryinfo
 cowpy
 cryptg
 cryptography
-dateparser==1.1.1
+dateparser==1.1.4
 dnspython
 emoji==1.7.0
 envparse
