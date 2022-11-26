@@ -41,13 +41,24 @@ _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏ
 </h2>
 
 ```console
-$ sudo apt upgrade
+$ tmux
+$ sudo apt-get update && sudo apt-get upgrade -y
+$ sudo apt-get install python3-pip ffmpeg -y
 $ sudo apt install python3-pip
-$ git clone https://github.com/Abishnoi69/ExonRobot
+$ git clone <repo link>
 $ cd <ʀᴇᴘᴏ ɴᴀᴍᴇ>
 $ pip3 install -U -r requirements.txt
-$ cd Exon
-$ cp config.py
+$ pip3 install --upgrade pip setuptools
+$ pip install -U "pip < 22" setuptools wheel && pip install -U -r requirements.txt
+$ pip install pyopenssl
+$ sudo pip install -U pyopenssl
+$ cp sample.env .env
+$ vi .env
+$ -ᴘʀᴇss ɪ ʙᴜᴛᴛᴏɴ ᴏɴ ᴋᴇʏʙᴏᴀʀᴅ ᴛᴏ sᴛᴀʀᴛ ᴇᴅɪᴛɪɴɢ
+$ -ᴘʀᴇss Ctrl + C ᴏɴᴄᴇ ʏᴏᴜ ᴀʀᴇ ᴅᴏɴᴇ ᴡɪᴛʜ ᴇᴅɪᴛɪɴɢ ᴠᴀʀs ᴀɴᴅ ᴛʏᴘᴇ  :wq  ᴛᴏ sᴀᴠᴇ .env ᴏʀ :qa ᴛᴏ ᴇxɪᴛ ᴇᴅɪᴛɪɴɢ.
+$ bash start
+
+
 ```
  
 <h3 align="center"> 
@@ -59,7 +70,7 @@ $ cp config.py
 </h2>
 
 ```console
-$ python3 -m Exon
+$ bash start
 ```
 
 
