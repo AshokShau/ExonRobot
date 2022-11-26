@@ -353,7 +353,7 @@ try:
 except errors.ServerSelectionTimeoutError:
     print("ғᴀɪʟᴜʀᴇ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ ᴍᴏɴɢᴏᴅʙ")
 
-    
+
 DB = db.get_database("bot")
 
 

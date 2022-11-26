@@ -23,9 +23,9 @@ SOFTWARE.
 """
 
 import html
-from typing import List, Optional
+from typing import List
 
-from telegram import Bot, Chat, Update, User
+from telegram import Bot, Update
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, MessageHandler
 from telegram.ext.dispatcher import run_async

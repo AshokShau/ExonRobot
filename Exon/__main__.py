@@ -34,7 +34,6 @@ import re
 import time
 import traceback
 from sys import argv, version_info
-from typing import Optional
 
 from pyrogram import __version__ as pver
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
