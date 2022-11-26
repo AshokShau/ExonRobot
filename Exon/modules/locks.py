@@ -25,14 +25,7 @@ SOFTWARE.
 import html
 
 from alphabet_detector import AlphabetDetector
-from telegram import (
-    Chat,
-    ChatPermissions,
-    Message,
-    MessageEntity,
-    ParseMode,
-    TelegramError,
-)
+from telegram import ChatPermissions, MessageEntity, ParseMode, TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, MessageHandler
 from telegram.ext.dispatcher import run_async

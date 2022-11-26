@@ -23,9 +23,8 @@ SOFTWARE.
 """
 
 import html
-from typing import Optional
 
-from telegram import Chat, ChatPermissions, Message, ParseMode, User
+from telegram import ChatPermissions, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, MessageHandler
 from telegram.utils.helpers import mention_html

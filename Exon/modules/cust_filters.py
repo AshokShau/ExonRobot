@@ -21,16 +21,9 @@ SOFTWARE.
 
 import re
 from html import escape
-from typing import Optional
 
 import telegram
-from telegram import (
-    Chat,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-    ParseMode,
-)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import DispatcherHandlerStop, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
