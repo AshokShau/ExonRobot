@@ -346,13 +346,14 @@ pgram = Client(
 )
 print("[EXON ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ sᴇʀᴠᴇʀ")
 
-db = MongoClient(MONGO_DB_URI)
+db = MongoClient(MONGO_DB_URL)
 
 try:
     db.list_database_names()
 except errors.ServerSelectionTimeoutError:
     print("ғᴀɪʟᴜʀᴇ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ ᴍᴏɴɢᴏᴅʙ")
 
+    
 DB = db.get_database("bot")
 
 
