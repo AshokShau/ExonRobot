@@ -71,6 +71,7 @@ $ bash start
 
 ```console
 $ bash start
+$ -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→ git pull
 ```
 
 
