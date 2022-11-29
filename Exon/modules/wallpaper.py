@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import random
-import requests
 
+import requests
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
@@ -49,14 +49,13 @@ async def wall(_, message: Message):
                 [
                     [InlineKeyboardButton("ʟɪɴᴋ", url=url[ran]["imageUrl"])],
                 ]
-            )
+            ),
         )
         await m.delete()
-    except Exception as e:
+    except Exception:
         await m.edit_text(
             f"`ᴡᴀʟʟᴘᴀᴘᴇʀ ɴᴏᴛ ғᴏᴜɴᴅ ғᴏʀ : `{text}`",
         )
 
-        
-        
- # ᴛʜᴀɴᴋs https://github.com/TheAnonymous2005/FallenRobot/blob/master/FallenRobot/modules/wallpaper.py
+
+# ᴛʜᴀɴᴋs https://github.com/TheAnonymous2005/FallenRobot/blob/master/FallenRobot/modules/wallpaper.py
