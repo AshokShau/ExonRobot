@@ -43,17 +43,18 @@ def get_user_list(config, key):
 class Config(object):
     LOGGER = True
 
-    API_ID = "983922"
-    API_HASH = ""
+    API_ID = "11597868"
+    API_HASH = "326ae14ebe620f6a77277f4b979299a9"
     EVENT_LOGS = "-1001497222182"
-    DATABASE_URI = ""  # elephantsql.com
-    MONGO_DB_URL = ""  # cloud.mongodb.com/
-    TOKEN = ""
+    DATABASE_URI = "postgres://ftmhhlpp:vXFSn6lNyTwI_OOTbGSBbdsQI9hABC1f@ella.db.elephantsql.com/ftmhhlpp"  # elephantsql.com
+    REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default" #redis.os
+    MONGO_DB_URL = "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"  # cloud.mongodb.com/
+    TOKEN = "5408158735:AAF1Yxgy-99Np6iWIpaWWz_5yys38PxzvNw"
     OWNER_USERNAME = "Abishnoi1M"
     OWNER_ID = "1452219013"
-    # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ
-    MONGO_DB = "Exon"  # Don't edit
-    REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"
+    
+    # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ 
+    MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_URL = "https://arq.hamker.in"
     ARQ_API_KEY = "TENRCY-KDKSK-MSMSM-OXQYYO-ARQ"
     DONATION_LINK = "t.me/AbishnoiMF"
