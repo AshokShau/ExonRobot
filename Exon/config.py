@@ -44,39 +44,44 @@ class Config(object):
     LOGGER = True
 
     API_ID = "983922"
-    API_HASH = "SMSMSMSAKAMAKA"
-    ARQ_API_KEY = "TENRCY-KDKSK-MSMSM-OXQYYO-ARQ"
-    BOT_ID = "5408158735"
-    TOKEN = "5458182410:KINGABISHNOI-UM"
-    OWNER_ID = "1452219013"
-    OPENWEATHERMAP_ID = "22322"
-    OWNER_USERNAME = "Abishnoi1M"
-    BOT_USERNAME = "Exon_Robot"
-    SUPPORT_CHAT = "AbishnoiMF"
-    UPDATES_CHANNEL = "Abishnoi_bots"
-    SUPPORT_CHANNEL = "Abishnoi_bots"
-    JOIN_LOGGER = "-1001497222182"
+    API_HASH = ""
     EVENT_LOGS = "-1001497222182"
-    ERROR_LOGS = "-1001497222182"
-
-    SQLALCHEMY_DATABASE_URI = ""  # sql
-    DATABASH_URL = ""  # sql
-    DB_URL = ""
-    MONGO_DB_URL = ""  # needed for any database modules
-    MONGO_URL = ""
-    DB_URL2 = ""  # YOUR MONGO_DB_URI
+    DATABASE_URI = "" # elephantsql.com
+    MONGO_DB_URL = "" # cloud.mongodb.com/
+    TOKEN = ""
+    # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ 
+    MONGO_DB = "Exon" # Don't edit
+    REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"
     ARQ_API_URL = "https://arq.hamker.in"
-    BOT_API_URL = "https://api.telegram.org/bot"
-    LOAD = []
+    ARQ_API_KEY = "TENRCY-KDKSK-MSMSM-OXQYYO-ARQ"
+    DONATION_LINK = "t.me/AbishnoiMF"
+    HELP_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
+    START_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
+    UPDATES_CHANNEL = "Abishnoi_bots"
+    SUPPORT_CHAT = "AbishnoiMF"
+    INFOPIC = False
+    GENIUS_API_TOKEN = "28jwoKAkskaSjsnsksAjnwjUJwj"
+    SPAMWATCH_API = None
+    REM_BG_API_KEY = None
+    OPENWEATHERMAP_ID = None
+    WALL_API = None
+    TIME_API_KEY = None
+    HEROKU_APP_NAME = None
+    HEROKU_API_KEY = None
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
+    TEMP_DOWNLOAD_DIRECTORY = "./"
+    LOAD = []
+    DEL_CMDS = True
+    BAN_STICKER = None
+    WORKERS = (8)
+    STRICT_GBAN = True
     WEBHOOK = False
-    INFOPIC = True
-    URL = None
-    SPAMWATCH_API = ""
-    SPAMWATCH_SUPPORT_CHAT = "@AbishnoiMF"
-
-    REDIS_URL = ""
-
+    URL = ""
+    PORT = []
+    ALLOW_EXCL = []
+    CERT_PATH = []
+    SPAMWATCH_SUPPORT_CHAT = "AbishnoiMF"
+    BOT_API_URL = "https://api.telegram.org/bot"
     DRAGONS = get_user_list("elevated_users.json", "sudos")  # don't edit
     DEV_USERS = get_user_list("elevated_users.json", "devs")  # ""
     REQUESTER = get_user_list("elevated_users.json", "whitelists")  # ""
@@ -85,38 +90,7 @@ class Config(object):
     TIGERS = get_user_list("elevated_users.json", "tigers")  # ""
     WOLVES = get_user_list("elevated_users.json", "whitelists")  # ""
 
-    DONATION_LINK = "https://t.me/Abishnoi1M"
-    CERT_PATH = None
-    STRICT_GBAN = "True"
-    PORT = ""
-    DEL_CMDS = True
-    STRICT_GBAN = True
-    WORKERS = 8
-    BAN_STICKER = ""
-    ALLOW_EXCL = True
-    CASH_API_KEY = "NAI H BRO"
-    TIME_API_KEY = "ABISHNOI"
-    WALL_API = "F-OFF"
-    AI_API_KEY = "LOVEYOU"
-    BL_CHATS = []
-    SPAMMERS = None
-    SPAMWATCH_API = ""
-    ALLOW_CHATS = None
-    TEMP_DOWNLOAD_DIRECTORY = "./"
-    HEROKU_APP_NAME = ""
-    HEROKU_API_KEY = ""
-    REM_BG_API_KEY = "LSdLgCceYz8vNqFgJVzrkDgR"
-    LASTFM_API_KEY = "FMLODA"
-    CF_API_KEY = "KISS"
-    BL_CHATS = []
-    MONGO_PORT = "27017"
-    MONGO_DB = "EXON"  # ""
-    PHOTO = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
-    HELP_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
-    START_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
-    TIME_API_KEY = "5LB4TAKPEKZ0"
-    INFOPIC = False
-    GENIUS_API_TOKEN = "28jwoKAkskaSjsnsksAjnwjUJwj"
+
 
 
 class Production(Config):
