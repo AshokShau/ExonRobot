@@ -64,5 +64,3 @@ def rem_kuki(chat_id):
         if kukichat:
             SESSION.delete(kukichat)
         SESSION.commit()
-
-
