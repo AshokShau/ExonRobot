@@ -79,11 +79,6 @@ $ -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→
 
 
 
-<h3 align="center">
-    ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʜᴇʀᴏᴋᴜ 」─
-</h3>
-
-<p align="center"><a href="https://heroku-deployer.herokuapp.com"> <img src="https://img.shields.io/badge/Redirect%20To%20Heroku-black?style=for-the-badge&logo=heroku" width="200" height="35.45"/></a></p>
 
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -91,6 +86,22 @@ $ -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
+
+
+<h2 align="center"> 
+   ⇝ ᴍᴀɪɴ ᴠᴇʀs ⇜
+</h2>
+
+```
+API_ID =
+API_HASH = 
+EVENT_LOGS = 
+DATABASE_URI = 
+MONGO_DB_URL = 
+TOKEN = 
+OWNER_USERNAME = 
+
+```
 
 <h3 align="center">
     ─「 sᴜᴩᴩᴏʀᴛ 」─
@@ -102,6 +113,11 @@ $ -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→
 <p align="center">
 <a href="https://telegram.me/Abishnoi1M"><img src="https://img.shields.io/badge/Abishnoi%20-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
+
+
+
+
+
 
 ━━━━━━━━━━━━━━━━━━━━
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
