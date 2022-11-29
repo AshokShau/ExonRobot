@@ -49,6 +49,7 @@ class Config(object):
     DATABASE_URI = ""  # elephantsql.com
     MONGO_DB_URL = ""  # cloud.mongodb.com/
     TOKEN = ""
+    OWNER_USERNAME = "Abishnoi1M"
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ
     MONGO_DB = "Exon"  # Don't edit
     REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"
@@ -76,7 +77,7 @@ class Config(object):
     WORKERS = 8
     STRICT_GBAN = True
     WEBHOOK = False
-    URL = ""
+    URL = None
     PORT = []
     ALLOW_EXCL = []
     CERT_PATH = []
