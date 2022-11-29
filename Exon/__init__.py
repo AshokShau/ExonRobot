@@ -114,7 +114,7 @@ if ENV:
     ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
     ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
     URL = os.environ.get(
-        "URL", ""
+        "URL", None
     )  # If You Deploy On Heroku. [URL:- https://{App Name}.herokuapp.com EXP:- https://neko.herokuapp.com]
     PORT = int(os.environ.get("PORT", 8443))
     CERT_PATH = os.environ.get("CERT_PATH")
@@ -129,7 +129,7 @@ if ENV:
     )  # Any SQL Database Link (RECOMMENDED:- PostgreSQL & elephantsql.com)
     DB_URI = os.environ.get("DATABASE_URL")
 
-    DB_URL2 = os.environ.get("DATABASE_URL2")
+    DB_URL2 = os.environ.get("MONGO_DB_URL")
     DONATION_LINK = os.environ.get("DONATION_LINK")  # Donation Link (ANY)
     LOAD = os.environ.get("LOAD", "").split()  # Don't Change
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()  # Don't Change
@@ -191,7 +191,7 @@ if ENV:
     MONGO_DB = "Exon"
     GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
     CHROME_DRIVER = "/usr/bin/chromedriver"
-    DB_URI = os.environ.get("DATABASE_URL")
+    DB_URI = os.environ.get("DATABASE_URI")
     START_IMG = os.environ.get("START_IMG")
     HELP_IMG = os.environ.get("HELP_IMG")
 
@@ -211,7 +211,7 @@ else:
     except ValueError:
         raise Exception("ʏᴏᴜʀ OWNER_ID ᴠᴀʀɪᴀʙʟᴇ ɪs ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ ɪɴᴛᴇɢᴇʀ.")
 
-    JOIN_LOGGER = Config.JOIN_LOGGER
+    JOIN_LOGGER = Config.EVENT_LOGS
     OWNER_USERNAME = Config.OWNER_USERNAME
     ALLOW_CHATS = Config.ALLOW_CHATS
     try:
