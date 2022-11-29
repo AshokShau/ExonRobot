@@ -823,7 +823,7 @@ def main():
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
-        LOGGER.info("Using webhooks.")
+        LOGGER.info("ᴜꜱɪɴɢ ᴡᴇʙʜᴏᴏᴋꜱ.")
         updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
@@ -832,8 +832,8 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info("ᴜsɪɴɢ ʟᴏɴɢ ᴘᴏʟʟɪɴɢ.")
-        updater.start_polling(timeout=15, read_latency=4, clean=True)
+        LOGGER.info("ᴜꜱɪɴɢ ʟᴏɴɢ ᴘᴏʟʟɪɴɢ.")
+        updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
 
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()
@@ -844,10 +844,7 @@ def main():
 
 
 if __name__ == "__main__":
-    LOGGER.info(
-        f"sᴜᴄᴄᴇssғᴜʟʟʏ ʟᴏᴀᴅᴇᴅ ᴍᴏᴅᴜʟᴇS Any issu JOIN @AbishnoiMF : {str(ALL_MODULES)}"
-    )
+    LOGGER.info("ꜱᴜᴄᴄᴇꜱꜱғᴜʟʟʏ ʟᴏᴀᴅᴇᴅ ᴍᴏᴅᴜʟᴇꜱ ᴀʙ ᴇɴᴊᴏʏ ᴋᴀʀ ᴛᴜ : " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     pgram.start()
     main()
-    # idle()
