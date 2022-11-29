@@ -61,7 +61,7 @@
          "description": "Your Mongo DB URI",
          "required": true,
          "value": "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"
-      },
+      }
    },   
       "buildpacks": [
     {
