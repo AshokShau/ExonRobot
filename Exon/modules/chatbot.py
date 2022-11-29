@@ -110,7 +110,7 @@ def asuxadd(update: Update, context: CallbackContext) -> str:
 
 @user_admin
 @gloggable
-def chatbot(update: Update, context: CallbackContext):
+def exonchatbot(update: Update, context: CallbackContext):
     update.effective_user
     message = update.effective_message
     msg = "• ᴄʜᴏᴏsᴇ ᴀɴ ᴏᴩᴛɪᴏɴ ᴛᴏ ᴇɴᴀʙʟᴇ/ᴅɪsᴀʙʟᴇ ᴄʜᴀᴛʙᴏᴛ"
@@ -170,7 +170,7 @@ __help__ = """
 __mod_name__ = "𝙲ʜᴀᴛʙᴏᴛ"
 
 
-CHATBOTK_HANDLER = CommandHandler("chatbot", chatbot, run_async=True)
+CHATBOTK_HANDLER = CommandHandler("chatbot", exonchatbot, run_async=True)
 ADD_CHAT_HANDLER = CallbackQueryHandler(asuxadd, pattern=r"add_chat", run_async=True)
 RM_CHAT_HANDLER = CallbackQueryHandler(asuxrm, pattern=r"rm_chat", run_async=True)
 CHATBOT_HANDLER = MessageHandler(
