@@ -81,6 +81,7 @@ class Config(object):
     URL = None
     PORT = []
     ALLOW_EXCL = []
+    ALLOW_CHATS = True
     CERT_PATH = []
     SPAMWATCH_SUPPORT_CHAT = "AbishnoiMF"
     BOT_API_URL = "https://api.telegram.org/bot"
