@@ -46,11 +46,11 @@ class Config(object):
     API_ID = "983922"
     API_HASH = ""
     EVENT_LOGS = "-1001497222182"
-    DATABASE_URI = "" # elephantsql.com
-    MONGO_DB_URL = "" # cloud.mongodb.com/
+    DATABASE_URI = ""  # elephantsql.com
+    MONGO_DB_URL = ""  # cloud.mongodb.com/
     TOKEN = ""
-    # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ 
-    MONGO_DB = "Exon" # Don't edit
+    # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ
+    MONGO_DB = "Exon"  # Don't edit
     REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"
     ARQ_API_URL = "https://arq.hamker.in"
     ARQ_API_KEY = "TENRCY-KDKSK-MSMSM-OXQYYO-ARQ"
@@ -73,7 +73,7 @@ class Config(object):
     LOAD = []
     DEL_CMDS = True
     BAN_STICKER = None
-    WORKERS = (8)
+    WORKERS = 8
     STRICT_GBAN = True
     WEBHOOK = False
     URL = ""
@@ -89,8 +89,6 @@ class Config(object):
     INSPECTOR = get_user_list("elevated_users.json", "sudos")  # ""
     TIGERS = get_user_list("elevated_users.json", "tigers")  # ""
     WOLVES = get_user_list("elevated_users.json", "whitelists")  # ""
-
-
 
 
 class Production(Config):
