@@ -43,7 +43,6 @@ from telegram.ext import (
     CommandHandler,
     Filters,
     MessageHandler,
-    run_async,
 )
 from telegram.utils.helpers import mention_html
 
@@ -51,7 +50,6 @@ import Exon.modules.sql.kuki_sql as sql
 from Exon import dispatcher
 from Exon.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
 from Exon.modules.log_channel import gloggable
-
 
 
 @user_admin_no_reply
@@ -82,7 +80,6 @@ def asuxrm(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-
 @user_admin_no_reply
 @gloggable
 def asuxadd(update: Update, context: CallbackContext) -> str:
@@ -109,7 +106,6 @@ def asuxadd(update: Update, context: CallbackContext) -> str:
             )
 
     return ""
-
 
 
 @user_admin
@@ -180,7 +176,8 @@ RM_CHAT_HANDLER = CallbackQueryHandler(asuxrm, pattern=r"rm_chat", run_async=Tru
 CHATBOT_HANDLER = MessageHandler(
     Filters.text
     & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!") & ~Filters.regex(r"^\/")),
-    chatbot, run_async=True
+    chatbot,
+    run_async=True,
 )
 
 dispatcher.add_handler(ADD_CHAT_HANDLER)
