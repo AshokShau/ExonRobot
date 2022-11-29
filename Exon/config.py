@@ -50,6 +50,7 @@ class Config(object):
     MONGO_DB_URL = ""  # cloud.mongodb.com/
     TOKEN = ""
     OWNER_USERNAME = "Abishnoi1M"
+    OWNER_ID = "1452219013"
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ
     MONGO_DB = "Exon"  # Don't edit
     REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"
