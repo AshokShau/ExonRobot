@@ -53,7 +53,7 @@ from Exon.modules.helper_funcs.chat_status import user_admin, user_admin_no_repl
 from Exon.modules.log_channel import gloggable
 
 
-@run_async
+
 @user_admin_no_reply
 @gloggable
 def asuxrm(update: Update, context: CallbackContext) -> str:
@@ -82,7 +82,7 @@ def asuxrm(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@run_async
+
 @user_admin_no_reply
 @gloggable
 def asuxadd(update: Update, context: CallbackContext) -> str:
@@ -111,7 +111,7 @@ def asuxadd(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@run_async
+
 @user_admin
 @gloggable
 def chatbot(update: Update, context: CallbackContext):
@@ -174,13 +174,13 @@ __help__ = """
 __mod_name__ = "𝙲ʜᴀᴛʙᴏᴛ"
 
 
-CHATBOTK_HANDLER = CommandHandler("chatbot", chatbot)
-ADD_CHAT_HANDLER = CallbackQueryHandler(asuxadd, pattern=r"add_chat")
-RM_CHAT_HANDLER = CallbackQueryHandler(asuxrm, pattern=r"rm_chat")
+CHATBOTK_HANDLER = CommandHandler("chatbot", chatbot, run_async=True)
+ADD_CHAT_HANDLER = CallbackQueryHandler(asuxadd, pattern=r"add_chat", run_async=True)
+RM_CHAT_HANDLER = CallbackQueryHandler(asuxrm, pattern=r"rm_chat", run_async=True)
 CHATBOT_HANDLER = MessageHandler(
     Filters.text
     & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!") & ~Filters.regex(r"^\/")),
-    chatbot,
+    chatbot, run_async=True
 )
 
 dispatcher.add_handler(ADD_CHAT_HANDLER)
