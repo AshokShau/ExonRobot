@@ -55,6 +55,7 @@ class Config(object):
     OWNER_ID = "1452219013"
     SUPPORT_CHAT = "AbishnoiMF"
 
+    
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ
     MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_URL = "https://arq.hamker.in"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
@@ -70,8 +71,6 @@ class Config(object):
     OPENWEATHERMAP_ID = None
     WALL_API = None
     TIME_API_KEY = None
-    HEROKU_APP_NAME = None
-    HEROKU_API_KEY = None
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
     TEMP_DOWNLOAD_DIRECTORY = "./"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     LOAD = []  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
