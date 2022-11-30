@@ -35,7 +35,7 @@ import Exon.modules.sql.blacklist_sql as blacklistsql
 import Exon.modules.sql.locks_sql as locksql
 import Exon.modules.sql.notes_sql as sql
 import Exon.modules.sql.rules_sql as rulessql
-from Exon import JOIN_LOGGER, LOGGER, OWNER_ID, SUPPORT_CHAT, dispatcher
+from Exon import EVENT_LOGS as JOIN_LOGGER, LOGGER, OWNER_ID, SUPPORT_CHAT, dispatcher
 from Exon.__main__ import DATA_IMPORT
 from Exon.modules.connection import connected
 from Exon.modules.helper_funcs.alternate import typing_action
