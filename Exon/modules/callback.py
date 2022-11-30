@@ -28,7 +28,7 @@ SOFTWARE.
 #     MY ALL BOTS :- Abishnoi_bots
 #     GITHUB :- KingAbishnoi ""
 
-#×=×=×××=×××==×=×=××=×=×=×=×=××=××××××××÷÷×÷×=×=×=×=×=×=×=×=××
+# ×=×=×××=×××==×=×=××=×=×=×=×=××=××××××××÷÷×÷×=×=×=×=×=×=×=×=××
 
 from pyrogram.types import CallbackQuery
 
