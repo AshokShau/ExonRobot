@@ -180,7 +180,7 @@ if ENV:
     # Telethon Based String Session (2nd ID) [ From https://repl.it/@SpEcHiDe/GenerateStringSession ]
     API_ID = os.environ.get("API_ID", None)  # 2nd ID
     API_HASH = os.environ.get("API_HASH", None)  # 2nd ID
-    
+
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)  # Don't Change
     # BOT_NAME = os.environ.get("BOT_NAME", True)  # Name Of your Bot.4
     BOT_API_URL = os.environ.get("BOT_API_URL", "https://api.telegram.org/bot")
@@ -273,7 +273,7 @@ else:
     START_IMG = Config.START_IMG
     ALLOW_EXCL = Config.ALLOW_EXCL
     BOT_API_URL = Config.BOT_API_URL
-    
+
 # try:
 # BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
 # except ValueError:
