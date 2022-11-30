@@ -40,7 +40,7 @@ async def ud_(e):
     try:
         reply_txt = f'<bold>{text}</bold>\n\n{results["list"][0]["definition"]}\n\n<i>{results["list"][0]["ᴇxᴀᴍᴘʟᴇ"]}</i>'
     except:
-        reply_txt = "ɴᴏ ʀᴇsᴜʟᴛs ғᴏᴜɴᴅ."
+        reply_txt = "ɢᴏᴏɢʟᴇ ᴏᴘ"
     await e.reply(
         reply_txt,
         buttons=Button.url("🔎 ɢᴏᴏɢʟᴇ ɪᴛ!", f"https://www.google.com/search?q={text}"),
