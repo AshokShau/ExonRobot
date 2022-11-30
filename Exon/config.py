@@ -47,18 +47,17 @@ class Config(object):
     API_ID = "11597868"
     API_HASH = "326ae14ebe620f6a77277f4b979299a9"
     EVENT_LOGS = "-1001497222182"
-    DATABASE_URI = "postgres://ftmhhlpp:vXFSn6lNyTwI_OOTbGSBbdsQI9hABC1f@ella.db.elephantsql.com/ftmhhlpp"  # elephantsql.com 
+    DATABASE_URI = "postgres://ftmhhlpp:vXFSn6lNyTwI_OOTbGSBbdsQI9hABC1f@ella.db.elephantsql.com/ftmhhlpp"  # elephantsql.com
     REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"  # redis.os
     MONGO_DB_URL = "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"  # cloud.mongodb.com/
     TOKEN = ""
     OWNER_USERNAME = "Abishnoi1M"
     OWNER_ID = "1452219013"
     SUPPORT_CHAT = "AbishnoiMF"
-    
-    
+
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ
     MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
-    ARQ_API_URL = "https://arq.hamker.in" # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    ARQ_API_URL = "https://arq.hamker.in"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_KEY = "TENRCY-KDKSK-MSMSM-OXQYYO-ARQ"
     DONATION_LINK = "t.me/AbishnoiMF"
     HELP_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
@@ -74,8 +73,8 @@ class Config(object):
     HEROKU_APP_NAME = None
     HEROKU_API_KEY = None
     NO_LOAD = ["rss", "cleaner", "connection", "math"]
-    TEMP_DOWNLOAD_DIRECTORY = "./" # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    LOAD = [] # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    TEMP_DOWNLOAD_DIRECTORY = "./"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    LOAD = []  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     DEL_CMDS = True
     BAN_STICKER = None
     WORKERS = 8
@@ -87,14 +86,14 @@ class Config(object):
     ALLOW_CHATS = True
     CERT_PATH = []
     SPAMWATCH_SUPPORT_CHAT = "AbishnoiMF"
-    BOT_API_URL = "https://api.telegram.org/bot" # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
-    DRAGONS = get_user_list("elevated_users.json", "sudos")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    DEV_USERS = get_user_list("elevated_users.json", "devs")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    REQUESTER = get_user_list("elevated_users.json", "whitelists")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    DEMONS = get_user_list("elevated_users.json", "supports")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    INSPECTOR = get_user_list("elevated_users.json", "sudos")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    TIGERS = get_user_list("elevated_users.json", "tigers")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
-    WOLVES = get_user_list("elevated_users.json", "whitelists")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ 
+    BOT_API_URL = "https://api.telegram.org/bot"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    DRAGONS = get_user_list("elevated_users.json", "sudos")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    DEV_USERS = get_user_list("elevated_users.json", "devs")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    REQUESTER = get_user_list("elevated_users.json", "whitelists")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    DEMONS = get_user_list("elevated_users.json", "supports")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    INSPECTOR = get_user_list("elevated_users.json", "sudos")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    TIGERS = get_user_list("elevated_users.json", "tigers")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
+    WOLVES = get_user_list("elevated_users.json", "whitelists")  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
 
 
 class Production(Config):
