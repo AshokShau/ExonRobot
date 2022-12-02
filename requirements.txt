@@ -28,9 +28,7 @@ geopy
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 gitpython
 glitch_this
-glitch_this
 google-api-python-client
-google-trans-new
 google-trans-new
 googletrans
 gpytranslate
@@ -97,9 +95,5 @@ ujson
 uvloop
 wget
 wikipedia
-youtube_dl
-youtube_search
-youtube_search_python
-yt-dlp
 zalgo-text
 #ǫ ʀᴇ sᴀʟᴇ ɢᴀʏ ᴋʏ ᴅᴇᴋ ʀᴀ ʜ ʏᴀ 
