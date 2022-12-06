@@ -70,7 +70,7 @@ class Config(object):
     OPENWEATHERMAP_ID = None
     WALL_API = None
     TIME_API_KEY = None
-    NO_LOAD = ["rss", "cleaner", "connection", "math"]
+    NO_LOAD = ["rss"]
     TEMP_DOWNLOAD_DIRECTORY = "./"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     LOAD = []  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     DEL_CMDS = True
