@@ -31,6 +31,7 @@ SOFTWARE.
 import json
 import os
 from os import getenv
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -47,15 +48,20 @@ class Config(object):
     API_ID = int(getenv("API_ID", ""))
     API_HASH = getenv("API_HASH")
     EVENT_LOGS = int(getenv("EVENT_LOGS", ""))
-    DATABASE_URI = getenv("DATABASE_URI", "postgres://ftmhhlpp:vXFSn6lNyTwI_OOTbGSBbdsQI9hABC1f@ella.db.elephantsql.com/ftmhhlpp")  # elephantsql.com
+    DATABASE_URI = getenv(
+        "DATABASE_URI",
+        "postgres://ftmhhlpp:vXFSn6lNyTwI_OOTbGSBbdsQI9hABC1f@ella.db.elephantsql.com/ftmhhlpp",
+    )  # elephantsql.com
     REDIS_URL = "redis://default:imP6xyfvlFsVpzFbciK3dIx9Vde05pav@redis-17127.c239.us-east-1-2.ec2.cloud.redislabs.com:17127/default"  # redis.os
-    MONGO_DB_URL = getenv("MONGO_DB_URL", "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority")
+    MONGO_DB_URL = getenv(
+        "MONGO_DB_URL",
+        "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority",
+    )
     TOKEN = getenv("TOKEN", None)
     OWNER_USERNAME = getenv("OWNER_USERNAME", "Abishnoi1M")
     OWNER_ID = list(map(int, getenv("OWNER_ID", " ").split()))
     SUPPORT_CHAT = getenv("SUPPORT_CHAT", "AbishnoiMF")
 
-    
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ
     MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_URL = "https://arq.hamker.in"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
