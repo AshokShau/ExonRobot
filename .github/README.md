@@ -12,13 +12,13 @@
 
 <h1 align="center"><b> 𝖤𝖷𝖮N   𝖱𝖮𝖡𝖮𝖳  ❗️</b></h1> 
 
-##  𝘊𝘢𝘵𝘤𝘩 𝘔𝘦 𝘐𝘯 [𝘛𝘎🏃‍♀️](https://t.me/AbishnoiMF) 
+##  ᴄᴀᴛᴄʜ ᴍᴇ ɪɴ [ᴛɢ🏃‍♀️](https://t.me/AbishnoiMF) 
 
-## 𝖬𝗒 A𝗅𝗅 𝖡𝗈𝗍𝗌  [𝖡𝖮𝖳𝖲](https://t.me/Abishnoi_bots)  
+## [ғᴏʀ ᴜᴘᴅᴀᴛᴇ](https://t.me/Abishnoi_bots)  
 
 ## ⚡ (ɢɪᴠᴇ sᴛᴀʀ)
 
-_**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://t.me/AbishnoiMF)**_
+_**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://t.me/Exon_Robot)**_
 ━━━━━━━━━━━━━━━━━━━━
 <h3 align="center"> 
     𝗚𝗥𝗢𝗨𝗣  𝗠𝗔𝗡𝗔𝗚𝗘𝗥    
