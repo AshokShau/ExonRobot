@@ -34,43 +34,65 @@ _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏ
 <b>𝗗𝗘𝗣𝗟𝗢𝗬𝗠𝗘𝗡𝗧 𝗠𝗘𝗧𝗛𝗢𝗗𝗦</b>
 </p>
 
-<h2 align="center"> 
-   ⇝ ɪɴsᴛᴀʟʟ ʟᴏᴄᴀʟʟʏ ᴏʀ ᴏɴ ᴀ ᴠᴘs ⇜
-</h2>
-
-```console
-$ tmux
-$ sudo apt-get update && sudo apt-get upgrade -y
-$ sudo apt-get install python3-pip ffmpeg -y
-$ sudo apt install python3-pip
-$ git clone <repo link>
-$ cd <ʀᴇᴘᴏ ɴᴀᴍᴇ>
-$ pip3 install -U -r requirements.txt
-$ pip3 install --upgrade pip setuptools
-$ pip install -U "pip < 22" setuptools wheel && pip install -U -r requirements.txt
-$ pip install pyopenssl
-$ sudo pip install -U pyopenssl
-$ cp sample.env .env
-$ vi .env
-$ -ᴘʀᴇss ɪ ʙᴜᴛᴛᴏɴ ᴏɴ ᴋᴇʏʙᴏᴀʀᴅ ᴛᴏ sᴛᴀʀᴛ ᴇᴅɪᴛɪɴɢ
-$ -ᴘʀᴇss Ctrl + C ᴏɴᴄᴇ ʏᴏᴜ ᴀʀᴇ ᴅᴏɴᴇ ᴡɪᴛʜ ᴇᴅɪᴛɪɴɢ ᴠᴀʀs ᴀɴᴅ ᴛʏᴘᴇ  :wq  ᴛᴏ sᴀᴠᴇ .env ᴏʀ :qa ᴛᴏ ᴇxɪᴛ ᴇᴅɪᴛɪɴɢ.
-
-
-
-```
- 
-<h3 align="center"> 
-    ᴇᴅɪᴛ <b>config.py</b> ᴡɪᴛʜ ɪɴ ʏᴏᴜʀ ᴏᴡɴ ᴠᴀʟᴜᴇs
+<h3 align="center">
+    ─「 ⇝ ɪɴsᴛᴀʟʟ ʟᴏᴄᴀʟʟʏ ᴏʀ ᴏɴ ᴀ ᴠᴘs ⇜ 」─
 </h3>
 
-<h2 align="center"> 
-   ⇝ ʀᴜɴ ᴅɪʀᴇᴄᴛʟʏ ⇜
-</h2>
+<details>
+<summary><h3>
+- <b> ᴠᴘs/ʟᴏᴄᴀʟ ᴅᴇᴘʟᴏʏᴍᴇɴᴛ ᴍᴇᴛʜᴏᴅ </b>
+</h3></summary>
 
-```console
-$ bash start
-$ -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→ git pull
-```
+- ɪɴsᴛᴀʟʟ ᴛᴍᴜx ᴛᴏ ᴋᴇᴇᴘ ʀᴜɴɴɪɴɢ ʏᴏᴜʀ ʙᴏᴛ ᴡʜᴇɴ ʏᴏᴜ ᴄʟᴏsᴇ ᴛʜᴇ ᴛᴇʀᴍɪɴᴀʟ ʙʏ :
+
+- `sudo apt install tmux && tmux`
+
+- `tmux`
+
+- ᴜᴘɢʀᴀᴅᴇ ᴀɴᴅ ᴜᴘᴅᴀᴛᴇ ʙʏ :
+- `sudo apt-get update && sudo apt-get upgrade -y`
+
+- ɪɴsᴛᴀʟʟ ғғᴍᴘᴇɢ
+- `sudo apt-get install python3-pip ffmpeg -y`
+
+- ɪɴsᴛᴀʟʟ ʀᴇǫᴜɪʀᴇᴅ ᴘᴀᴄᴋᴀɢᴇs ʙʏ :
+- `sudo apt install python3-pip`
+
+- ᴄʟᴏɴᴇ ᴛʜᴇ ʀᴇᴘᴏsɪᴛᴏʀʏ ʙʏ :
+- `git clone https://github.com/Abishnoi69/ExonRobot`
+
+- ᴇɴᴛᴇʀ ɪɴ ʀᴇᴘᴏ
+- `cd ExonRobot`
+
+- ɪɴsᴛᴀʟʟ ʀᴇǫᴜɪʀᴇᴍᴇɴᴛs ʙʏ :
+- `pip3 install -U -r requirements.txt`
+
+
+- `pip3 install --upgrade pip setuptools`
+
+
+- `pip install -U "pip < 22" setuptools wheel && pip install -U -r requirements.txt`
+
+
+- `pip install pyopenssl`
+
+
+- `sudo pip install -U pyopenssl`
+
+
+- `vi Exon/config.py`
+
+- -ᴘʀᴇss `ɪ` ʙᴜᴛᴛᴏɴ ᴏɴ ᴋᴇʏʙᴏᴀʀᴅ ᴛᴏ sᴛᴀʀᴛ ᴇᴅɪᴛɪɴɢ
+- -ᴘʀᴇss `Ctrl + C` ᴏɴᴄᴇ ʏᴏᴜ ᴀʀᴇ ᴅᴏɴᴇ ᴡɪᴛʜ ᴇᴅɪᴛɪɴɢ ᴠᴀʀs ᴀɴᴅ ᴛʏᴘᴇ  `:wq` ᴛᴏ sᴀᴠᴇ .ᴇɴᴠ ᴏʀ `:qa` ᴛᴏ ᴇxɪᴛ ᴇᴅɪᴛɪɴɢ.
+
+- ғɪɴᴀʟʟʏ ʀᴜɴ ᴛʜᴇ ʙᴏᴛ ʙʏ :
+- `bash start`
+
+- -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→ `git pull`
+
+
+
+
 
 
 
@@ -81,25 +103,37 @@ $ -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→
 
 ━━━━━━━━━━━━━━━━━━━━
 
+
+
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+
 
 
 
 <h2 align="center"> 
-   ⇝ ᴍᴀɪɴ ᴠᴇʀs ⇜
+   ⇝ ᴍᴀɪɴ ᴠᴇʀs  ⇜
 </h2>
 
 ```
-API_ID =
-API_HASH = 
-EVENT_LOGS = 
-DATABASE_URI = 
-MONGO_DB_URL = 
-TOKEN = 
-OWNER_USERNAME = 
-OWNER_ID=
+API_ID =  ɢᴇᴛ ᴛʜɪs ᴠᴀʟᴜᴇ ғʀᴏᴍ my.telegram.org/apps
+API_HASH =  ɢᴇᴛ ᴛʜɪs ᴠᴀʟᴜᴇ ғʀᴏᴍ my.telegram.org/apps
+EVENT_LOGS =  ʏᴏᴜʀ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ ɪᴅ  -100..
+DATABASE_URI =  ɢᴇᴛ ᴏɴᴇ ғʀᴏᴍ https://customer.elephantsql.com/login
+MONGO_DB_URL =  ɢᴇᴛ ᴏɴᴇ ғʀᴏᴍ mongodb.com
+TOKEN =  ʏᴏᴜʀ ʙᴏᴛ ᴛᴏᴋᴇɴ. ɢᴇᴛ ᴏɴᴇ ғʀᴏᴍ @BotFather
+OWNER_USERNAME =  ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴍ ᴜsᴇʀɴᴀᴍᴇ ᴡɪᴛʜᴏᴜᴛ ᴛʜᴇ @
+OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id 
 ```
+
+
+
+</details>
+
+
+
+━━━━━━━━━━━━━━━━━━━━
 
 <h3 align="center">
     ─「 sᴜᴩᴩᴏʀᴛ 」─
@@ -121,7 +155,7 @@ OWNER_ID=
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-
+━━━━━━━━━━━━━━━━━━━━
 <h3 align="center">
     ─「 ᴄʀᴇᴅɪᴛs 」─
 </h3>
