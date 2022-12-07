@@ -117,7 +117,7 @@ PM_START_TEX = """
 
 PM_START_TEXT = """
 *ʜᴇʟʟᴏ {} !*
-━━━━━━━ *ᴇxᴏɴ* ━━━━━━━
+━━━━━━━ *ᴢᴀɪɴ* ━━━━━━━
 ᴇxᴏɴ ʀᴏʙᴏᴛ ɪꜱ ᴀ 
 ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ 
 ᴡʜɪᴄʜ ᴄᴀɴ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏ ᴍᴀɴᴀɢᴇ
@@ -131,7 +131,7 @@ PM_START_TEXT = """
      ⍟  *ᴜᴘᴛɪᴍᴇ :* `{}` 
      ⍟  *ᴜsᴇʀs :* `{}`
      ⍟  *ᴄʜᴀᴛs :* `0{}`
-━━━━━━━ *ᴇxᴏɴ* ━━━━━━━ 
+━━━━━━━ *ᴢᴀɪɴ* ━━━━━━━ 
    
 """
 
@@ -156,7 +156,7 @@ buttons = [
 
 
 HELP_STRINGS = """
-━━━━━━━ᴇxᴏɴ━━━━━━━
+━━━━━━━ᴢᴀɪɴ━━━━━━━
 ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟʟᴏᴡ ᴛᴏ
 ɢᴇᴛ ᴜꜱᴀɢᴇ ᴏꜰ ꜱᴘᴇᴄɪꜰɪᴄꜱ ᴄᴏᴍᴍᴀɴᴅ
 ━━━━━━━━━━━━━━━━━
@@ -719,7 +719,7 @@ def donate(update: Update, context: CallbackContext):
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
         )
 
-        if OWNER_ID != 1452219013 and DONATION_LINK:
+        if OWNER_ID != 5778117994 and DONATION_LINK:
             update.effective_message.reply_text(
                 f"ʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ ᴅᴏɴᴀᴛᴇ ᴛᴏ the ᴘᴇʀsᴏɴ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴜɴɴɪɴɢ ᴍᴇ [ʜᴇʀᴇ]({DONATION_LINK})",
                 parse_mode=ParseMode.MARKDOWN,
@@ -768,12 +768,12 @@ def main():
         try:
             dispatcher.bot.sendAnimation(
                 f"@{SUPPORT_CHAT}",
-                animation="https://telegra.ph/file/8dea393ddf4fc2e339179.gif",
+                animation="https://telegra.ph/file/97cc0ee1573e05bff2d32.jpg",
                 caption=f"""
 ㅤ🥀 {dispatcher.bot.first_name} ɪs ᴀʟɪᴠᴇ ʙᴀʙʏ .....
 
 ━━━━━━━━━━━━━
-⍟ **ᴍʏ ᴏᴡɴᴇʀ :** [𝐀ʙɪꜱʜɴᴏɪ](https://t.me/{OWNER_USERNAME})
+⍟ **ᴍʏ ᴏᴡɴᴇʀ :** [🅻🅴🅶🅴🅽🅳 🆇](https://t.me/https://t.me/ll_ll_LegendHacker_IN_ll_ll)
 ⍟ **ʟɪʙʀᴀʀʏ ᴠᴇʀsɪᴏɴ :** `{lver}`
 ⍟ **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `{tver}`
 ⍟ **ᴘʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ :** `{pver}`
