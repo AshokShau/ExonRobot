@@ -62,7 +62,6 @@ class Config(object):
     OWNER_ID = list(map(int, getenv("OWNER_ID", "1452219013").split()))
     SUPPORT_CHAT = getenv("SUPPORT_CHAT", "AbishnoiMF")
 
-    
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ
     MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_URL = "https://arq.hamker.in"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
