@@ -45,8 +45,8 @@ def get_user_list(config, key):
 class Config(object):
     LOGGER = True
     # ᴀᴅᴅ ʏᴏᴜʀ ᴠᴇʀs  (ᴍᴀɪɴ ᴠᴇʀs)
-    API_ID = int(getenv("API_ID", ""))
-    API_HASH = getenv("API_HASH")
+    API_ID = int(getenv("API_ID", "18634285"))
+    API_HASH = getenv("API_HASH", "f6daa5619fa9d5e10d1f52efa10b39b1")
     EVENT_LOGS = int(getenv("EVENT_LOGS", ""))
     DATABASE_URI = getenv(
         "DATABASE_URI",
@@ -59,9 +59,10 @@ class Config(object):
     )
     TOKEN = getenv("TOKEN", None)
     OWNER_USERNAME = getenv("OWNER_USERNAME", "Abishnoi1M")
-    OWNER_ID = list(map(int, getenv("OWNER_ID", " ").split()))
+    OWNER_ID = list(map(int, getenv("OWNER_ID", "1452219013").split()))
     SUPPORT_CHAT = getenv("SUPPORT_CHAT", "AbishnoiMF")
 
+    
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ
     MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_URL = "https://arq.hamker.in"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
