@@ -196,7 +196,6 @@ if ENV:
     HELP_IMG = os.environ.get("HELP_IMG")
 
 
-
 else:
     from Exon.config import Development as Config
 
@@ -305,9 +304,6 @@ else:
         LOGGER.warning("[EXON : ᴇʀʀᴏʀ]: ᴄᴀɴ'ᴛ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ sᴘᴀᴍᴡᴀᴛᴄʜ!")
 
 
-
-
-
 print("[Exon]: ᴛᴇʟᴇɢʀᴀᴘʜ ɪɴsᴛᴀʟʟɪɴɢ")
 telegraph = Telegraph()
 print("[EXON ]: ᴛᴇʟᴇɢʀᴀᴘʜ ᴀᴄᴄᴏᴜɴᴛ ᴄʀᴇᴀᴛɪɴɢ")
@@ -334,9 +330,6 @@ pgram = Client(
 print("[EXON ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ sᴇʀᴠᴇʀ")
 
 
-
-
-
 print("[INFO]: ɪɴɪᴛɪᴀʟᴢɪɴɢ ᴀɪᴏʜᴛᴛᴘ sᴇssɪᴏɴ")
 aiohttpsession = ClientSession()
 # ARQ Client
@@ -344,7 +337,7 @@ print("[INFO]: ɪɴɪᴛɪᴀʟɪᴢɪɴɢ ᴀʀǫ ᴄʟɪᴇɴᴛ")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 print("[ᴇxᴏɴ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ • PostgreSQL ᴅᴀᴛᴀʙᴀsᴇ")
 # ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-ubot = None # ENJOY 
+ubot = None  # ENJOY
 print("[ᴇxᴏɴ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ • ᴜsᴇʀʙᴏᴛ (t.me/AbishnoiMF)")
 
 
@@ -379,15 +372,6 @@ async def get_entity(client, entity):
     return entity, entity_client
 
 
-
-
-
-
-
-
-
-
-
 # bot info
 dispatcher = updater.dispatcher
 aiohttpsession = ClientSession()
@@ -409,9 +393,7 @@ DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
 
-
-
- # MONGO DB
+# MONGO DB
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient
 
@@ -425,7 +407,6 @@ try:
 except PyMongoError:
     exiter(1)
 DB = client["EXON_ROBOT"]  # DON'T EDIT AND CHANGE
-
 
 
 # Load at end to ensure all prev variables have been set
