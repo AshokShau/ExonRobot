@@ -144,15 +144,15 @@ buttons = [
     ],
     [
         InlineKeyboardButton(text=f"🚁 ʜᴇʟᴘ 🚁", callback_data="help_back"),
-        InlineKeyboardButton(text=f"🎧 ᴍᴜsɪᴄ 🎧", callback_data="settings_back_helper"), # THIS BUTTON WORKING IF YOU DEPLOY ANON X MUSIC ON THIS SMAE BOT REPO LINK (http://github.com/TheAnonymous2005/AnonXMusic)
+        InlineKeyboardButton(
+            text=f"🎧 ᴍᴜsɪᴄ 🎧", callback_data="settings_back_helper"
+        ),  # THIS BUTTON WORKING IF YOU DEPLOY ANON X MUSIC ON THIS SMAE BOT REPO LINK (http://github.com/TheAnonymous2005/AnonXMusic)
     ],
     [
         InlineKeyboardButton(text="🏡 ᴀʙᴏᴜᴛ 🏡", callback_data="about_"),
         InlineKeyboardButton(text="🥀 ᴅᴇᴠᴇʟᴏᴘᴇʀ 🥀", url=f"tg://user?id={OWNER_ID}"),
     ],
 ]
-
-
 
 
 HELP_STRINGS = """
