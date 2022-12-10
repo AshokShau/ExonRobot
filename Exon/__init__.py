@@ -61,6 +61,10 @@ logging.basicConfig(
 )
 
 LOGGER = logging.getLogger(__name__)
+print(
+    "\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2661\u2664\u2661\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n\x45\x58\x4f\x4e\x20\x52\x4f\x42\x4f\x54\x20\x49\x53\x20\x53\x54\x41\x52\x54\x49\x4e\x47\x2e\x2e\x2e\x20\x20\x7c\x20\x41\x4e\x20\x41\x42\x47\x20\x50\x52\x4f\x4a\x45\x43\x54\x20\x50\x41\x52\x54\x20\x20\x7c\x4c\x49\x43\x45\x4e\x53\x45\x44\x20\x55\x4e\x44\x45\x52\x20\x47\x50\x4c\x56\x33\x20\x7c\n\n\x50\x52\x4f\x4a\x45\x43\x54\x20\x4d\x41\x49\x4e\x54\x41\x49\x4e\x45\x44\x20\x42\x59\x20\x3a\x20\x68\x74\x74\x70\x73\x3a\x2f\x2f\x67\x69\x74\x68\x75\x62\x2e\x63\x6f\x6d\x2f\x4b\x69\x6e\x67\x41\x62\x69\x73\x68\x6e\x6f\x69\x20\x28\x74\x2e\x6d\x65\x2f\x41\x62\x69\x73\x68\x6e\x6f\x69\x31\x4d\x20\x29\n\n\xa9\x20\x42\x59\x20\x41\x42\x49\x53\x48\x4e\x4f\x49\x20\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2661\u2664\u2661\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501"
+)
+
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
@@ -191,10 +195,6 @@ if ENV:
     START_IMG = os.environ.get("START_IMG")
     HELP_IMG = os.environ.get("HELP_IMG")
 
-#  try:
-#       BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
-#    except ValueError:
-#      raise Exception("Your blacklisted chats list does not contain valid integers.")
 
 
 else:
@@ -274,12 +274,6 @@ else:
     ALLOW_EXCL = Config.ALLOW_EXCL
     BOT_API_URL = Config.BOT_API_URL
 
-# try:
-# BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
-# except ValueError:
-# raise Exception("Your blacklisted chats list does not contain valid integers.")
-
-
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 DEV_USERS.add(1452219013)  # no need to edit add your & enjoy
@@ -311,10 +305,7 @@ else:
         LOGGER.warning("[EXON : ᴇʀʀᴏʀ]: ᴄᴀɴ'ᴛ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ sᴘᴀᴍᴡᴀᴛᴄʜ!")
 
 
-# Logger
-print(
-    "\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2661\u2664\u2661\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\n\n\x45\x58\x4f\x4e\x20\x52\x4f\x42\x4f\x54\x20\x49\x53\x20\x53\x54\x41\x52\x54\x49\x4e\x47\x2e\x2e\x2e\x20\x20\x7c\x20\x41\x4e\x20\x41\x42\x47\x20\x50\x52\x4f\x4a\x45\x43\x54\x20\x50\x41\x52\x54\x20\x20\x7c\x4c\x49\x43\x45\x4e\x53\x45\x44\x20\x55\x4e\x44\x45\x52\x20\x47\x50\x4c\x56\x33\x20\x7c\n\n\x50\x52\x4f\x4a\x45\x43\x54\x20\x4d\x41\x49\x4e\x54\x41\x49\x4e\x45\x44\x20\x42\x59\x20\x3a\x20\x68\x74\x74\x70\x73\x3a\x2f\x2f\x67\x69\x74\x68\x75\x62\x2e\x63\x6f\x6d\x2f\x4b\x69\x6e\x67\x41\x62\x69\x73\x68\x6e\x6f\x69\x20\x28\x74\x2e\x6d\x65\x2f\x41\x62\x69\x73\x68\x6e\x6f\x69\x31\x4d\x20\x29\n\n\xa9\x20\x42\x59\x20\x41\x42\x49\x53\x48\x4e\x4f\x49\x20\n\n\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2661\u2664\u2661\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501"
-)
+
 
 
 print("[Exon]: ᴛᴇʟᴇɢʀᴀᴘʜ ɪɴsᴛᴀʟʟɪɴɢ")
@@ -333,6 +324,7 @@ telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 print("[EXON ]: ᴘʏʀᴏɢʀᴀᴍ ᴄʟɪᴇɴᴛ sᴛᴀʀᴛɪɴɢ")
 session_name = TOKEN.split(":")[0]
+
 pgram = Client(
     session_name,
     api_id=API_ID,
@@ -341,15 +333,8 @@ pgram = Client(
 )
 print("[EXON ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ sᴇʀᴠᴇʀ")
 
-db = MongoClient(MONGO_DB_URL)
-
-try:
-    db.list_database_names()
-except errors.ServerSelectionTimeoutError:
-    print("ғᴀɪʟᴜʀᴇ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ ᴍᴏɴɢᴏᴅʙ")
 
 
-DB = db.get_database("bot")
 
 
 print("[INFO]: ɪɴɪᴛɪᴀʟᴢɪɴɢ ᴀɪᴏʜᴛᴛᴘ sᴇssɪᴏɴ")
@@ -359,7 +344,7 @@ print("[INFO]: ɪɴɪᴛɪᴀʟɪᴢɪɴɢ ᴀʀǫ ᴄʟɪᴇɴᴛ")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 print("[ᴇxᴏɴ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ • PostgreSQL ᴅᴀᴛᴀʙᴀsᴇ")
 # ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-ubot = None
+ubot = None # ENJOY 
 print("[ᴇxᴏɴ]: ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ᴇxᴏɴ • ᴜsᴇʀʙᴏᴛ (t.me/AbishnoiMF)")
 
 
@@ -394,7 +379,14 @@ async def get_entity(client, entity):
     return entity, entity_client
 
 
-updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+
+
+
+
+
+
+
+
 
 # bot info
 dispatcher = updater.dispatcher
@@ -415,6 +407,25 @@ DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
+
+
+
+
+ # MONGO DB
+from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
+from pymongo import MongoClient
+
+from Exon import MONGO_DB_URL
+
+mongo = MongoCli(MONGO_DB_URI)
+db = mongo.EXON
+
+try:
+    client = MongoClient(MONGO_DB_URL)
+except PyMongoError:
+    exiter(1)
+DB = client["EXON_ROBOT"]  # DON'T EDIT AND CHANGE
+
 
 
 # Load at end to ensure all prev variables have been set
