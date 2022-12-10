@@ -1,4 +1,3 @@
-
 name: PyLint
 
 on: [push, pull_request]
@@ -28,11 +27,9 @@ jobs:
       # commit changes
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'ᴀsᴜx✨' 
+          commit_message: 'ᴀsᴜx-✨'
           commit_options: '--no-verify'
           repository: .
-          commit_user_name: KingAbishnoi
-          commit_user_email: 72609355+KingAbishnoi@users.noreply.github.com
-          commit_author: KingAbishnoi <72609355+KingAbishnoi+@users.noreply.github.com>
-
-
+          commit_user_name: Abishnoi69
+          commit_user_email: 88209926+Abishnoi69@Abishnoi1M.github.com
+          commit_author: Abishnoi69 <88209926+Abishnoi69+@Abishnoi1M.github.com>
