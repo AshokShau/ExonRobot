@@ -10,8 +10,6 @@
 </h2>
 
 
-<h1 align="center"><b> 𝖤𝖷𝖮N   𝖱𝖮𝖡𝖮𝖳  ❗️</b></h1> 
-
 ##  ᴄᴀᴛᴄʜ ᴍᴇ ɪɴ [ᴛɢ🏃‍♀️](https://t.me/AbishnoiMF) 
 
 ## [ғᴏʀ ᴜᴘᴅᴀᴛᴇ](https://t.me/Abishnoi_bots)  
