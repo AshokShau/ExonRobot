@@ -117,20 +117,14 @@ PM_START_TEX = """
 
 PM_START_TEXT = """
 *ʜᴇʟʟᴏ {} !*
-━━━━━━━ *ᴇxᴏɴ* ━━━━━━━
 ᴇxᴏɴ ʀᴏʙᴏᴛ ɪꜱ ᴀ 
 ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ 
 ᴡʜɪᴄʜ ᴄᴀɴ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏ ᴍᴀɴᴀɢᴇ
 ᴀɴᴅ ꜱᴇᴄᴜʀᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ
-ᴡɪᴛʜ ʜᴜɢᴇ ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ
-ᴘʟᴜɢɪɴꜱ ʟɪᴋᴇ ; *ꜰɪʟᴛᴇʀꜱ* , *ɴᴏᴛᴇꜱ* , 
-*ᴡᴇʟᴄᴏᴍᴇ* , *ɢᴏᴏᴅ ʙʏᴇ* , *ʙᴀɴɴɪɴɢ* , 
-*ᴍᴜᴛɪɴɢ*, *ʟᴏᴄᴋs* ᴀɴᴅ ᴍᴀɴʏ ᴍᴏʀᴇ.
-*ᴄʟɪᴄᴋ ᴏɴ ʜᴇʟᴘ ᴛᴏ ʟᴇᴀʀɴ ᴍᴏʀᴇ!*
    
-     ⍟  *ᴜᴘᴛɪᴍᴇ :* `{}` 
-     ⍟  *ᴜsᴇʀs :* `{}`
-     ⍟  *ᴄʜᴀᴛs :* `0{}`
+  ⍟  *ᴜᴘᴛɪᴍᴇ :* `{}` 
+  ⍟  *ᴜsᴇʀs :* `{}`
+  ⍟  *ᴄʜᴀᴛs :* `0{}`
 ━━━━━━━ *ᴇxᴏɴ* ━━━━━━━ 
    
 """
@@ -145,14 +139,20 @@ I'm ᴀᴍ  ᴀʟɪᴠᴇ  ʙᴀʙʏ !
 buttons = [
     [
         InlineKeyboardButton(
-            text="➕ ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ➕ ", url=f"t.me/{BOT_USERNAME}?startgroup=true"
-        )
+            text="❣ ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ❣︎", url=f"t.me/{BOT_USERNAME}?startgroup=new"
+        ),
     ],
     [
-        InlineKeyboardButton(text="ᴄᴏᴍᴍᴀɴᴅs ⚡", callback_data="help_back"),
-        InlineKeyboardButton(text="ᴀʙᴏᴜᴛ ✨", callback_data="about_"),
+        InlineKeyboardButton(text=f"🚁 ʜᴇʟᴘ 🚁", callback_data="help_back"),
+        InlineKeyboardButton(text=f"🎧 ᴍᴜsɪᴄ 🎧", callback_data="settings_back_helper"), # THIS BUTTON WORKING IF YOU DEPLOY ANON X MUSIC ON THIS SMAE BOT REPO LINK (http://github.com/TheAnonymous2005/AnonXMusic)
+    ],
+    [
+        InlineKeyboardButton(text="🏡 ᴀʙᴏᴜᴛ 🏡", callback_data="about_"),
+        InlineKeyboardButton(text="🥀 ᴅᴇᴠᴇʟᴏᴘᴇʀ 🥀", url=f"tg://user?id={OWNER_ID}"),
     ],
 ]
+
+
 
 
 HELP_STRINGS = """
