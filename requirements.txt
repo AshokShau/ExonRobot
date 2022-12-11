@@ -85,7 +85,7 @@ selenium
 spamwatch
 speedtest-cli
 spongemock
-SQLAlchemy==1.4.36
+SQLAlchemy==1.4.45
 telegraph
 telethon==1.26.0
 textblob
