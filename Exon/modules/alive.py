@@ -70,12 +70,12 @@ async def restart(client, m: Message):
         random.choice(PHOTO),
         caption=f"""**ʜᴇʏ, ɪ ᴀᴍ {BOT_NAME}**
      ▱▱▱▱▱▱▱▱▱▱▱▱
-» **ᴍʏ ᴏᴡɴᴇʀ :** [𝐀ʙɪsʜɴᴏɪ](https://t.me/{OWNER_USERNAME})
+» **ᴍʏ ᴏᴡɴᴇʀ :** [ᴄʟɪᴄᴋ ᴍᴇ](https://t.me/{OWNER_USERNAME})
 » **ʟɪʙʀᴀʀʏ ᴠᴇʀsɪᴏɴ :** `{lver}`
 » **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `{tver}`
 » **ᴘʏʀᴏɢʀᴀᴍ ᴠᴇʀsɪᴏɴ :** `{pver}`
 » **ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `{version_info[0]}.{version_info[1]}.{version_info[2]}`
-⍟ **ʙᴏᴛ ᴠᴇʀꜱɪᴏɴ :** `1.0`
+» **ʙᴏᴛ ᴠᴇʀꜱɪᴏɴ :** `1.0`
      ▱▱▱▱▱▱▱▱▱▱▱▱""",
         reply_markup=InlineKeyboardMarkup(ASAU),
     )
