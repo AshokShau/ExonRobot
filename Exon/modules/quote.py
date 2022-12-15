@@ -28,8 +28,8 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Message
 
-
-from Exon import arq, pgram as app
+from Exon import arq
+from Exon import pgram as app
 from Exon.utils.errors import capture_err
 
 
@@ -62,9 +62,7 @@ async def quotly_func(client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ǫᴜᴏᴛᴇ ɪᴛ.")
     if not message.reply_to_message.text:
-        return await message.reply_text(
-            "ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ʜᴀs ɴᴏ ᴛᴇxᴛ, ᴄᴀɴ'ᴛ ǫᴜᴏᴛᴇ ɪᴛ."
-        )
+        return await message.reply_text("ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ʜᴀs ɴᴏ ᴛᴇxᴛ, ᴄᴀɴ'ᴛ ǫᴜᴏᴛᴇ ɪᴛ.")
     m = await message.reply_text("ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs")
     if len(message.command) < 2:
         messages = [message.reply_to_message]
@@ -104,9 +102,7 @@ async def quotly_func(client, message: Message):
             )
             messages = [reply_message]
     else:
-        return await m.edit(
-            "ɪɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ, ᴄʜᴇᴄᴋ ǫᴜᴏᴛʟʏ ᴍᴏᴅᴜʟᴇ ɪɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ."
-        )
+        return await m.edit("ɪɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ, ᴄʜᴇᴄᴋ ǫᴜᴏᴛʟʏ ᴍᴏᴅᴜʟᴇ ɪɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ.")
     try:
         if not message:
             return await m.edit("sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ.")
@@ -120,9 +116,7 @@ async def quotly_func(client, message: Message):
         await m.delete()
         sticker.close()
     except Exception as e:
-        await m.edit(
-            "sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ wrong ᴡʜɪʟᴇ ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs,"
-        )
+        await m.edit("sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ wrong ᴡʜɪʟᴇ ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs,")
         e = format_exc()
         print(e)
 
