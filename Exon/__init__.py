@@ -397,9 +397,9 @@ TIGERS = list(TIGERS)
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient
 
-from Exon import MONGO_DB_URL
 
-mongo = MongoCli(MONGO_DB_URI)
+
+mongo = MongoCli(MONGO_DB_URL)
 db = mongo.EXON
 
 try:
