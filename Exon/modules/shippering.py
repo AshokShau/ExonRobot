@@ -55,7 +55,7 @@ today = str(dt()[0])
 tomorrow = str(dt_tom())
 
 
-@pgram.on_message(filters.command("couples") & ~filters.edited)
+@pgram.on_message(filters.command("couples"))
 @capture_err
 async def couple(_, message):
     if message.chat.type == "private":
@@ -81,7 +81,7 @@ async def couple(_, message):
 
             couple_selection_message = f"""**ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ:**
 {c1_mention} + {c2_mention} = 💗
-__ɴᴇᴡ ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ ᴍᴀʏ ʙᴇ ᴄʜᴏsᴇɴ ᴀᴛ 12ᴀᴍ {ᴛᴏᴍᴏʀʀᴏᴡ}__"""
+__ɴᴇᴡ ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ ᴍᴀʏ ʙᴇ ᴄʜᴏsᴇɴ ᴀᴛ 12ᴀᴍ {tomorrow}__"""
             await pgram.send_message(message.chat.id, text=couple_selection_message)
             couple = {"c1_id": c1_id, "c2_id": c2_id}
             await save_couple(chat_id, today, couple)
@@ -93,7 +93,7 @@ __ɴᴇᴡ ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ ᴍᴀʏ ʙᴇ ᴄʜᴏsᴇ
             c2_name = (await pgram.get_users(c2_id)).first_name
             couple_selection_message = f"""ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ:
 [{c1_name}](tg://openmessage?user_id={c1_id}) + [{c2_name}](tg://openmessage?user_id={c2_id}) = 💜
-__ɴᴇᴡ ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ ᴍᴀʏ ʙᴇ ᴄʜᴏsᴇɴ ᴀᴛ 12ᴀᴍ {ᴛᴏᴍᴏʀʀᴏᴡ}__"""
+__ɴᴇᴡ ᴄᴏᴜᴘʟᴇ ᴏғ ᴛʜᴇ ᴅᴀʏ ᴍᴀʏ ʙᴇ ᴄʜᴏsᴇɴ ᴀᴛ 12ᴀᴍ {tomorrow}__"""
             await pgram.send_message(message.chat.id, text=couple_selection_message)
     except Exception as e:
         print(e)
