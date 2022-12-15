@@ -66,10 +66,10 @@ print(
 )
 
 
-# if version < 3.6, stop bot.
-if sys.version_info[0] < 3 or sys.version_info[1] < 6:
+# if version < 3.7, stop bot.
+if sys.version_info[0] < 3 or sys.version_info[1] < 7:
     LOGGER.error(
-        "𝗬𝗼𝘂 𝗠𝗨𝗦𝗧 𝗵𝗮𝘃𝗲 𝗮 𝗽𝘆𝘁𝗵𝗼𝗻 𝘃𝗲𝗿𝘀𝗶𝗼𝗻 𝗼𝗳 𝗮𝘁 𝗹𝗲𝗮𝘀𝘁 3.6! 𝗠𝘂𝗹𝘁𝗶𝗽𝗹𝗲 𝗳𝗲𝗮𝘁𝘂𝗿𝗲𝘀 𝗱𝗲𝗽𝗲𝗻𝗱 𝗼𝗻 𝘁𝗵𝗶𝘀. 𝗕𝗼𝘁 𝗾𝘂𝗶𝘁𝘁𝗶𝗻𝗴.",
+        "𝗬𝗼𝘂 𝗠𝗨𝗦𝗧 𝗵𝗮𝘃𝗲 𝗮 𝗽𝘆𝘁𝗵𝗼𝗻 𝘃𝗲𝗿𝘀𝗶𝗼𝗻 𝗼𝗳 𝗮𝘁 𝗹𝗲𝗮𝘀𝘁 3.7! 𝗠𝘂𝗹𝘁𝗶𝗽𝗹𝗲 𝗳𝗲𝗮𝘁𝘂𝗿𝗲𝘀 𝗱𝗲𝗽𝗲𝗻𝗱 𝗼𝗻 𝘁𝗵𝗶𝘀. 𝗕𝗼𝘁 𝗾𝘂𝗶𝘁𝘁𝗶𝗻𝗴.",
     )
     sys.exit(1)
 
@@ -167,7 +167,6 @@ if ENV:
         "MONGO_DB_URL", None
     )  # MongoDB URL (From:- https://www.mongodb.com/)
     REDIS_URL = os.environ.get("REDIS_URL", None)  # REDIS URL (From:- Heraku & Redis)
-    BOT_ID = int(os.environ.get("BOT_ID", None))  # Telegram Bot ID (EXP:- 1241223850)
     SUPPORT_CHAT = os.environ.get(
         "SUPPORT_CHAT", None
     )  # Support Chat Group Link (Use @AbishnoiMF || Dont Use https://t.me/AbishnoiMF)
@@ -180,7 +179,6 @@ if ENV:
     SPAMWATCH_API = os.environ.get(
         "SPAMWATCH_API", None
     )  # From https://t.me/SpamWatchBot
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", "")  # Bot Username
     # Telethon Based String Session (2nd ID) [ From https://repl.it/@SpEcHiDe/GenerateStringSession ]
     API_ID = os.environ.get("API_ID", None)  # 2nd ID
     API_HASH = os.environ.get("API_HASH", None)  # 2nd ID
