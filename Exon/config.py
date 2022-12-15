@@ -65,7 +65,7 @@ class Config(object):
     # ɴᴏᴛ ɪᴍᴘᴏʀᴛᴀɴᴛ ᴢᴏɴᴇ, ɴᴏ ɴᴇᴇᴅ ᴛᴏ ᴇᴅɪᴛ
     MONGO_DB = "Exon"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     ARQ_API_URL = "https://arq.hamker.in"  # ⚠️ ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
-    ARQ_API_KEY = "TENRCY-KDKSK-MSMSM-OXQYYO-ARQ"
+    ARQ_API_KEY = "BAAFBV-WWXLSM-MNQNEN-RHYBUB-ARQ"
     DONATION_LINK = "t.me/AbishnoiMF"
     HELP_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
     START_IMG = "https://telegra.ph/file/14d1f98500af1132e5460.jpg"
