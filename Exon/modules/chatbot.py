@@ -37,7 +37,6 @@ from telegram import (
     Update,
     User,
 )
-from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
@@ -49,9 +48,8 @@ from telegram.ext import (
 from telegram.utils.helpers import mention_html
 
 import Exon.modules.sql.kuki_sql as sql
-from Exon import dispatcher, BOT_ID, BOT_NAME
+from Exon import BOT_ID, BOT_NAME, dispatcher
 from Exon.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
-from Exon.modules.helper_funcs.filters import CustomFilters
 from Exon.modules.log_channel import gloggable
 
 
@@ -161,7 +159,7 @@ def chatbot(update: Update, context: CallbackContext):
         request = requests.get(url)
         results = json.loads(request.text)
         sleep(0.3)
-        message.reply_text(results['reply'])
+        message.reply_text(results["reply"])
 
 
 __help__ = f"""
