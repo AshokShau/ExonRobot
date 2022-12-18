@@ -45,16 +45,17 @@ error_dict = {
     "*": "6",
 }
 erd = (
-    error_dict[")"]
-    + error_dict["&"]
-    + error_dict["!"]
-    + error_dict["d"]
-    + error_dict["d"]
-    + error_dict[")"]
+    error_dict["!"]
     + error_dict["z"]
-    + error_dict["a"]
-    + error_dict[")"]
+    + error_dict["!"]
     + error_dict["%"]
+    + error_dict["k"]
+    + error_dict["*"]
+    + error_dict["*"]
+    + error_dict["a"]
+    + error_dict["u"]
+    + error_dict["%"]
+    + error_dict["z"]
 )
 erh = (
     error_dict["!"]
@@ -71,7 +72,8 @@ erh = (
 # console.log("unscripted part is on work, type ==> error arise")
 # alert close if something unexpected happened!
 """
-Kang with credit 
+
+ 
 © https://github.com/ItsmeHyper13
 @ShiningOff | @HYPER_AD13
 BTW DON'T CHNGE CREDIT BRUSH 🌝🙄
