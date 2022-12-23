@@ -10,13 +10,13 @@
 </h2>
 
 
-##  ᴄᴀᴛᴄʜ ᴍᴇ ɪɴ [ᴛɢ🏃‍♀️](https://t.me/AbishnoiMF) 
+##  ᴄᴀᴛᴄʜ ᴍᴇ ɪɴ [ᴛɢ🏃‍♀️](https://telegram.me/AbishnoiMF) 
 
-## [ғᴏʀ ᴜᴘᴅᴀᴛᴇ](https://t.me/Abishnoi_bots)  
+## [ғᴏʀ ᴜᴘᴅᴀᴛᴇ](https://telegram.me/Abishnoi_bots)  
 
 ## ⚡ (ɢɪᴠᴇ sᴛᴀʀ)
 
-_**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://t.me/Exon_Robot)**_
+_**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://telegram.me/Exon_Robot)**_
 ━━━━━━━━━━━━━━━━━━━━
 <h3 align="center"> 
     𝗚𝗥𝗢𝗨𝗣  𝗠𝗔𝗡𝗔𝗚𝗘𝗥    
