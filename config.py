@@ -1,9 +1,11 @@
 import json
 import os
 
+
 def get_user_list(config, key):
     with open("{}/Exon/{}".format(os.getcwd(), config), "r") as json_file:
         return json.load(json_file)[key]
+
 
 class Config(object):
     LOGGER = True
@@ -19,7 +21,7 @@ class Config(object):
     DATABASE_URL = "postgres://iokudnsr:NrFikOMi3zStM4x2dMXcsaZjIP8dYvd0@babar.db.elephantsql.com/iokudnsr"
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
-        
+
     LOAD = []
     NO_LOAD = []
     INFOPIC = True
@@ -37,8 +39,10 @@ class Config(object):
     ALLOW_CHATS = True
     TEMP_DOWNLOAD_LOC = "./Downloads"
 
+
 class Production(Config):
     LOGGER = True
+
 
 class Development(Config):
     LOGGER = True
