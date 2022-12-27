@@ -1,0 +1,58 @@
+
+{
+    "name": "ᴇxᴏɴᴏʙᴏᴛ",
+    "description": "Telegram Group Management Bot Written In Python Using python-telegram-bot.",
+    "repository": "https://github.com/Abishnoi69/ExonRobot",
+    "logo": "https://telegra.ph/file/b0e09aabe796209f01d3d.jpg",
+    "keywords": [
+    "python3",
+    "telegram",
+    "bot",
+    "ExonRobot",
+    "telegram-bot",
+    "ptb-up",
+    "ptb",
+    "pyrogram"
+    ],
+   "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    }
+  ],   
+   "env": {
+      "OWNER_ID": {
+         "description": "ʏᴏᴜʀ ᴜsᴇʀ ID ᴀs ᴀɴ ɪɴᴛᴇɢᴇʀ.",
+         "required": true,
+         "value": "5938660179"
+      },
+      "OWNER_USERNAME": {
+         "description": "ʏᴏᴜʀ ᴛɢ ᴜsᴇʀɴᴀᴍᴇ",
+         "required": true,
+         "value": "Abishnoi1M"
+      },
+      "EVENT_LOGS": {
+         "description": "ᴇᴠᴇɴᴛ ʟᴏɢs ᴄʜᴀɴɴᴇʟ  ᴛᴏ ɴᴏᴛᴇ ᴅᴏᴡɴ ɪᴍᴘᴏʀᴛᴀɴᴛ ʙᴏᴛ ʟᴇᴠᴇʟ ᴇᴠᴇɴᴛs, ᴇx: '-10023456'",
+         "required": true,
+         "value": "-100"
+      },
+      "DATABASE_URL": {
+         "description": "ʀᴇǫᴜɪʀᴇᴅ ғᴏʀ ᴅᴀᴛᴀʙᴀsᴇ ᴄᴏɴɴᴇᴄᴛɪᴏɴs (sǫʟ :- elephantsql.com).",
+         "required": false,
+         "value": ""
+      },
+      "MONGO_DB_URI": {
+         "description": "ʀᴇǫᴜɪʀᴇᴅ ғᴏʀ ᴅᴀᴛᴀʙᴀsᴇ ᴄᴏɴɴᴇᴄᴛɪᴏɴs (ᴍᴏɴɢᴏ).",
+         "required": true,
+         "value": "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"
+      },
+      "TOKEN": {
+         "description": "Your bot token. Get one from @BotFather",
+         "required": true,
+         "value": ""
+      }
+      
+   }
+}
