@@ -1,5 +1,6 @@
 from html import escape
 from typing import Dict, List
+
 from telegram import Bot, InlineKeyboardButton
 from telegram.constants import MessageLimit, ParseMode
 from telegram.error import TelegramError
@@ -147,5 +148,3 @@ def mention_username(username: str, name: str) -> str:
         :obj:`str`: The inline mention for the user as HTML.
     """
     return f'<a href="t.me/{username}">{escape(name)}</a>'
-
-
