@@ -9,11 +9,10 @@ from requests import exceptions, get, post
 from telethon import Button, types
 from webcolors import hex_to_name, name_to_hex
 
-from Exon import OWNER_ID, BOT_USERNAME as asu
-from Exon import telethn as bot
 from Exon import DRAGONS as AUTH
+from Exon import OWNER_ID
 from Exon import db as qdb
-
+from Exon import telethn as bot
 
 # ʙʏ @Abishnoi1M
 # ==============================================
@@ -170,7 +169,8 @@ def sizeof_fmt(num, suffix="B"):
         num /= 1024.0
     return f"{num:.1f}Yi{suffix}"
 
-#@Abishnoi1M
+
+# @Abishnoi1M
 async def bash(code):
     cmd = code.split(" ")
     process = await asyncio.create_subprocess_exec(
