@@ -2,7 +2,7 @@ from html import escape
 from math import ceil
 from typing import Dict, List
 
-from telegram import Bot, InlineKeyboardButton, ParseMode
+from telegram import Bot, InlineKeyboardButton
 from telegram.constants import MessageLimit, ParseMode
 from telegram.error import TelegramError
 
