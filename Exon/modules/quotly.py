@@ -11,7 +11,7 @@ from webcolors import hex_to_name, name_to_hex
 
 from Exon import DRAGONS as AUTH
 from Exon import OWNER_ID
-from Exon import db as qdb
+from Exon import mdb as qdb
 from Exon import telethn as bot
 
 # ʙʏ @Abishnoi1M
