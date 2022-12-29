@@ -15,7 +15,7 @@ from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 
 from Exon import DEV_USERS, DRAGONS, INFOPIC, OWNER_ID, application
-from Exon import telethn as ZerotwoTelethonClient
+from Exon import telethn 
 from Exon.__main__ import STATS, USER_INFO
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin
@@ -25,50 +25,9 @@ from Exon.modules.sql.approve_sql import is_approved
 from Exon.modules.users import get_user_id
 
 
-async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    bot, args = context.bot, context.args
-    chat = update.effective_chat
-    message = update.effective_message
-    user_id = await extract_user(message, context, args)
-
-    if chat.is_forum:
-        await message.reply_text(
-            f"ᴛʜɪs ɢʀᴏᴜᴘ's ɪᴅ ɪs <code>:{chat.id}</code> \nᴛʜɪs ᴛᴏᴘɪᴄ ɪᴅ ɪs <code>{message.message_thread_id}</code>",
-            parse_mode=ParseMode.HTML,
-        )
-        return
-
-    if message.reply_to_message and message.reply_to_message.forward_from:
-
-        user1 = message.reply_to_message.from_user
-        user2 = message.reply_to_message.forward_from
-
-        await message.reply_text(
-            f"<b>ᴛᴇʟᴇɢʀᴀᴍ ɪᴅ:</b>,\n"
-            f"• {html.escape(user2.first_name)} - <code>{user2.id}</code>.\n"
-            f"• {html.escape(user1.first_name)} - <code>{user1.id}</code>.",
-            parse_mode=ParseMode.HTML,
-        )
-    elif len(args) >= 1 or message.reply_to_message:
-        user = await bot.get_chat(user_id)
-        await message.reply_text(
-            f"{html.escape(user.first_name)}'s ɪᴅ ɪs <code>{user.id}</code>.",
-            parse_mode=ParseMode.HTML,
-        )
-    elif chat.type == "private":
-        await message.reply_text(
-            f"ʏᴏᴜʀ ɪᴅ ɪs <code>{chat.id}</code>.",
-            parse_mode=ParseMode.HTML,
-        )
-    else:
-        await message.reply_text(
-            f"ᴛʜɪs ɢʀᴏᴜᴘ's ɪᴅ ɪs <code>{chat.id}</code>.",
-            parse_mode=ParseMode.HTML,
-        )
-    return
 
 
-@ZerotwoTelethonClient.on(
+@telethn.on(
     events.NewMessage(
         pattern="/ginfo ",
         from_users=(DRAGONS or []),
@@ -203,17 +162,7 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if chat_obj.bio:
             head += f"<b>\n\nʙɪᴏ:</b> {chat_obj.bio}"
 
-        if chat.type != ChatType.PRIVATE:
-            if chat_obj.id != bot.id:
-                if is_afk(chat_obj.id):
-                    afk_st = check_afk_status(chat_obj.id)
-                    time = humanize.naturaldate(datetime.now() - afk_st.time)
-
-                    if not afk_st.reason:
-                        head += f"<b>\n\nᴀғᴋ:</b> ᴛʜɪs ᴜsᴇʀ ɪs ᴀᴡᴀʏ ғʀᴏᴍ ᴋᴇʏʙᴏᴀʀᴅ sɪɴᴄᴇ {time}"
-                    else:
-                        head += f"<b>\n\nᴀғᴋ:</b> ᴛʜɪs ᴜsᴇʀ ɪs ᴀᴡᴀʏ ғʀᴏᴍ ᴋᴇʏʙᴏᴀʀᴅ sɪɴᴄᴇ {time}, \nʀᴇᴀsᴏɴ: {afk_st.reason}"
-
+        
             chat_member = await chat.get_member(chat_obj.id)
             if isinstance(chat_member, ChatMemberAdministrator):
                 head += f"<b>\nᴘʀᴇsᴇɴᴄᴇ:</b> {chat_member.status}"
@@ -334,13 +283,11 @@ __help__ = """
 
 
 STATS_HANDLER = CommandHandler(["stats", "gstats"], stats, block=False)
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, block=False)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, block=False)
 INFO_HANDLER = DisableAbleCommandHandler(("info", "book"), info, block=False)
 
 
 application.add_handler(STATS_HANDLER)
-application.add_handler(ID_HANDLER)
 application.add_handler(GIFID_HANDLER)
 application.add_handler(INFO_HANDLER)
 
@@ -348,7 +295,6 @@ application.add_handler(INFO_HANDLER)
 __mod_name__ = "𝐈ɴғᴏ"
 __command_list__ = ["info"]
 __handlers__ = [
-    ID_HANDLER,
     GIFID_HANDLER,
     INFO_HANDLER,
     STATS_HANDLER,
