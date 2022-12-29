@@ -140,7 +140,8 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
             ),
         )
     elif query.data == "EXON_SOURCE":
-        await query.message.edit_caption(caption=f"""
+        await query.message.edit_caption(
+            caption=f"""
 *ʜᴇʏ,
  ᴛʜɪs ɪs {BOT_NAME} ,
 ᴀɴ ᴏᴩᴇɴ sᴏᴜʀᴄᴇ ᴛᴇʟᴇɢʀᴀᴍ ɢʀᴏᴜᴩ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ.*
