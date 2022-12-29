@@ -1,395 +1,684 @@
+import asyncio
 import base64
-import json
-import os
-from asyncio import sleep
-from json.decoder import JSONDecodeError
-from random import choice
+import io
+import random
+from functools import wraps
 
-from PIL import Image
-from telethon.errors import MessageDeleteForbiddenError, MessageNotModifiedError
-from telethon.tl import types
-from telethon.tl.custom import Message
-from telethon.tl.types import MessageService
-from telethon.utils import get_display_name, get_peer_id
+import telethon
+from requests import exceptions, get, post
+from telethon import Button, types
+from webcolors import hex_to_name, name_to_hex
 
-from Exon import register
-
-# ᴀᴘɪ
-# ʙʏ @Abishnoi1M
-
-try:
-    from aiohttp import ContentTypeError
-except ImportError:
-    ContentTypeError = None
-
-try:
-    from PIL import Image
-except ImportError:
-    Image = None
-
-try:
-    import cv2
-except ImportError:
-    cv2 = None
-try:
-    import numpy as np
-except ImportError:
-    np = None
-
-try:
-    from bs4 import BeautifulSoup
-except ImportError:
-    BeautifulSoup = None
-
-
-class Quotly:
-    _API = "https://bot.lyo.su/quote/generate"
-    _entities = {
-        types.MessageEntityPhone: "phone_number",
-        types.MessageEntityMention: "mention",
-        types.MessageEntityBold: "bold",
-        types.MessageEntityCashtag: "cashtag",
-        types.MessageEntityStrike: "strikethrough",
-        types.MessageEntityHashtag: "hashtag",
-        types.MessageEntityEmail: "email",
-        types.MessageEntityMentionName: "text_mention",
-        types.MessageEntityUnderline: "underline",
-        types.MessageEntityUrl: "url",
-        types.MessageEntityTextUrl: "text_link",
-        types.MessageEntityBotCommand: "bot_command",
-        types.MessageEntityCode: "code",
-        types.MessageEntityPre: "pre",
-    }
-
-    async def _format_quote(self, event, reply=None, sender=None, type_="private"):
-        async def telegraph(file_):
-            file = file_ + ".png"
-            Image.open(file_).save(file, "PNG")
-            files = {"file": open(file, "rb").read()}
-            uri = (
-                "https://telegra.ph"
-                + (
-                    await async_searcher(
-                        "https://telegra.ph/upload", post=True, data=files, re_json=True
-                    )
-                )[0]["src"]
-            )
-            os.remove(file)
-            os.remove(file_)
-            return uri
-
-        if reply:
-            reply = {
-                "name": get_display_name(reply.sender) or "Deleted Account",
-                "text": reply.raw_text,
-                "chatId": reply.chat_id,
-            }
-        else:
-            reply = {}
-        is_fwd = event.fwd_from
-        name = None
-        last_name = None
-        if sender and sender.id not in DEVLIST:
-            id_ = get_peer_id(sender)
-            name = get_display_name(sender)
-        elif not is_fwd:
-            id_ = event.sender_id
-            sender = await event.get_sender()
-            name = get_display_name(sender)
-        else:
-            id_, sender = None, None
-            name = is_fwd.from_name
-            if is_fwd.from_id:
-                id_ = get_peer_id(is_fwd.from_id)
-                try:
-                    sender = await event.client.get_entity(id_)
-                    name = get_display_name(sender)
-                except ValueError:
-                    pass
-        if sender and hasattr(sender, "last_name"):
-            last_name = sender.last_name
-        entities = []
-        if event.entities:
-            for entity in event.entities:
-                if type(entity) in self._entities:
-                    enti_ = entity.to_dict()
-                    del enti_["_"]
-                    enti_["type"] = self._entities[type(entity)]
-                    entities.append(enti_)
-        message = {
-            "entities": entities,
-            "chatId": id_,
-            "avatar": True,
-            "from": {
-                "id": id_,
-                "first_name": (name or (sender.first_name if sender else None))
-                or "Deleted Account",
-                "last_name": last_name,
-                "username": sender.username if sender else None,
-                "language_code": "en",
-                "title": name,
-                "name": name or "Unknown",
-                "type": type_,
-            },
-            "text": event.raw_text,
-            "replyMessage": reply,
-        }
-        if event.document and event.document.thumbs:
-            file_ = await event.download_media(thumb=-1)
-            uri = await telegraph(file_)
-            message["media"] = {"url": uri}
-
-        return message
-
-    async def create_quotly(
-        self,
-        event,
-        url="https://qoute-api-akashpattnaik.koyeb.app/generate",
-        reply={},
-        bg=None,
-        sender=None,
-        OQAPI=True,
-        file_name="quote.webp",
-    ):
-        """Create quotely's quote."""
-        if not isinstance(event, list):
-            event = [event]
-        if OQAPI:
-            url = Quotly._API
-        if not bg:
-            bg = "#1b1429"
-        content = {
-            "type": "quote",
-            "format": "webp",
-            "backgroundColor": bg,
-            "width": 512,
-            "height": 768,
-            "scale": 2,
-            "messages": [
-                await self._format_quote(message, reply=reply, sender=sender)
-                for message in event
-            ],
-        }
-        try:
-            request = await async_searcher(url, post=True, json=content, re_json=True)
-        except ContentTypeError as er:
-            if url != self._API:
-                return await self.create_quotly(
-                    self._API, post=True, json=content, re_json=True
-                )
-            raise er
-        if request.get("ok"):
-            with open(file_name, "wb") as file:
-                image = base64.decodebytes(request["result"]["image"].encode("utf-8"))
-                file.write(image)
-            return file_name
-        raise Exception(str(request))
-
-
-quotly = Quotly()
-
-try:
-    import certifi
-except ImportError:
-    certifi = None
-
-try:
-    import numpy as np
-except ImportError:
-    np = None
-
-
-async def async_searcher(
-    url: str,
-    post: bool = None,
-    headers: dict = None,
-    params: dict = None,
-    json: dict = None,
-    data: dict = None,
-    ssl=None,
-    re_json: bool = False,
-    re_content: bool = False,
-    real: bool = False,
-    *args,
-    **kwargs,
-):
-    try:
-        import aiohttp
-    except ImportError:
-        raise DependencyMissingError(
-            "'aiohttp' is not installed!\nthis function requires aiohttp to be installed."
-        )
-    async with aiohttp.ClientSession(headers=headers) as client:
-        if post:
-            data = await client.post(
-                url, json=json, data=data, ssl=ssl, *args, **kwargs
-            )
-        else:
-            data = await client.get(url, params=params, ssl=ssl, *args, **kwargs)
-        if re_json:
-            return await data.json()
-        if re_content:
-            return await data.read()
-        if real:
-            return data
-        return await data.text()
-
-
-def _unquote_text(text):
-    return text.replace("'", "'").replace('"', '"')
-
-
-def json_parser(data, indent=None, ascii=False):
-    parsed = {}
-    try:
-        if isinstance(data, str):
-            parsed = json.loads(str(data))
-            if indent:
-                parsed = json.dumps(
-                    json.loads(str(data)), indent=indent, ensure_ascii=ascii
-                )
-        elif isinstance(data, dict):
-            parsed = data
-            if indent:
-                parsed = json.dumps(data, indent=indent, ensure_ascii=ascii)
-    except JSONDecodeError:
-        parsed = eval(data)
-    return parsed
+from Exon import OWNER_ID, BOT_USERNAME as asu
+from Exon import telethn as bot
+from Exon import DRAGONS as AUTH
+from Exon import db as qdb
 
 
 # ʙʏ @Abishnoi1M
-def check_filename(filroid):
-    if os.path.exists(filroid):
-        no = 1
-        while True:
-            ult = "{0}_{2}{1}".format(*os.path.splitext(filroid) + (no,))
-            if os.path.exists(ult):
-                no += 1
-            else:
-                return ult
-    return filroid
+# ==============================================
+# ǫᴜᴏᴛʟʏ ᴅᴀᴛᴀʙᴀsᴇ
+quotly = qdb.get_collection("quotly")
 
 
-# ᴇᴅɪᴛ ᴏʀ ʀᴇᴘʟʏ ғᴏʀ ᴛᴇʟᴇᴛʜᴏɴ
-async def eor(event, text=None, **args):
-    time = args.get("time", None)
-    edit_time = args.get("edit_time", None)
-    if "edit_time" in args:
-        del args["edit_time"]
-    if "time" in args:
-        del args["time"]
-    if "link_preview" not in args:
-        args["link_preview"] = False
-    args["reply_to"] = event.reply_to_msg_id or event
-    if event.out and not isinstance(event, MessageService):
-        if edit_time:
-            await sleep(edit_time)
-        if "file" in args and args["file"] and not event.media:
-            await event.delete()
+def set_qrate(chat_id, mode: bool):
+    quotly.update_one({"chat_id": chat_id}, {"$set": {"qrate": mode}}, upsert=True)
+
+
+def get_qrate(chat_id):
+    q = quotly.find_one({"chat_id": chat_id})
+    if q:
+        return q.get("qrate") or False
+    return False
+
+
+def add_quote(chat_id, quote):
+    quotly.update_one({"chat_id": chat_id}, {"$push": {"quotes": quote}}, upsert=True)
+
+
+def get_quotes(chat_id):
+    q = quotly.find_one({"chat_id": chat_id})
+    if q:
+        return q["quotes"]
+    return False
+
+
+# =====================================) =))) ========
+
+
+# ============+==+=============+=++============
+
+ERRORS = []
+
+
+def command(**args):
+    args["pattern"] = "^(?i)[?/!]" + args["pattern"] + "(?: |$|asu)(.*)"
+
+    def decorator(func):
+        async def wrapper(ev):
             try:
-                ok = await event.client.send_message(event.chat_id, text, **args)
-            except MessageNotModifiedError:
-                pass
+                await func(ev)
+            except Exception as e:
+                ERRORS.append(e)
+                await ev.reply(str(e))
+
+        bot.add_event_handler(wrapper, telethon.events.NewMessage(**args))
+        return func
+
+    return decorator
+
+
+def InlineQuery(**args):
+    def decorator(func):
+        async def wrapper(ev):
+            try:
+                await func(ev)
+            except Exception as e:
+                ERRORS.append(e)
+
+        bot.add_event_handler(wrapper, telethon.events.InlineQuery(**args))
+        return func
+
+    return decorator
+
+
+def Callback(**args):
+    def decorator(func):
+        async def wrapper(ev):
+            try:
+                await func(ev)
+            except Exception as e:
+                ERRORS.append(e)
+                await ev.answer(str(e), alert=True)
+
+        bot.add_event_handler(func, telethon.events.CallbackQuery(**args))
+        return func
+
+    return decorator
+
+
+def auth(func):
+    @wraps(func)
+    async def sed(e):
+        if e.sender_id and (e.sender_id in AUTH or e.sender_id == OWNER_ID):
+            await func(e)
         else:
-            try:
-                try:
-                    del args["reply_to"]
-                except KeyError:
-                    pass
-                ok = await event.edit(text, **args)
-            except MessageNotModifiedError:
-                pass
+            await e.reply("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ")
+
+    return sed
+
+
+def master(func):
+    @wraps(func)
+    async def sed(e):
+        if e.sender_id == OWNER_ID:
+            await func(e)
+        else:
+            await e.reply("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ :sᴇᴅ")
+
+    return sed
+
+
+async def get_user(e: telethon.events.NewMessage.Event):
+    user: telethon.tl.types.User
+    arg = ""
+    Args = e.text.split(maxsplit=2)
+    if e.is_reply:
+        user = (await e.get_reply_message()).sender
+        arg = (Args[1] + (Args[2] if len(Args) > 2 else "")) if len(Args) > 1 else ""
     else:
-        ok = await event.client.send_message(event.chat_id, text, **args)
-
-    if time:
-        await sleep(time)
-        return await ok.delete()
-    return ok
-
-
-async def eod(event, text=None, **kwargs):
-    kwargs["time"] = kwargs.get("time", 8)
-    return await eor(event, text, **kwargs)
-
-
-async def _try_delete(event):
-    try:
-        return await event.delete()
-    except (MessageDeleteForbiddenError):
-        pass
-    except BaseException as er:
-        from . import LOGS
-
-        LOGS.error("ᴇʀʀᴏʀ ᴡʜɪʟᴇ ᴅᴇʟᴇᴛɪɴɢ ᴍᴇssᴀɢᴇ..")
-        LOGS.exception(er)
+        if len(Args) == 1:
+            await e.reply("ɴᴏ ᴜsᴇʀ sᴘᴇᴄɪғɪᴇᴅ")
+            return None, ""
+        try:
+            user = await e.client.get_entity(Args[1])
+        except BaseException as ex:
+            await e.reply(str(ex))
+            return
+        arg = Args[2] if len(Args) > 2 else ""
+    return user, arg
 
 
-setattr(Message, "eor", eor)
-setattr(Message, "try_delete", _try_delete)
+async def HasRight(chat_id, user_id, right):
+    if user_id == OWNER_ID:
+        return True
+    if user_id in AUTH:
+        return True
+    p = await bot(
+        telethon.tl.functions.channels.GetParticipantRequest(chat_id, user_id)
+    )
+    p: telethon.tl.types.ChannelParticipant.to_dict
+    if p.participant.admin_rights.to_dict()[right] == True:
+        return True
+    return False
 
 
-@register(pattern="^/q(?: |$)(.*)")
-async def quott_(event):
-    match = event.pattern_match.group(1).strip()
-    if not event.is_reply:
-        return await event.eor("ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ")
-    msg = await event.reply("⚡️")
-    reply = await event.get_reply_message()
-    replied_to, reply_ = None, None
-    if match:
-        spli_ = match.split(maxsplit=1)
-        if (spli_[0] in ["r", "reply"]) or (
-            spli_[0].isdigit() and int(spli_[0]) in range(1, 21)
-        ):
-            if spli_[0].isdigit():
-                if not event.client._bot:
-                    reply_ = await event.client.get_messages(
-                        event.chat_id,
-                        min_id=event.reply_to_msg_id - 1,
-                        reverse=True,
-                        limit=int(spli_[0]),
-                    )
-                else:
-                    id_ = reply.id
-                    reply_ = []
-                    for msg_ in range(id_, id_ + int(spli_[0])):
-                        msh = await event.client.get_messages(event.chat_id, ids=msg_)
-                        if msh:
-                            reply_.append(msh)
-            else:
-                replied_to = await reply.get_reply_message()
-            try:
-                match = spli_[1]
-            except IndexError:
-                match = None
-    user = None
-    if not reply_:
-        reply_ = reply
-    if match:
-        match = match.split(maxsplit=1)
-    if match:
-        if match[0].startswith("@") or match[0].isdigit():
-            try:
-                match_ = await event.client.parse_id(match[0])
-                user = await event.client.get_entity(match_)
-            except ValueError:
-                pass
-            match = match[1] if len(match) == 2 else None
+async def getSender(e: telethon.events.NewMessage.Event):
+    if e.sender != None:
+        return e.sender
+    else:
+        if e.sender_chat != None:
+            return e.sender_chat
         else:
-            match = match[0]
-    if match == "random":
-        match = choice(all_col)
+            return None
+
+
+def sizeof_fmt(num, suffix="B"):
+    for unit in ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"]:
+        if abs(num) < 1024.0:
+            return f"{num:3.1f}{unit}{suffix}"
+        num /= 1024.0
+    return f"{num:.1f}Yi{suffix}"
+
+#@Abishnoi1M
+async def bash(code):
+    cmd = code.split(" ")
+    process = await asyncio.create_subprocess_exec(
+        *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    stdout, stderr = await process.communicate()
+    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+    return result
+
+
+async def get_reply_image(v):
+    if not v.reply_to:
+        return None
+    r = await v.get_reply_message()
+    if not r.media:
+        return None
+    if isinstance(r.media, telethon.tl.types.MessageMediaDocument):
+        if r.media.document.mime_type.split("/")[0] == "image":
+            return r
+        else:
+            return None
+    elif isinstance(r.media, telethon.tl.types.MessageMediaPhoto):
+        return r
+    else:
+        return None
+
+
+async def get_reply_gif(e):
+    r = await e.get_reply_message()
+    if not r.gif:
+        return None
+    return r
+
+
+async def get_reply_video(e):
+    r = await e.get_reply_message()
+    if not r.video:
+        return None
+    return r
+
+
+# ) =======================================++=+====)) ============
+
+
+REDIRECT_THUMB = "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/undefined/external-redirect-internet-marketing-flaticons-lineal-color-flat-icons-2.png"
+
+
+async def answer_query(
+    e: telethon.events.InlineQuery.Event, title, text, desc, thumb, buttons
+):
+    builder = e.builder
+    result = builder.article(title=title, text=text, description=desc, buttons=buttons)
+    await e.answer([result])
+
+
+@InlineQuery(pattern="url")
+async def _url(e):
     try:
-        file = await quotly.create_quotly(
-            reply_, bg=match, reply=replied_to, sender=user
+        q = e.text.split(" ")[1]
+    except IndexError:
+        return await answer_query(
+            e,
+            "ᴇʀʀᴏʀ",
+            "ɴᴏ ᴜʀʟ ᴘʀᴏᴠɪᴅᴇᴅ",
+            "ᴘʀᴏᴠɪᴅᴇ ᴀɴʏ ᴜʀʟ ᴛᴏ ɢᴇᴛ ɪᴛs ʀᴇᴅɪʀᴇᴄᴛ ʟɪɴᴋ",
+            REDIRECT_THUMB,
+            [Button.switch_inline("ᴛʀʏ ᴀɢᴀɪɴ", "url", True)],
         )
-    except Exception as er:
-        return await msg.edit(str(er))
-    message = await reply.reply("", file=file)
-    os.remove(file)
-    await msg.delete()
-    return message
+    try:
+        r = get(q, allow_redirects=True, timeout=10)
+    except exceptions.ConnectionError:
+        return await answer_query(
+            e,
+            "ᴇʀʀᴏʀ",
+            "ᴄᴏɴɴᴇᴄᴛɪᴏɴ Error",
+            "ᴘʀᴏᴠɪᴅᴇ ᴀɴʏ url ᴛᴏ ɢᴇᴛ ɪᴛs ʀᴇᴅɪʀᴇᴄᴛ ʟɪɴᴋ",
+            REDIRECT_THUMB,
+            [Button.switch_inline("ᴛʀʏ ᴀɢᴀɪɴ", "url", True)],
+        )
+    except exceptions.Timeout:
+        return await answer_query(
+            e,
+            "ᴇʀʀᴏʀ",
+            "ᴛɪᴍᴇᴏᴜᴛ ᴇʀʀᴏʀ",
+            "ᴘʀᴏᴠɪᴅᴇ ᴀɴʏ ᴜʀʟ ᴛᴏ ɢᴇᴛ ɪᴛs ʀᴇᴅɪʀᴇᴄᴛ ʟɪɴᴋ",
+            REDIRECT_THUMB,
+            [Button.switch_inline("ᴛʀʏ ᴀɢᴀɪɴ", "url", True)],
+        )
+    except exceptions.TooManyRedirects:
+        return await answer_query(
+            e,
+            "ᴇʀʀᴏʀ",
+            "ᴛᴏᴏ ᴍᴀɴʏ ʀᴇᴅɪʀᴇᴄᴛs",
+            "ᴘʀᴏᴠɪᴅᴇ ᴀɴʏ ᴜʀʟ ᴛᴏ ɢᴇᴛ ɪᴛs ʀᴇᴅɪʀᴇᴄᴛ ʟɪɴᴋ",
+            REDIRECT_THUMB,
+            [Button.switch_inline("ᴛʀʏ ᴀɢᴀɪɴ", "url", True)],
+        )
+    except exceptions.HTTPError:
+        return await answer_query(
+            e,
+            "ᴇʀʀᴏʀ",
+            "ʜᴛᴛᴘ ᴇʀʀᴏʀ",
+            "ᴘʀᴏᴠɪᴅᴇ ᴀɴʏ ᴜʀʟ ᴛᴏ ɢᴇᴛ ɪᴛs ʀᴇᴅɪʀᴇᴄᴛ ʟɪɴᴋ",
+            REDIRECT_THUMB,
+            [Button.switch_inline("ᴛʀʏ ᴀɢᴀɪɴ", "url", True)],
+        )
+    URL_STAT = "`ᴜʀʟ sᴛᴀᴛᴜs:` **" + str(r.status_code) + "**"
+    URL_STAT += "\n`ᴜʀʟ ᴄᴏɴᴛᴇɴᴛ ᴛʏᴘᴇ:` **" + str(r.headers["Content-Type"]) + "**"
+    URL_STAT += "\n`ᴜʀʟ ᴄᴏɴᴛᴇɴᴛ ʟᴇɴɢᴛʜ:` **" + str(r.headers["Content-Length"]) + "**"
+    URL_STAT += "\n`ʀᴇsᴘᴏɴsᴇ ᴛɪᴍᴇ:` **" + str(r.elapsed.total_seconds()) + "**"
+    URL_STAT += "\n`ʀᴇᴅɪʀᴇᴄᴛ ᴜʀʟ:` **" + str(r.url) + "**"
+    URL_STAT += "\n`ɪᴘ ᴀᴅᴅʀᴇss:` **" + str(r.headers["X-Client-IP"]) + "**"
+    await answer_query(
+        e,
+        "Redirect Link (" + str(r.status_code) + ")",
+        "Redirect Link: " + r.url,
+        "",
+        REDIRECT_THUMB,
+        [Button.url("ᴏᴘᴇɴ ᴜʀʟ", r.url)],
+    )
+
+
+# ========+++++++=============
+qr = {}
+
+
+@command(pattern="(q|quote)")
+async def _quotly_api_(e):
+    if not e.reply_to:
+        return await e.reply("ᴛʜɪs ʜᴀs ᴛᴏ ʙᴇ sᴇɴᴅ ᴡʜɪʟᴇ ʀᴇᴘʟʏɪɴɢ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ.")
+    r = await e.get_reply_message()
+    try:
+        d = e.text.split(maxsplit=1)[1]
+    except IndexError:
+        d = ""
+    color = None
+    for y in d.split():
+        try:
+            color, g = name_to_hex(y), "hex"
+        except ValueError:
+            try:
+                color, g = hex_to_name(y), "name"
+            except ValueError:
+                continue
+    if color:
+        d = d.replace(hex_to_name(color) if g == "hex" else color, "")
+    else:
+        color = "#1b1429"
+    photo = True if "p" in d else False
+    messages = []
+    num = [int(x) for x in d.split() if x.isdigit()]
+    num = num[0] if num else None
+    msgs = (
+        [
+            i
+            async for i in e.client.iter_messages(
+                e.chat_id,
+                ids=list(range(e.reply_to_msg_id, e.reply_to_msg_id + num)),
+            )
+            if i
+        ]
+        if num
+        else [r]
+    )
+    c = [1]
+    for _x in msgs:
+        if _x:
+            if _x.sender and isinstance(_x.sender, types.Channel):
+                _name = _x.chat.title
+                _first_name = _last_name = _username = ""
+                _id = _x.chat_id
+                _title = "Admin"
+            elif _x.sender and isinstance(_x.sender, types.User):
+                _name = _x.sender.first_name
+                _name = _name + _x.sender.last_name if _x.sender.last_name else _name
+                if _x.fwd_from and _x.fwd_from.from_name:
+                    _name = _x.fwd_from.from_name
+                _first_name = _x.sender.first_name
+                _last_name = _x.sender.last_name
+                _username = _x.sender.username
+                _id = _x.sender_id
+                _title = "Admin"
+            elif not _x.sender:
+                _name = _x.chat.title
+                _first_name = _last_name = _x.chat.title
+                _username = ""
+                _id = _x.chat_id
+                _title = "Anon"
+            _text = _x.raw_text or ""
+            _from = {
+                "id": _id,
+                "first_name": _first_name,
+                "last_name": _last_name,
+                "username": _username,
+                "language_code": "en",
+                "title": _title,
+                "type": "group",
+                "name": _name if c[-1] != _id else "",
+            }
+            if len(msgs) == 1:
+                if _x.reply_to and "r" in d:
+                    reply = await _x.get_reply_message()
+                    if isinstance(reply.sender, types.Channel):
+                        _r = {
+                            "chatId": e.chat_id,
+                            "first_name": reply.chat.title,
+                            "last_name": "",
+                            "username": reply.chat.username,
+                            "text": reply.text,
+                            "name": reply.chat.title,
+                        }
+                    elif reply.sender:
+                        name = reply.sender.first_name
+                        name = (
+                            name + " " + reply.sender.last_name
+                            if reply.sender.last_name
+                            else name
+                        )
+                        if reply.fwd_from and reply.fwd_from.from_name:
+                            _name = reply.fwd_from.from_name
+                        _r = {
+                            "chatId": e.chat_id,
+                            "first_name": reply.sender.first_name,
+                            "last_name": "reply.sender.last_name",
+                            "username": reply.sender.username,
+                            "text": reply.text,
+                            "name": name,
+                        }
+                    else:
+                        _r = {}
+                else:
+                    _r = {}
+            else:
+                _r = {}
+            if _x.sticker:
+                mediaType = "sticker"
+                media = [
+                    {
+                        "file_id": _x.file.id,
+                        "file_size": _x.file.size,
+                        "height": _x.file.height,
+                        "width": _x.file.width,
+                    }
+                ]
+            elif _x.photo:
+                mediaType = "photo"
+                media = [
+                    {
+                        "file_id": _x.file.id,
+                        "file_size": _x.file.size,
+                        "height": _x.file.height,
+                        "width": _x.file.width,
+                    }
+                ]
+            else:
+                media = None
+            avatar = True
+            if c[-1] == _id:
+                avatar = False
+            c.append(_id)
+            if not media:
+                messages.append(
+                    {
+                        "entities": get_entites(_x),
+                        "chatId": e.chat_id,
+                        "avatar": avatar,
+                        "from": _from,
+                        "text": _text,
+                        "replyMessage": _r,
+                    }
+                )
+            elif media:
+                messages.append(
+                    {
+                        "chatId": e.chat_id,
+                        "avatar": avatar,
+                        "media": media,
+                        "mediaType": mediaType,
+                        "from": _from,
+                        "replyMessage": {},
+                    }
+                )
+    post_data = {
+        "type": "quote",
+        "backgroundColor": color,
+        "width": 512,
+        "height": 768,
+        "scale": 2,
+        "messages": messages,
+    }
+    req = post(
+        "https://bot.lyo.su/quote/generate",
+        headers={"Content-type": "application/json"},
+        json=post_data,
+    )
+    if get_qrate(e.chat_id):
+        cd = str(e.id) + "|" + str(0) + "|" + str(0)
+        buttons = buttons = Button.inline("💖", data=f"upq_{cd}"), Button.inline(
+            "💔", data=f"doq_{cd}"
+        )
+        qr[e.id] = [[], []]
+    else:
+        buttons = None
+    try:
+        fq = req.json()["result"]["image"]
+        with io.BytesIO(base64.b64decode((bytes(fq, "utf-8")))) as f:
+            f.name = "sticker.png" if photo else "sticker.webp"
+            qs = await e.respond(file=f, force_document=photo, buttons=buttons)
+            add_quote(
+                e.chat_id,
+                [
+                    qs.media.document.id,
+                    qs.media.document.access_hash,
+                    qs.media.document.file_reference,
+                ],
+            )
+    except Exception as ep:
+        await e.reply("error: " + str(ep))
+
+
+def get_entites(x):
+    q = []
+    for y in x.entities or []:
+        if isinstance(y, types.MessageEntityCode):
+            type = "code"
+        elif isinstance(y, types.MessageEntityBold):
+            type = "bold"
+        elif isinstance(y, types.MessageEntityItalic):
+            type = "italic"
+        elif isinstance(y, types.MessageEntityBotCommand):
+            type = "bot_command"
+        elif isinstance(y, types.MessageEntityUrl):
+            type = "url"
+        elif isinstance(y, types.MessageEntityEmail):
+            type = "email"
+        elif isinstance(y, types.MessageEntityPhone):
+            type = "phone_number"
+        elif isinstance(y, types.MessageEntityUnderline):
+            type = "underline"
+        elif isinstance(y, types.MessageEntityMention):
+            type = "mention"
+        else:
+            continue
+        q.append({"type": type, "offset": y.offset, "length": y.length})
+    return q
+
+
+@command(pattern="qrate")
+async def e_q_rating(e):
+    if e.is_private:
+        return await e.reply("ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪs ᴍᴀᴅᴇ ᴛᴏ ʙᴇ ᴜsᴇᴅ ɪɴ ɢʀᴏᴜᴘ ᴄʜᴀᴛs.")
+    if not e.from_id:
+        return
+    if not await HasRight(e.chat_id, await getSender(e), "change_info"):
+        return
+    try:
+        d = e.text.split(maxsplit=1)[1]
+    except IndexError:
+        if get_qrate(e.chat_id):
+            await e.reply("ǫᴜᴏᴛᴇs ʀᴀᴛɪɴɢ ɪs ᴏɴ.")
+        else:
+            await e.reply("ʀᴀᴛɪɴɢ ғᴏʀ ǫᴜᴏᴛᴇs ɪs ᴏғғ.")
+        return
+    if d in ["True", "yes", "on", "y"]:
+        await e.reply("ǫᴜᴏᴛᴇs ʀᴀᴛɪɴɢ ʜᴀs ʙᴇᴇɴ ᴛᴜʀɴᴇᴅ ᴏɴ.")
+        set_qrate(e.chat_id, True)
+    elif d in ["False", "no", "off", "n"]:
+        await e.reply("ʀᴀᴛɪɴɢ ғᴏʀ ǫᴜᴏᴛᴇs ʜᴀs ʙᴇᴇɴ ᴛᴜʀɴᴇᴅ ᴏғғ.")
+        set_qrate(e.chat_id, False)
+    else:
+        await e.reply("ʏᴏᴜʀ ɪɴᴘᴜᴛ was not recognised ᴀs ᴏɴᴇ ᴏғ: yes/no/on/off")
+
+
+@Callback(pattern="upq_(.*)")
+async def quotly_upvote(e):
+    d = e.pattern_match.group(1).decode()
+    x, y, z = d.split("|")
+    x, y, z = int(x), int(y), int(z)
+    try:
+        ya = qr[x]
+    except IndexError:
+        await e.edit(buttons=None)
+    if e.sender_id in ya[0]:
+        y -= 1
+        qr[x][0].remove(e.sender_id)
+        await e.answer("ʏᴏᴜ ɢᴏᴛ ʏᴏᴜʀ ᴠᴏᴛᴇ ʙᴀᴄᴋ")
+    elif e.sender_id in ya[1]:
+        y += 1
+        z -= 1
+        qr[x][1].remove(e.sender_id)
+        qr[x][0].append(e.sender_id)
+        await e.answer("ʏᴏᴜ 💖 ᴛʜɪs")
+    elif e.sender_id not in ya[0]:
+        y += 1
+        qr[x][0].append(e.sender_id)
+        await e.answer("ʏᴏᴜ 💖 ᴛʜɪs")
+    cd = "{}|{}|{}".format(x, y, z)
+    if y == 0:
+        y = ""
+    if z == 0:
+        z = ""
+    await e.edit(
+        buttons=[
+            Button.inline(f"💖 {y}", data=f"upq_{cd}"),
+            Button.inline(f"💔 {z}", data=f"doq_{cd}"),
+        ]
+    )
+
+
+@Callback(pattern="doq_(.*)")
+async def quotly_downvote(e):
+    d = e.pattern_match.group(1).decode()
+    x, y, z = d.split("|")
+    x, y, z = int(x), int(y), int(z)
+    try:
+        ya = qr[x]
+    except IndexError:
+        await e.edit(buttons=None)
+    if e.sender_id in ya[1]:
+        z -= 1
+        qr[x][1].remove(e.sender_id)
+        await e.answer("ʏᴏᴜ ɢᴏᴛ ʏᴏᴜʀ ᴠᴏᴛᴇ ʙᴀᴄᴋ")
+    elif e.sender_id in ya[0]:
+        z += 1
+        y -= 1
+        qr[x][0].remove(e.sender_id)
+        qr[x][1].append(e.sender_id)
+        await e.answer("ʏᴏᴜ 💔 ᴛʜɪs")
+    elif e.sender_id not in ya[1]:
+        z += 1
+        qr[x][1].append(e.sender_id)
+        await e.answer("ʏᴏᴜ 💔 ᴛʜɪs")
+    cd = "{}|{}|{}".format(x, y, z)
+    if y == 0:
+        y = ""
+    if z == 0:
+        z = ""
+    await e.edit(
+        buttons=[
+            Button.inline(f"💖 {y}", data=f"upq_{cd}"),
+            Button.inline(f"💔 {z}", data=f"doq_{cd}"),
+        ]
+    )
+
+
+@command(pattern="qtop")
+async def qtop_q(e):
+    await e.reply(
+        "**ᴛᴏᴘ ɢʀᴏᴜᴘ ǫᴜᴏᴛᴇs:**",
+        buttons=Button.switch_inline(
+            "ᴏᴘᴇɴ ᴛᴏᴘ", "top:{}".format(e.chat_id), same_peer=True
+        ),
+    )
+
+
+@InlineQuery(pattern="top:(.*)")
+async def qtop_cb_(e):
+    x = e.pattern_match.group(1)
+    q = get_quotes(int(x))
+    if not q:
+        return
+    c = []
+    xe = False
+    n = 0
+    if get_qrate(e.chat_id):
+        qr[e.id] = [[], []]
+        cd = str(e.id) + "|" + str(0) + "|" + str(0)
+        xe = True
+    for _x in q:
+        n += 1
+        c.append(
+            await e.builder.document(
+                title=str(n),
+                description=str(n),
+                text=str(n),
+                file=types.InputDocument(
+                    id=_x[0], access_hash=_x[1], file_reference=_x[2]
+                ),
+                buttons=[
+                    Button.inline("💖", data=f"upq_{cd}"),
+                    Button.inline("💔", data=f"doq_{cd}"),
+                ]
+                if xe
+                else None,
+            )
+        )
+    await e.answer(c, gallery=True)
+
+
+@command(pattern="qrand")
+async def qrand_s_(e):
+    q = get_quotes(e.chat_id)
+    if not q:
+        return
+    c, xe = random.choice(q), False
+    if get_qrate(e.chat_id):
+        qr[e.id] = [[], []]
+        cd = str(e.id) + "|" + str(0) + "|" + str(0)
+        xe = True
+    await e.reply(
+        file=types.InputDocument(c[0], c[1], c[2]),
+        buttons=[
+            Button.inline("💖", data=f"upq_{cd}"),
+            Button.inline("💔", data=f"doq_{cd}"),
+        ]
+        if xe
+        else None,
+    )
 
 
 __help__ = """
