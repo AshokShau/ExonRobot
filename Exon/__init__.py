@@ -77,6 +77,7 @@ telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 
 app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app.start()
+
 asu = app.get_me()
 BOT_USERNAME = asu.username
 BOT_NAME = asu.first_name
@@ -94,6 +95,7 @@ try:
 except PyMongoError:
     exiter(1)
 mdb = client["EXONROBOT"]
+
 
 # ᴇᴠᴇɴᴛs
 def register(**args):
