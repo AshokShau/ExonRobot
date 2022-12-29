@@ -15,7 +15,7 @@ Telethon==1.26.1
 telethon-tgcrypto
 TgCrypto==1.2.5
 pillow==9.3.0
-psycopg2-binary==2.9.2
+psycopg2-binary==2.9.5
 pyrate-limiter==2.8.4
 pyrogram==2.0.87
 pymongo==4.3.3
