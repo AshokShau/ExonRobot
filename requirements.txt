@@ -22,3 +22,4 @@ pymongo==4.3.3
 python-dotenv==0.21.0
 python-telegram-bot==20.0b0
 SQLAlchemy==1.4.45
+webcolors==1.12
