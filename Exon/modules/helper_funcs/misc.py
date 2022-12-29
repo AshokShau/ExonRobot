@@ -1,7 +1,6 @@
 from html import escape
 from typing import Dict, List
 
-
 from telegram import Bot, InlineKeyboardButton
 from telegram.constants import MessageLimit, ParseMode
 from telegram.error import TelegramError
@@ -38,6 +37,7 @@ def split_message(msg: str) -> List[str]:
         result.append(small_msg)
 
     return result
+
 
 def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     if not chat:
@@ -105,6 +105,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
         ]
 
     return pairs
+
 
 async def send_to_list(
     bot: Bot,
@@ -177,5 +178,3 @@ def mention_username(username: str, name: str) -> str:
         :obj:`str`: The inline mention for the user as HTML.
     """
     return f'<a href="t.me/{username}">{escape(name)}</a>'
-
-
