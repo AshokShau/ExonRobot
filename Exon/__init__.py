@@ -94,7 +94,7 @@ try:
     client = MongoClient(MONGO_DB_URI)
 except PyMongoError:
     exiter(1)
-mdb = client["EXONROBOT"]
+mdb = client["ExonRobot"]
 
 
 # ᴇᴠᴇɴᴛs
