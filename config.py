@@ -12,13 +12,13 @@ class Config(object):
 
     API_ID = "13600724"
     API_HASH = "ee59fd28d0d065c6b7d105082c6a0ba0"
-    TOKEN = ""
+    TOKEN = os.environ.get("TOKEN", "")
     OWNER_ID = 5938660179
     OWNER_USERNAME = "Abishnoi1M"
     SUPPORT_CHAT = "AbishnoiMF"
     EVENT_LOGS = -1001573019550
-    MONGO_DB_URI = "mongodb+srv://EXONTEST:EXONTEST@cluster0.qakcaii.mongodb.net/?retryWrites=true&w=majority"
-    DATABASE_URL = "postgres://iokudnsr:NrFikOMi3zStM4x2dMXcsaZjIP8dYvd0@babar.db.elephantsql.com/iokudnsr"
+    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", "")
+    DATABASE_URL = os.environ.get("DATABASE_URL", "")
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
