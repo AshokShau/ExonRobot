@@ -1,10 +1,7 @@
-import html
 import os
 import re
-from datetime import datetime
 from html import escape
 
-import humanize
 from telegram import ChatMemberAdministrator, Update
 from telegram.constants import ChatID, ChatType, ParseMode
 from telegram.error import BadRequest
@@ -14,17 +11,12 @@ from telethon import events
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 
-from Exon import DEV_USERS, DRAGONS, INFOPIC, OWNER_ID, application
-from Exon import telethn 
+from Exon import DEV_USERS, DRAGONS, INFOPIC, OWNER_ID, application, telethn
 from Exon.__main__ import STATS, USER_INFO
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin
-from Exon.modules.helper_funcs.extraction import extract_user
-from Exon.modules.sql.afk_sql import check_afk_status, is_afk
 from Exon.modules.sql.approve_sql import is_approved
 from Exon.modules.users import get_user_id
-
-
 
 
 @telethn.on(
@@ -162,7 +154,6 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if chat_obj.bio:
             head += f"<b>\n\nʙɪᴏ:</b> {chat_obj.bio}"
 
-        
             chat_member = await chat.get_member(chat_obj.id)
             if isinstance(chat_member, ChatMemberAdministrator):
                 head += f"<b>\nᴘʀᴇsᴇɴᴄᴇ:</b> {chat_member.status}"
