@@ -34,8 +34,6 @@ UNBAN_RIGHTS = ChatBannedRights(
 ASU = [OWNER_ID] + DRAGONS
 
 
-
-
 async def is_administrator(user_id: int, message):
     admin = False
     async for user in telethn.iter_participants(
