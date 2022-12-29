@@ -1,30 +1,8 @@
 from html import escape
-import base64
-import json
-import typing
-import zlib
-
-from typing import Dict, List
-from urllib.parse import urljoin, urlparse, urlunparse
-from uuid import uuid4
-
-import base58
-import requests
-from Crypto import Hash, Protocol, Random
-from Crypto.Cipher import AES
-from telegram import (
-    MAX_MESSAGE_LENGTH,
-    Bot,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InlineQueryResultArticle,
-    InputTextMessageContent,
-    ParseMode,
-)
-from telegram.error import TelegramError
-from typing import Dict, List
 from math import ceil
-from telegram import Bot, InlineKeyboardButton
+from typing import Dict, List
+
+from telegram import Bot, InlineKeyboardButton, ParseMode
 from telegram.constants import MessageLimit, ParseMode
 from telegram.error import TelegramError
 
