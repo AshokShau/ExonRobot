@@ -1,30 +1,15 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import threading
 
-from sqlalchemy import BigInteger, Boolean, Column, String, UnicodeText, distinct, func
+from sqlalchemy import (
+    BigInteger,
+    Boolean,
+    Column,
+    Integer,
+    String,
+    UnicodeText,
+    distinct,
+    func,
+)
 from sqlalchemy.dialects import postgresql
 
 from Exon.modules.sql import BASE, SESSION
@@ -35,7 +20,7 @@ class Warns(BASE):
 
     user_id = Column(BigInteger, primary_key=True)
     chat_id = Column(String(14), primary_key=True)
-    num_warns = Column(BigInteger, default=0)
+    num_warns = Column(Integer, default=0)
     reasons = Column(postgresql.ARRAY(UnicodeText))
 
     def __init__(self, user_id, chat_id):
@@ -45,7 +30,7 @@ class Warns(BASE):
         self.reasons = []
 
     def __repr__(self):
-        return "<{} ᴡᴀʀɴs ғᴏʀ {} ɪɴ {} ғᴏʀ ʀᴇᴀsᴏɴs {}>".format(
+        return "<{} warns for {} in {} for reasons {}>".format(
             self.num_warns,
             self.user_id,
             self.chat_id,
@@ -65,7 +50,7 @@ class WarnFilters(BASE):
         self.reply = reply
 
     def __repr__(self):
-        return "<ᴘᴇʀᴍɪssɪᴏɴs ғᴏʀ %s>" % self.chat_id
+        return "<Permissions for %s>" % self.chat_id
 
     def __eq__(self, other):
         return bool(
@@ -78,7 +63,7 @@ class WarnFilters(BASE):
 class WarnSettings(BASE):
     __tablename__ = "warn_settings"
     chat_id = Column(String(14), primary_key=True)
-    warn_limit = Column(BigInteger, default=3)
+    warn_limit = Column(Integer, default=3)
     soft_warn = Column(Boolean, default=False)
 
     def __init__(self, chat_id, warn_limit=3, soft_warn=False):
@@ -87,7 +72,7 @@ class WarnSettings(BASE):
         self.soft_warn = soft_warn
 
     def __repr__(self):
-        return "<{} ʜᴀs {} ᴘᴏssɪʙʟᴇ ᴡᴀʀɴs.>".format(self.chat_id, self.warn_limit)
+        return "<{} has {} possible warns.>".format(self.chat_id, self.warn_limit)
 
 
 Warns.__table__.create(checkfirst=True)
@@ -239,7 +224,8 @@ def get_warn_setting(chat_id):
         setting = SESSION.query(WarnSettings).get(str(chat_id))
         if setting:
             return setting.warn_limit, setting.soft_warn
-        return 3, False
+        else:
+            return 3, False
 
     finally:
         SESSION.close()

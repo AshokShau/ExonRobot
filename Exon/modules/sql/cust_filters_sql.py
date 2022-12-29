@@ -1,23 +1,3 @@
-"""
-MIT License
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import threading
 
 from sqlalchemy import Boolean, Column, Integer, String, UnicodeText, distinct, func
@@ -89,7 +69,7 @@ class CustomFilters(BASE):
         return bool(
             isinstance(other, CustomFilters)
             and self.chat_id == other.chat_id
-            and self.keyword == other.keyword
+            and self.keyword == other.keyword,
         )
 
 
@@ -115,7 +95,7 @@ class NewCustomFilters(BASE):
         return bool(
             isinstance(other, CustomFilters)
             and self.chat_id == other.chat_id
-            and self.keyword == other.keyword
+            and self.keyword == other.keyword,
         )
 
 
@@ -377,14 +357,21 @@ def __migrate_filters():
             else:
                 file_type = Types.TEXT
 
-            print(str(x.chat_id), x.keyword, x.reply, file_type.value)
             if file_type == Types.TEXT:
                 filt = CustomFilters(
-                    str(x.chat_id), x.keyword, x.reply, file_type.value, None
+                    str(x.chat_id),
+                    x.keyword,
+                    x.reply,
+                    file_type.value,
+                    None,
                 )
             else:
                 filt = CustomFilters(
-                    str(x.chat_id), x.keyword, None, file_type.value, x.reply
+                    str(x.chat_id),
+                    x.keyword,
+                    None,
+                    file_type.value,
+                    x.reply,
                 )
 
             SESSION.add(filt)
@@ -404,11 +391,10 @@ def migrate_chat(old_chat_id, new_chat_id):
         for filt in chat_filters:
             filt.chat_id = str(new_chat_id)
         SESSION.commit()
-        try:
-            CHAT_FILTERS[str(new_chat_id)] = CHAT_FILTERS[str(old_chat_id)]
-        except KeyError:
-            pass
-        del CHAT_FILTERS[str(old_chat_id)]
+        old_filt = CHAT_FILTERS.get(str(old_chat_id))
+        if old_filt:
+            CHAT_FILTERS[str(new_chat_id)] = old_filt
+            del CHAT_FILTERS[str(old_chat_id)]
 
         with BUTTON_LOCK:
             chat_buttons = (

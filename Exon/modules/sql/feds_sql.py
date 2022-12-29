@@ -1,34 +1,10 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import ast
 import threading
 
-from sqlalchemy import BigInteger, Boolean, Column, String, UnicodeText
-from telegram.error import BadRequest, Unauthorized
+from sqlalchemy import BigInteger, Boolean, Column, Integer, String, UnicodeText
+from telegram.error import BadRequest, Forbidden
 
-from Exon import dispatcher
+from Exon import application
 from Exon.modules.sql import BASE, SESSION
 
 
@@ -70,7 +46,7 @@ class BansF(BASE):
     last_name = Column(UnicodeText)
     user_name = Column(UnicodeText)
     reason = Column(UnicodeText, default="")
-    time = Column(BigInteger, default=0)
+    time = Column(Integer, default=0)
 
     def __init__(self, fed_id, user_id, first_name, last_name, user_name, reason, time):
         self.fed_id = fed_id
@@ -106,6 +82,12 @@ class FedSubs(BASE):
     def __repr__(self):
         return "<Fed {} subscribes for {}>".format(self.fed_id, self.fed_subs)
 
+
+# Dropping db
+# Federations.__table__.drop()
+# ChatF.__table__.drop()
+# BansF.__table__.drop()
+# FedSubs.__table__.drop()
 
 Federations.__table__.create(checkfirst=True)
 ChatF.__table__.create(checkfirst=True)
@@ -144,14 +126,16 @@ def get_fed_id(chat_id):
     get = FEDERATION_CHATS.get(str(chat_id))
     if get is None:
         return False
-    return get["fid"]
+    else:
+        return get["fid"]
 
 
 def get_fed_name(chat_id):
     get = FEDERATION_CHATS.get(str(chat_id))
     if get is None:
         return False
-    return get["chat_name"]
+    else:
+        return get["chat_name"]
 
 
 def get_user_fban(fed_id, user_id):
@@ -164,43 +148,43 @@ def get_user_fban(fed_id, user_id):
 
 
 def get_user_admin_fed_name(user_id):
-    return [
-        FEDERATION_BYFEDID[f]["fname"]
-        for f in FEDERATION_BYFEDID
-        if int(user_id)
-        in ast.literal_eval(
+    user_feds = []
+    for f in FEDERATION_BYFEDID:
+        if int(user_id) in ast.literal_eval(
             ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["members"]
-        )
-    ]
+        ):
+            user_feds.append(FEDERATION_BYFEDID[f]["fname"])
+    return user_feds
 
 
 def get_user_owner_fed_name(user_id):
-    return [
-        FEDERATION_BYFEDID[f]["fname"]
-        for f in FEDERATION_BYFEDID
-        if int(user_id)
-        == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
-    ]
+    user_feds = []
+    for f in FEDERATION_BYFEDID:
+        if int(user_id) == int(
+            ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]
+        ):
+            user_feds.append(FEDERATION_BYFEDID[f]["fname"])
+    return user_feds
 
 
 def get_user_admin_fed_full(user_id):
-    return [
-        {"fed_id": f, "fed": FEDERATION_BYFEDID[f]}
-        for f in FEDERATION_BYFEDID
-        if int(user_id)
-        in ast.literal_eval(
+    user_feds = []
+    for f in FEDERATION_BYFEDID:
+        if int(user_id) in ast.literal_eval(
             ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["members"]
-        )
-    ]
+        ):
+            user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
+    return user_feds
 
 
 def get_user_owner_fed_full(user_id):
-    return [
-        {"fed_id": f, "fed": FEDERATION_BYFEDID[f]}
-        for f in FEDERATION_BYFEDID
-        if int(user_id)
-        == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
-    ]
+    user_feds = []
+    for f in FEDERATION_BYFEDID:
+        if int(user_id) == int(
+            ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]
+        ):
+            user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
+    return user_feds
 
 
 def get_user_fbanlist(user_id):
@@ -222,7 +206,7 @@ def new_fed(owner_id, fed_name, fed_id):
             str(owner_id),
             fed_name,
             str(fed_id),
-            "ʀᴜʟᴇs ɪs ɴᴏᴛ sᴇᴛ ɪɴ ᴛʜɪs ғᴇᴅᴇʀᴀᴛɪᴏɴ.",
+            "Rules is not set in this federation.",
             None,
             str({"owner": str(owner_id), "members": "[]"}),
         )
@@ -231,21 +215,21 @@ def new_fed(owner_id, fed_name, fed_id):
         FEDERATION_BYOWNER[str(owner_id)] = {
             "fid": str(fed_id),
             "fname": fed_name,
-            "frules": "ʀᴜʟᴇs ɪs ɴᴏᴛ sᴇᴛ ɪɴ ᴛʜɪs ғᴇᴅᴇʀᴀᴛɪᴏɴ.",
+            "frules": "Rules is not set in this federation.",
             "flog": None,
             "fusers": str({"owner": str(owner_id), "members": "[]"}),
         }
         FEDERATION_BYFEDID[str(fed_id)] = {
             "owner": str(owner_id),
             "fname": fed_name,
-            "frules": "ʀᴜʟᴇs ɪs ɴᴏᴛ sᴇᴛ ɪɴ ᴛʜɪs ғᴇᴅᴇʀᴀᴛɪᴏɴ.",
+            "frules": "Rules is not set in this federation.",
             "flog": None,
             "fusers": str({"owner": str(owner_id), "members": "[]"}),
         }
         FEDERATION_BYNAME[fed_name] = {
             "fid": str(fed_id),
             "owner": str(owner_id),
-            "frules": "ʀᴜʟᴇs ɪs ɴᴏᴛ sᴇᴛ ɪɴ ᴛʜɪs ғᴇᴅᴇʀᴀᴛɪᴏɴ.",
+            "frules": "Rules is not set in this federation.",
             "flog": None,
             "fusers": str({"owner": str(owner_id), "members": "[]"}),
         }
@@ -352,7 +336,10 @@ def search_user_in_fed(fed_id, user_id):
     if getfed is None:
         return False
     getfed = ast.literal_eval(getfed["fusers"])["members"]
-    return user_id in ast.literal_eval(getfed)
+    if user_id in ast.literal_eval(getfed):
+        return True
+    else:
+        return False
 
 
 def user_demote_fed(fed_id, user_id):
@@ -392,6 +379,18 @@ def user_demote_fed(fed_id, user_id):
         SESSION.merge(fed)
         SESSION.commit()
         return True
+
+        curr = SESSION.query(UserF).all()
+        result = False
+        for r in curr:
+            if int(r.user_id) == int(user_id):
+                if r.fed_id == fed_id:
+                    SESSION.delete(r)
+                    SESSION.commit()
+                    result = True
+
+        SESSION.close()
+        return result
 
 
 def user_join_fed(fed_id, user_id):
@@ -456,7 +455,8 @@ def all_fed_chats(fed_id):
         getfed = FEDERATION_CHATS_BYID.get(fed_id)
         if getfed is None:
             return []
-        return getfed
+        else:
+            return getfed
 
 
 def all_fed_users(fed_id):
@@ -473,7 +473,8 @@ def all_fed_users(fed_id):
 def all_fed_members(fed_id):
     with FEDS_LOCK:
         getfed = FEDERATION_BYFEDID.get(str(fed_id))
-        return ast.literal_eval(ast.literal_eval(getfed["fusers"])["members"])
+        fed_admins = ast.literal_eval(ast.literal_eval(getfed["fusers"])["members"])
+        return fed_admins
 
 
 def set_frules(fed_id, rules):
@@ -506,15 +507,17 @@ def set_frules(fed_id, rules):
 
 def get_frules(fed_id):
     with FEDS_LOCK:
-        return FEDERATION_BYFEDID[str(fed_id)]["frules"]
+        rules = FEDERATION_BYFEDID[str(fed_id)]["frules"]
+        return rules
 
 
 def fban_user(fed_id, user_id, first_name, last_name, user_name, reason, time):
     with FEDS_LOCK:
         r = SESSION.query(BansF).all()
         for I in r:
-            if I.fed_id == fed_id and int(I.user_id) == int(user_id):
-                SESSION.delete(I)
+            if I.fed_id == fed_id:
+                if int(I.user_id) == int(user_id):
+                    SESSION.delete(I)
 
         r = BansF(
             str(fed_id),
@@ -546,55 +549,52 @@ def multi_fban_user(
     multi_user_name,
     multi_reason,
 ):
-    counter = 0
-    time = 0
-    for x in enumerate(multi_fed_id):
-        fed_id = multi_fed_id[x]
-        user_id = multi_user_id[x]
-        first_name = multi_first_name[x]
-        last_name = multi_last_name[x]
-        user_name = multi_user_name[x]
-        reason = multi_reason[x]
-        r = SESSION.query(BansF).all()
-        for I in r:
-            if I.fed_id == fed_id and int(I.user_id) == int(user_id):
-                SESSION.delete(I)
+    if True:  # with FEDS_LOCK:
+        counter = 0
+        time = 0
+        for x in range(len(multi_fed_id)):
+            fed_id = multi_fed_id[x]
+            user_id = multi_user_id[x]
+            first_name = multi_first_name[x]
+            last_name = multi_last_name[x]
+            user_name = multi_user_name[x]
+            reason = multi_reason[x]
+            r = SESSION.query(BansF).all()
+            for I in r:
+                if I.fed_id == fed_id:
+                    if int(I.user_id) == int(user_id):
+                        SESSION.delete(I)
 
-        r = BansF(
-            str(fed_id),
-            str(user_id),
-            first_name,
-            last_name,
-            user_name,
-            reason,
-            time,
-        )
+            r = BansF(
+                str(fed_id),
+                str(user_id),
+                first_name,
+                last_name,
+                user_name,
+                reason,
+                time,
+            )
 
-        SESSION.add(r)
-        counter += 1
-        if str(str(counter)[-2:]) == "00":
-            print(user_id)
-            print(first_name)
-            print(reason)
-            print(counter)
-    try:
-        SESSION.commit()
-    except:
-        SESSION.rollback()
-        return False
-    finally:
-        SESSION.commit()
-    __load_all_feds_banned()
-    print("Done")
-    return counter
+            SESSION.add(r)
+            counter += 1
+        try:
+            SESSION.commit()
+        except:
+            SESSION.rollback()
+            return False
+        finally:
+            SESSION.commit()
+        __load_all_feds_banned()
+        return counter
 
 
 def un_fban_user(fed_id, user_id):
     with FEDS_LOCK:
         r = SESSION.query(BansF).all()
         for I in r:
-            if I.fed_id == fed_id and int(I.user_id) == int(user_id):
-                SESSION.delete(I)
+            if I.fed_id == fed_id:
+                if int(I.user_id) == int(user_id):
+                    SESSION.delete(I)
         try:
             SESSION.commit()
         except:
@@ -614,11 +614,13 @@ def get_fban_user(fed_id, user_id):
         r = SESSION.query(BansF).all()
         reason = None
         for I in r:
-            if I.fed_id == fed_id and int(I.user_id) == int(user_id):
-                reason = I.reason
-                time = I.time
+            if I.fed_id == fed_id:
+                if int(I.user_id) == int(user_id):
+                    reason = I.reason
+                    time = I.time
         return True, reason, time
-    return False, None, None
+    else:
+        return False, None, None
 
 
 def get_all_fban_users(fed_id):
@@ -633,7 +635,8 @@ def get_all_fban_users_target(fed_id, user_id):
     if list_fbanned is None:
         FEDERATION_BANNED_FULL[fed_id] = []
         return False
-    return list_fbanned[str(user_id)]
+    getuser = list_fbanned[str(user_id)]
+    return getuser
 
 
 def get_all_fban_users_global():
@@ -645,14 +648,24 @@ def get_all_fban_users_global():
 
 
 def get_all_feds_users_global():
-    return [FEDERATION_BYFEDID[x] for x in list(FEDERATION_BYFEDID)]
+    total = []
+    for x in list(FEDERATION_BYFEDID):
+        total.append(FEDERATION_BYFEDID[x])
+    return total
 
 
 def search_fed_by_id(fed_id):
     get = FEDERATION_BYFEDID.get(fed_id)
     if get is None:
         return False
-    return get
+    else:
+        return get
+    result = False
+    for Q in curr:
+        if Q.fed_id == fed_id:
+            result = Q.fed_id
+
+    return result
 
 
 def user_feds_report(user_id: int) -> bool:
@@ -675,21 +688,25 @@ def set_feds_setting(user_id: int, setting: bool):
         SESSION.commit()
 
 
-def get_fed_log(fed_id):
+async def get_fed_log(fed_id):
     fed_setting = FEDERATION_BYFEDID.get(str(fed_id))
     if fed_setting is None:
         fed_setting = False
         return fed_setting
     if fed_setting.get("flog") is None:
         return False
-    if fed_setting.get("flog"):
+    elif fed_setting.get("flog"):
         try:
-            dispatcher.bot.get_chat(fed_setting.get("flog"))
-        except (BadRequest, Unauthorized):
+            await application.bot.get_chat(fed_setting.get("flog"))
+        except BadRequest:
+            set_fed_log(fed_id, None)
+            return False
+        except Forbidden:
             set_fed_log(fed_id, None)
             return False
         return fed_setting.get("flog")
-    return False
+    else:
+        return False
 
 
 def set_fed_log(fed_id, chat_id):
@@ -717,7 +734,6 @@ def set_fed_log(fed_id, chat_id):
         )
         SESSION.merge(fed)
         SESSION.commit()
-        print(fed_log)
         return True
 
 
@@ -768,7 +784,8 @@ def get_all_subs(fed_id):
 def get_spec_subs(fed_id, fed_target):
     if FEDS_SUBSCRIBER.get(fed_id, set()) == set():
         return {}
-    return FEDS_SUBSCRIBER.get(fed_id, fed_target)
+    else:
+        return FEDS_SUBSCRIBER.get(fed_id, fed_target)
 
 
 def get_mysubs(my_fed):

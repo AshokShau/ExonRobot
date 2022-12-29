@@ -24,12 +24,11 @@ jobs:
       - name: lint with black
         run: |
           black .
-      # commit changes
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'ᴀsᴜx-✨'
+          commit_message: 'ғᴏʀᴍᴀᴛɴɪɢ-✨'
           commit_options: '--no-verify'
           repository: .
           commit_user_name: Abishnoi69
-          commit_user_email: 88209926+Abishnoi69@Abishnoi1M.github.com
-          commit_author: Abishnoi69 <88209926+Abishnoi69+@Abishnoi1M.github.com>
+          commit_user_email: 1072003+Abishnoi69@github.com
+          commit_author: Abishnoi69 <1072003+Abishnoi69+@github.com>

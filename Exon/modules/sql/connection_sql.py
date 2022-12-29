@@ -1,32 +1,8 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import threading
 import time
 from typing import Union
 
-from sqlalchemy import BigInteger, Boolean, Column, String, UnicodeText
+from sqlalchemy import BigInteger, Boolean, Column, Integer, String, UnicodeText
 
 from Exon.modules.sql import BASE, SESSION
 
@@ -41,7 +17,7 @@ class ChatAccessConnectionSettings(BASE):
         self.allow_connect_to_chat = str(allow_connect_to_chat)
 
     def __repr__(self):
-        return "<ᴄʜᴀᴛ ᴀᴄᴄᴇss sᴇᴛᴛɪɴɢs ({}) is {}>".format(
+        return "<Chat access settings ({}) is {}>".format(
             self.chat_id,
             self.allow_connect_to_chat,
         )
@@ -62,7 +38,7 @@ class ConnectionHistory(BASE):
     user_id = Column(BigInteger, primary_key=True)
     chat_id = Column(String(14), primary_key=True)
     chat_name = Column(UnicodeText)
-    conn_time = Column(BigInteger)
+    conn_time = Column(Integer)
 
     def __init__(self, user_id, chat_id, chat_name, conn_time):
         self.user_id = user_id
@@ -71,7 +47,7 @@ class ConnectionHistory(BASE):
         self.conn_time = int(conn_time)
 
     def __repr__(self):
-        return "<ᴄᴏɴɴᴇᴄᴛɪᴏɴ ᴜsᴇʀ {} ʜɪsᴛᴏʀʏ {}>".format(self.user_id, self.chat_id)
+        return "<connection user {} history {}>".format(self.user_id, self.chat_id)
 
 
 ChatAccessConnectionSettings.__table__.create(checkfirst=True)
@@ -138,8 +114,9 @@ def disconnect(user_id):
             SESSION.delete(disconnect)
             SESSION.commit()
             return True
-        SESSION.close()
-        return False
+        else:
+            SESSION.close()
+            return False
 
 
 def add_history_conn(user_id, chat_id, chat_name):
@@ -152,11 +129,9 @@ def add_history_conn(user_id, chat_id, chat_name):
                 .filter(ConnectionHistory.user_id == str(user_id))
                 .count()
             )
-            getchat_id = {
-                HISTORY_CONNECT[int(user_id)][x]["chat_id"]: x
-                for x in HISTORY_CONNECT[int(user_id)]
-            }
-
+            getchat_id = {}
+            for x in HISTORY_CONNECT[int(user_id)]:
+                getchat_id[HISTORY_CONNECT[int(user_id)][x]["chat_id"]] = x
             if chat_id in getchat_id:
                 todeltime = getchat_id[str(chat_id)]
                 delold = SESSION.query(ConnectionHistory).get(

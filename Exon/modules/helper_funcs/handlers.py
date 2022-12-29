@@ -1,26 +1,5 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
+import re
+from typing import Dict, List, Optional, Tuple, Union
 
 from pyrate_limiter import (
     BucketFullException,
@@ -30,23 +9,29 @@ from pyrate_limiter import (
     RequestRate,
 )
 from telegram import Update
-from telegram.ext import CommandHandler, Filters, MessageHandler, RegexHandler
+from telegram.ext import CommandHandler, MessageHandler
+from telegram.ext import filters as filters_module
 
 import Exon.modules.sql.blacklistusers_sql as sql
-from Exon import ALLOW_EXCL, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES
+from Exon import ALLOW_EXCL, DEV_USERS, DRAGONS
 
-CMD_STARTERS = ("/", "!", "?", "*") if ALLOW_EXCL else ("/",)
+if ALLOW_EXCL:
+    CMD_STARTERS = (
+        "/",
+        "!",
+        ".",
+        "-",
+        "$",
+        "*",
+        "+",
+    )
+else:
+    CMD_STARTERS = ("/",)
 
 
 class AntiSpam:
     def __init__(self):
-        self.whitelist = (
-            (DEV_USERS or [])
-            + (DRAGONS or [])
-            + (WOLVES or [])
-            + (DEMONS or [])
-            + (TIGERS or [])
-        )
+        self.whitelist = (DEV_USERS or []) + (DRAGONS or [])
         # Values are HIGHLY experimental, its recommended you pay attention to our commits as we will be adjusting the values over time with what suits best.
         Duration.CUSTOM = 15  # Custom duration, 15 seconds
         self.sec_limit = RequestRate(6, Duration.CUSTOM)  # 6 / Per 15 Seconds
@@ -79,77 +64,92 @@ MessageHandlerChecker = AntiSpam()
 
 
 class CustomCommandHandler(CommandHandler):
-    def __init__(self, command, callback, admin_ok=False, allow_edit=False, **kwargs):
+    def __init__(self, command, callback, **kwargs):
         super().__init__(command, callback, **kwargs)
 
-        if allow_edit is False:
-            self.filters &= ~(
-                Filters.update.edited_message | Filters.update.edited_channel_post
-            )
-
-    def check_update(self, update):
-        if not isinstance(update, Update) or not update.effective_message:
-            return
-        message = update.effective_message
-
-        try:
-            user_id = update.effective_user.id
-        except:
-            user_id = None
-
-        if user_id and sql.is_user_blacklisted(user_id):
-            return False
-
-        if message.text and len(message.text) > 1:
-            fst_word = message.text.split(None, 1)[0]
-            if len(fst_word) > 1 and any(
-                fst_word.startswith(start) for start in CMD_STARTERS
-            ):
-
-                args = message.text.split()[1:]
-                command = fst_word[1:].split("@")
-                command.append(message.bot.username)
-                if user_id == 1087968824:
-                    user_id = update.effective_chat.id
-                if not (
-                    command[0].lower() in self.command
-                    and command[1].lower() == message.bot.username.lower()
-                ):
-                    return None
-                if SpamChecker.check_user(user_id):
-                    return None
-                filter_result = self.filters(update)
-                if filter_result:
-                    return args, filter_result
-                return False
-
-    def handle_update(self, update, dispatcher, check_result, context=None):
-        if context:
-            self.collect_additional_context(context, update, dispatcher, check_result)
-            return self.callback(update, context)
-        optional_args = self.collect_optional_args(dispatcher, update, check_result)
-        return self.callback(dispatcher.bot, update, **optional_args)
-
-    def collect_additional_context(self, context, update, dispatcher, check_result):
-        if isinstance(check_result, bool):
-            context.args = update.effective_message.text.split()[1:]
+        if isinstance(command, str):
+            commands = frozenset({command.lower()})
         else:
+            commands = frozenset(x.lower() for x in command)
+        for comm in commands:
+            if not re.match(r"^[\da-z_]{1,32}$", comm):
+                raise ValueError(f"ᴄᴏᴍᴍᴀɴᴅ `{comm}` ɪs ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ ʙᴏᴛ ᴄᴏᴍᴍᴀɴᴅ")
+        self.commands = commands
+
+    def check_update(
+        self, update
+    ) -> Optional[Union[bool, Tuple[List[str], Optional[Union[bool, Dict]]]]]:
+        if isinstance(update, Update) and update.effective_message:
+            message = update.effective_message
+
+            try:
+                user_id = update.effective_user.id
+            except:
+                user_id = None
+
+            if user_id:
+                if sql.is_user_blacklisted(user_id):
+                    return False
+
+            if message.text and len(message.text) > 1:
+                fst_word = message.text.split(None, 1)[0]
+                if len(fst_word) > 1 and any(
+                    fst_word.startswith(start) for start in CMD_STARTERS
+                ):
+
+                    args = message.text.split()[1:]
+                    command_parts = fst_word[1:].split("@")
+                    command_parts.append(message.get_bot().username)
+                    if user_id == 1087968824:
+                        user_id = update.effective_chat.id
+                    if not (
+                        command_parts[0].lower() in self.commands
+                        and command_parts[1].lower()
+                        == message.get_bot().username.lower()
+                    ):
+                        return None
+                    if SpamChecker.check_user(user_id):
+                        return None
+                    filter_result = self.filters.check_update(update)
+                    if filter_result:
+                        return args, filter_result
+                    return False
+        return None
+
+    def handle_update(self, update, application, check_result, context=None):
+        if context:
+            self.collect_additional_context(context, update, application, check_result)
+            return self.callback(update, context)
+        else:
+            optional_args = self.collect_optional_args(
+                application, update, check_result
+            )
+            return self.callback(application.bot, update, **optional_args)
+
+    def collect_additional_context(
+        self,
+        context,
+        update,
+        application,
+        check_result: Optional[Union[bool, Tuple[List[str], Optional[bool]]]],
+    ) -> None:
+        if isinstance(check_result, tuple):
             context.args = check_result[0]
             if isinstance(check_result[1], dict):
                 context.update(check_result[1])
-
-
-class CustomRegexHandler(RegexHandler):
-    def __init__(self, pattern, callback, friendly="", **kwargs):
-        super().__init__(pattern, callback, **kwargs)
+                if isinstance(check_result[1], dict):
+                    context.update(check_result[1])
 
 
 class CustomMessageHandler(MessageHandler):
-    def __init__(self, filters, callback, friendly="", allow_edit=False, **kwargs):
-        super().__init__(filters, callback, **kwargs)
+    def __init__(
+        self, filters, callback, block, friendly="", allow_edit=False, **kwargs
+    ):
+        super().__init__(filters, callback, block=block, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
-                Filters.update.edited_message | Filters.update.edited_channel_post
+                filters_module.UpdateType.EDITED_MESSAGE
+                | filters_module.UpdateType.EDITED_CHANNEL_POST
             )
 
         def check_update(self, update):

@@ -1,73 +1,55 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 from datetime import datetime
 from functools import wraps
 
-from telegram.ext import CallbackContext
+from telegram.constants import ChatType
+from telegram.ext import ContextTypes
 
 from Exon.modules.helper_funcs.misc import is_module_loaded
+
+# from Exon.modules.sql.topics_sql import get_action_topic
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 if is_module_loaded(FILENAME):
-    from telegram import ParseMode, Update
-    from telegram.error import BadRequest, Unauthorized
+    from telegram import Update
+    from telegram.constants import ParseMode
+    from telegram.error import BadRequest, Forbidden
     from telegram.ext import CommandHandler, JobQueue
-    from telegram.utils.helpers import escape_markdown
+    from telegram.helpers import escape_markdown
 
-    from Exon import EVENT_LOGS, LOGGER, dispatcher
-    from Exon.modules.helper_funcs.chat_status import user_admin
+    from Exon import EVENT_LOGS, LOGGER, application
+    from Exon.modules.helper_funcs.chat_status import check_admin
     from Exon.modules.sql import log_channel_sql as sql
 
     def loggable(func):
         @wraps(func)
-        def log_action(
+        async def log_action(
             update: Update,
-            context: CallbackContext,
+            context: ContextTypes.DEFAULT_TYPE,
             job_queue: JobQueue = None,
             *args,
             **kwargs,
         ):
-            result = (
-                func(update, context, job_queue, *args, **kwargs)
-                if job_queue
-                else func(update, context, *args, **kwargs)
-            )
+            if not job_queue:
+                result = await func(update, context, *args, **kwargs)
+            else:
+                result = await func(update, context, job_queue, *args, **kwargs)
 
             chat = update.effective_chat
             message = update.effective_message
 
-            if result:
+            if result and isinstance(result, str):
                 datetime_fmt = "%H:%M - %d-%m-%Y"
                 result += f"\n<b>ᴇᴠᴇɴᴛ sᴛᴀᴍᴘ</b>: <code>{datetime.utcnow().strftime(datetime_fmt)}</code>"
+
+                if chat.is_forum and chat.username:
+                    result += f'\n<b>ʟɪɴᴋ:</b> <a href="https://t.me/{chat.username}/{message.message_thread_id}/{message.message_id}">ᴄʟɪᴄᴋ ʜᴇʀᴇ</a>'
 
                 if message.chat.type == chat.SUPERGROUP and message.chat.username:
                     result += f'\n<b>ʟɪɴᴋ:</b> <a href="https://t.me/{chat.username}/{message.message_id}">ᴄʟɪᴄᴋ ʜᴇʀᴇ</a>'
                 log_chat = sql.get_chat_log_channel(chat.id)
                 if log_chat:
-                    send_log(context, log_chat, chat.id, result)
+                    await send_log(context, log_chat, chat.id, result)
 
             return result
 
@@ -75,36 +57,40 @@ if is_module_loaded(FILENAME):
 
     def gloggable(func):
         @wraps(func)
-        def glog_action(update: Update, context: CallbackContext, *args, **kwargs):
-            result = func(update, context, *args, **kwargs)
+        async def glog_action(
+            update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
+        ):
+            result = await func(update, context, *args, **kwargs)
             chat = update.effective_chat
             message = update.effective_message
 
             if result:
-                datetime_fmt = "%ʜ:%ᴍ - %ᴅ%ᴍ%ʏ"
+                datetime_fmt = "%H:%M - %d-%m-%Y"
                 result += "\n<b>ᴇᴠᴇɴᴛ sᴛᴀᴍᴘ</b>: <code>{}</code>".format(
                     datetime.utcnow().strftime(datetime_fmt),
                 )
-
-                if message.chat.type == chat.SUPERGROUP and message.chat.username:
-                    result += f'\n<b>Link:</b> <a href="https://t.me/{chat.username}/{message.message_id}">click here</a>'
+                if chat.is_forum and chat.username:
+                    result += f'\n<b>ʟɪɴᴋ:</b> <a href="https://t.me/{chat.username}/{message.message_thread_id}/{message.message_id}">ᴄʟɪᴄᴋ ʜᴇʀᴇ</a>'
+                elif message.chat.type == chat.SUPERGROUP and message.chat.username:
+                    result += f'\n<b>ʟɪɴᴋ:</b> <a href="https://t.me/{chat.username}/{message.message_id}">ᴄʟɪᴄᴋ ʜᴇʀᴇ</a>'
                 log_chat = str(EVENT_LOGS)
                 if log_chat:
-                    send_log(context, log_chat, chat.id, result)
+                    await send_log(context, log_chat, chat.id, result)
 
             return result
 
         return glog_action
 
-    def send_log(
-        context: CallbackContext,
+    async def send_log(
+        context: ContextTypes.DEFAULT_TYPE,
         log_chat_id: str,
         orig_chat_id: str,
         result: str,
     ):
         bot = context.bot
+        # topic_chat = get_action_topic(orig_chat_id)
         try:
-            bot.send_message(
+            await bot.send_message(
                 log_chat_id,
                 result,
                 parse_mode=ParseMode.HTML,
@@ -112,115 +98,147 @@ if is_module_loaded(FILENAME):
             )
         except BadRequest as excp:
             if excp.message == "ᴄʜᴀᴛ ɴᴏᴛ ғᴏᴜɴᴅ":
-                bot.send_message(
-                    orig_chat_id,
-                    "ᴛʜɪs ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ ᴅᴇʟᴇᴛᴇᴅ - ᴜɴsᴇᴛᴛɪɴɢ.",
-                )
+                try:
+                    await bot.send_message(
+                        orig_chat_id,
+                        "ᴛʜɪs ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ ᴅᴇʟᴇᴛᴇᴅ - ᴜɴsᴇᴛᴛɪɴɢ.",
+                        message_thread_id=1,
+                    )
+                except:
+                    await bot.send_message(
+                        orig_chat_id,
+                        "ᴛʜɪs ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ ᴅᴇʟᴇᴛᴇᴅ - ᴜɴsᴇᴛᴛɪɴɢ.",
+                    )
                 sql.stop_chat_logging(orig_chat_id)
             else:
                 LOGGER.warning(excp.message)
                 LOGGER.warning(result)
-                LOGGER.exception("Could not parse")
+                LOGGER.exception("ᴄᴏᴜʟᴅ ɴᴏᴛ parse")
 
-                bot.send_message(
+                await bot.send_message(
                     log_chat_id,
                     result
                     + "\n\nғᴏʀᴍᴀᴛᴛɪɴɢ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ᴅᴜᴇ ᴛᴏ ᴀɴ ᴜɴᴇxᴘᴇᴄᴛᴇᴅ ᴇʀʀᴏʀ.",
                 )
 
-    @user_admin
-    def logging(update: Update, context: CallbackContext):
+    @check_admin(is_user=True)
+    async def logging(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot = context.bot
         message = update.effective_message
         chat = update.effective_chat
 
-        if log_channel := sql.get_chat_log_channel(chat.id):
-            log_channel_info = bot.get_chat(log_channel)
-            message.reply_text(
-                f"ᴛʜɪs ɢʀᴏᴜᴘ has ᴀʟʟ ɪᴛ's ʟᴏɢs sᴇɴᴛ ᴛᴏ:"
+        log_channel = sql.get_chat_log_channel(chat.id)
+        if log_channel:
+            log_channel_info = await bot.get_chat(log_channel)
+            await message.reply_text(
+                f"ᴛʜɪs ɢʀᴏᴜᴘ ʜᴀs ᴀʟʟ ɪᴛ's ʟᴏɢs sᴇɴᴛ ᴛᴏ:"
                 f" {escape_markdown(log_channel_info.title)} (`{log_channel}`)",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
-            message.reply_text("ɴᴏ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ sᴇᴛ ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ!")
+            await message.reply_text("ɴᴏ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ sᴇᴛ ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ!")
 
-    @user_admin
-    def setlog(update: Update, context: CallbackContext):
+    @check_admin(is_user=True)
+    async def setlog(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot = context.bot
         message = update.effective_message
         chat = update.effective_chat
-        if chat.type == chat.CHANNEL:
-            message.reply_text(
-                "ɴᴏᴡ, ғᴏʀᴡᴀʀᴅ ᴛʜᴇ /setlog ᴛᴏ ᴛʜᴇ ɢʀᴏᴜᴘ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴛɪᴇ ᴛʜɪs ᴄʜᴀɴɴᴇʟ ᴛᴏ !",
+        if chat.type == ChatType.CHANNEL:
+            await bot.send_message(
+                chat.id,
+                "ɴᴏᴡ, ғᴏʀᴡᴀʀᴅ ᴛʜᴇ /setlog ᴛᴏ ᴛʜᴇ ɢʀᴏᴜᴘ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴛɪᴇ ᴛʜɪs ᴄʜᴀɴɴᴇʟ ᴛᴏ!",
             )
 
         elif message.forward_from_chat:
             sql.set_chat_log_channel(chat.id, message.forward_from_chat.id)
-            try:
-                message.delete()
-            except BadRequest as excp:
-                if excp.message != "ᴍᴇssᴀɢᴇ ᴛᴏ ᴅᴇʟᴇᴛᴇ ɴᴏᴛ ғᴏᴜɴᴅ":
-                    LOGGER.exception(
-                        "ᴇʀʀᴏʀ ᴅᴇʟᴇᴛɪɴɢ ᴍᴇssᴀɢᴇ ɪɴ ʟᴏɢ ᴄʜᴀɴɴᴇʟ. sʜᴏᴜʟᴅ ᴡᴏʀᴋ ᴀɴʏᴡᴀʏ ᴛʜᴏᴜɢʜ.",
-                    )
 
             try:
-                bot.send_message(
+                await bot.send_message(
                     message.forward_from_chat.id,
                     f"ᴛʜɪs ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴀs ᴛʜᴇ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ғᴏʀ {chat.title or chat.first_name}.",
                 )
-            except Unauthorized as excp:
-                if excp.message == "ғᴏʀʙɪᴅᴅᴇɴ: ʙᴏᴛ ɪs ɴᴏᴛ ᴀ ᴀᴅᴍɪɴr ᴏғ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴄʜᴀᴛ":
-                    bot.send_message(chat.id, "sᴜᴄᴄᴇssғᴜʟʟʏ sᴇᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ!")
+            except Forbidden as excp:
+                if excp.message == "ғᴏʀʙɪᴅᴅᴇɴ: ʙᴏᴛ ɪs ɴᴏᴛ ᴀ ᴍᴇᴍʙᴇʀ ᴏғ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ ᴄʜᴀᴛ":
+                    if chat.is_forum:
+                        await bot.send_message(
+                            chat.id,
+                            "sᴜᴄᴄᴇssғᴜʟʟʏ sᴇᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ!",
+                            message_thread_id=message.message_thread_id,
+                        )
+                    else:
+                        await bot.send_message(chat.id, "Successfully set log channel!")
                 else:
-                    LOGGER.exception("ᴇʀʀᴏʀ ɪɴ sᴇᴛᴛɪɴɢ ᴛʜᴇ ʟᴏɢ ᴄʜᴀɴɴᴇʟ.")
+                    LOGGER.exception("ERROR ɪɴ sᴇᴛᴛɪɴɢ ᴛʜᴇ ʟᴏɢ ᴄʜᴀɴɴᴇʟ.")
 
-            bot.send_message(chat.id, "sᴜᴄᴄᴇssғᴜʟʟʏ sᴇᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ!")
+            if chat.is_forum:
+                await bot.send_message(
+                    chat.id,
+                    "sᴜᴄᴄᴇssғᴜʟʟʏ sᴇᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ!",
+                    message_thread_id=message.message_thread_id,
+                )
+            else:
+                await bot.send_message(chat.id, "sᴜᴄᴄᴇssғᴜʟʟʏ sᴇᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ!")
 
         else:
-            message.reply_text(
-                "ᴛʜᴇ sᴛᴇᴘs ᴛᴏ sᴇᴛ ᴀ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ᴀʀᴇ:\n"
+            await message.reply_text(
+                "ᴛʜᴇ sᴛᴇᴘs ᴛᴏ sᴇᴛ ᴀ ʟᴏɢ ᴄʜᴀɴɴᴇʟ are:\n"
                 " - ᴀᴅᴅ ʙᴏᴛ ᴛᴏ ᴛʜᴇ ᴅᴇsɪʀᴇᴅ ᴄʜᴀɴɴᴇʟ\n"
                 " - sᴇɴᴅ /setlog ᴛᴏ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ\n"
-                " - ғᴏʀᴡᴀʀᴅ ᴛʜᴇ /setlog ᴛᴏ ᴛʜᴇ ɢʀᴏᴜᴘ\n",
+                " - ғᴏʀᴡᴀʀᴅ ᴛʜᴇ /sᴇᴛʟᴏɢ ᴛᴏ ᴛʜᴇ ɢʀᴏᴜᴘ\n",
             )
 
-    @user_admin
-    def unsetlog(update: Update, context: CallbackContext):
+    @check_admin(is_user=True)
+    async def unsetlog(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot = context.bot
         message = update.effective_message
         chat = update.effective_chat
 
-        if log_channel := sql.stop_chat_logging(chat.id):
-            bot.send_message(
+        log_channel = sql.stop_chat_logging(chat.id)
+        if log_channel:
+            await bot.send_message(
                 log_channel,
                 f"ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ ᴜɴʟɪɴᴋᴇᴅ ғʀᴏᴍ {chat.title}",
             )
-            message.reply_text("ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ ᴜɴ-sᴇᴛ.")
+            await message.reply_text("ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ ᴜɴ-sᴇᴛ.")
 
         else:
-            message.reply_text("ɴᴏ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ sᴇᴛ ʏᴇᴛ!")
+            await message.reply_text("ɴᴏ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ʜᴀs ʙᴇᴇɴ sᴇᴛ ʏᴇᴛ!")
 
     def __stats__():
-        return f"•➥ {sql.num_logchannels()} ʟᴏɢ ᴄʜᴀɴɴᴇʟs sᴇᴛ."
+        return f"• {sql.num_logchannels()} ʟᴏɢ ᴄʜᴀɴɴᴇʟs sᴇᴛ."
 
     def __migrate__(old_chat_id, new_chat_id):
         sql.migrate_chat(old_chat_id, new_chat_id)
 
-    def __chat_settings__(chat_id, user_id):
-        if log_channel := sql.get_chat_log_channel(chat_id):
-            log_channel_info = dispatcher.bot.get_chat(log_channel)
-            return f"ᴛʜɪs ɢʀᴏᴜᴘ ʜᴀs ᴀʟʟ it's ʟᴏɢs sᴇɴᴛ ᴛᴏ: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
+    async def __chat_settings__(chat_id, user_id):
+        log_channel = sql.get_chat_log_channel(chat_id)
+        if log_channel:
+            log_channel_info = await application.bot.get_chat(log_channel)
+            return f"ᴛʜɪs ɢʀᴏᴜᴘ ʜᴀs ᴀʟʟ ɪᴛ's ʟᴏɢs sᴇɴᴛ ᴛᴏ: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
         return "ɴᴏ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ɪs sᴇᴛ ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ!"
 
-    LOG_HANDLER = CommandHandler("logchannel", logging, run_async=True)
-    SET_LOG_HANDLER = CommandHandler("setlog", setlog, run_async=True)
-    UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog, run_async=True)
+    __help__ = """
+*ᴀᴅᴍɪɴs ᴏɴʟʏ:*
+• /logchannel*:* ɢᴇᴛ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ɪɴғᴏ
+• /setlog*:* sᴇᴛ ᴛʜᴇ ʟᴏɢ ᴄʜᴀɴɴᴇʟ.
+• /unsetlog*:* ᴜɴsᴇᴛ ᴛʜᴇ ʟᴏɢ channel.
 
-    dispatcher.add_handler(LOG_HANDLER)
-    dispatcher.add_handler(SET_LOG_HANDLER)
-    dispatcher.add_handler(UNSET_LOG_HANDLER)
+sᴇᴛᴛɪɴɢ ᴛʜᴇ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ɪs ᴅᴏɴᴇ ʙʏ:
+• ᴀᴅᴅɪɴɢ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴛʜᴇ ᴅᴇsɪʀᴇᴅ ᴄʜᴀɴɴᴇʟ (ᴀs ᴀɴ ᴀᴅᴍɪɴ!)
+• sᴇɴᴅɪɴɢ `/setlog` ɪɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ
+• ғᴏʀᴡᴀʀᴅɪɴɢ ᴛʜᴇ `/setlog` ᴛᴏ ᴛʜᴇ ɢʀᴏᴜᴘ
+"""
+
+    __mod_name__ = "𝐋ᴏɢs"
+
+    LOG_HANDLER = CommandHandler("logchannel", logging, block=False)
+    SET_LOG_HANDLER = CommandHandler("setlog", setlog, block=False)
+    UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog, block=False)
+
+    application.add_handler(LOG_HANDLER)
+    application.add_handler(SET_LOG_HANDLER)
+    application.add_handler(UNSET_LOG_HANDLER)
 
 else:
     # run anyway if module not loaded

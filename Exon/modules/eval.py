@@ -1,28 +1,3 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
-import ast
 import io
 import os
 
@@ -31,11 +6,12 @@ import textwrap
 import traceback
 from contextlib import redirect_stdout
 
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, CommandHandler
+from telegram import Update
+from telegram.constants import ParseMode
+from telegram.ext import CommandHandler, ContextTypes
 
-from Exon import LOGGER, dispatcher
-from Exon.modules.helper_funcs.chat_status import dev_plus
+from Exon import LOGGER, application
+from Exon.modules.helper_funcs.chat_status import check_admin
 
 namespaces = {}
 
@@ -57,33 +33,46 @@ def namespace_of(chat, update, bot):
 def log_input(update):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    LOGGER.info(f"ɪɴ: {update.effective_message.text} (user={user}, chat={chat})")
+    LOGGER.info(f"IN: {update.effective_message.text} (user={user}, chat={chat})")
 
 
-def send(msg, bot, update):
+async def send(msg, bot, update):
     if len(str(msg)) > 2000:
         with io.BytesIO(str.encode(msg)) as out_file:
             out_file.name = "output.txt"
-            bot.send_document(chat_id=update.effective_chat.id, document=out_file)
+            await bot.send_document(
+                chat_id=update.effective_chat.id,
+                document=out_file,
+                message_thread_id=update.effective_message.message_thread_id
+                if update.effective_chat.is_forum
+                else None,
+            )
     else:
-        LOGGER.info(f"ᴏᴜᴛ: '{msg}'")
-        bot.send_message(
+        LOGGER.info(f"OUT: '{msg}'")
+        await bot.send_message(
             chat_id=update.effective_chat.id,
             text=f"`{msg}`",
             parse_mode=ParseMode.MARKDOWN,
+            message_thread_id=update.effective_message.message_thread_id
+            if update.effective_chat.is_forum
+            else None,
         )
 
 
-@dev_plus
-def evaluate(update: Update, context: CallbackContext):
+@check_admin(only_dev=True)
+async def evaluate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot = context.bot
-    send(do(eval, bot, update), bot, update)
+    await send(await do(eval, bot, update), bot, update)
+    if os.path.isfile("Exon/modules/helper_funcs/temp.txt"):
+        os.remove("Exon/modules/helper_funcs/temp.txt")
 
 
-@dev_plus
-def execute(update: Update, context: CallbackContext):
+@check_admin(only_dev=True)
+async def execute(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot = context.bot
-    send(do(exec, bot, update), bot, update)
+    await send(await do(exec, bot, update), bot, update)
+    if os.path.isfile("Exon/modules/helper_funcs/temp.txt"):
+        os.remove("Exon/modules/helper_funcs/temp.txt")
 
 
 def cleanup_code(code):
@@ -92,7 +81,7 @@ def cleanup_code(code):
     return code.strip("` \n")
 
 
-def do(func, bot, update):
+async def do(func, bot, update):
     log_input(update)
     content = update.message.text.split(" ", 1)[-1]
     body = cleanup_code(content)
@@ -107,7 +96,7 @@ def do(func, bot, update):
 
     stdout = io.StringIO()
 
-    to_compile = f'def func():\n{textwrap.indent(body, "  ")}'
+    to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
 
     try:
         exec(to_compile, env)
@@ -118,7 +107,7 @@ def do(func, bot, update):
 
     try:
         with redirect_stdout(stdout):
-            func_return = func()
+            func_return = await func()
     except Exception:
         value = stdout.getvalue()
         return f"{value}{traceback.format_exc()}"
@@ -130,7 +119,7 @@ def do(func, bot, update):
                 result = f"{value}"
             else:
                 try:
-                    result = f"{repr(ast.literal_eval(body, env))}"
+                    result = f"{repr(eval(body, env))}"
                 except:
                     pass
         else:
@@ -139,22 +128,22 @@ def do(func, bot, update):
             return result
 
 
-@dev_plus
-def clear(update: Update, context: CallbackContext):
+@check_admin(only_dev=True)
+async def clear(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot = context.bot
     log_input(update)
     global namespaces
     if update.message.chat_id in namespaces:
         del namespaces[update.message.chat_id]
-    send("Cleared locals.", bot, update)
+    await send("Cleared locals.", bot, update)
 
 
-EVAL_HANDLER = CommandHandler(("e", "ev", "eva", "eval"), evaluate, run_async=True)
-EXEC_HANDLER = CommandHandler(("x", "ex", "exe", "exec", "py"), execute, run_async=True)
-CLEAR_HANDLER = CommandHandler("clearlocals", clear, run_async=True)
+EVAL_HANDLER = CommandHandler(("e", "ev", "eva", "eval"), evaluate, block=False)
+EXEC_HANDLER = CommandHandler(("x", "ex", "exe", "exec", "py"), execute, block=False)
+CLEAR_HANDLER = CommandHandler("clearlocals", clear, block=False)
 
-dispatcher.add_handler(EVAL_HANDLER)
-dispatcher.add_handler(EXEC_HANDLER)
-dispatcher.add_handler(CLEAR_HANDLER)
+application.add_handler(EVAL_HANDLER)
+application.add_handler(EXEC_HANDLER)
+application.add_handler(CLEAR_HANDLER)
 
-__mod_name__ = "ᴇᴠᴀʟ-ᴍᴏᴅᴜʟᴇ"
+__mod_name__ = "Eval Module"

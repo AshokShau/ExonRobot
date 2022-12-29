@@ -1,38 +1,21 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import html
+import re
 
-from telegram import ChatPermissions, ParseMode
+from telegram import ChatPermissions, Update
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, MessageHandler
-from telegram.utils.helpers import mention_html
+from telegram.ext import (
+    CallbackQueryHandler,
+    CommandHandler,
+    ContextTypes,
+    MessageHandler,
+    filters,
+)
+from telegram.helpers import mention_html
 
-from Exon import dispatcher
+from Exon import application
 from Exon.modules.connection import connected
-from Exon.modules.helper_funcs.alternate import send_message, typing_action
-from Exon.modules.helper_funcs.chat_status import is_user_admin, user_admin
+from Exon.modules.helper_funcs.alternate import send_message
+from Exon.modules.helper_funcs.chat_status import check_admin, is_user_admin
 from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql import antiflood_sql as sql
@@ -42,23 +25,21 @@ FLOOD_GROUP = 3
 
 
 @loggable
-def check_flood(update, context) -> str:
+async def check_flood(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
-
-    if is_approved(chat.id, user.id):
-        sql.update_flood(chat.id, None)
-        return
-
     if not user:  # ignore channels
         return ""
 
     # ignore admins
-    if is_user_admin(chat, user.id):
+    if await is_user_admin(chat, user.id):
         sql.update_flood(chat.id, None)
         return ""
-
+    # ignore approved users
+    if is_approved(chat.id, user.id):
+        sql.update_flood(chat.id, None)
+        return
     should_ban = sql.update_flood(chat.id, user.id)
     if not should_ban:
         return ""
@@ -66,66 +47,111 @@ def check_flood(update, context) -> str:
     try:
         getmode, getvalue = sql.get_flood_setting(chat.id)
         if getmode == 1:
-            chat.ban_member(user.id)
+            await chat.ban_member(user.id)
             execstrings = "ʙᴀɴɴᴇᴅ"
             tag = "BANNED"
         elif getmode == 2:
-            chat.ban_member(user.id)
-            chat.unban_member(user.id)
+            await chat.ban_member(user.id)
+            await chat.unban_member(user.id)
             execstrings = "ᴋɪᴄᴋᴇᴅ"
             tag = "KICKED"
         elif getmode == 3:
-            context.bot.restrict_chat_member(
-                chat.id, user.id, permissions=ChatPermissions(can_send_messages=False)
+            await context.bot.restrict_chat_member(
+                chat.id,
+                user.id,
+                permissions=ChatPermissions(can_send_messages=False),
             )
             execstrings = "ᴍᴜᴛᴇᴅ"
             tag = "MUTED"
         elif getmode == 4:
-            bantime = extract_time(msg, getvalue)
-            chat.ban_member(user.id, until_date=bantime)
-            execstrings = f"ʙᴀɴɴᴇᴅ ғᴏʀ {getvalue}"
+            bantime = await extract_time(msg, getvalue)
+            await chat.ban_member(user.id, until_date=bantime)
+            execstrings = "ʙᴀɴɴᴇᴅ ғᴏʀ {}".format(getvalue)
             tag = "TBAN"
         elif getmode == 5:
-            mutetime = extract_time(msg, getvalue)
-            context.bot.restrict_chat_member(
+            mutetime = await extract_time(msg, getvalue)
+            await context.bot.restrict_chat_member(
                 chat.id,
                 user.id,
                 until_date=mutetime,
                 permissions=ChatPermissions(can_send_messages=False),
             )
-            execstrings = f"ᴍᴜᴛᴇᴅ ғᴏʀ {getvalue}"
+            execstrings = "ᴍᴜᴛᴇᴅ ғᴏʀ {}".format(getvalue)
             tag = "TMUTE"
-        send_message(
+        await send_message(
             update.effective_message,
-            f"ᴡᴀɴɴᴀ sᴘᴀᴍ?! sᴏʀʀʏ ɪᴛ's ɴᴏᴛ ʏᴏᴜʀ ʜᴏᴜsᴇ ᴍᴀɴ!\n{execstrings}!",
+            "ʙᴇᴇᴘ ʙᴏᴏᴘ! ʙᴏᴏᴘ ʙᴇᴇᴘ!\n{}!".format(execstrings),
         )
 
-        return f"<b>{html.escape(chat.title)}:</b>\n#{tag}\n<b>User:</b> {mention_html(user.id, user.first_name)}\nғʟᴏᴏᴅᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ."
+        return (
+            "<b>{}:</b>"
+            "\n#{}"
+            "\n<b>ᴜsᴇʀ:</b> {}"
+            "\nғʟᴏᴏᴅᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ.".format(
+                tag,
+                html.escape(chat.title),
+                mention_html(user.id, html.escape(user.first_name)),
+            )
+        )
 
     except BadRequest:
-        msg.reply_text(
-            "I ᴄᴀɴ'ᴛ ʀᴇsᴛʀɪᴄᴛ ᴘᴇᴏᴘʟᴇ ʜᴇʀᴇ, ɢɪᴠᴇ ᴍᴇ ᴘᴇʀᴍɪssɪᴏɴs ғɪʀsᴛ! ᴜɴᴛɪʟ ᴛʜᴇɴ, ɪ'ʟʟ ᴅɪsᴀʙʟᴇ ᴀɴᴛɪ-ғʟᴏᴏᴅ."
+        await msg.reply_text(
+            "I ᴄᴀɴ'ᴛ ʀᴇsᴛʀɪᴄᴛ ᴘᴇᴏᴘʟᴇ ʜᴇʀᴇ, ɢɪᴠᴇ ᴍᴇ ᴘᴇʀᴍɪssɪᴏɴs ғɪʀsᴛ! ᴜɴᴛɪʟ ᴛʜᴇɴ, I'ʟʟ ᴅɪsᴀʙʟᴇ ᴀɴᴛɪ-ғʟᴏᴏᴅ.",
         )
         sql.set_flood(chat.id, 0)
-        return f"<b>{chat.title}:</b>\n#INFO\nᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴇɴᴏᴜɢʜ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs sᴏ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ"
+        return (
+            "<b>{}:</b>"
+            "\n#𝐈𝐍𝐅𝐎"
+            "\nᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴇɴᴏᴜɢʜ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs sᴏ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ".format(
+                chat.title,
+            )
+        )
 
 
-@user_admin
+@check_admin(permission="can_restrict_members", is_both=True, no_reply=True)
+async def flood_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    bot = context.bot
+    query = update.callback_query
+    user = update.effective_user
+    match = re.match(r"unmute_flooder\((.+?)\)", query.data)
+    if match:
+        user_id = match.group(1)
+        chat = update.effective_chat.id
+        try:
+            await bot.restrict_chat_member(
+                chat,
+                int(user_id),
+                permissions=ChatPermissions(
+                    can_send_messages=True,
+                    can_send_media_messages=True,
+                    can_send_other_messages=True,
+                    can_add_web_page_previews=True,
+                ),
+            )
+            await update.effective_message.edit_text(
+                f"ᴜɴᴍᴜᴛᴇᴅ ʙʏ {mention_html(user.id, html.escape(user.first_name))}.",
+                parse_mode="HTML",
+            )
+        except:
+            pass
+
+
 @loggable
-@typing_action
-def set_flood(update, context) -> str:
+@check_admin(is_user=True)
+async def set_flood(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     message = update.effective_message  # type: Optional[Message]
     args = context.args
 
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
+    conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
         chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
+        chat_obj = await application.bot.getChat(conn)
+        chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
-            send_message(
+            await send_message(
                 update.effective_message,
                 "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪs ᴍᴇᴀɴᴛ ᴛᴏ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘ ɴᴏᴛ ɪɴ PM",
             )
@@ -135,73 +161,93 @@ def set_flood(update, context) -> str:
 
     if len(args) >= 1:
         val = args[0].lower()
-        if val in ("off", "no", "0"):
+        if val in ["off", "no", "0"]:
             sql.set_flood(chat_id, 0)
             if conn:
-                text = message.reply_text(
-                    f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}."
+                text = await message.reply_text(
+                    "ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {}.".format(chat_name),
                 )
             else:
-                text = message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
-            send_message(update.effective_message, text, parse_mode="markdown")
+                text = await message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
 
         elif val.isdigit():
             amount = int(val)
             if amount <= 0:
                 sql.set_flood(chat_id, 0)
                 if conn:
-                    text = message.reply_text(
-                        f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}."
+                    text = await message.reply_text(
+                        "ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {}.".format(chat_name),
                     )
                 else:
-                    text = message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
-                return f"<b>{html.escape(chat_name)}:</b>\n#sᴇᴛғʟᴏᴏᴅ\n<b>Admin:</b> {mention_html(user.id, user.first_name)}\nᴅɪsᴀʙʟᴇ ᴀɴᴛɪғʟᴏᴏᴅ."
+                    text = await message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
+                return (
+                    "<b>{}:</b>"
+                    "\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃"
+                    "\n<b>ᴀᴅᴍɪɴ:</b> {}"
+                    "\nᴅɪsᴀʙʟᴇ ᴀɴᴛɪғʟᴏᴏᴅ.".format(
+                        html.escape(chat_name),
+                        mention_html(user.id, html.escape(user.first_name)),
+                    )
+                )
 
-            if amount < 3:
-                send_message(
+            elif amount <= 3:
+                await send_message(
                     update.effective_message,
                     "ᴀɴᴛɪғʟᴏᴏᴅ ᴍᴜsᴛ ʙᴇ ᴇɪᴛʜᴇʀ 0 (disabled) ᴏʀ ɴᴜᴍʙᴇʀ ɢʀᴇᴀᴛᴇʀ ᴛʜᴀɴ 3!",
                 )
                 return ""
-            sql.set_flood(chat_id, amount)
-            if conn:
-                text = message.reply_text(
-                    f"ᴀɴᴛɪ-ғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ {amount} ɪɴ ᴄʜᴀᴛ: {chat_name}"
-                )
 
             else:
-                text = message.reply_text(
-                    f"sᴜᴄᴄᴇssғᴜʟʟʏ ᴜᴘᴅᴀᴛᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴛᴏ {amount}!"
+                sql.set_flood(chat_id, amount)
+                if conn:
+                    text = await message.reply_text(
+                        "ᴀɴᴛɪ-ғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ {} ɪɴ ᴄʜᴀᴛ: {}".format(
+                            amount,
+                            chat_name,
+                        ),
+                    )
+                else:
+                    text = await message.reply_text(
+                        "sᴜᴄᴄᴇssғᴜʟʟʏ ᴜᴘᴅᴀᴛᴇᴅ anti-ғʟᴏᴏᴅ ʟɪᴍɪᴛ to {}!".format(amount),
+                    )
+                return (
+                    "<b>{}:</b>"
+                    "\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃"
+                    "\n<b>ᴀᴅᴍɪɴ:</b> {}"
+                    "\nsᴇᴛ ᴀɴᴛɪғʟᴏᴏᴅ ᴛᴏ <code>{}</code>.".format(
+                        html.escape(chat_name),
+                        mention_html(user.id, html.escape(user.first_name)),
+                        amount,
+                    )
                 )
 
-            send_message(update.effective_message, text, parse_mode="markdown")
-            return f"<b>{html.escape(chat_name)}:</b>\n#SETFLOOD\n<b>Admin:</b> {mention_html(user.id, user.first_name)}\nSet antiflood to <code>{amount}</code>."
-
         else:
-            message.reply_text("ɪɴᴠᴀʟɪᴅ ᴀʀɢᴜᴍᴇɴᴛ ᴘʟᴇᴀsᴇ ᴜsᴇ ᴀ ɴᴜᴍʙᴇʀ, 'off' ᴏʀ 'no'")
+            await message.reply_text(
+                "ɪɴᴠᴀʟɪᴅ ᴀʀɢᴜᴍᴇɴᴛ ᴘʟᴇᴀsᴇ ᴜsᴇ ᴀ ɴᴜᴍʙᴇʀ, 'off' ᴏʀ 'no'"
+            )
     else:
-        message.reply_text(
+        await message.reply_text(
             (
-                "ᴜsᴇ `/setflood ɴᴜᴍʙᴇʀ` ᴛᴏ ᴇɴᴀʙʟᴇ ᴀɴᴛɪ-ғʟᴏᴏᴅ.\nᴏʀ ᴜsᴇ `/setflood off` ᴛᴏ ᴅɪsᴀʙʟᴇ ᴀɴᴛɪғʟᴏᴏᴅ!."
+                "ᴜsᴇ `/setflood number` ᴛᴏ ᴇɴᴀʙʟᴇ ᴀɴᴛɪ-ғʟᴏᴏᴅ .\nᴏʀ ᴜsᴇ `/setflood off` ᴛᴏ ᴅɪsᴀʙʟᴇ ᴀɴᴛɪ-ғʟᴏᴏᴅ!."
             ),
             parse_mode="markdown",
         )
     return ""
 
 
-@typing_action
-def flood(update, context):
+async def flood(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message
 
-    conn = connected(context.bot, update, chat, user.id, need_admin=False)
+    conn = await connected(context.bot, update, chat, user.id, need_admin=False)
     if conn:
         chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
+        chat_obj = await application.bot.getChat(conn)
+        chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
-            send_message(
+            await send_message(
                 update.effective_message,
                 "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪs ᴍᴇᴀɴᴛ ᴛᴏ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘ ɴᴏᴛ ɪɴ PM",
             )
@@ -211,42 +257,44 @@ def flood(update, context):
 
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
-        text = (
-            msg.reply_text(f"I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ɪɴ {chat_name}!")
-            if conn
-            else msg.reply_text("I'm ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ʜᴇʀᴇ!")
-        )
-
-    elif conn:
-        text = msg.reply_text(
-            f"I'ᴍ ᴄᴜʀʀᴇɴᴛʟʏ restricting ᴍᴇᴍʙᴇʀs ᴀғᴛᴇʀ {limit} ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ᴍᴇssᴀɢᴇs ɪɴ {chat_name}."
-        )
-
+        if conn:
+            text = await msg.reply_text(
+                "I'm ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ɪɴ {}!".format(chat_name),
+            )
+        else:
+            text = await msg.reply_text("I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ʜᴇʀᴇ!")
     else:
-        text = msg.reply_text(
-            f"I'm ᴄᴜʀʀᴇɴᴛʟʏ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴍᴇᴍʙᴇʀs ᴀғᴛᴇʀ {limit} ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ᴍᴇssᴀɢᴇs."
-        )
+        if conn:
+            text = await msg.reply_text(
+                "I'ᴍ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴍᴇᴍʙᴇʀs ᴀғᴛᴇʀ {} ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ᴍᴇssᴀɢᴇs ɪɴ {}.".format(
+                    limit,
+                    chat_name,
+                ),
+            )
+        else:
+            text = await msg.reply_text(
+                "I'ᴍ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴍᴇᴍʙᴇʀs ᴀғᴛᴇʀ {} ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ᴍᴇssᴀɢᴇs.".format(
+                    limit,
+                ),
+            )
 
-    send_message(update.effective_message, text, parse_mode="markdown")
 
-
-@user_admin
-@loggable
-@typing_action
-def set_flood_mode(update, context):
+@check_admin(is_user=True)
+async def set_flood_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
     args = context.args
 
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
+    conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = dispatcher.bot.getChat(conn)
+        chat = await application.bot.getChat(conn)
         chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
+        chat_obj = await application.bot.getChat(conn)
+        chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
-            send_message(
+            await send_message(
                 update.effective_message,
                 "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪs ᴍᴇᴀɴᴛ ᴛᴏ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘ ɴᴏᴛ ɪɴ PM",
             )
@@ -267,60 +315,80 @@ def set_flood_mode(update, context):
             sql.set_flood_strength(chat_id, 3, "0")
         elif args[0].lower() == "tban":
             if len(args) == 1:
-                teks = """ɪᴛ ʟᴏᴏᴋs ʟɪᴋᴇ ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ sᴇᴛ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ ғᴏʀ ᴀɴᴛɪғʟᴏᴏᴅ ʙᴜᴛ ʏᴏᴜ ᴅɪᴅɴ'ᴛ sᴘᴇᴄɪғɪᴇᴅ ᴛɪᴍᴇ; ᴛʀʏ, `/setfloodmode tban <timevalue>`.
-    ᴇxᴀᴍᴘʟᴇs ᴏғ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ: 4ᴍ = 4 ᴍɪɴᴜᴛᴇs, 3h = 3 ʜᴏᴜʀs, 6d = 6 ᴅᴀʏs, 5w = 5 ᴡᴇᴇᴋs."""
-                send_message(update.effective_message, teks, parse_mode="markdown")
+                teks = """ɪᴛ ʟᴏᴏᴋs ʟɪᴋᴇ ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ sᴇᴛ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ ғᴏʀ ᴀɴᴛɪғʟᴏᴏᴅ ʙᴜᴛ ʏᴏᴜ ᴅɪᴅɴ'ᴛ sᴘᴇᴄɪғɪᴇᴅ ᴛɪᴍᴇ; ᴛʀʏ, `/setfloodmode tban <ᴛɪᴍᴇᴠᴀʟᴜᴇ>`.
+ᴇxᴀᴍᴘʟᴇs ᴏғ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ: 4m = 4 ᴍɪɴᴜᴛᴇs, 3h = 3 ʜᴏᴜʀs, 6d = 6 ᴅᴀʏs, 5w = 5 ᴡᴇᴇᴋs."""
+                await send_message(
+                    update.effective_message, teks, parse_mode="markdown"
+                )
                 return
-            settypeflood = f"ᴛʙᴀɴ ғᴏʀ {args[1]}"
+            settypeflood = "ᴛʙᴀɴ ғᴏʀ {}".format(args[1])
             sql.set_flood_strength(chat_id, 4, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
-                teks = """It ʟᴏᴏᴋs ʟɪᴋᴇ ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ sᴇᴛ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ ғᴏʀ ᴀɴᴛɪғʟᴏᴏᴅ ʙᴜᴛ ʏᴏᴜ ᴅɪᴅɴ'ᴛ sᴘᴇᴄɪғɪᴇᴅ ᴛɪᴍᴇ; ᴛʀʏ, `/setfloodmode tmute <timevalue>`.
-    ᴇxᴀᴍᴘʟᴇs ᴏғ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ: 4m = 4 ᴍɪɴᴜᴛᴇs, 3h = 3 ʜᴏᴜʀs, 6d = 6 ᴅᴀʏs, 5w = 5 ᴡᴇᴇᴋs."""
-                send_message(update.effective_message, teks, parse_mode="markdown")
+                teks = (
+                    update.effective_message,
+                    """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tmute <timevalue>`.
+Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.""",
+                )
+                await send_message(
+                    update.effective_message, teks, parse_mode="markdown"
+                )
                 return
-            settypeflood = f"ᴛᴍᴜᴛᴇ ғᴏʀ {args[1]}"
+            settypeflood = "ᴛᴍᴜᴛᴇ ғᴏʀ {}".format(args[1])
             sql.set_flood_strength(chat_id, 5, str(args[1]))
         else:
-            send_message(
-                update.effective_message, "I ᴏɴʟʏ ᴜɴᴅᴇʀsᴛᴀɴᴅ ban/kick/mute/tban/tmute!"
+            await send_message(
+                update.effective_message,
+                "ɪ ᴏɴʟʏ ᴜɴᴅᴇʀsᴛᴀɴᴅ ban/kick/mute/tban/tmute!",
             )
             return
         if conn:
-            text = msg.reply_text(
-                f"ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood} ɪɴ {chat_name}!"
+            text = await msg.reply_text(
+                "ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {} in {}!".format(
+                    settypeflood,
+                    chat_name,
+                ),
             )
-
         else:
-            text = msg.reply_text(
-                f"ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood}!"
+            text = await msg.reply_text(
+                "ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {}!".format(
+                    settypeflood,
+                ),
             )
-
-        send_message(update.effective_message, text, parse_mode="markdown")
-        return f"<b>{settypeflood}:</b>\n<b>Admin:</b> {html.escape(chat.title)}\nHas changed antiflood mode. User will {mention_html(user.id, user.first_name)}."
-
-    getmode, getvalue = sql.get_flood_setting(chat.id)
-    if getmode == 1:
-        settypeflood = "ʙᴀɴ"
-    elif getmode == 2:
-        settypeflood = "ᴋɪᴄᴋ"
-    elif getmode == 3:
-        settypeflood = "ᴍᴜᴛᴇ"
-    elif getmode == 4:
-        settypeflood = f"ᴛʙᴀɴ ғᴏʀ {getvalue}"
-    elif getmode == 5:
-        settypeflood = f"ᴛᴍᴜᴛᴇ ғᴏʀ {getvalue}"
-    if conn:
-        text = msg.reply_text(
-            f"sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇs ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood} ɪɴ {chat_name}."
+        return (
+            "<b>{}:</b>\n"
+            "<b>ᴀᴅᴍɪɴ:</b> {}\n"
+            "ʜᴀs ᴄʜᴀɴɢᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ ᴍᴏᴅᴇ. ᴜsᴇʀ ᴡɪʟʟ {}.".format(
+                settypeflood,
+                html.escape(chat.title),
+                mention_html(user.id, html.escape(user.first_name)),
+            )
         )
-
     else:
-        text = msg.reply_text(
-            f"sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇ ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood}."
-        )
-
-    send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
+        getmode, getvalue = sql.get_flood_setting(chat.id)
+        if getmode == 1:
+            settypeflood = "ʙᴀɴ"
+        elif getmode == 2:
+            settypeflood = "ᴋɪᴄᴋ"
+        elif getmode == 3:
+            settypeflood = "ᴍᴜᴛᴇ"
+        elif getmode == 4:
+            settypeflood = "ᴛʙᴀɴ ғᴏʀ {}".format(getvalue)
+        elif getmode == 5:
+            settypeflood = "ᴛᴍᴜᴛᴇ ғᴏʀ {}".format(getvalue)
+        if conn:
+            text = await msg.reply_text(
+                "sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇs ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {} ɪɴ {}.".format(
+                    settypeflood,
+                    chat_name,
+                ),
+            )
+        else:
+            text = await msg.reply_text(
+                "sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇ ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {}.".format(
+                    settypeflood,
+                ),
+            )
     return ""
 
 
@@ -332,51 +400,47 @@ def __chat_settings__(chat_id, user_id):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
         return "ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴛᴏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ."
-    return f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ`{limit}`."
+    else:
+        return "ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ`{}`.".format(limit)
 
 
 __help__ = """
-*ᴀʟʟᴏᴡs ʏᴏᴜ ᴛᴏ ᴛᴀᴋᴇ ᴀᴄᴛɪᴏɴ ᴏɴ ᴜsᴇʀs ᴛʜᴀᴛ sᴇɴᴅᴍᴏʀᴇᴛʜᴀɴ x ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʀᴏᴡ. Exᴄᴇᴇᴅɪɴɢ ᴛʜᴇ sᴇᴛ ғʟᴏᴏᴅ \nᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴛʜᴀᴛ ᴜsᴇʀ.
-Tʜɪs ᴡɪʟʟ ᴍᴜᴛᴇ ᴜsᴇʀs ɪғ ᴛʜᴇʏ sᴇɴᴅ ᴍᴏʀᴇ ᴛʜᴀɴ 5 ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʀᴏᴡ, ʙᴏᴛs ᴀʀᴇ ɪɢɴᴏʀᴇᴅ.*
-
-➥ /flood *:* `Gᴇᴛ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ sᴇᴛᴛɪɴɢ`
-
- • *ᴀᴅᴍɪɴs ᴏɴʟʏ:*
- 
-➥ /setflood <`ɪɴᴛ`/'ᴏɴ'/'ᴏғғ'>*:* `ᴇɴᴀʙʟᴇs ᴏʀ ᴅɪsᴀʙʟᴇs ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ`
-   ᴇxᴀᴍᴘʟᴇ *:* `/setflood 5`
-     
-➥ /setfloodmode <ʙᴀɴ/ᴋɪᴄᴋ/ᴍᴜᴛᴇ/ᴛʙᴀɴ/ᴛᴍᴜᴛᴇ> <ᴠᴀʟᴜᴇ>*:* `Aᴄᴛɪᴏɴ ᴛᴏ ᴘᴇʀғᴏʀᴍ ᴡʜᴇɴ ᴜsᴇʀ ʜᴀᴠᴇ ᴇxᴄᴇᴇᴅᴇᴅ ғʟᴏᴏᴅ ʟɪᴍɪᴛ. ʙᴀɴ/ᴋɪᴄᴋ/ᴍᴜᴛᴇ/ᴛᴍᴜᴛᴇ/ᴛʙᴀɴ`
-
- • *ɴᴏᴛᴇ:*
- 
- `• Vᴀʟᴜᴇ ᴍᴜsᴛ ʙᴇ ғɪʟʟᴇᴅ ғᴏʀ ᴛʙᴀɴ ᴀɴᴅ ᴛᴍᴜᴛᴇ!!`
- Iᴛ ᴄᴀɴ ʙᴇ:
- `5ᴍ` = 5 ᴍɪɴᴜᴛᴇs
- `6ʜ` = 6 ʜᴏᴜʀs
- `3ᴅ` = 3 ᴅᴀʏs
- `1ᴡ` = 1 ᴡᴇᴇᴋ
- 
+ᴀɴᴛɪғʟᴏᴏᴅ ᴀʟʟᴏᴡs ʏᴏᴜ ᴛᴏ ᴛᴀᴋᴇ ᴀᴄᴛɪᴏɴ ᴏɴ ᴜsᴇʀs ᴛʜᴀᴛ sᴇɴᴅ ᴍᴏʀᴇ ᴛʜᴀɴ x ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʀᴏᴡ. ᴇxᴄᴇᴇᴅɪɴɢ ᴛʜᴇ sᴇᴛ ғʟᴏᴏᴅ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴛʜᴀᴛ ᴜsᴇʀ.
+*ᴀᴅᴍɪɴ ᴏɴʟʏ*
+•➥ /flood: ɢᴇᴛ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ ᴀɴᴛɪғʟᴏᴏᴅ sᴇᴛᴛɪɴɢs
+•➥ /setflood <number/off/no>: sᴇᴛ ᴛʜᴇ ɴᴜᴍʙᴇʀ ᴏғ ᴍᴇssᴀɢᴇs ᴀғᴛᴇʀ ᴡʜɪᴄʜ ᴛᴏ ᴛᴀᴋᴇ ᴀᴄᴛɪᴏɴ ᴏɴ ᴀ ᴜsᴇʀ. sᴇᴛ ᴛᴏ '0', 'off', or 'no' ᴛᴏ ᴅɪsᴀʙʟᴇ.
+•➥ /setfloodmode <ᴀᴄᴛɪᴏɴ ᴛʏᴘᴇ>: ᴄʜᴏᴏsᴇ ᴡʜɪᴄʜ ᴀᴄᴛɪᴏɴ ᴛᴏ ᴛᴀᴋᴇ ᴏɴ ᴀ ᴜsᴇʀ ᴡʜᴏ ʜᴀs ʙᴇᴇɴ ғʟᴏᴏᴅɪɴɢ. ᴏᴘᴛɪᴏɴs: ban/kick/mute/tban/tmute.
  """
 
-__mod_name__ = "𝙰ɴᴛɪ-ғʟᴏᴏᴅ"
+__mod_name__ = "𝐀-ғʟᴏᴏᴅ"
 
 FLOOD_BAN_HANDLER = MessageHandler(
-    Filters.all & ~Filters.status_update & Filters.chat_type.groups,
+    filters.ALL & ~filters.StatusUpdate.ALL & filters.ChatType.GROUPS,
     check_flood,
-    run_async=True,
+    block=False,
 )
 SET_FLOOD_HANDLER = CommandHandler(
-    "setflood", set_flood, pass_args=True, run_async=True
-)  # , filters=Filters.chat_type.groups)
+    "setflood", set_flood, filters=filters.ChatType.GROUPS, block=False
+)
 SET_FLOOD_MODE_HANDLER = CommandHandler(
-    "setfloodmode", set_flood_mode, pass_args=True, run_async=True
-)  # , filters=Filters.chat_type.groups)
+    "setfloodmode", set_flood_mode, block=False
+)  # , filters=filters.ChatType.GROUPS)
+FLOOD_QUERY_HANDLER = CallbackQueryHandler(
+    flood_button, pattern=r"unmute_flooder", block=False
+)
 FLOOD_HANDLER = CommandHandler(
-    "flood", flood, run_async=True
-)  # , filters=Filters.chat_type.groups)
+    "flood", flood, filters=filters.ChatType.GROUPS, block=False
+)
 
-dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
-dispatcher.add_handler(SET_FLOOD_HANDLER)
-dispatcher.add_handler(SET_FLOOD_MODE_HANDLER)
-dispatcher.add_handler(FLOOD_HANDLER)
+application.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
+application.add_handler(FLOOD_QUERY_HANDLER)
+application.add_handler(SET_FLOOD_HANDLER)
+application.add_handler(SET_FLOOD_MODE_HANDLER)
+application.add_handler(FLOOD_HANDLER)
+
+__handlers__ = [
+    (FLOOD_BAN_HANDLER, FLOOD_GROUP),
+    SET_FLOOD_HANDLER,
+    FLOOD_HANDLER,
+    SET_FLOOD_MODE_HANDLER,
+]

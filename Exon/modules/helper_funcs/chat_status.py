@@ -1,213 +1,266 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 from functools import wraps
 from threading import RLock
 from time import perf_counter
 
 from cachetools import TTLCache
-from telegram import Chat, ChatMember, ParseMode, Update
-from telegram.ext import CallbackContext
+from telegram import Chat, ChatMember, ChatMemberAdministrator, ChatMemberOwner, Update
+from telegram.constants import ChatMemberStatus, ChatType
+from telegram.ext import ContextTypes
 
-from Exon import (
-    DEL_CMDS,
-    DEMONS,
-    DEV_USERS,
-    DRAGONS,
-    SUPPORT_CHAT,
-    TIGERS,
-    WOLVES,
-    dispatcher,
-)
+from Exon import DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, application
 
 # stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
 
 
+def check_admin(
+    permission: str = None,
+    is_bot: bool = False,
+    is_user: bool = False,
+    is_both: bool = False,
+    only_owner: bool = False,
+    only_sudo: bool = False,
+    only_dev: bool = False,
+    no_reply=False,
+):
+    """Check for permission level to perform some operations
+
+    Args:
+        permission (str, optional): permission type to check. Defaults to None.
+        is_bot (bool, optional): if bot can perform the action. Defaults to False.
+        is_user (bool, optional): if user can perform the action. Defaults to False.
+        is_both (bool, optional): if both user and bot can perform the action. Defaults to False.
+        only_owner (bool, optional): if only owner can perform the action. Defaults to False.
+        only_sudo (bool, optional): if only sudo users can perform the operation. Defaults to False.
+        only_dev (bool, optional): if only dev users can perform the operation. Defaults to False.
+        no_reply (boot, optional): if should not reply. Defaults to False.
+    """
+
+    def wrapper(func):
+        @wraps(func)
+        async def wrapped(
+            update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
+        ):
+            nonlocal permission
+            chat = update.effective_chat
+            user = update.effective_user
+            message = update.effective_message
+
+            if chat.type == ChatType.PRIVATE:
+                return await func(update, context, *args, **kwargs)
+
+            bot_member = (
+                await chat.get_member(context.bot.id) if is_bot or is_both else None
+            )
+            user_member = await chat.get_member(user.id) if is_user or is_both else None
+
+            if only_owner:
+                if isinstance(user_member, ChatMemberOwner) or user.id in DEV_USERS:
+                    return await func(update, context, *args, **kwargs)
+                else:
+                    return await message.reply_text(
+                        "ᴏɴʟʏ ᴄʜᴀᴛ ᴏᴡɴᴇʀ ᴄᴀɴ ᴘᴇʀғᴏʀᴍ ᴛʜɪs ᴀᴄᴛɪᴏɴ."
+                    )
+            if only_dev:
+                if user.id in DEV_USERS:
+                    return await func(update, context, *args, **kwargs)
+                else:
+                    await update.effective_message.reply_text(
+                        "ᴛʜɪs ɪs ᴀ ᴅᴇᴠᴇʟᴏᴘᴇʀ ʀᴇsᴛʀɪᴄᴛᴇᴅ ᴄᴏᴍᴍᴀɴᴅ."
+                        " ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ʀᴜɴ ᴛʜɪs.",
+                    )
+            if only_sudo:
+                if user.id in DRAGONS:
+                    return await func(update, context, *args, **kwargs)
+                else:
+                    return await update.effective_message.reply_text(
+                        "ᴡʜᴏ ᴛʜᴇ ʜᴇʟʟ ᴀʀᴇ ʏᴏᴜ ᴛᴏ sᴀʏ ᴍᴇ ᴡʜᴀᴛ ᴛᴏ ᴅᴏ?",
+                    )
+
+            if permission:
+                no_permission = permission.replace("_", " ").replace("can", "")
+                if is_bot:
+                    if (
+                        getattr(bot_member, permission)
+                        if isinstance(bot_member, ChatMemberAdministrator)
+                        else False
+                    ):
+                        return await func(update, context, *args, **kwargs)
+                    elif no_reply:
+                        return
+                    else:
+                        return await message.reply_text(
+                            f"ɪ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ :- {no_permission}."
+                        )
+                if is_user:
+                    if isinstance(user_member, ChatMemberOwner):
+                        return await func(update, context, *args, **kwargs)
+                    elif (
+                        getattr(user_member, permission)
+                        if isinstance(user_member, ChatMemberAdministrator)
+                        else False or user.id in DRAGONS
+                    ):
+                        return await func(update, context, *args, **kwargs)
+                    elif no_reply:
+                        return
+                    else:
+                        return await message.reply_text(
+                            f"ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ {no_permission}."
+                        )
+                if is_both:
+                    if (
+                        getattr(bot_member, permission)
+                        if isinstance(bot_member, ChatMemberAdministrator)
+                        else False
+                    ):
+                        pass
+                    elif no_reply:
+                        return
+                    else:
+                        return await message.reply_text(
+                            f"I ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ - {no_permission}."
+                        )
+
+                    if isinstance(user_member, ChatMemberOwner) or user.id in DEV_USERS:
+                        pass
+                    elif (
+                        getattr(user_member, permission)
+                        if isinstance(user_member, ChatMemberAdministrator)
+                        else False or user.id in DRAGONS
+                    ):
+                        pass
+                    elif no_reply:
+                        return
+                    else:
+                        return await message.reply_text(
+                            f"ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ {no_permission}."
+                        )
+                    return await func(update, context, *args, **kwargs)
+            else:
+                if is_bot:
+                    if bot_member.status == ChatMemberStatus.ADMINISTRATOR:
+                        return await func(update, context, *args, **kwargs)
+                    else:
+                        return await message.reply_text("I'ᴍ ɴᴏᴛ ᴀᴅᴍɪɴ ʜᴇʀᴇ.")
+                elif is_user:
+                    if user_member.status in [
+                        ChatMemberStatus.ADMINISTRATOR,
+                        ChatMemberStatus.OWNER,
+                    ]:
+                        return await func(update, context, *args, **kwargs)
+                    elif user.id in DRAGONS:
+                        return await func(update, context, *args, **kwargs)
+                    else:
+                        return await message.reply_text("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴅᴍɪɴ ʜᴇʀᴇ.")
+                elif is_both:
+                    if bot_member.status == ChatMemberStatus.ADMINISTRATOR:
+                        pass
+                    else:
+                        return await message.reply_text("ɪ'ᴍ ɴᴏᴛ ᴀᴅᴍɪɴ ʜᴇʀᴇ.")
+
+                    if user_member.status in [
+                        ChatMemberStatus.ADMINISTRATOR,
+                        ChatMemberStatus.OWNER,
+                    ]:
+                        pass
+                    elif user.id in DRAGONS:
+                        pass
+                    else:
+                        return await message.reply_text("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴅᴍɪɴ ʜᴇʀᴇ.")
+                    return await func(update, context, *args, **kwargs)
+
+        return wrapped
+
+    return wrapper
+
+
 def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    return any(user_id in user for user in [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
+    return any(user_id in user for user in [DRAGONS, DEV_USERS])
 
 
 def is_support_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    return user_id in DEMONS or user_id in DRAGONS or user_id in DEV_USERS
-
-
-def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return user_id in DRAGONS or user_id in DEV_USERS
 
 
-def is_stats_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    return user_id in DEV_USERS
-
-
-def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+async def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
         chat.type == "private"
         or user_id in DRAGONS
         or user_id in DEV_USERS
-        or chat.all_members_are_administrators
-        or user_id in {1452219013}
+        or user_id in [777000, 1087968824]
     ):  # Count telegram and Group Anonymous as admin
         return True
-    if member:
-        return member.status in ("administrator", "creator")
+    if not member:
+        with THREAD_LOCK:
+            # try to fetch from cache first.
+            try:
+                return user_id in ADMIN_CACHE[chat.id]
+            except KeyError:
+                # keyerror happend means cache is deleted,
+                # so query bot api again and return user status
+                # while saving it in cache for future usage...
+                chat_admins = await application.bot.getChatAdministrators(chat.id)
+                admin_list = [x.user.id for x in chat_admins]
+                ADMIN_CACHE[chat.id] = admin_list
 
-    with THREAD_LOCK:
-        # try to fetch from cache first.
-        try:
-            return user_id in ADMIN_CACHE[chat.id]
-        except KeyError:
-            # keyerror happend means cache is deleted,
-            # so query bot api again and return user status
-            # while saving it in cache for future useage...
-            chat_admins = dispatcher.bot.getChatAdministrators(chat.id)
-            admin_list = [x.user.id for x in chat_admins]
-            ADMIN_CACHE[chat.id] = admin_list
-
-            return user_id in admin_list
+                return user_id in admin_list
+    else:
+        return member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
 
-def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool:
-    if chat.type == "private" or chat.all_members_are_administrators:
+async def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool:
+    if chat.type == "private":
         return True
 
     if not bot_member:
-        bot_member = chat.get_member(bot_id)
+        bot_member = await chat.get_member(bot_id)
 
-    return bot_member.status in ("administrator", "creator")
-
-
-def can_delete(chat: Chat, bot_id: int) -> bool:
-    return chat.get_member(bot_id).can_delete_messages
+    return bot_member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
 
-def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+async def can_delete(chat: Chat, bot_id: int) -> bool:
+    chat_member = await chat.get_member(bot_id)
+    if isinstance(chat_member, ChatMemberAdministrator):
+        return chat_member.can_delete_messages
+
+
+async def is_user_ban_protected(
+    chat: Chat, user_id: int, member: ChatMember = None
+) -> bool:
     if (
         chat.type == "private"
         or user_id in DRAGONS
         or user_id in DEV_USERS
-        or user_id in WOLVES
-        or user_id in TIGERS
+        or user_id in [777000, 1087968824]
     ):  # Count telegram and Group Anonymous as admin
         return True
 
     if not member:
-        member = chat.get_member(user_id)
+        member = await chat.get_member(user_id)
 
-    return member.status in ("administrator", "creator")
-
-
-def is_user_in_chat(chat: Chat, user_id: int) -> bool:
-    member = chat.get_member(user_id)
-    return member.status not in ("left", "kicked")
+    return member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
 
-def dev_plus(func):
-    @wraps(func)
-    def is_dev_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
-        user = update.effective_user
-
-        if user.id in DEV_USERS:
-            return func(update, context, *args, **kwargs)
-        if not user:
-            pass
-        elif DEL_CMDS and " " not in update.effective_message.text:
-            try:
-                update.effective_message.delete()
-            except:
-                pass
-        else:
-            update.effective_message.reply_text(
-                "ᴛʜɪs ɪs ᴀ ᴅᴇᴠᴇʟᴏᴘᴇʀ ʀᴇsᴛʀɪᴄᴛᴇᴅ ᴄᴏᴍᴍᴀɴᴅ."
-                "ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ʀᴜɴ ᴛʜɪs.",
-            )
-
-    return is_dev_plus_func
-
-
-def sudo_plus(func):
-    @wraps(func)
-    def is_sudo_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
-        user = update.effective_user
-        chat = update.effective_chat
-
-        if user and is_sudo_plus(chat, user.id):
-            return func(update, context, *args, **kwargs)
-        if not user:
-            pass
-        elif DEL_CMDS and " " not in update.effective_message.text:
-            try:
-                update.effective_message.delete()
-            except:
-                pass
-        else:
-            update.effective_message.reply_text(
-                "ᴀᴛ ʟᴇᴀsᴛ ʙᴇ ᴀɴ ᴀᴅᴍɪɴ ᴛᴏ ᴜsᴇ ᴛʜᴇsᴇ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs",
-            )
-
-    return is_sudo_plus_func
-
-
-def stats_plus(func):
-    @wraps(func)
-    def is_stats_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
-        user = update.effective_user
-        chat = update.effective_chat
-
-        if user and is_stats_plus(chat, user.id):
-            return func(update, context, *args, **kwargs)
-        if not user:
-            pass
-        elif DEL_CMDS and " " not in update.effective_message.text:
-            try:
-                update.effective_message.delete()
-            except:
-                pass
-        else:
-            update.effective_message.reply_text(
-                "Exon sᴛᴀᴛs ɪs ᴊᴜsᴛ ғᴏʀ ᴅᴇᴠ ᴜsᴇʀ",
-            )
-
-    return is_stats_plus_func
+async def is_user_in_chat(chat: Chat, user_id: int) -> bool:
+    member = await chat.get_member(user_id)
+    return member.status in (ChatMemberStatus.LEFT, ChatMemberStatus.RESTRICTED)
 
 
 def support_plus(func):
     @wraps(func)
-    def is_support_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
+    async def is_support_plus_func(
+        update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
+    ):
+        bot = context.bot
         user = update.effective_user
         chat = update.effective_chat
 
         if user and is_support_plus(chat, user.id):
-            return func(update, context, *args, **kwargs)
-        if DEL_CMDS and " " not in update.effective_message.text:
+            return await func(update, context, *args, **kwargs)
+        elif DEL_CMDS and " " not in update.effective_message.text:
             try:
-                update.effective_message.delete()
+                await update.effective_message.delete()
             except:
                 pass
 
@@ -216,252 +269,49 @@ def support_plus(func):
 
 def whitelist_plus(func):
     @wraps(func)
-    def is_whitelist_plus_func(
+    async def is_whitelist_plus_func(
         update: Update,
-        context: CallbackContext,
+        context: ContextTypes.DEFAULT_TYPE,
         *args,
         **kwargs,
     ):
-        context.bot
+        bot = context.bot
         user = update.effective_user
         chat = update.effective_chat
 
         if user and is_whitelist_plus(chat, user.id):
-            return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(
-            f"ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴀᴄᴄᴇss ᴛᴏ ᴜsᴇ ᴛʜɪs.\nᴠɪsɪᴛ @{SUPPORT_CHAT}",
-        )
+            return await func(update, context, *args, **kwargs)
+        else:
+            await update.effective_message.reply_text(
+                f"ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴀᴄᴄᴇss ᴛᴏ ᴜsᴇ ᴛʜɪs.\nVisit @{SUPPORT_CHAT}",
+            )
 
     return is_whitelist_plus_func
 
 
-def user_admin(func):
-    @wraps(func)
-    def is_admin(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
-        user = update.effective_user
-        chat = update.effective_chat
-
-        if user and is_user_admin(chat, user.id):
-            return func(update, context, *args, **kwargs)
-        if not user:
-            pass
-        elif DEL_CMDS and " " not in update.effective_message.text:
-            try:
-                update.effective_message.delete()
-            except:
-                pass
-        else:
-            update.effective_message.reply_text(
-                "ᴀᴛ ʟᴇᴀsᴛ ʙᴇ ᴀɴ ᴀᴅᴍɪɴ ᴛᴏ ᴜsᴇ ᴛʜᴇsᴇ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs",
-            )
-
-    return is_admin
-
-
-def user_admin_no_reply(func):
-    @wraps(func)
-    def is_not_admin_no_reply(
-        update: Update,
-        context: CallbackContext,
-        *args,
-        **kwargs,
-    ):
-        context.bot
-        user = update.effective_user
-        chat = update.effective_chat
-
-        if user and is_user_admin(chat, user.id):
-            return func(update, context, *args, **kwargs)
-        if not user:
-            pass
-        elif DEL_CMDS and " " not in update.effective_message.text:
-            try:
-                update.effective_message.delete()
-            except:
-                pass
-
-    return is_not_admin_no_reply
-
-
 def user_not_admin(func):
     @wraps(func)
-    def is_not_admin(update: Update, context: CallbackContext, *args, **kwargs):
-        message = update.effective_message
+    async def is_not_admin(
+        update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
+    ):
+        bot = context.bot
         user = update.effective_user
-        # chat = update.effective_chat
+        chat = update.effective_chat
 
-        if message.is_automatic_forward:
-            return
-        if message.sender_chat and message.sender_chat.type != "channel":
-            return
-        elif user and not is_user_admin(update.message.chat, user.id):
-            return func(update, context, *args, **kwargs)
-
+        if user and not await is_user_admin(chat, user.id):
+            return await func(update, context, *args, **kwargs)
         elif not user:
             pass
 
     return is_not_admin
 
 
-def bot_admin(func):
-    @wraps(func)
-    def is_admin(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
-        chat = update.effective_chat
-        update_chat_title = chat.title
-        message_chat_title = update.effective_message.chat.title
-
-        if update_chat_title == message_chat_title:
-            not_admin = "I'ᴍ ɴᴏᴛ ᴀᴅᴍɪɴ!"
-        else:
-            not_admin = f"I'ᴍ ɴᴏᴛ ᴀᴅᴍɪɴ ɪɴ <b>{update_chat_title}</b>! "
-
-        if is_bot_admin(chat, bot.id):
-            return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(not_admin, parse_mode=ParseMode.HTML)
-
-    return is_admin
-
-
-def bot_can_delete(func):
-    @wraps(func)
-    def delete_rights(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
-        chat = update.effective_chat
-        update_chat_title = chat.title
-        message_chat_title = update.effective_message.chat.title
-
-        if update_chat_title == message_chat_title:
-            cant_delete = "I ᴄᴀɴ'ᴛ ᴅᴇʟᴇᴛᴇ ᴍᴇssᴀɢᴇs ʜᴇʀᴇ!\nMake sᴜʀᴇ I'ᴍ ᴀᴅᴍɪɴ ᴀɴᴅ ᴄᴀɴ ᴅᴇʟᴇᴛᴇ ᴏᴛʜᴇʀ ᴜsᴇᴅ's ᴍᴇssᴀɢᴇs."
-        else:
-            cant_delete = f"I ᴄᴀɴ'ᴛ ᴅᴇʟᴇᴛᴇ ᴍᴇssᴀɢᴇs ɪɴ <b>{update_chat_title}</b>!\nᴍᴀᴋᴇ sᴜʀᴇ I'm ᴀᴅᴍɪɴ ᴀɴᴅ ᴄᴀɴ ᴅᴇʟᴇᴛᴇ ᴏᴛʜᴇʀ ᴜsᴇᴅ ᴍᴇssᴀɢᴇs ᴛʜᴇʀᴇ."
-
-        if can_delete(chat, bot.id):
-            return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(cant_delete, parse_mode=ParseMode.HTML)
-
-    return delete_rights
-
-
-def can_pin(func):
-    @wraps(func)
-    def pin_rights(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
-        chat = update.effective_chat
-        update_chat_title = chat.title
-        message_chat_title = update.effective_message.chat.title
-
-        if update_chat_title == message_chat_title:
-            cant_pin = (
-                "I ᴄᴀɴ'ᴛ ᴘɪɴ ᴍᴇssᴀɢᴇs ʜᴇʀᴇ!\nMake sᴜʀᴇ I'ᴍ ᴀᴅᴍɪɴ ᴀɴᴅ ᴄᴀɴ ᴘɪɴ ᴍᴇssᴀɢᴇs."
-            )
-        else:
-            cant_pin = f"I ᴄᴀɴ'ᴛ ᴘɪɴ ᴍᴇssᴀɢᴇs in <b>{update_chat_title}</b>!\nᴍᴀᴋᴇ sure I'ᴍ ᴀᴅᴍɪɴ ᴀɴᴅ ᴄᴀɴ ᴘɪɴ ᴍᴇssᴀɢᴇs ᴛʜᴇʀᴇ."
-
-        if chat.get_member(bot.id).can_pin_messages:
-            return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(cant_pin, parse_mode=ParseMode.HTML)
-
-    return pin_rights
-
-
-def can_promote(func):
-    @wraps(func)
-    def promote_rights(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
-        chat = update.effective_chat
-        update_chat_title = chat.title
-        message_chat_title = update.effective_message.chat.title
-
-        if update_chat_title == message_chat_title:
-            cant_promote = "I can't ᴘʀᴏᴍᴏᴛᴇ/ᴅᴇᴍᴏᴛᴇ ᴘᴇᴏᴘʟᴇ ʜᴇʀᴇ!\nMake sᴜʀᴇ I'ᴍ ᴀᴅᴍɪɴ and can appoint new admins."
-        else:
-            cant_promote = (
-                f"I ᴄᴀɴ'ᴛ ᴘʀᴏᴍᴏᴛᴇ/ᴅᴇᴍᴏᴛᴇ ᴘᴇᴏᴘʟᴇ ɪɴ <b>{update_chat_title}</b>!\n"
-                f"ᴍᴀᴋᴇ sᴜʀᴇ I'ᴍ ᴀᴅᴍɪɴ ᴛʜᴇʀᴇ ᴀɴᴅ ʜᴀᴠᴇ ᴛʜᴇ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ᴀᴘᴘᴏɪɴᴛ ɴᴇᴡ ᴀᴅᴍɪɴs."
-            )
-
-        if chat.get_member(bot.id).can_promote_members:
-            return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(cant_promote, parse_mode=ParseMode.HTML)
-
-    return promote_rights
-
-
-def can_restrict(func):
-    @wraps(func)
-    def restrict_rights(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
-        chat = update.effective_chat
-        update_chat_title = chat.title
-        message_chat_title = update.effective_message.chat.title
-
-        if update_chat_title == message_chat_title:
-            cant_restrict = "I ᴄᴀɴ'ᴛ ʀᴇsᴛʀɪᴄᴛ ᴘᴇᴏᴘʟᴇ ʜᴇʀᴇ!\nᴍᴀᴋᴇ sᴜʀᴇ I'ᴍ ᴀᴅᴍɪɴ ᴀɴᴅ ᴄᴀɴ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs."
-        else:
-            cant_restrict = f"ɪ ᴄᴀɴ'ᴛ ʀᴇsᴛʀɪᴄᴛ ᴘᴇᴏᴘʟᴇ ɪɴ <b>{update_chat_title}</b>!\nᴍᴀᴋᴇ sᴜʀᴇ ɪ'ᴍ ᴀᴅᴍɪɴ ᴛʜᴇʀᴇ ᴀɴᴅ ᴄᴀɴ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs."
-
-        if chat.get_member(bot.id).can_restrict_members:
-            return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(
-            cant_restrict,
-            parse_mode=ParseMode.HTML,
-        )
-
-    return restrict_rights
-
-
-def user_can_promote(func):
-    @wraps(func)
-    def user_is_promoter(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
-        user = update.effective_user
-        if not user:
-            return
-        user = user.id
-        member = update.effective_chat.get_member(user)
-        no_rights = "ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ 'ᴀᴅᴅ ᴀᴅᴍɪɴ ʀɪɢʜᴛs."
-        if (
-            not (member.can_promote_members or member.status == "creator")
-            and user not in DRAGONS
-            and user not in [1452219013]
-        ):
-            if not update.callback_query:
-                update.effective_message.reply_text(no_rights)
-            else:
-                update.callback_query.answer(no_rights, show_alert=True)
-            return ""
-        return func(update, context, *args, **kwargs)
-
-    return user_is_promoter
-
-
-def user_can_ban(func):
-    @wraps(func)
-    def user_is_banhammer(update: Update, context: CallbackContext, *args, **kwargs):
-        context.bot
-        user = update.effective_user.id
-        member = update.effective_chat.get_member(user)
-        if (
-            not member.can_restrict_members
-            and member.status != "creator"
-            and user not in DRAGONS
-            and user not in [1452219013]
-        ):
-            update.effective_message.reply_text(
-                "sᴏʀʀʏ sᴏɴ, ʙᴜᴛ ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴡᴏʀᴛʜʏ ᴛᴏ ᴡɪᴇʟᴅ ᴛʜᴇ ʙᴀɴʜᴀᴍᴍᴇʀ.",
-            )
-            return ""
-        return func(update, context, *args, **kwargs)
-
-    return user_is_banhammer
-
-
 def connection_status(func):
     @wraps(func)
-    def connected_status(update: Update, context: CallbackContext, *args, **kwargs):
-        conn = connected(
+    async def connected_status(
+        update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
+    ):
+        conn = await connected(
             context.bot,
             update,
             update.effective_chat,
@@ -470,20 +320,21 @@ def connection_status(func):
         )
 
         if conn:
-            chat = dispatcher.bot.getChat(conn)
+            chat = await application.bot.getChat(conn)
             update.__setattr__("_effective_chat", chat)
-        elif update.effective_message.chat.type == "private":
-            update.effective_message.reply_text(
-                "sᴇɴᴅ /connect ɪɴ ᴀ ɢʀᴏᴜᴘ ᴛʜᴀᴛ ʏᴏᴜ ᴀɴᴅ I ʜᴀᴠᴇ ɪɴ ᴄᴏᴍᴍᴏɴ ғɪʀsᴛ.",
-            )
-            return connected_status
+            return await func(update, context, *args, **kwargs)
+        else:
+            if update.effective_message.chat.type == "private":
+                await update.effective_message.reply_text(
+                    "sᴇɴᴅ /connect ɪɴ ᴀ ɢʀᴏᴜᴘ ᴛʜᴀᴛ ʏᴏᴜ ᴀɴᴅ ɪ ʜᴀᴠᴇ ɪɴ ᴄᴏᴍᴍᴏɴ ғɪʀsᴛ.",
+                )
+                return connected_status
 
-        return func(update, context, *args, **kwargs)
+            return await func(update, context, *args, **kwargs)
 
     return connected_status
 
 
-# Workaround for circular import with connection.py
 from Exon.modules import connection
 
 connected = connection.connected

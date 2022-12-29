@@ -1,42 +1,21 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
+import os
 import subprocess
 
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, CommandHandler
+from telegram import Update
+from telegram.constants import ParseMode
+from telegram.ext import CommandHandler, ContextTypes
 
-from Exon import LOGGER, dispatcher
-from Exon.modules.helper_funcs.chat_status import dev_plus
+from Exon import LOGGER, application
+from Exon.modules.helper_funcs.chat_status import check_admin
 
 
-@dev_plus
-def shell(update: Update, context: CallbackContext):
+@check_admin(only_dev=True)
+async def shell(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.effective_message
+    chat = update.effective_chat
     cmd = message.text.split(" ", 1)
     if len(cmd) == 1:
-        message.reply_text("ɴᴏ ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴇxᴇᴄᴜᴛᴇ ᴡᴀs ɢɪᴠᴇɴ.")
+        await message.reply_text("ɴᴏ ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ᴇxᴇᴄᴜᴛᴇ ᴡᴀs ɢɪᴠᴇɴ.")
         return
     cmd = cmd[1]
     process = subprocess.Popen(
@@ -51,26 +30,30 @@ def shell(update: Update, context: CallbackContext):
     stdout = stdout.decode()
     if stdout:
         reply += f"*sᴛᴅᴏᴜᴛ*\n`{stdout}`\n"
-        LOGGER.info(f"Shell - {cmd} - {stdout}")
+        LOGGER.info(f"sʜᴇʟʟ - {cmd} - {stdout}")
     if stderr:
         reply += f"*sᴛᴅᴇʀʀ*\n`{stderr}`\n"
-        LOGGER.error(f"Shell - {cmd} - {stderr}")
+        LOGGER.error(f"sʜᴇʟʟ - {cmd} - {stderr}")
     if len(reply) > 3000:
         with open("shell_output.txt", "w") as file:
             file.write(reply)
         with open("shell_output.txt", "rb") as doc:
-            context.bot.send_document(
+            await context.bot.send_document(
                 document=doc,
                 filename=doc.name,
                 reply_to_message_id=message.message_id,
                 chat_id=message.chat_id,
+                message_thread_id=message.message_thread_id if chat.is_forum else None,
             )
+
+        if os.path.isfile("shell_ouput.txt"):
+            os.remove("shell_output.txt")
     else:
-        message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
+        await message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
-SHELL_HANDLER = CommandHandler(["sh"], shell, run_async=True)
-dispatcher.add_handler(SHELL_HANDLER)
-__mod_name__ = "Shell"
+SHELL_HANDLER = CommandHandler(["sh"], shell, block=False)
+application.add_handler(SHELL_HANDLER)
+__mod_name__ = "𝐒ʜᴇʟʟ"
 __command_list__ = ["sh"]
 __handlers__ = [SHELL_HANDLER]

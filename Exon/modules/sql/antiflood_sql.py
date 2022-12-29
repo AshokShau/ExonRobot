@@ -1,30 +1,6 @@
-"""
-MIT License
-
-Copyright (c) 2022 Aʙɪsʜɴᴏɪ
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import threading
 
-from sqlalchemy import BigInteger, Column, String, UnicodeText
+from sqlalchemy import BigInteger, Column, Integer, String, UnicodeText
 
 from Exon.modules.sql import BASE, SESSION
 
@@ -37,20 +13,20 @@ class FloodControl(BASE):
     __tablename__ = "antiflood"
     chat_id = Column(String(14), primary_key=True)
     user_id = Column(BigInteger)
-    count = Column(BigInteger, default=DEF_COUNT)
-    limit = Column(BigInteger, default=DEF_LIMIT)
+    count = Column(Integer, default=DEF_COUNT)
+    limit = Column(Integer, default=DEF_LIMIT)
 
     def __init__(self, chat_id):
         self.chat_id = str(chat_id)  # ensure string
 
     def __repr__(self):
-        return "<ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ғᴏʀ %s>" % self.chat_id
+        return "<flood control for %s>" % self.chat_id
 
 
 class FloodSettings(BASE):
     __tablename__ = "antiflood_settings"
     chat_id = Column(String(14), primary_key=True)
-    flood_type = Column(BigInteger, default=1)
+    flood_type = Column(Integer, default=1)
     value = Column(UnicodeText, default="0")
 
     def __init__(self, chat_id, flood_type=1, value="0"):
@@ -59,7 +35,7 @@ class FloodSettings(BASE):
         self.value = value
 
     def __repr__(self):
-        return "<{} ᴡɪʟʟ ᴇxᴇᴄᴜᴛɪɴɢ {} ғᴏʀ ғʟᴏᴏᴅ.>".format(self.chat_id, self.flood_type)
+        return "<{} will executing {} for flood.>".format(self.chat_id, self.flood_type)
 
 
 FloodControl.__table__.create(checkfirst=True)
@@ -87,26 +63,24 @@ def set_flood(chat_id, amount):
 
 
 def update_flood(chat_id: str, user_id) -> bool:
-    if str(chat_id) not in CHAT_FLOOD:
-        return
+    if str(chat_id) in CHAT_FLOOD:
+        curr_user_id, count, limit = CHAT_FLOOD.get(str(chat_id), DEF_OBJ)
 
-    curr_user_id, count, limit = CHAT_FLOOD.get(str(chat_id), DEF_OBJ)
+        if limit == 0:  # no antiflood
+            return False
 
-    if limit == 0:  # no antiflood
+        if user_id != curr_user_id or user_id is None:  # other user
+            CHAT_FLOOD[str(chat_id)] = (user_id, DEF_COUNT, limit)
+            return False
+
+        count += 1
+        if count > limit:  # too many msgs, kick
+            CHAT_FLOOD[str(chat_id)] = (None, DEF_COUNT, limit)
+            return True
+
+        # default -> update
+        CHAT_FLOOD[str(chat_id)] = (user_id, count, limit)
         return False
-
-    if user_id != curr_user_id or user_id is None:  # other user
-        CHAT_FLOOD[str(chat_id)] = (user_id, DEF_COUNT, limit)
-        return False
-
-    count += 1
-    if count > limit:  # too many msgs, kick
-        CHAT_FLOOD[str(chat_id)] = (None, DEF_COUNT, limit)
-        return True
-
-    # default -> update
-    CHAT_FLOOD[str(chat_id)] = (user_id, count, limit)
-    return False
 
 
 def get_flood_limit(chat_id):
@@ -114,13 +88,12 @@ def get_flood_limit(chat_id):
 
 
 def set_flood_strength(chat_id, flood_type, value):
-    # ғᴏʀ ғʟᴏᴏᴅ_ᴛʏᴘᴇ
+    # for flood_type
     # 1 = ban
     # 2 = kick
     # 3 = mute
     # 4 = tban
     # 5 = tmute
-    # 6 = ᴅᴍᴜᴛᴇ sᴏᴏɴ
     with INSERTION_FLOOD_SETTINGS_LOCK:
         curr_setting = SESSION.query(FloodSettings).get(str(chat_id))
         if not curr_setting:
@@ -142,7 +115,8 @@ def get_flood_setting(chat_id):
         setting = SESSION.query(FloodSettings).get(str(chat_id))
         if setting:
             return setting.flood_type, setting.value
-        return 1, "0"
+        else:
+            return 1, "0"
 
     finally:
         SESSION.close()
