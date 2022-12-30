@@ -78,10 +78,6 @@ telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app.start()
 
-asu = app.get_me()
-BOT_USERNAME = asu.username
-BOT_NAME = asu.first_name
-BOT_ID = asu.id
 
 EXON_PTB = Application.builder().token(TOKEN).build()
 asyncio.get_event_loop().run_until_complete(EXON_PTB.bot.initialize())
@@ -125,6 +121,10 @@ def Asuinline(**args):
 
 
 application = EXON_PTB
+print("[ᴇxᴏɴ]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
+BOT_ID = application.bot.id
+BOT_NAME = application.bot.first_name
+BOT_USERNAME = application.bot.username
 from Exon.modules.helper_funcs.handlers import (
     CustomCommandHandler,
     CustomMessageHandler,
