@@ -8,7 +8,7 @@ from Exon.modules.disable import DisableAbleCommandHandler
 
 gtrans = SyncTranslator()
 
-    
+
 def Exontranslate(update: Update, context: CallbackContext) -> None:
     message = update.effective_message
     reply_msg = message.reply_to_message
