@@ -1,19 +1,10 @@
-import os
-
 from gpytranslate import SyncTranslator
-from gtts import gTTS
-from telegram import (
-    ChatAction,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Update,
-)
-from telegram.helpers import ParseMode
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext
+from telegram.helpers import ParseMode
 
 from Exon import application
 from Exon.modules.disable import DisableAbleCommandHandler
-from Exon.modules.helper_funcs.alternate import send_action, typing_action
 
 trans = SyncTranslator()
 
@@ -66,14 +57,12 @@ def languages(update: Update, context: CallbackContext) -> None:
     )
 
 
-
 application.add_handler(
     DisableAbleCommandHandler(["tr", "tl"], translate, pass_args=True, run_async=True)
 )
 application.add_handler(
     DisableAbleCommandHandler(["langs", "lang"], languages, run_async=True)
 )
-
 
 
 __command_list__ = ["tr", "tl", "lang", "langs"]
