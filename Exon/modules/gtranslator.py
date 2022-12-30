@@ -1,7 +1,7 @@
 from gpytranslate import SyncTranslator
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext
-from telegram.helpers import ParseMode
+from telegram.constants import ParseMode
 
 from Exon import application
 from Exon.modules.disable import DisableAbleCommandHandler
