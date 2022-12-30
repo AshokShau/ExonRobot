@@ -58,7 +58,7 @@ def languages(update: Update, context: CallbackContext) -> None:
 
 
 application.add_handler(
-    DisableAbleCommandHandler(["tr", "tl"], translate, pass_args=True, block=False)
+    DisableAbleCommandHandler(["tr", "tl"], translate, block=False)
 )
 application.add_handler(
     DisableAbleCommandHandler(["langs", "lang"], languages, block=False)
