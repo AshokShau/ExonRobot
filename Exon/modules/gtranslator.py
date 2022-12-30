@@ -57,7 +57,7 @@ __help__ = """
 """
 __mod_name__ = "𝐓ʀᴀɴsʟᴀᴛᴏʀ"
 
-TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], Exontranslate)
+TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], Exontranslate, block=False)
 
 application.add_handler(TRANSLATE_HANDLER)
 
