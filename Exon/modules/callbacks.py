@@ -69,7 +69,9 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
                         InlineKeyboardButton(text="🛡️", callback_data="EXON_ADMIN"),
                         InlineKeyboardButton(text="💳", callback_data="EXON_CREDIT"),
                         InlineKeyboardButton(text="🕹️", callback_data="EXON_SOURCE"),
-                        InlineKeyboardButton(text="🖥️", url=f"http://t.me/{BOT_USERNAME}?start=help"),
+                        InlineKeyboardButton(
+                            text="🖥️", url=f"http://t.me/{BOT_USERNAME}?start=help"
+                        ),
                     ]
                 ]
             ),
@@ -125,7 +127,9 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
                         InlineKeyboardButton(text="🛡️", callback_data="EXON_ADMIN"),
                         InlineKeyboardButton(text="💳", callback_data="EXON_CREDIT"),
                         InlineKeyboardButton(text="⚔️", callback_data="EXON_SOURCE"),
-                        InlineKeyboardButton(text="🖥️", url=f"http://t.me/{BOT_USERNAME}?start=help"),
+                        InlineKeyboardButton(
+                            text="🖥️", url=f"http://t.me/{BOT_USERNAME}?start=help"
+                        ),
                     ],
                     [
                         InlineKeyboardButton(
@@ -165,7 +169,9 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
                         InlineKeyboardButton(text="🛡️", callback_data="EXON_ADMIN"),
                         InlineKeyboardButton(text="💳", callback_data="EXON_CREDIT"),
                         InlineKeyboardButton(text="🧑‍", url=f"tg://user?id={OWNER_ID}"),
-                        InlineKeyboardButton(text="🖥️", url=f"http://t.me/{BOT_USERNAME}?start=help"),
+                        InlineKeyboardButton(
+                            text="🖥️", url=f"http://t.me/{BOT_USERNAME}?start=help"
+                        ),
                     ],
                     [
                         InlineKeyboardButton(
