@@ -1,39 +1,36 @@
-import re
 import random
+import re
 from html import escape
 
-from telegram import InlineKeyboardMarkup, Message, InlineKeyboardButton, Update
-from telegram.constants import ParseMode, MessageLimit, ChatMemberStatus
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.constants import ChatMemberStatus, MessageLimit, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import (
-    CommandHandler,
-    MessageHandler,
     ApplicationHandlerStop,
     CallbackQueryHandler,
+    CommandHandler,
     ContextTypes,
+    MessageHandler,
 )
 from telegram.ext import filters as filters_module
-from telegram.helpers import mention_html, escape_markdown
+from telegram.helpers import escape_markdown, mention_html
 
-from Exon import application, LOGGER, DRAGONS
+from Exon import DRAGONS, LOGGER, application
+from Exon.modules.connection import connected
 from Exon.modules.disable import DisableAbleCommandHandler
-from Exon.modules.helper_funcs.handlers import MessageHandlerChecker
+from Exon.modules.helper_funcs.alternate import send_message, typing_action
 from Exon.modules.helper_funcs.chat_status import check_admin
 from Exon.modules.helper_funcs.extraction import extract_text
-
+from Exon.modules.helper_funcs.handlers import MessageHandlerChecker
 from Exon.modules.helper_funcs.misc import build_keyboard_parser
 from Exon.modules.helper_funcs.msg_types import get_filter_type
 from Exon.modules.helper_funcs.string_handling import (
-    split_quotes,
     button_markdown_parser,
     escape_invalid_curly_brackets,
     markdown_to_html,
+    split_quotes,
 )
 from Exon.modules.sql import cust_filters_sql as sql
-
-from Exon.modules.connection import connected
-
-from Exon.modules.helper_funcs.alternate import send_message, typing_action
 
 HANDLER_GROUP = 10
 
@@ -48,7 +45,6 @@ ENUM_FUNC_MAP = {
     sql.Types.VIDEO.value: application.bot.send_video,
     # sql.Types.VIDEO_NOTE.value: application.bot.send_video_note
 }
-
 
 
 @typing_action
@@ -75,7 +71,8 @@ async def list_handlers(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if not all_handlers:
         await send_message(
-            update.effective_message, "No filters saved in {}!".format(chat_name),
+            update.effective_message,
+            "No filters saved in {}!".format(chat_name),
         )
         return
 
@@ -97,13 +94,16 @@ async def list_handlers(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode=ParseMode.MARKDOWN,
     )
 
+
 @typing_action
 @check_admin(is_user=True)
 async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
-    args = msg.text.split(None, 1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
+    args = msg.text.split(
+        None, 1
+    )  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
     conn = await connected(context.bot, update, chat, user.id)
     if not conn is False:
@@ -152,7 +152,9 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
             msg.text,
         )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
-            extracted[1], entities=msg.parse_entities(), offset=offset,
+            extracted[1],
+            entities=msg.parse_entities(),
+            offset=offset,
         )
         text = text.strip()
         if not text:
@@ -192,7 +194,9 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text_to_parsing,
         )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
-            text_to_parsing, entities=msg.parse_entities(), offset=offset,
+            text_to_parsing,
+            entities=msg.parse_entities(),
+            offset=offset,
         )
         text = text.strip()
 
@@ -217,7 +221,9 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text_to_parsing,
         )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
-            text_to_parsing, entities=msg.parse_entities(), offset=offset,
+            text_to_parsing,
+            entities=msg.parse_entities(),
+            offset=offset,
         )
         text = text.strip()
         if (msg.reply_to_message.text or msg.reply_to_message.caption) and not text:
@@ -231,7 +237,9 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await send_message(update.effective_message, "Invalid filter!")
         return
 
-    add = await addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons)
+    add = await addnew_filter(
+        update, chat_id, keyword, text, file_type, file_id, buttons
+    )
     # This is an old method
     # sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video, buttons)
 
@@ -242,6 +250,7 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode=ParseMode.MARKDOWN,
         )
     raise ApplicationHandlerStop
+
 
 @typing_action
 @check_admin(is_user=True)
@@ -288,10 +297,9 @@ async def stop_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-
 async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat = update.effective_chat  
-    message = update.effective_message  
+    chat = update.effective_chat
+    message = update.effective_message
 
     if not update.effective_user or update.effective_user.id == 777000:
         return
@@ -336,7 +344,9 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                 chat.id,
                                 sticker_id,
                                 reply_to_message_id=message.message_id,
-                                message_thread_id=message.message_thread_id if chat.is_forum else None
+                                message_thread_id=message.message_thread_id
+                                if chat.is_forum
+                                else None,
                             )
                             return
                         except BadRequest as excp:
@@ -347,14 +357,17 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                 await context.bot.send_message(
                                     chat.id,
                                     "Message couldn't be sent, Is the sticker id valid?",
-                                    message_thread_id=message.message_thread_id if chat.is_forum else None
+                                    message_thread_id=message.message_thread_id
+                                    if chat.is_forum
+                                    else None,
                                 )
                                 return
                             else:
                                 LOGGER.exception("Error in filters: " + excp.message)
                                 return
                     valid_format = escape_invalid_curly_brackets(
-                        text, VALID_WELCOME_FORMATTERS,
+                        text,
+                        VALID_WELCOME_FORMATTERS,
                     )
                     if valid_format:
                         filtext = valid_format.format(
@@ -374,10 +387,12 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             username="@" + escape(message.from_user.username)
                             if message.from_user.username
                             else mention_html(
-                                message.from_user.id, message.from_user.first_name,
+                                message.from_user.id,
+                                message.from_user.first_name,
                             ),
                             mention=mention_html(
-                                message.from_user.id, message.from_user.first_name,
+                                message.from_user.id,
+                                message.from_user.first_name,
                             ),
                             chatname=escape(message.chat.title)
                             if message.chat.type != "private"
@@ -395,7 +410,7 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             markdown_to_html(filtext),
                             parse_mode=ParseMode.HTML,
                             disable_web_page_preview=True,
-                            reply_markup=keyboard
+                            reply_markup=keyboard,
                         )
                     except BadRequest as excp:
                         LOGGER.exception("Error in filters: " + excp.message)
@@ -415,7 +430,9 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             filt.file_id,
                             reply_markup=keyboard,
                             reply_to_message_id=message.message_id,
-                            message_thread_id=message.message_thread_id if chat.is_forum else None
+                            message_thread_id=message.message_thread_id
+                            if chat.is_forum
+                            else None,
                         )
                     except BadRequest:
                         await send_message(
@@ -448,7 +465,9 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             parse_mode=ParseMode.HTML,
                             disable_web_page_preview=True,
                             reply_markup=keyboard,
-                            message_thread_id=message.message_thread_id if chat.is_forum else None
+                            message_thread_id=message.message_thread_id
+                            if chat.is_forum
+                            else None,
                         )
                     except BadRequest as excp:
                         if excp.message == "Unsupported url protocol":
@@ -470,7 +489,8 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             except BadRequest as excp:
                                 LOGGER.exception("Error in filters: " + excp.message)
                             LOGGER.warning(
-                                "Message %s could not be parsed", str(filt.reply),
+                                "Message %s could not be parsed",
+                                str(filt.reply),
                             )
                             LOGGER.exception(
                                 "Could not parse filter %s in chat %s",
@@ -482,14 +502,15 @@ async def reply_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     # LEGACY - all new filters will have has_markdown set to True.
                     try:
                         await context.bot.send_message(
-                            chat.id, 
-                            filt.reply, 
-                            message_thread_id=message.message_thread_id if chat.is_forum else None
+                            chat.id,
+                            filt.reply,
+                            message_thread_id=message.message_thread_id
+                            if chat.is_forum
+                            else None,
                         )
                     except BadRequest as excp:
                         LOGGER.exception("Error in filters: " + excp.message)
                 break
-
 
 
 async def rmall_filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -505,7 +526,8 @@ async def rmall_filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
             [
                 [
                     InlineKeyboardButton(
-                        text="Stop all filters", callback_data="filters_rmall",
+                        text="Stop all filters",
+                        callback_data="filters_rmall",
                     ),
                 ],
                 [InlineKeyboardButton(text="Cancel", callback_data="filters_cancel")],
@@ -516,7 +538,6 @@ async def rmall_filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=buttons,
             parse_mode=ParseMode.MARKDOWN,
         )
-
 
 
 async def rmall_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -566,7 +587,9 @@ def get_exception(excp, filt, chat):
     else:
         LOGGER.warning("Message %s could not be parsed", str(filt.reply))
         LOGGER.exception(
-            "Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id),
+            "Could not parse filter %s in chat %s",
+            str(filt.keyword),
+            str(chat.id),
         )
         return "This data could not be sent because it is incorrectly formatted."
 
@@ -601,7 +624,6 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     cust_filters = sql.get_chat_triggers(chat_id)
     return "There are `{}` custom filters here.".format(len(cust_filters))
-
 
 
 __help__ = """
@@ -640,12 +662,21 @@ __mod_name__ = "𝐅ɪʟᴛᴇʀs"
 FILTER_HANDLER = CommandHandler("filter", filters, block=False)
 STOP_HANDLER = CommandHandler("stop", stop_filter, block=False)
 RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters", rmall_filters, filters=filters_module.ChatType.GROUPS, block=False
+    "removeallfilters",
+    rmall_filters,
+    filters=filters_module.ChatType.GROUPS,
+    block=False,
 )
-RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*", block=False)
-LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True, block=False)
+RMALLFILTER_CALLBACK = CallbackQueryHandler(
+    rmall_callback, pattern=r"filters_.*", block=False
+)
+LIST_HANDLER = DisableAbleCommandHandler(
+    "filters", list_handlers, admin_ok=True, block=False
+)
 CUST_FILTER_HANDLER = MessageHandler(
-    filters_module.TEXT & ~filters_module.UpdateType.EDITED_MESSAGE, reply_filter, block=False
+    filters_module.TEXT & ~filters_module.UpdateType.EDITED_MESSAGE,
+    reply_filter,
+    block=False,
 )
 
 application.add_handler(FILTER_HANDLER)
