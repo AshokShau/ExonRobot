@@ -1,6 +1,6 @@
-from Exon import db
+from Exon import mdb
 
-afkdb = db.afk
+afkdb = mdb.afk
 
 
 async def is_afk(user_id: int) -> bool:
