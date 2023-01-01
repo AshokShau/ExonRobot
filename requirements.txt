@@ -11,7 +11,7 @@ gpytranslate==1.4.0
 humanize==4.4.0
 markdown2==2.4.6
 motor==3.1.1
-opencv-python-headless==4.6.0.66
+opencv-python-headless==4.7.0.68
 Telethon==1.26.1
 telethon-tgcrypto
 TgCrypto==1.2.5
