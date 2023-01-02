@@ -5,7 +5,16 @@ from pyrogram import filters
 from Exon import DRAGONS
 from Exon import app as abishnoi
 from Exon.modules.helper_funcs import can_change_info
-from Exon.modules.sql.mongo.karma_db import *
+from Exon.modules.sql.mongo.karma_db import (
+    alpha_to_int,
+    get_karma,
+    get_karmas,
+    int_to_alpha,
+    is_karma_on,
+    karma_off,
+    karma_on,
+    update_karma,
+)
 
 regex_upvote = r"^((?i)\+|\+\+|\+1|\++|\+69|thx|thanx|thanks|🖤|❣️|💝|💖|💕|❤|💘|cool|good|👍|baby|thankyou|love|pro)$"
 regex_downvote = r"^(\-|\-\-|\-1|👎|💔|noob|weak|fuck off|nub|gey|kid|shit|mf)$"
