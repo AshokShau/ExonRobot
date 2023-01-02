@@ -1,10 +1,12 @@
-from gpytranslate import Translator
-from pyrogram import filters
 import os
+
+from gpytranslate import Translator
 from gtts import gTTS
 from mutagen.mp3 import MP3
-from Exon import register as Asubot
+from pyrogram import filters
+
 from Exon import app as Abishnoi
+from Exon import register as Asubot
 
 
 @Asubot(pattern="^/tts ?(.*)")
@@ -49,7 +51,6 @@ async def tts(event):
             ],
         )
         os.remove("exon-tts.mp3")
-
 
 
 @Abishnoi.on_message(filters.command(["tr", "tl"]))
