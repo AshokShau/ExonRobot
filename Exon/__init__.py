@@ -78,7 +78,7 @@ DEV_USERS = list(DEV_USERS)
 
 
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-
+tbot= telethn.start(bot_token=TOKEN)
 app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app.start()
 
@@ -110,15 +110,26 @@ def register(**args):
     args["pattern"] = pattern.replace("^/", r_pattern, 1)
 
     def decorator(func):
-        telethn.add_event_handler(func, events.NewMessage(**args))
-        return func
+        async def wrapper(check):
+            if check.sender_id and check.sender_id != OWNER_ID:
+                pass
+            try:
+                await func(check)
+            except BaseException:
+                return
+            else:
+                pass
+
+        tbot.add_event_handler(wrapper, events.NewMessage(**args))
+        return wrapper
 
     return decorator
 
 
+
 def Asuinline(**args):
     def decorator(func):
-        telethn.add_event_handler(func, events.CallbackQuery(**args))
+        tbot.add_event_handler(func, events.CallbackQuery(**args))
         return func
 
     return decorator
