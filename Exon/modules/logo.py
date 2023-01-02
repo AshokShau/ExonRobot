@@ -6,8 +6,7 @@ import random
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
-from Exon import BOT_NAME, BOT_USERNAME, OWNER_ID, telethn
-from Exon import register 
+from Exon import BOT_NAME, BOT_USERNAME, OWNER_ID, register, telethn
 
 LOGO_LINKS = [
     "https://telegra.ph/file/d1838efdafce9fe611d0c.jpg",
