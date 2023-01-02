@@ -1,6 +1,6 @@
-
 import os
 from time import sleep
+
 from telethon import *
 from telethon.errors import *
 from telethon.errors import FloodWaitError, UserNotParticipantError
@@ -15,8 +15,7 @@ from telethon.tl.types import (
 )
 
 from Exon import *
-from Exon import LOGGER
-from Exon import register
+from Exon import LOGGER, register
 
 CMD_HELP = "/ !"
 
@@ -189,5 +188,3 @@ __help__ = """
 ❍ /unmuteall*:* ᴜɴᴍᴜᴛᴇ ᴀʟʟ 
 ❍ /gusers*:*  ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀ ʟɪsᴛ ᴀs .ᴛxᴛ
 """
-
-
