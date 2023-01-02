@@ -3,14 +3,15 @@
     "name": "ᴇxᴏɴᴏʙᴏᴛ",
     "description": "Telegram Group Management Bot Written In Python Using python-telegram-bot.",
     "repository": "https://github.com/Abishnoi69/ExonRobot",
-    "logo": "https://telegra.ph/file/b0e09aabe796209f01d3d.jpg",
+    "stack": "heroku-22",
+    "logo": "https://te.legra.ph/file/b0e09aabe796209f01d3d.jpg",
     "keywords": [
     "python3",
     "telegram",
     "bot",
     "ExonRobot",
     "telegram-bot",
-    "ptb-up",
+    "management",
     "ptb",
     "pyrogram"
     ],
@@ -20,7 +21,14 @@
     },
     {
       "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
-    }
+    }   
+  "addons": [
+      {
+         "options": {
+            "version": "12"
+         },
+         "plan": "heroku-postgresql"
+      }
   ],   
    "env": {
       "OWNER_ID": {
