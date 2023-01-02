@@ -2,7 +2,7 @@ import math
 import os
 import urllib.request as urllib
 from html import escape
-
+from bs4 import BeautifulSoup
 import cv2
 import ffmpeg
 from PIL import Image
@@ -218,7 +218,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
             is_gif = True
         else:
             await msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
-        await kang_file = context.bot.get_file(file_id)
+        kang_file = await context.bot.get_file(file_id)
         if not is_animated and not (is_video or is_gif):
             await kang_file.download_to_drive("kangsticker.png")
         elif is_animated:
