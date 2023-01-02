@@ -1,11 +1,10 @@
-import random
 from random import randint
 
 import requests
 from pyrogram import enums, filters
-from pyrogram.types import Message
 
-from Exon import app as abishnoi, SUPPORT_CHAT
+from Exon import SUPPORT_CHAT
+from Exon import app as abishnoi
 
 
 @abishnoi.on_message(filters.command(["wallpaper"]))
@@ -41,14 +40,15 @@ async def wall(_, msg):
     try:
         await abishnoi.send_chat_action(msg.chat.id, enums.ChatAction.UPLOAD_PHOTO)
         await msg.reply_photo(
-            preview, caption=f"🔎 ᴛɪᴛʟᴇ - {title}\nᴊᴏɪɴ [@ᴀʙɪsʜɴᴏɪᴍғ](t.me/{SUPPORT_CHAT})"
+            preview,
+            caption=f"🔎 ᴛɪᴛʟᴇ - {title}\nᴊᴏɪɴ [@ᴀʙɪsʜɴᴏɪᴍғ](t.me/{SUPPORT_CHAT})",
         )
     # await msg.reply_document(pic, caption=f"🔎 ᴛɪᴛʟᴇ - {title} \n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {msg.from_user.mention}")
     except Exception as error:
         await msg.reply_text(f"ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ.\n{error}")
 
+
 __help__ = """
  /wallpaper blackpink *:* ɢᴇᴛ ᴀ ᴡᴀʟʟᴘᴀᴘᴇʀ
 """
 __mod_name__ = "𝐖ᴀʟʟ"
-
