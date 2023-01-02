@@ -9,14 +9,13 @@ from Exon import telethn as abishnoi
 
 spam_chats = []
 
+
 @abishnoi.on(events.NewMessage(pattern="^/tagall ?(.*)"))
 @abishnoi.on(events.NewMessage(pattern="^@all ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
     if event.is_private:
-        return await event.respond(
-            "__ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs !__"
-        )
+        return await event.respond("__ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs !__")
 
     is_admin = False
     try:
