@@ -16,7 +16,7 @@ from Exon.modules.sql.mongo.couples_db import (
 )
 
 
-@Asubot(pattern="^/couples ?(.*)")
+@Asubot(pattern="^/couples$")
 async def couple(event):
     today = str(dt()[0])
     tomorrow = str(dt_tom())
