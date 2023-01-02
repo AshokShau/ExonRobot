@@ -25,7 +25,7 @@ async def on_clone(self, message):
                 API_ID,
                 API_HASH,
                 bot_token=bot_token,
-                plugins=dict(root="Exon.Modules"),
+                plugins=dict(root="Exon.modules"),
                 in_memory=True,
             )
             await ai.start()
