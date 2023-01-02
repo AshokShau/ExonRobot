@@ -2,14 +2,15 @@ from telethon import Button, events, types
 from telethon.errors import ChatAdminRequiredError
 from telethon.errors.rpcerrorlist import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
+
 # ʙʏ @Abishnoi1M
-from Exon import BOT_ID, BOT_NAME, BOT_USERNAME
+from Exon import BOT_ID
 from Exon import DRAGONS as DEVS
-from Exon import OWNER_ID
-from Exon import telethn as abishnoi
-from Exon import Asuinline
+from Exon import OWNER_ID, Asuinline
 from Exon import register as Asubot
+from Exon import telethn as abishnoi
 from Exon.modules.sql.mongo import fsub_db as db
+
 
 async def is_admin(chat_id, user_id):
     try:
@@ -163,4 +164,3 @@ __help__ = """
 💡ɪғ ʏᴏᴜ ᴅɪꜱᴀʙʟᴇ ғꜱᴜʙ, ʏᴏᴜ ɴᴇᴇᴅ ᴛᴏ ꜱᴇᴛ ᴀɢᴀɪɴ ғᴏʀ ᴡᴏʀᴋɪɴɢ /fsub channel username
 """
 __mod_name__ = "𝐅-sᴜʙ"
-

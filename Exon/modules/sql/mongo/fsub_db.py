@@ -4,6 +4,7 @@ fsub = db.force_sub
 
 # @Abishnoi1M
 
+
 def fs_settings(chat_id: int):
     _x = fsub.find_one({"chat_id": chat_id})
     if _x:
@@ -17,4 +18,3 @@ def add_channel(chat_id: int, channel):
 
 def disapprove(chat_id: int):
     fsub.delete_one({"chat_id": chat_id})
-
