@@ -1,13 +1,12 @@
 from asyncio import gather
-
-from Exon import aiohttpsession as session
-
 from typing import Callable
 
-from pyrogram.types import Message
 from pyrogram.enums import ChatMemberStatus
+from pyrogram.types import Message
 
-from Exon import app as abishnoi, DRAGONS
+from Exon import DRAGONS
+from Exon import aiohttpsession as session
+from Exon import app as abishnoi
 
 
 def can_change_info(func: Callable) -> Callable:
@@ -17,13 +16,19 @@ def can_change_info(func: Callable) -> Callable:
 
         check = await abishnoi.get_chat_member(message.chat.id, message.from_user.id)
         if check.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-            return await message.reply_text("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ʙᴀʙʏ, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs.")
+            return await message.reply_text(
+                "» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ʙᴀʙʏ, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs."
+            )
 
-        admin = (await abishnoi.get_chat_member(message.chat.id, message.from_user.id)).privileges
+        admin = (
+            await abishnoi.get_chat_member(message.chat.id, message.from_user.id)
+        ).privileges
         if admin.can_change_info:
             return await func(_, message)
         else:
-            return await message.reply_text("`ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ɪɴғᴏ.")
+            return await message.reply_text(
+                "`ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ᴄʜᴀɴɢᴇ ɢʀᴏᴜᴘ ɪɴғᴏ."
+            )
 
     return non_admin
 
@@ -35,16 +40,21 @@ def can_restrict(func: Callable) -> Callable:
 
         check = await abishnoi.get_chat_member(message.chat.id, message.from_user.id)
         if check.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-            return await message.reply_text("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ʙᴀʙʏ, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs.")
+            return await message.reply_text(
+                "» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ʙᴀʙʏ, ᴘʟᴇᴀsᴇ sᴛᴀʏ ɪɴ ʏᴏᴜʀ ʟɪᴍɪᴛs."
+            )
 
-        admin = (await abishnoi.get_chat_member(message.chat.id, message.from_user.id)).privileges
+        admin = (
+            await abishnoi.get_chat_member(message.chat.id, message.from_user.id)
+        ).privileges
         if admin.can_restrict_members:
             return await func(_, message)
         else:
-            return await message.reply_text("`ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ʀᴇsᴛʀɪᴄᴛ users ɪɴ ᴛʜɪs ᴄʜᴀᴛ.")
+            return await message.reply_text(
+                "`ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ʀᴇsᴛʀɪᴄᴛ users ɪɴ ᴛʜɪs ᴄʜᴀᴛ."
+            )
 
     return non_admin
-
 
 
 async def get(url: str, *args, **kwargs):
