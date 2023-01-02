@@ -29,3 +29,4 @@ python-dotenv==0.21.0
 python-telegram-bot==20.0
 SQLAlchemy==1.4.45
 webcolors==1.12
+wikipedia==1.4.0
