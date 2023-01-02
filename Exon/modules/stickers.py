@@ -15,11 +15,17 @@ from telegram.constants import ParseMode
 from telegram.error import TelegramError
 from telegram.ext import ContextTypes
 from telegram.helpers import mention_html
-
+from telegram.ext import (
+    ContextTypes,
+    CallbackQueryHandler,
+    CommandHandler,
+    filters,
+    MessageHandler,
+)
 from Exon import application
 from Exon import register as asux
 from Exon import telethn as bot
-
+from Exon.modules.disable import DisableAbleCommandHandler
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 
@@ -1015,13 +1021,13 @@ __help__ = """
 __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀs"
 
 
-STICKERID_HANDLER = CommandHandler("stickerid", stickerid, block=False)
-GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, block=False)
-GETVIDSTICKER_HANDLER = CommandHandler("getvidsticker", getvidsticker, block=False)
-KANG_HANDLER = CommandHandler("kang", kang, admin_ok=True, block=False)
-DEL_HANDLER = CommandHandler("delsticker", delsticker, block=False)
-STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, block=False)
-VIDEO_HANDLER = CommandHandler("getvideo", video, block=False)
+STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, block=False)
+GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, block=False)
+GETVIDSTICKER_HANDLER = DisableAbleCommandHandler("getvidsticker", getvidsticker, block=False)
+KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True, block=False)
+DEL_HANDLER = DisableAbleCommandHandler("delsticker", delsticker, block=False)
+STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, block=False)
+VIDEO_HANDLER = DisableAbleCommandHandler("getvideo", video, block=False)
 CBSCALLBACK_HANDLER = CallbackQueryHandler(cbs_callback, pattern="cbs_", block=False)
 
 application.add_handler(VIDEO_HANDLER)
