@@ -1,21 +1,21 @@
-import httpx
-from pyrogram import Client, filters
-from pyrogram.types import Message
 import io
 
 import aiohttp
+import httpx
+from pyrogram import Client, filters
+from pyrogram.types import Message
 from telethon.tl import functions, types
 
-from Exon import telethn as tbot
+from Exon import app as abishnoi
 from Exon import register
-from Exon import app as abishnoi 
+from Exon import telethn as tbot
 
 timeout = httpx.Timeout(40, pool=None)
 
 http = httpx.AsyncClient(http2=True, timeout=timeout)
 
 
-# Api key used in weather.com's mobile app. @Abishnoi1M 
+# Api key used in weather.com's mobile app. @Abishnoi1M
 
 weather_apikey = "8de2d8b3a93542c9a2d8b3a935a2c909"
 
@@ -75,6 +75,8 @@ async def weather(c: Client, m: Message):
         )
 
         await m.reply_text(res)
+
+
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
         return isinstance(
@@ -109,6 +111,3 @@ __help__ = """
 """
 
 __mod_name__ = "𝐖ᴇᴀᴛʜᴇʀ"
-        
-        
-        
