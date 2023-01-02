@@ -1,44 +1,27 @@
-
-import math
-import os
-import urllib.request as urllib
-from html import escape
-
-from httpx import AsyncClient
-from bs4 import BeautifulSoup as bs
-from PIL import Image
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup,
-                      Update, User, Message)
-from telegram.error import TelegramError, BadRequest
-from telegram.constants import ParseMode
-from telegram.ext import ContextTypes
-from telegram.helpers import mention_html
-from Exon import LOGGER, application
-from Exon.modules.disable import DisableAbleCommandHandler
 import math
 import os
 import textwrap
 import urllib.request as urllib
 from html import escape
-from urllib.parse import quote as urlquote
 
 import cv2
 import ffmpeg
-from bs4 import BeautifulSoup
-from cloudscraper import CloudScraper
+from bs4 import BeautifulSoup as bs
+from httpx import AsyncClient
 from PIL import Image, ImageDraw, ImageFont
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message, Update, User
 from telegram.constants import ParseMode
-from telegram.error import TelegramError
-from telegram.ext import CallbackQueryHandler, ContextTypes
+from telegram.error import BadRequest, TelegramError
+from telegram.ext import ContextTypes
 from telegram.helpers import mention_html
 
-from Exon import application
+from Exon import LOGGER, application
 from Exon import register as asux
 from Exon import telethn as bot
 from Exon.modules.disable import DisableAbleCommandHandler
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
+
 
 def convert_gif(input):
     """ғᴜɴᴄᴛɪᴏɴ ᴛᴏ ᴄᴏɴᴠᴇʀᴛ ᴍᴘ4 ᴛᴏ ᴡᴇʙᴍ(ᴠᴘ9)!(ᴀʙɪsʜɴᴏɪ)"""
@@ -77,11 +60,16 @@ def convert_gif(input):
         .run()
     )
 
-    return 
+    return
+
 
 async def stickerid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
-    if msg.reply_to_message and msg.reply_to_message.sticker and not msg.reply_to_message.forum_topic_created:
+    if (
+        msg.reply_to_message
+        and msg.reply_to_message.sticker
+        and not msg.reply_to_message.forum_topic_created
+    ):
         await update.effective_message.reply_text(
             "Hello "
             + f"{mention_html(msg.from_user.id, msg.from_user.first_name)}"
@@ -131,11 +119,11 @@ async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
         new_file = await bot.get_file(file_id)
         await new_file.download_to_drive(f"sticker_{user.id}.png")
         await bot.send_document(
-            chat.id, 
+            chat.id,
             document=open(f"sticker_{user.id}.png", "rb"),
             reply_to_message_id=msg.message_id,
-            message_thread_id=msg.message_thread_id if chat.is_forum else None
-            )
+            message_thread_id=msg.message_thread_id if chat.is_forum else None,
+        )
         os.remove(f"sticker_{user.id}.png")
     else:
         await update.effective_message.reply_text(
@@ -279,7 +267,9 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 elif e.message == "Invalid sticker emojis":
                     await msg.reply_text("Invalid emoji(s).")
                 elif e.message == "Stickers_too_much":
-                    await msg.reply_text("Max packsize reached. Press F to pay respecc.")
+                    await msg.reply_text(
+                        "Max packsize reached. Press F to pay respecc."
+                    )
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     await msg.reply_text(
                         "Sticker successfully added to [pack](t.me/addstickers/%s)"
@@ -363,7 +353,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             + str(packnum)
                             + "_"
                             + str(user.id)
-                            +"_by_"
+                            + "_by_"
                             + context.bot.username
                         )
 
@@ -372,7 +362,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 except TelegramError as e:
                     if e.message == "Stickerset_invalid":
                         packname_found = 1
-                    
+
             try:
                 await context.bot.add_sticker_to_set(
                     user_id=user.id,
@@ -383,7 +373,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await msg.reply_text(
                     f"Sticker Successfully added to [pack](t.me/addstickers/{packname})"
                     + f"\nEmoji is: {sticker_emoji}",
-                    parse_mode=ParseMode.MARKDOWN
+                    parse_mode=ParseMode.MARKDOWN,
                 )
 
             except TelegramError as e:
@@ -403,8 +393,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     await msg.reply_text(
                         f"Sticker Successfully added to [pack](t.me/addsticker/{packname})",
-                        + "\n"
-                        f"Emoji is: {sticker_emoji}",
+                        +"\n" f"Emoji is: {sticker_emoji}",
                         parse_mode=ParseMode.MARKDOWN,
                     )
 
@@ -523,36 +512,42 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
+
 async def delsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     check = "_by_" + context.bot.username
 
-    if (
-        update.effective_message.reply_to_message is None
-        ):
-        await update.effective_message.reply_text("Sorry but you have to reply to a sticker to delete.")
+    if update.effective_message.reply_to_message is None:
+        await update.effective_message.reply_text(
+            "Sorry but you have to reply to a sticker to delete."
+        )
         return
     elif update.effective_message.reply_to_message:
         if update.effective_message.reply_to_message.forum_topic_created:
-            await update.effective_message.reply_text("Sorry but you have to reply to a sticker to delete.")
+            await update.effective_message.reply_text(
+                "Sorry but you have to reply to a sticker to delete."
+            )
             return
 
     sticker = update.effective_message.reply_to_message.sticker
 
-    if sticker.set_name.endswith(check):  #check if the sticker set made by this bot
+    if sticker.set_name.endswith(check):  # check if the sticker set made by this bot
         try:
             await context.bot.delete_sticker_from_set(sticker.file_id)
         except BadRequest as e:
             if e.message == "Stickerset_not_modified":
-                await update.effective_message.reply_text("I wonder how you can use that sticker,\nI can't seem to find that one in the pack")
+                await update.effective_message.reply_text(
+                    "I wonder how you can use that sticker,\nI can't seem to find that one in the pack"
+                )
             return
         await update.effective_message.reply_text("Done!")
         return
 
     else:
-        await update.effective_message.reply_text("I can't delete that sticker since I didn't make that one...")
+        await update.effective_message.reply_text(
+            "I can't delete that sticker since I didn't make that one..."
+        )
         return
-
 
 
 async def makepack_internal(
@@ -606,13 +601,14 @@ async def makepack_internal(
                 parse_mode=ParseMode.MARKDOWN,
             )
         elif e.message in ("Peer_id_invalid", "bot was blocked by the user"):
-           await  msg.reply_text(
+            await msg.reply_text(
                 "Contact me in PM first.",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                text="Start", url=f"t.me/{context.bot.username}",
+                                text="Start",
+                                url=f"t.me/{context.bot.username}",
                             ),
                         ],
                     ],
@@ -633,8 +629,9 @@ async def makepack_internal(
             parse_mode=ParseMode.MARKDOWN,
         )
     else:
-        await msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
-
+        await msg.reply_text(
+            "Failed to create sticker pack. Possibly due to blek mejik."
+        )
 
 
 Credit = "Abishnoi69"
@@ -837,7 +834,6 @@ __help__ = """
 """
 
 __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀs"
-
 
 
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, block=False)
