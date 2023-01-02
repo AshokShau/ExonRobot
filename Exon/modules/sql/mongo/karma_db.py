@@ -1,9 +1,6 @@
 from typing import Dict, Union
 
-from pymongo import MongoClient
-
 from Exon import db
-
 
 couplesdb = db.couple
 karmadb = db.karma
@@ -29,7 +26,9 @@ async def get_couple(chat_id: int, date: str):
 async def save_couple(chat_id: int, date: str, couple: dict):
     lovers = await _get_lovers(chat_id)
     lovers[date] = couple
-    couplesdb.update_one({"chat_id": chat_id}, {"$set": {"couple": lovers}}, upsert=True)
+    couplesdb.update_one(
+        {"chat_id": chat_id}, {"$set": {"couple": lovers}}, upsert=True
+    )
 
 
 async def get_karmas_count() -> dict:
