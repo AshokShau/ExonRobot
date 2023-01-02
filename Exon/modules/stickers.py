@@ -155,7 +155,7 @@ async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
         with BytesIO() as file:
             file.name = "sticker.png"
             new_file = bot.get_file(file_id)
-            new_file.download(out=file)
+            new_file.download_to_drive(out=file)
             file.seek(0)
             await bot.send_document(chat_id, document=file)
     else:
@@ -220,13 +220,13 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
         await kang_file = context.bot.get_file(file_id)
         if not is_animated and not (is_video or is_gif):
-            await kang_file.download("kangsticker.png")
+            await kang_file.download_to_drive("kangsticker.png")
         elif is_animated:
-            await kang_file.download("kangsticker.tgs")
+            await kang_file.download_to_drive("kangsticker.tgs")
         elif is_video and not is_gif:
-            await kang_file.download("kangsticker.webm")
+            await kang_file.download_to_drive("kangsticker.webm")
         elif is_gif:
-            await kang_file.download("kang.mp4")
+            await kang_file.download_to_drive("kang.mp4")
             convert_gif("kang.mp4")
 
         if args:
@@ -752,7 +752,7 @@ async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
         new_file = bot.get_file(file_id)
-        new_file.download("sticker.png")
+        new_file.download_to_drive("sticker.png")
         await bot.send_document(chat_id, document=open("sticker.png", "rb"))
         os.remove("sticker.png")
     else:
@@ -768,7 +768,7 @@ async def getvidsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
         new_file = bot.get_file(file_id)
-        new_file.download("sticker.mp4")
+        new_file.download_to_drive("sticker.mp4")
         bot.send_video(chat_id, video=open("sticker.mp4", "rb"))
         os.remove("sticker.mp4")
     else:
@@ -796,7 +796,7 @@ async def video(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if msg.reply_to_message and msg.reply_to_message.animation:
         file_id = msg.reply_to_message.animation.file_id
         new_file = bot.get_file(file_id)
-        new_file.download("video.mp4")
+        new_file.download_to_drive("video.mp4")
         bot.send_video(chat_id, video=open("video.mp4", "rb"))
         os.remove("video.mp4")
     else:
