@@ -1,21 +1,9 @@
-from Exon import register as Asubot, Asuinline
+import random
 
-from bs4 import BeautifulSoup
-from geniuses import GeniusClient
-from gpytranslate import SyncTranslator
-from gtts import gTTS
-from mutagen.mp3 import MP3
-from requests import get, post
-from telethon import Button, types
-from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (
-    Channel,
-    DocumentAttributeAudio,
-    MessageMediaDocument,
-    PhotoEmpty,
-    User,
-)
+from telethon import Button
+
+from Exon import Asuinline
+from Exon import register as Asubot
 from Exon.modules.sql.mongo.couples_db import (
     add_vote_down,
     add_vote_up,
@@ -26,12 +14,6 @@ from Exon.modules.sql.mongo.couples_db import (
     voted_down,
     voted_up,
 )
-import asyncio
-import json
-import os
-import random
-import re
-from datetime import datetime
 
 
 @Asubot(pattern="^/couples ?(.*)")
@@ -161,6 +143,7 @@ async def up(event):
         f"👍{C1}", data="upco_{}".format(cb_data)
     ), Button.inline(f"👎{C2}", data="downco_{}".format(cb_data))
     await event.edit(buttons=edited_buttons)
+
 
 __help__ = """
 *ᴄʜᴏᴏsᴇ ᴄᴏᴜᴘʟᴇs ɪɴ ʏᴏᴜʀ ᴄʜᴀᴛ*
