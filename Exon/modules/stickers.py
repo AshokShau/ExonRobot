@@ -62,7 +62,7 @@ def convert_gif(input):
 async def stickerid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "ʜᴇʟʟᴏ "
             + f"{mention_html(msg.from_user.id, msg.from_user.first_name)}"
             + ", ᴛʜᴇ sᴛɪᴄᴋᴇʀ ɪᴅ ʏᴏᴜ ᴀʀᴇ ʀᴇᴘʟʏɪɴɢ ɪs:\n<code>"
@@ -71,7 +71,7 @@ async def stickerid(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode=ParseMode.HTML,
         )
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "ʜᴇʟʟᴏ "
             + f"{mention_html(msg.from_user.id, msg.from_user.first_name)}"
             + ", ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ sᴛɪᴄᴋᴇʀ ᴍᴇssᴀɢᴇ ᴛᴏ ɢᴇᴛ ɪᴅ sᴛɪᴄᴋᴇʀ",
@@ -121,17 +121,17 @@ async def cb_sticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
     query = " ".join(msg.text.split()[1:])
     if not query:
-        msg.reply_text("ᴘʀᴏᴠɪᴅᴇ sᴏᴍᴇ ᴛᴇʀᴍ ᴛᴏ sᴇᴀʀᴄʜ ғᴏʀ ᴀ sᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ.")
+        await msg.reply_text("ᴘʀᴏᴠɪᴅᴇ sᴏᴍᴇ ᴛᴇʀᴍ ᴛᴏ sᴇᴀʀᴄʜ ғᴏʀ ᴀ sᴛɪᴄᴋᴇʀ ᴘᴀᴄᴋ.")
         return
     if len(query) > 50:
-        msg.reply_text("ᴘʀᴏᴠɪᴅᴇ ᴀ sᴇᴀʀᴄʜ ǫᴜᴇʀʏ ᴜɴᴅᴇʀ 50 ᴄʜᴀʀᴀᴄᴛᴇʀs")
+        await msg.reply_text("ᴘʀᴏᴠɪᴅᴇ ᴀ sᴇᴀʀᴄʜ ǫᴜᴇʀʏ ᴜɴᴅᴇʀ 50 ᴄʜᴀʀᴀᴄᴛᴇʀs")
         return
     if msg.from_user:
         user_id = msg.from_user.id
     else:
         user_id = None
     text, buttons = get_cbs_data(query, 1, user_id)
-    msg.reply_text(text, parse_mode=ParseMode.HTML, reply_markup=buttons)
+    await msg.reply_text(text, parse_mode=ParseMode.HTML, reply_markup=buttons)
 
 
 async def cbs_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -157,9 +157,9 @@ async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
             new_file = bot.get_file(file_id)
             new_file.download(out=file)
             file.seek(0)
-            bot.send_document(chat_id, document=file)
+            await bot.send_document(chat_id, document=file)
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴛɪᴄᴋᴇʀ ғᴏʀ ᴍᴇ ᴛᴏ ᴜᴘʟᴏᴀᴅ ɪᴛs PNG.",
         )
 
@@ -175,7 +175,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     while packname_found == 0:
         try:
-            stickerset = context.bot.get_sticker_set(packname)
+            stickerset = await context.bot.get_sticker_set(packname)
             if len(stickerset.stickers) >= max_stickers:
                 packnum += 1
                 packname = (
@@ -217,16 +217,16 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
             file_id = msg.reply_to_message.animation.file_id
             is_gif = True
         else:
-            msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
-        kang_file = context.bot.get_file(file_id)
+            await msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
+        await kang_file = context.bot.get_file(file_id)
         if not is_animated and not (is_video or is_gif):
-            kang_file.download("kangsticker.png")
+            await kang_file.download("kangsticker.png")
         elif is_animated:
-            kang_file.download("kangsticker.tgs")
+            await kang_file.download("kangsticker.tgs")
         elif is_video and not is_gif:
-            kang_file.download("kangsticker.webm")
+            await kang_file.download("kangsticker.webm")
         elif is_gif:
-            kang_file.download("kang.mp4")
+            await kang_file.download("kang.mp4")
             convert_gif("kang.mp4")
 
         if args:
@@ -236,7 +236,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             sticker_emoji = "🙂"
 
-        adding_process = msg.reply_text(
+        adding_process = await msg.reply_text(
             "<b>ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ...ғᴏʀ ᴀ ᴍᴏᴍᴇɴᴛ</b>",
             parse_mode=ParseMode.HTML,
         )
@@ -264,7 +264,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     im.thumbnail(maxsize)
                 if not msg.reply_to_message.sticker:
                     im.save(kangsticker, "PNG")
-                context.bot.add_sticker_to_set(
+                await context.bot.add_sticker_to_set(
                     user_id=user.id,
                     name=packname,
                     png_sticker=open("kangsticker.png", "rb"),
@@ -306,11 +306,11 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     adding_process.delete()
                 elif e.message == "Sticker_png_dimensions":
                     im.save(kangsticker, "PNG")
-                    adding_process = msg.reply_text(
+                    adding_process = await msg.reply_text(
                         "<b>ᴡᴀɪᴛ.... ғᴏʀ ᴀ ᴍᴏᴍᴇɴᴛ ..</b>",
                         parse_mode=ParseMode.HTML,
                     )
-                    context.bot.add_sticker_to_set(
+                    await context.bot.add_sticker_to_set(
                         user_id=user.id,
                         name=packname,
                         png_sticker=open("kangsticker.png", "rb"),
@@ -332,9 +332,9 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         parse_mode=ParseMode.HTML,
                     )
                 elif e.message == "Invalid sticker emojis":
-                    msg.reply_text("Invalid emoji(s).")
+                    await msg.reply_text("Invalid emoji(s).")
                 elif e.message == "Stickers_too_much":
-                    msg.reply_text("Max packsize reached. Press F to pay respecc.")
+                    await msg.reply_text("Max packsize reached. Press F to pay respecc.")
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -345,7 +345,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             ]
                         ]
                     )
-                    msg.reply_text(
+                    await msg.reply_text(
                         f"<b>ʏᴏᴜʀ sᴛɪᴄᴋᴇʀ ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ!</b>"
                         f"\nᴇᴍᴏᴊɪ ɪs ➼ : {sticker_emoji}",
                         reply_markup=edited_keyboard,
@@ -359,7 +359,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
             max_stickers = 50
             while packname_found == 0:
                 try:
-                    stickerset = context.bot.get_sticker_set(packname)
+                    stickerset = await context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
                         packnum += 1
                         packname = (
@@ -376,7 +376,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     if e.message == "Stickerset_invalid":
                         packname_found = 1
             try:
-                context.bot.add_sticker_to_set(
+                await context.bot.add_sticker_to_set(
                     user_id=user.id,
                     name=packname,
                     tgs_sticker=open("kangsticker.tgs", "rb"),
@@ -411,7 +411,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     )
                     adding_process.delete()
                 elif e.message == "Invalid sticker emojis":
-                    msg.reply_text("Invalid emoji(s).")
+                    await msg.reply_text("Invalid emoji(s).")
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -436,7 +436,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
             max_stickers = 50
             while packname_found == 0:
                 try:
-                    stickerset = context.bot.get_sticker_set(packname)
+                    stickerset = await context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
                         packnum += 1
                         packname = (
@@ -453,7 +453,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     if e.message == "Stickerset_invalid":
                         packname_found = 1
             try:
-                context.bot.add_sticker_to_set(
+                await context.bot.add_sticker_to_set(
                     user_id=user.id,
                     name=packname,
                     webm_sticker=open("kangsticker.webm", "rb"),
@@ -488,7 +488,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     )
                     adding_process.delete()
                 elif e.message == "Invalid sticker emojis":
-                    msg.reply_text("Invalid emoji(s).")
+                    await msg.reply_text("Invalid emoji(s).")
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -537,7 +537,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 im.thumbnail(maxsize)
             im.save(kangsticker, "PNG")
             msg.reply_photo(photo=open("kangsticker.png", "rb"))
-            context.bot.add_sticker_to_set(
+            await context.bot.add_sticker_to_set(
                 user_id=user.id,
                 name=packname,
                 png_sticker=open("kangsticker.png", "rb"),
@@ -559,7 +559,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 parse_mode=ParseMode.HTML,
             )
         except OSError as e:
-            msg.reply_text(" sᴏʀʀʏ ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
+            await msg.reply_text(" sᴏʀʀʏ ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
             print(e)
             return
         except TelegramError as e:
@@ -577,7 +577,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 adding_process.delete()
             elif e.message == "Sticker_png_dimensions":
                 im.save(kangsticker, "png")
-                context.bot.add_sticker_to_set(
+                await context.bot.add_sticker_to_set(
                     user_id=user.id,
                     name=packname,
                     png_sticker=open("kangsticker.png", "rb"),
@@ -599,11 +599,11 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     parse_mode=ParseMode.HTML,
                 )
             elif e.message == "Invalid sticker emojis":
-                msg.reply_text("Invalid emoji(s).")
+                await msg.reply_text("Invalid emoji(s).")
             elif e.message == "Stickers_too_much":
-                msg.reply_text("Max packsize reached. Press F to pay respect.")
+                await msg.reply_text("Max packsize reached. Press F to pay respect.")
             elif e.message == "Internal Server Error: sticker set not found (500)":
-                msg.reply_text(
+                await msg.reply_text(
                     f"<b>ʏᴏᴜʀ sᴛɪᴄᴋᴇʀ ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ!</b>"
                     f"\nᴇᴍᴏᴊɪ ɪs ➼ : {sticker_emoji}",
                     reply_markup=edited_keyboard,
@@ -629,7 +629,7 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 ],
             ]
         )
-        msg.reply_text(
+        await msg.reply_text(
             packs_text, reply_markup=edited_keyboard, parse_mode=ParseMode.MARKDOWN
         )
     try:
@@ -670,7 +670,7 @@ async def makepack_internal(
             sticker_pack_name = (
                 f"{name}'s sticker pack (@{context.bot.username})" + extra_version
             )
-            success = context.bot.create_new_sticker_set(
+            success = await context.bot.create_new_sticker_set(
                 user.id,
                 packname,
                 sticker_pack_name,
@@ -681,7 +681,7 @@ async def makepack_internal(
             sticker_pack_name = (
                 f"{name}'s animated pack (@{context.bot.username})" + extra_version
             )
-            success = context.bot.create_new_sticker_set(
+            success = await context.bot.create_new_sticker_set(
                 user.id,
                 packname,
                 sticker_pack_name,
@@ -692,7 +692,7 @@ async def makepack_internal(
             sticker_pack_name = (
                 f"{name}'s video pack (@{context.bot.username})" + extra_version
             )
-            success = context.bot.create_new_sticker_set(
+            success = await context.bot.create_new_sticker_set(
                 user.id,
                 packname,
                 sticker_pack_name,
@@ -703,7 +703,7 @@ async def makepack_internal(
     except TelegramError as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
-            msg.reply_text(
+            await msg.reply_text(
                 "<b>Your Sticker Pack is already created!</b>"
                 "\n\nYou can now reply to images, stickers and animated sticker with /kang to add them to your pack"
                 "\n\n<b>Send /stickers to find any sticker pack.</b>",
@@ -711,7 +711,7 @@ async def makepack_internal(
                 parse_mode=ParseMode.HTML,
             )
         elif e.message == "Peer_id_invalid" or "bot was blocked by the user":
-            msg.reply_text(
+            await msg.reply_text(
                 f"{context.bot.first_name} was blocked by you.",
                 reply_markup=InlineKeyboardMarkup(
                     [
@@ -724,7 +724,7 @@ async def makepack_internal(
                 ),
             )
         elif e.message == "Internal Server Error: created sticker set not found (500)":
-            msg.reply_text(
+            await msg.reply_text(
                 "<b>Your Sticker Pack has been created!</b>"
                 "\n\nYou can now reply to images, stickers and animated sticker with /steal to add them to your pack"
                 "\n\n<b>Send /stickers to find sticker pack.</b>",
@@ -734,7 +734,7 @@ async def makepack_internal(
         return
 
     if success:
-        msg.reply_text(
+        await msg.reply_text(
             "<b>Your Sticker Pack has been created!</b>"
             "\n\nYou can now reply to images, stickers and animated sticker with /steal to add them to your pack"
             "\n\n<b>Send /stickers to find sticker pack.</b>",
@@ -742,7 +742,7 @@ async def makepack_internal(
             parse_mode=ParseMode.HTML,
         )
     else:
-        msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
+        await msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
 
 async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -753,10 +753,10 @@ async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
         file_id = msg.reply_to_message.sticker.file_id
         new_file = bot.get_file(file_id)
         new_file.download("sticker.png")
-        bot.send_document(chat_id, document=open("sticker.png", "rb"))
+        await bot.send_document(chat_id, document=open("sticker.png", "rb"))
         os.remove("sticker.png")
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "Please reply to a sticker for me to upload its PNG."
         )
 
@@ -772,7 +772,7 @@ async def getvidsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot.send_video(chat_id, video=open("sticker.mp4", "rb"))
         os.remove("sticker.mp4")
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "Please reply to a video sticker to upload its MP4."
         )
 
@@ -782,9 +782,9 @@ async def delsticker(update, context):
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
         context.bot.delete_sticker_from_set(file_id)
-        msg.reply_text("ᴅᴇʟᴇᴛᴇᴅ!")
+        await msg.reply_text("ᴅᴇʟᴇᴛᴇᴅ!")
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "Please reply to sticker message to del sticker"
         )
 
@@ -800,7 +800,7 @@ async def video(update: Update, context: ContextTypes.DEFAULT_TYPE):
         bot.send_video(chat_id, video=open("video.mp4", "rb"))
         os.remove("video.mp4")
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "Please reply to a gif for me to get it's video."
         )
 
