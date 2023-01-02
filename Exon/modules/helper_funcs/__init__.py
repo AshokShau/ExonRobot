@@ -1,5 +1,3 @@
-
-
 from asyncio import gather
 
 from Exon import aiohttpsession as session
@@ -12,7 +10,6 @@ async def get(url: str, *args, **kwargs):
         except Exception:
             data = await resp.text()
     return data
-
 
 
 def get_readable_time(seconds: int) -> str:
