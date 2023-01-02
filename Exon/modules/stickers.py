@@ -1,12 +1,15 @@
 import math
 import os
+import textwrap
 import urllib.request as urllib
+from urllib.parse import quote as urlquote
 from html import escape
 
 import cv2
 import ffmpeg
 from bs4 import BeautifulSoup
-from PIL import Image
+from cloudscraper import CloudScraper
+from PIL import Image, ImageDraw, ImageFont
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
 from telegram.error import TelegramError
