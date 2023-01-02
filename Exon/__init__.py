@@ -84,13 +84,13 @@ asyncio.get_event_loop().run_until_complete(EXON_PTB.bot.initialize())
 
 # ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀsᴇ
 mongo = MongoCli(MONGO_DB_URI)
-db = mongo.(DB_NAME) 
+db = mongo.EXON_ROBOT 
 
 try:
     client = MongoClient(MONGO_DB_URI)
 except PyMongoError:
     exiter(1)
-mdb = client["ExonRobot"]
+mdb = client[DB_NAME]
 
 
 # ᴇᴠᴇɴᴛs
