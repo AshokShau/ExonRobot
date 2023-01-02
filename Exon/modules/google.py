@@ -1,24 +1,16 @@
 import os
 import random
 import re
-from httpx import AsyncClient
-from Exon import application
-from Exon.modules.disable import DisableAbleCommandHandler
-from telegram import Update
-from telegram.constants import ParseMode
-from telegram.ext import ContextTypes
+
+import wikipedia
 from bs4 import BeautifulSoup
 from geniuses import GeniusClient
 from GoogleSearch import Search
+from httpx import AsyncClient
 from requests import get, post
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.error import BadRequest
-from telegram.ext import ContextTypes
-import wikipedia
-from Exon import application
-from Exon.modules.disable import DisableAbleCommandHandler
-from telegram import Update
 from telegram.constants import ParseMode
+from telegram.error import BadRequest
 from telegram.ext import ContextTypes
 from wikipedia.exceptions import DisambiguationError, PageError
 
@@ -194,7 +186,8 @@ async def reverse(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await message.reply_text(
             "ᴄᴏᴍᴍᴀɴᴅ sʜᴏᴜʟᴅ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ ʀᴇᴘʟʏɪɴɢ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴏʀ ᴜʀʟ sʜᴏᴜʟᴅ ɢɪᴠᴇɴ."
         )
-        
+
+
 async def ud(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.effective_message
     text = message.text[len("/ud ") :]
@@ -207,10 +200,12 @@ async def ud(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_text = "ɴᴏ ʀᴇsᴜʟᴛs ғᴏᴜɴᴅ."
     await message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
+
 async def wiki(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = (
         update.effective_message.reply_to_message
-        if update.effective_message.reply_to_message and not update.effective_message.reply_to_message.forum_topic_created
+        if update.effective_message.reply_to_message
+        and not update.effective_message.reply_to_message.forum_topic_created
         else update.effective_message
     )
     res = ""
@@ -229,7 +224,8 @@ async def wiki(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     except PageError as e:
         await update.message.reply_text(
-            "<code>{}</code>".format(e), parse_mode=ParseMode.HTML,
+            "<code>{}</code>".format(e),
+            parse_mode=ParseMode.HTML,
         )
     if res:
         result = f"<b>{search}</b>\n\n"
@@ -248,9 +244,12 @@ async def wiki(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
         else:
             await update.message.reply_text(
-                result, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
+                result,
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True,
             )
-            
+
+
 REVERSE_HANDLER = DisableAbleCommandHandler(["reverse", "pp"], reverse, block=False)
 UD_HANDLER = DisableAbleCommandHandler(["ud"], ud, block=False)
 WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, block=False)
