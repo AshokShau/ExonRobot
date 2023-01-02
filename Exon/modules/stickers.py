@@ -2,9 +2,10 @@ import math
 import os
 import urllib.request as urllib
 from html import escape
-from bs4 import BeautifulSoup
+
 import cv2
 import ffmpeg
+from bs4 import BeautifulSoup
 from PIL import Image
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
@@ -334,7 +335,9 @@ async def kang(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 elif e.message == "Invalid sticker emojis":
                     await msg.reply_text("Invalid emoji(s).")
                 elif e.message == "Stickers_too_much":
-                    await msg.reply_text("Max packsize reached. Press F to pay respecc.")
+                    await msg.reply_text(
+                        "Max packsize reached. Press F to pay respecc."
+                    )
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -742,7 +745,9 @@ async def makepack_internal(
             parse_mode=ParseMode.HTML,
         )
     else:
-        await msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
+        await msg.reply_text(
+            "Failed to create sticker pack. Possibly due to blek mejik."
+        )
 
 
 async def getsticker(update: Update, context: ContextTypes.DEFAULT_TYPE):
