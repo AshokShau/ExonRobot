@@ -84,7 +84,7 @@ asyncio.get_event_loop().run_until_complete(EXON_PTB.bot.initialize())
 
 # ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀsᴇ
 mongo = MongoCli(MONGO_DB_URI)
-db = mongo.EXON
+db = mongo.Config.DB_NAME
 
 try:
     client = MongoClient(MONGO_DB_URI)
