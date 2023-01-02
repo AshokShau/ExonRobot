@@ -2,8 +2,8 @@ import re
 
 from pyrogram import Client, filters, idle
 
-from Exon import API_HASH, API_ID
-from Exon import app
+from Exon import API_HASH, API_ID, app
+
 
 # ᴊᴜsᴛ ᴛᴇsᴛ ᴀɴᴅ .....
 @app.on_message((filters.regex(r"\d[0-9]{8,10}:[0-9A-Za-z_-]{35}")) & filters.private)
