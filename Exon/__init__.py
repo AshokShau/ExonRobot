@@ -67,7 +67,7 @@ KICK_STICKER = Config.KICK_STICKER
 ALLOW_EXCL = Config.ALLOW_EXCL
 INFOPIC = Config.INFOPIC
 TEMP_DOWNLOAD_LOC = Config.TEMP_DOWNLOAD_LOC
-
+DB_NAME = Config.DB_NAME 
 DEV_USERS.add(OWNER_ID)
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
@@ -84,7 +84,7 @@ asyncio.get_event_loop().run_until_complete(EXON_PTB.bot.initialize())
 
 # ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀsᴇ
 mongo = MongoCli(MONGO_DB_URI)
-db = mongo.Config.DB_NAME
+db = mongo.[DB_NAME] 
 
 try:
     client = MongoClient(MONGO_DB_URI)
