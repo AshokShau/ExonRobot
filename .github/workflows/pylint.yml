@@ -11,7 +11,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.9
+          python-version: 3.10.9
       - name: Install Python lint libraries
         run: |
           pip install autoflake isort black
@@ -26,7 +26,7 @@ jobs:
           black .
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'ғᴏʀᴍᴀᴛɴɪɢ-✨'
+          commit_message: 'ᴇxᴏɴ-ᴠ2.69'
           commit_options: '--no-verify'
           repository: .
           commit_user_name: Abishnoi69
