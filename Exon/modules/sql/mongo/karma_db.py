@@ -1,6 +1,6 @@
 from typing import Dict, Union
 
-from Exon import db
+from Exon import mdb as db
 
 couplesdb = db.couple
 karmadb = db.karma
