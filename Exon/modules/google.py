@@ -1,33 +1,20 @@
-from GoogleSearch import Search
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.error import BadRequest
-from telegram.ext import ContextTypes
-from bs4 import BeautifulSoup
-from Exon import application, register as Asubot
-from Exon.modules.disable import DisableAbleCommandHandler
-import asyncio
-import json
 import os
 import random
 import re
-from datetime import datetime
 
-
+from bs4 import BeautifulSoup
 from geniuses import GeniusClient
-from gpytranslate import SyncTranslator
-from gtts import gTTS
-from mutagen.mp3 import MP3
+from GoogleSearch import Search
 from requests import get, post
-from telethon import Button, types
-from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import (
-    Channel,
-    DocumentAttributeAudio,
-    MessageMediaDocument,
-    PhotoEmpty,
-    User,
-)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.error import BadRequest
+from telegram.ext import ContextTypes
+
+from Exon import application
+from Exon import register as Asubot
+from Exon.modules.disable import DisableAbleCommandHandler
+
+
 @Asubot(pattern="^/google ?(.*)")
 async def google_search(e):
     try:
@@ -124,7 +111,7 @@ async def remove_bg_photo_room__(e):
     else:
         await e.reply(r.text)
     os.remove(f)
-    
+
 
 async def reverse(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.effective_message
