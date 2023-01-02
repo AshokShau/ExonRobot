@@ -2,10 +2,10 @@ import asyncio
 
 from pyrogram import filters
 
-from Exon import app as abishnoi, DRAGONS
-from Exon.modules.sql.mongo.karma_db import *
+from Exon import DRAGONS
+from Exon import app as abishnoi
 from Exon.modules.helper_funcs import can_change_info
-
+from Exon.modules.sql.mongo.karma_db import *
 
 regex_upvote = r"^((?i)\+|\+\+|\+1|\++|\+69|thx|thanx|thanks|🖤|❣️|💝|💖|💕|❤|💘|cool|good|👍|baby|thankyou|love|pro)$"
 regex_downvote = r"^(\-|\-\-|\-1|👎|💔|noob|weak|fuck off|nub|gey|kid|shit|mf)$"
@@ -32,9 +32,7 @@ async def upvote(_, message):
     if not message.from_user:
         return
     if message.reply_to_message.from_user.id == DRAGONS:
-        await message.reply_text(
-            "ʜᴏᴡ sᴏ ᴘʀᴏ ?"
-        )
+        await message.reply_text("ʜᴏᴡ sᴏ ᴘʀᴏ ?")
         return
     if message.reply_to_message.from_user.id == message.from_user.id:
         return
@@ -64,7 +62,6 @@ async def upvote(_, message):
     & ~filters.bot,
     group=karma_negative_group,
 )
-
 async def downvote(_, message):
     if not await is_karma_on(message.chat.id):
         return
@@ -73,9 +70,7 @@ async def downvote(_, message):
     if not message.from_user:
         return
     if message.reply_to_message.from_user.id == DRAGONS:
-        await message.reply_text(
-            "ɪ ᴋɴᴏᴡ ʜɪᴍ, sᴏ ɪ'ᴍ ɴᴏᴛ ɢᴏɴɴᴀ ᴅᴏ ᴛʜᴀᴛ ʙᴀʙʏ."
-        )
+        await message.reply_text("ɪ ᴋɴᴏᴡ ʜɪᴍ, sᴏ ɪ'ᴍ ɴᴏᴛ ɢᴏɴɴᴀ ᴅᴏ ᴛʜᴀᴛ ʙᴀʙʏ.")
         return
     if message.reply_to_message.from_user.id == message.from_user.id:
         return
@@ -95,7 +90,6 @@ async def downvote(_, message):
 
 
 @abishnoi.on_message(filters.command("karmastat") & filters.group)
-
 async def karma(_, message):
     if not message.reply_to_message:
         m = await message.reply_text("🦋")
