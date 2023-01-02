@@ -318,7 +318,7 @@ async def lego(event):
             os.remove(fname)
 
 
-__mod_name__ = "Lᴏɢᴏ​"
+__mod_name__ = "𝐋ᴏɢᴏ"
 
 __help__ = """
 I ᴄᴀɴ ᴄʀᴇᴀᴛᴇ sᴏᴍᴇ ʙᴇᴀᴜᴛɪғᴜʟ ᴀɴᴅ ᴀᴛᴛʀᴀᴄᴛɪᴠᴇ ʟᴏɢᴏ ғᴏʀ ʏᴏᴜʀ ᴘʀᴏғɪʟᴇ ᴘɪᴄs.
