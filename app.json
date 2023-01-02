@@ -20,7 +20,8 @@
     },
     {
       "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
-    }   
+    } 
+   ],
    "stack": "heroku-22",
    "addons": [
       {
@@ -57,10 +58,10 @@
          "value": "mongodb+srv://EXONTESTMONGO:EXONTESTMONGO@cluster0.bviw7ic.mongodb.net/?retryWrites=true&w=majority"
       },
       "TOKEN": {
-         "description": "Your bot token. Get one from @BotFather",
+         "description": "Get bot token from @BotFather on TG",
          "required": true,
          "value": ""
       }
-      
    }
 }
+
