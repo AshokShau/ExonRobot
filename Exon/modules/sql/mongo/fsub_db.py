@@ -1,4 +1,4 @@
-from Exon import db
+from Exon import mdb as db
 
 fsub = db.force_sub
 
