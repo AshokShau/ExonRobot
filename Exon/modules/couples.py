@@ -15,7 +15,7 @@ from Exon.modules.sql.mongo.couples_db import (
 )
 
 
-@register(pattern="^/couplecouples@{BOT_USERNAME}$")
+@register(pattern="^/couples@{BOT_USERNAME}$")
 @register(pattern="^/couples$")
 async def couple(event):
     today = str(dt()[0])
