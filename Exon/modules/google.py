@@ -1,7 +1,12 @@
 import os
 import random
 import re
-
+from httpx import AsyncClient
+from Exon import application
+from Exon.modules.disable import DisableAbleCommandHandler
+from telegram import Update
+from telegram.constants import ParseMode
+from telegram.ext import ContextTypes
 from bs4 import BeautifulSoup
 from geniuses import GeniusClient
 from GoogleSearch import Search
@@ -9,6 +14,13 @@ from requests import get, post
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.error import BadRequest
 from telegram.ext import ContextTypes
+import wikipedia
+from Exon import application
+from Exon.modules.disable import DisableAbleCommandHandler
+from telegram import Update
+from telegram.constants import ParseMode
+from telegram.ext import ContextTypes
+from wikipedia.exceptions import DisambiguationError, PageError
 
 from Exon import application
 from Exon import register as Asubot
@@ -182,15 +194,80 @@ async def reverse(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await message.reply_text(
             "ᴄᴏᴍᴍᴀɴᴅ sʜᴏᴜʟᴅ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ ʀᴇᴘʟʏɪɴɢ ᴛᴏ ᴀɴ ɪᴍᴀɢᴇ ᴏʀ ᴜʀʟ sʜᴏᴜʟᴅ ɢɪᴠᴇɴ."
         )
+        
+async def ud(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    message = update.effective_message
+    text = message.text[len("/ud ") :]
+    async with AsyncClient() as client:
+        r = await client.get(f"https://api.urbandictionary.com/v0/define?term={text}")
+    results = r.json()
+    try:
+        reply_text = f'*{text}*\n\n{results["list"][0]["definition"]}\n\n_{results["list"][0]["example"]}_'
+    except:
+        reply_text = "ɴᴏ ʀᴇsᴜʟᴛs ғᴏᴜɴᴅ."
+    await message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
-
+async def wiki(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    msg = (
+        update.effective_message.reply_to_message
+        if update.effective_message.reply_to_message and not update.effective_message.reply_to_message.forum_topic_created
+        else update.effective_message
+    )
+    res = ""
+    if msg == update.effective_message:
+        search = msg.text.split(" ", maxsplit=1)[1]
+    else:
+        search = msg.text
+    try:
+        res = wikipedia.summary(search)
+    except DisambiguationError as e:
+        await update.message.reply_text(
+            "ᴅɪsᴀᴍʙɪɢᴜᴀᴛᴇᴅ ᴘᴀɢᴇs ғᴏᴜɴᴅ! ᴀᴅᴊᴜsᴛ ʏᴏᴜʀ ǫᴜᴇʀʏ ᴀᴄᴄᴏʀᴅɪɴɢʟʏ.\n<i>{}</i>".format(
+                e,
+            ),
+            parse_mode=ParseMode.HTML,
+        )
+    except PageError as e:
+        await update.message.reply_text(
+            "<code>{}</code>".format(e), parse_mode=ParseMode.HTML,
+        )
+    if res:
+        result = f"<b>{search}</b>\n\n"
+        result += f"<i>{res}</i>\n"
+        result += f"""<a href="https://en.wikipedia.org/wiki/{search.replace(" ", "%20")}">Read more...</a>"""
+        if len(result) > 4000:
+            with open("result.txt", "w") as f:
+                f.write(f"{result}\n\nUwU OwO OmO UmU")
+            with open("result.txt", "rb") as f:
+                await context.bot.send_document(
+                    document=f,
+                    filename=f.name,
+                    reply_to_message_id=update.message.message_id,
+                    chat_id=update.effective_chat.id,
+                    parse_mode=ParseMode.HTML,
+                )
+        else:
+            await update.message.reply_text(
+                result, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
+            )
+            
 REVERSE_HANDLER = DisableAbleCommandHandler(["reverse", "pp"], reverse, block=False)
+UD_HANDLER = DisableAbleCommandHandler(["ud"], ud, block=False)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, block=False)
+application.add_handler(WIKI_HANDLER)
+application.add_handler(UD_HANDLER)
 application.add_handler(REVERSE_HANDLER)
 
+
+__command_list__ = ["ud"]
+__handlers__ = [UD_HANDLER]
+
 __help__ = """
-⍟ /google `<ǫᴜᴇʀʏ>`: ᴘᴇʀғᴏʀᴍ ᴀ ɢᴏᴏɢʟᴇ sᴇᴀʀᴄʜ ᴡɪᴛʜ ᴛʜᴇ ɢɪᴠᴇɴ ǫᴜᴇʀʏ.
-⍟ /lyrics `<ǫᴜᴇʀʏ>`: ɢᴀᴛʜᴇʀ ᴛʜᴇ ʟʏʀɪᴄs ᴏғ ᴛʜᴇ ǫᴜᴇʀɪᴇᴅ sᴏɴɢ ғʀᴏᴍ ʟʏʀɪᴄsɢᴇɴɪᴜs.
-⍟ /rmbg `<ʀᴇᴘʟʏ>`: ʀᴇᴍᴏᴠᴇ ʙɢ ᴏғ ᴛʜᴇ ɪᴍᴀɢᴇ ᴜsɪɴɢ `remove.bg` ᴀᴘɪ
+⍟ /google `<ǫᴜᴇʀʏ>` *:* ᴘᴇʀғᴏʀᴍ ᴀ ɢᴏᴏɢʟᴇ sᴇᴀʀᴄʜ ᴡɪᴛʜ ᴛʜᴇ ɢɪᴠᴇɴ ǫᴜᴇʀʏ.
+⍟ /lyrics `<ǫᴜᴇʀʏ>` *:* ɢᴀᴛʜᴇʀ ᴛʜᴇ ʟʏʀɪᴄs ᴏғ ᴛʜᴇ ǫᴜᴇʀɪᴇᴅ sᴏɴɢ ғʀᴏᴍ ʟʏʀɪᴄsɢᴇɴɪᴜs.
+⍟ /rmbg `<ʀᴇᴘʟʏ>` *:* ʀᴇᴍᴏᴠᴇ ʙɢ ᴏғ ᴛʜᴇ ɪᴍᴀɢᴇ ᴜsɪɴɢ `remove.bg` ᴀᴘɪ
+⍟ /ud `<ǫᴜᴇʀʏ>` *:* sᴇᴀʀᴄʜs ᴛʜᴇ ɢɪᴠᴇɴ ᴛᴇxᴛ ᴏɴ ᴜʀʙᴀɴ ᴅɪᴄᴛɪᴏɴᴀʀʏ ᴀɴᴅ sᴇɴᴅs ʏᴏᴜ ᴛʜᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
+⍟ /wiki `<ǫᴜᴇʀʏ>` *:* sᴇᴀʀᴄʜs ᴀʙᴏᴜᴛ ᴛʜᴇ ɢɪᴠᴇɴ ᴛᴇxᴛ ᴏɴ ᴡɪᴋɪᴘᴇᴅɪᴀ.
 ʀᴇᴠᴇʀsᴇ sᴇᴀʀᴄʜ ᴀɴʏ ɪᴍᴀɢᴇ ᴜsɪɴɢ ɢᴏᴏɢʟᴇ ɪᴍᴀɢᴇ sᴇᴀʀᴄʜ.
 
 *ᴜsᴀɢᴇ:*
