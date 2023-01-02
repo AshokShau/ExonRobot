@@ -5,19 +5,16 @@ from html import escape
 
 import cv2
 import ffmpeg
-from bs4 import BeautifulSoup as bs
-from httpx import AsyncClient
 from PIL import Image
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message, Update, User
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
-from telegram.error import BadRequest, TelegramError
+from telegram.error import TelegramError
 from telegram.ext import ContextTypes
 from telegram.helpers import mention_html
 
-from Exon import LOGGER, application
-from Exon.modules.disable import DisableAbleCommandHandler
-from Exon import telethn as bot
+from Exon import application
 from Exon import register as asux
+from Exon import telethn as bot
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
@@ -998,6 +995,7 @@ async def drawText(image_path, text):
 
     return webp_file
 
+
 __help__ = """
 • /stickerid*:* ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴛɪᴄᴋᴇʀ ᴛᴏ ᴍᴇ ᴛᴏ ᴛᴇʟʟ ʏᴏᴜ ɪᴛs ғɪʟᴇ ID.
 • /getsticker*:* ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴛɪᴄᴋᴇʀ ᴛᴏ ᴍᴇ ᴛᴏ ᴜᴘʟᴏᴀᴅ ɪᴛs ʀᴀᴡ PNG ғɪʟᴇ.
@@ -1007,8 +1005,6 @@ __help__ = """
 """
 
 __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀs"
-
-
 
 
 STICKERID_HANDLER = CommandHandler("stickerid", stickerid, block=False)
