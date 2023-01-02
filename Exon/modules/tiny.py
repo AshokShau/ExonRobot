@@ -1,8 +1,11 @@
 import os
+
 import cv2
 from PIL import Image
-from Exon import telethn as tbot
+
 from Exon import register as abishnoi
+from Exon import telethn as tbot
+
 
 @abishnoi(pattern="^/tiny ?(.*)")
 async def _(event):
