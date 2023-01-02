@@ -18,6 +18,7 @@ class Config(object):
     SUPPORT_CHAT = "AbishnoiMF"
     EVENT_LOGS = -1001573019550
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", "")
+    DB_NAME = os.environ.get("DB_NAME", "EXON_2")
     DATABASE_URL = os.environ.get("DATABASE_URL", "")
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
