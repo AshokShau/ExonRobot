@@ -2,8 +2,8 @@ import math
 import os
 import textwrap
 import urllib.request as urllib
-from urllib.parse import quote as urlquote
 from html import escape
+from urllib.parse import quote as urlquote
 
 import cv2
 import ffmpeg
