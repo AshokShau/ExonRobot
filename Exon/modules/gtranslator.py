@@ -1,11 +1,7 @@
-from gpytranslate import SyncTranslator
 from gpytranslate import Translator
-from telegram import Update
-from telegram.constants import ParseMode
-from telegram.ext import CallbackContext
 
-from Exon import application, app as Abishnoi
-from Exon.modules.disable import DisableAbleCommandHandler
+from Exon import app as Abishnoi
+
 
 @Abishnoi.on_message(filters.command(["tr", "tl"]))
 async def tr(_, message):
@@ -50,4 +46,3 @@ __help__ = """
 [ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇs](https://telegra.ph/ɪᴛs-ᴍᴇ-𒆜-Aʙɪsʜɴᴏɪ-07-30-2)
 """
 __mod_name__ = "𝐓ʀᴀɴsʟᴀᴛᴏʀ"
-
