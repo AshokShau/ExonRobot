@@ -2,8 +2,7 @@ import random
 
 from telethon import Button
 
-from Exon import Asuinline, BOT_USERNAME
-from Exon import register
+from Exon import Asuinline, register
 from Exon.modules.sql.mongo.couples_db import (
     add_vote_down,
     add_vote_up,
