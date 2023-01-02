@@ -1,3 +1,4 @@
+
 from Exon import mdb as db
 
 couples = db.couple
@@ -42,7 +43,7 @@ def rm_vote_up(event_id: int, user_id: int):
     _votes = votes.find_one({"event_id": event_id})
     if not _votes:
         return False
-    else:m
+    else:
         users = _votes["users"]
     r = users
     r.remove(user_id)
