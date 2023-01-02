@@ -1,5 +1,6 @@
 aiohttp==3.8.3
 alphabet-detector==0.0.7
+asyncio==3.4.3 
 beautifulsoup4==4.11.1
 bleach==5.0.1
 cachetools==5.2.0
