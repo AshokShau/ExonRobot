@@ -13,19 +13,14 @@ from PIL import Image, ImageDraw, ImageFont
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
 from telegram.error import TelegramError
-from telegram.ext import ContextTypes
+from telegram.ext import CallbackQueryHandler, ContextTypes
 from telegram.helpers import mention_html
-from telegram.ext import (
-    ContextTypes,
-    CallbackQueryHandler,
-    CommandHandler,
-    filters,
-    MessageHandler,
-)
+
 from Exon import application
 from Exon import register as asux
 from Exon import telethn as bot
 from Exon.modules.disable import DisableAbleCommandHandler
+
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 
@@ -1023,7 +1018,9 @@ __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀs"
 
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, block=False)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, block=False)
-GETVIDSTICKER_HANDLER = DisableAbleCommandHandler("getvidsticker", getvidsticker, block=False)
+GETVIDSTICKER_HANDLER = DisableAbleCommandHandler(
+    "getvidsticker", getvidsticker, block=False
+)
 KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True, block=False)
 DEL_HANDLER = DisableAbleCommandHandler("delsticker", delsticker, block=False)
 STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, block=False)
