@@ -1,4 +1,3 @@
-
 # :- @Abishnoi1M
 
 import asyncio
@@ -7,8 +6,8 @@ import os
 from telethon import types
 
 from Exon import app as asau
-from Exon import telethn as Client
 from Exon import register
+from Exon import telethn as Client
 
 TMP_DOWNLOAD_DIRECTORY = "./"
 
@@ -138,4 +137,3 @@ __help__ = """
 """
 
 __mod_name__ = "𝐓-Gʀᴀᴘʜ"
-
