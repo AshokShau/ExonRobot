@@ -78,7 +78,7 @@ DEV_USERS = list(DEV_USERS)
 
 
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
-tbot= telethn.start(bot_token=TOKEN)
+tbot = telethn.start(bot_token=TOKEN)
 app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app.start()
 
@@ -124,7 +124,6 @@ def register(**args):
         return wrapper
 
     return decorator
-
 
 
 def Asuinline(**args):
