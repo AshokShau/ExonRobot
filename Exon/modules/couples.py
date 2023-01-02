@@ -2,8 +2,8 @@ import random
 
 from telethon import Button
 
-from Exon import Asuinline
-from Exon import register as Asubot
+from Exon import Asuinline, BOT_USERNAME
+from Exon import register
 from Exon.modules.sql.mongo.couples_db import (
     add_vote_down,
     add_vote_up,
@@ -16,7 +16,8 @@ from Exon.modules.sql.mongo.couples_db import (
 )
 
 
-@Asubot(pattern="^/couples$")
+@register(pattern="^/couplecouples@{BOT_USERNAME}$")
+@register(pattern="^/couples$")
 async def couple(event):
     today = str(dt()[0])
     tomorrow = str(dt_tom())
