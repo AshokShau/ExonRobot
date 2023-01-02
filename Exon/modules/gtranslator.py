@@ -1,49 +1,43 @@
 from gpytranslate import SyncTranslator
+from gpytranslate import Translator
 from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import CallbackContext
 
-from Exon import application
+from Exon import application, app as Abishnoi
 from Exon.modules.disable import DisableAbleCommandHandler
 
-gtrans = SyncTranslator()
-
-
-def Exontranslate(update: Update, context: CallbackContext) -> None:
-    message = update.effective_message
-    reply_msg = message.reply_to_message
-    if not reply_msg:
-        message.reply_text(
-            "ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇs ᴏʀ ᴡʀɪᴛᴇ ᴍᴇssᴀɢᴇs ғʀᴏᴍ ᴏᴛʜᴇʀ ʟᴀɴɢᴜᴀɢᴇs ​​ғᴏʀ ᴛʀᴀɴsʟᴀᴛɪɴɢ ɪɴᴛᴏ ᴛʜᴇ ɪɴᴛᴇɴᴅᴇᴅ language\n\n"
-            "ᴇxᴀᴍᴘʟᴇ: `/tr en-hi` ᴛᴏ ᴛʀᴀɴsʟᴀᴛᴇ ғʀᴏᴍ ᴇɴɢʟɪsʜ ᴛᴏ ʜɪɴᴅɪ\n"
-            "ᴏʀ ᴜsᴇ: `/tr en` ғᴏʀ ᴀᴜᴛᴏᴍᴀᴛɪᴄ ᴅᴇᴛᴇᴄᴛɪᴏɴ ᴀɴᴅ ᴛʀᴀɴsʟᴀᴛɪɴɢ ɪᴛ ɪɴᴛᴏ ᴇɴɢʟɪsʜ.\n"
-            "ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ sᴇᴇ [ʟɪsᴛ ᴏғ ᴀᴠᴀɪʟᴀʙʟᴇ ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇs](https://telegra.ph/ɪᴛs-ᴍᴇ-𒆜-Aʙɪsʜɴᴏɪ-07-30-2).",
-            parse_mode="markdown",
-            disable_web_page_preview=True,
-        )
-        return
-    if reply_msg.caption:
-        to_translate = reply_msg.caption
-    elif reply_msg.text:
-        to_translate = reply_msg.text
-    try:
-        args = message.text.split()[1].lower()
-        if "//" in args:
-            source = args.split("//")[0]
-            dest = args.split("//")[1]
+@Abishnoi.on_message(filters.command(["tr", "tl"]))
+async def tr(_, message):
+    trl = Translator()
+    if message.reply_to_message and (
+        message.reply_to_message.text or message.reply_to_message.caption
+    ):
+        if len(message.text.split()) == 1:
+            target_lang = "en"
         else:
-            source = gtrans.detect(to_translate)
-            dest = args
-    except IndexError:
-        source = gtrans.detect(to_translate)
-        dest = "en"
-    translation = gtrans(to_translate, sourcelang=source, targetlang=dest)
-    reply = (
-        f"<b>ᴛʀᴀɴsʟᴀᴛᴇᴅ ғʀᴏᴍ {source} ᴛᴏ {dest}</b> :\n"
-        f"<code>{translation.text}</code>"
+            target_lang = message.text.split()[1]
+        if message.reply_to_message.text:
+            text = message.reply_to_message.text
+        else:
+            text = message.reply_to_message.caption
+    else:
+        if len(message.text.split()) <= 2:
+            await message.reply_text(
+                "ᴘʀᴏᴠɪᴅᴇ ʟᴀɴɢ ᴄᴏᴅᴇ.\n[ᴀᴠᴀɪʟᴀʙʟᴇ ᴏᴘᴛɪᴏɴs](https://telegra.ph/ɪᴛs-ᴍᴇ-𒆜-Aʙɪsʜɴᴏɪ-07-30-2).\n<b>ᴜsᴀɢᴇ:</b> <code>/tr en</code>",
+            )
+            return
+        target_lang = message.text.split(None, 2)[1]
+        text = message.text.split(None, 2)[2]
+    detectlang = await trl.detect(text)
+    try:
+        tekstr = await trl(text, targetlang=target_lang)
+    except ValueError as err:
+        await message.reply_text(f"ᴇʀʀᴏʀ: <code>{str(err)}</code>")
+        return
+    return await message.reply_text(
+        f"<b>ᴛʀᴀɴsʟᴀᴛᴇᴅ:</b> ғʀᴏᴍ {detectlang} ᴛᴏ {target_lang} \n<code>``{tekstr.text}``</code>",
     )
-
-    message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
 __help__ = """
@@ -57,9 +51,3 @@ __help__ = """
 """
 __mod_name__ = "𝐓ʀᴀɴsʟᴀᴛᴏʀ"
 
-TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], Exontranslate, block=False)
-
-application.add_handler(TRANSLATE_HANDLER)
-
-__command_list__ = ["tr", "tl"]
-__handlers__ = [TRANSLATE_HANDLER]
