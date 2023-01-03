@@ -183,7 +183,6 @@ async def send(update: Update, message, keyboard, backup_message):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_to_message_id=reply,
                 )
-            LOGGER.exception()
     return msg
 
 
