@@ -101,8 +101,8 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat_obj = await bot.get_chat(user_name)
             except BadRequest:
                 await reply.edit_text(
-                        "I ᴄᴀɴ'ᴛ ɢᴇᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴛʜɪs ᴜsᴇʀ/ᴄʜᴀɴɴᴇʟ/ɢʀᴏᴜᴘ."
-                    )
+                    "I ᴄᴀɴ'ᴛ ɢᴇᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴛʜɪs ᴜsᴇʀ/ᴄʜᴀɴɴᴇʟ/ɢʀᴏᴜᴘ."
+                )
                 return
             userid = chat_obj.id
         else:
