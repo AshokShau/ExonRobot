@@ -100,8 +100,7 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
             try:
                 chat_obj = await bot.get_chat(user_name)
             except BadRequest:
-                if BadRequest.message == "ᴄʜᴀᴛ ɴᴏᴛ ғᴏᴜɴᴅ":
-                    await reply.edit_text(
+                await reply.edit_text(
                         "I ᴄᴀɴ'ᴛ ɢᴇᴛ ɪɴғᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴛʜɪs ᴜsᴇʀ/ᴄʜᴀɴɴᴇʟ/ɢʀᴏᴜᴘ."
                     )
                 return
