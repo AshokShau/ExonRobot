@@ -66,7 +66,6 @@ def check_admin(
                 if user.id in DEV_USERS:
                     return await func(update, context, *args, **kwargs)
                 else:
-                    await update.effective_message.reply_text(
                     return await update.effective_message.reply_text(
                         "ᴛʜɪs ɪs ᴀ ᴅᴇᴠᴇʟᴏᴘᴇʀ ʀᴇsᴛʀɪᴄᴛᴇᴅ ᴄᴏᴍᴍᴀɴᴅ."
                         "ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ʀᴜɴ ᴛʜɪs",
