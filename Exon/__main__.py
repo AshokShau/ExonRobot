@@ -5,7 +5,7 @@ import re
 import time
 from sys import argv
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import Chat, InlineKeyboardButton, InlineKeyboardMarkup, Update, User
 from telegram.constants import ParseMode
 from telegram.error import (
     BadRequest,
@@ -41,10 +41,10 @@ from Exon import (
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Exon.modules import ALL_MODULES
+from Exon.modules.connection import connected
 from Exon.modules.helper_funcs.chat_status import is_user_admin
 from Exon.modules.helper_funcs.misc import paginate_modules
-from Exon.modules.connection import connected
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Chat, User
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -182,9 +182,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat = await application.bot.getChat(match.group(1))
 
                 if await is_user_admin(chat, update.effective_user.id):
-                    await send_settings(match.group(1), update.effective_user, update, context, False)
+                    await send_settings(
+                        match.group(1), update.effective_user, update, context, False
+                    )
                 else:
-                    await send_settings(match.group(1), update.effective_user, update, context, False)
+                    await send_settings(
+                        match.group(1), update.effective_user, update, context, False
+                    )
 
             elif args[0][1:].isdigit() and "rules" in IMPORTED:
                 await IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
@@ -413,7 +417,13 @@ async def get_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await send_help(chat.id, HELP_STRINGS)
 
 
-async def send_settings(chat: Chat | (int | str), user: User, update: Update, context:ContextTypes.DEFAULT_TYPE, is_user=False):
+async def send_settings(
+    chat: Chat | (int | str),
+    user: User,
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    is_user=False,
+):
     if user:
         if USER_SETTINGS:
             settings = "\n\n".join(
@@ -439,7 +449,6 @@ async def send_settings(chat: Chat | (int | str), user: User, update: Update, co
                 chat = await context.bot.get_chat(chat)
 
             conn = await connected(context.bot, update, chat, user.id, need_admin=True)
-
 
             chat_obj = await application.bot.getChat(conn)
             chat_name = chat_obj.title
