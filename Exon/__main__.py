@@ -306,8 +306,9 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
                 + HELPABLE[module].__help__
             )
-            await query.message.edit_text(
-                text=text,
+            await update.effective_message.reply_photo(
+                START_IMG,
+                caption=text,
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
