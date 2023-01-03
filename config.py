@@ -1,5 +1,9 @@
 import json
 import os
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def get_user_list(config, key):
@@ -10,16 +14,16 @@ def get_user_list(config, key):
 class Config(object):
     LOGGER = True
 
-    API_ID = "13600724"
-    API_HASH = "ee59fd28d0d065c6b7d105082c6a0ba0"
-    TOKEN = os.environ.get("TOKEN", "")
-    OWNER_ID = 5938660179
-    OWNER_USERNAME = "Abishnoi1M"
-    SUPPORT_CHAT = "AbishnoiMF"
-    EVENT_LOGS = -1001573019550
-    MONGO_DB_URI = os.environ.get("MONGO_DB_URI", "")
-    DB_NAME = os.environ.get("DB_NAME", "EXON_2")
-    DATABASE_URL = os.environ.get("DATABASE_URL", "")
+    API_ID = int(getenv("API_ID", "13600724"))
+    API_HASH = getenv("API_HASH", "ee59fd28d0d065c6b7d105082c6a0ba0")
+    TOKEN = getenv("TOKEN", None)
+    OWNER_ID = int(getenv("OWNER_ID", "5938660179"))
+    OWNER_USERNAME = getenv("OWNER_USERNAME", None)
+    SUPPORT_CHAT = getenv("SUPPORT_CHAT", "AbishnoiMF")
+    EVENT_LOGS = int(getenv("EVENT_LOGS", "-1001573019550"))
+    MONGO_DB_URI = getenv("MONGO_DB_URI", "")
+    DB_NAME = getenv("DB_NAME", "EXON_2")
+    DATABASE_URL = getenv("DATABASE_URL", "")
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
