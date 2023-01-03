@@ -1,11 +1,9 @@
-from pymongo import MongoClient
 from telethon import *
 from telethon.tl import *
-# @Abishnoi1M
-from Exon import BOT_ID, MONGO_DB_URI
-from Exon import telethn as tbot
-from Exon import register, mdb 
 
+# @Abishnoi1M
+from Exon import BOT_ID, mdb, register
+from Exon import telethn as tbot
 
 approved_users = mdb.approve
 
@@ -389,7 +387,8 @@ async def stop(event):
                 await event.reply("ᴅᴏɴᴇ ʏᴏᴜ ᴄᴀɴ ɴᴏᴡ ᴄʀᴇᴀᴛᴇ ᴀ ɴᴇᴡ ᴘᴏʟʟ.")
             except Exception:
                 await event.reply("sᴇᴇᴍs ʟɪᴋᴇ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ ᴄʀᴇᴀᴛᴇᴅ ᴀɴʏ ᴘᴏʟʟ ʏᴇᴛ !")
-                
+
+
 __help__ = """
 *ʏᴏᴜ ᴄᴀɴ ɴᴏᴡ ꜱᴇɴᴅ ᴘᴏʟʟꜱ ᴀɴᴏɴʏᴍᴏᴜꜱʟʏ ᴡɪᴛʜ ᴇxᴏɴ*
 *ʜᴇʀᴇ ɪꜱ ʜᴏᴡ ʏᴏᴜ ᴄᴀɴ ᴅᴏ ɪᴛ*
