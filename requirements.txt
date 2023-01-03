@@ -22,7 +22,7 @@ telegraph==2.2.0
 Telethon==1.26.1
 telethon-tgcrypto
 TgCrypto==1.2.5
-pillow==9.3.0
+pillow==9.4.0
 psycopg2-binary==2.9.2
 pyrate-limiter==2.8.4
 pyrogram==2.0.93
