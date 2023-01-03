@@ -1,4 +1,3 @@
-
 import requests
 
 from Exon import SUPPORT_CHAT
@@ -33,4 +32,3 @@ __help__ = """
 """
 
 __mod_name__ = "𝐓ʀᴜᴛʜ-Dᴀʀᴇ"
-
