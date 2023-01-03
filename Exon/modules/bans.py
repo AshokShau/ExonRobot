@@ -11,7 +11,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes, filters
 from telegram.helpers import mention_html
 
-from Exon import BAN_STICKER, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, application
+from Exon import BAN_STICKER, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, application, KICK_STICKER
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import (
     can_delete,
@@ -319,7 +319,7 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     if res:
         await bot.send_sticker(
             chat.id,
-            BAN_STICKER,
+            KICK_STICKER,
             message_thread_id=message.message_thread_id if chat.is_forum else None,
         )  # banhammer marie sticker
         await bot.sendMessage(
