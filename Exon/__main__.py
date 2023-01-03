@@ -140,7 +140,7 @@ for module_name in ALL_MODULES:
 async def send_help(chat_id, text, if keyboard is None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-    await update.effective_message.reply_photo(
+    await Update.effective_message.reply_photo(
         START_IMG,
         chat_id=chat_id,
         text=text,
