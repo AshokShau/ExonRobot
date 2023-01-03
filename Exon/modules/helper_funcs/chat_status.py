@@ -15,14 +15,14 @@ THREAD_LOCK = RLock()
 
 
 def check_admin(
-        permission: str = None,
-        is_bot: bool = False,
-        is_user: bool = False,
-        is_both: bool = False,
-        only_owner: bool = False,
-        only_sudo: bool = False,
-        only_dev: bool = False,
-        no_reply: object = False
+    permission: str = None,
+    is_bot: bool = False,
+    is_user: bool = False,
+    is_both: bool = False,
+    only_owner: bool = False,
+    only_sudo: bool = False,
+    only_dev: bool = False,
+    no_reply: object = False,
 ) -> object:
     """Check for permission level to perform some operations
 
@@ -47,7 +47,9 @@ def check_admin(
             user = update.effective_user
             message = update.effective_message
 
-            if chat.type == ChatType.PRIVATE and not (only_dev or only_sudo or only_owner):
+            if chat.type == ChatType.PRIVATE and not (
+                only_dev or only_sudo or only_owner
+            ):
                 return await func(update, context, *args, **kwargs)
 
             bot_member = (
@@ -70,7 +72,6 @@ def check_admin(
                         "ᴛʜɪs ɪs ᴀ ᴅᴇᴠᴇʟᴏᴘᴇʀ ʀᴇsᴛʀɪᴄᴛᴇᴅ ᴄᴏᴍᴍᴀɴᴅ."
                         "ʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴘᴇʀᴍɪssɪᴏɴs ᴛᴏ ʀᴜɴ ᴛʜɪs",
                     )
-
 
             if only_sudo:
                 if user.id in DRAGONS:
