@@ -151,11 +151,11 @@ OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id
 <a href="https://telegram.me/Abishnoi1M"><img src="https://img.shields.io/badge/Abishnoi%20-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
 
+[ᴜᴘᴅᴀᴛɪɴɢ ʏᴏᴜʀ ғᴏʀᴋ ᴡɪᴛʜ ᴛʜᴇ ᴜᴘsᴛʀᴇᴀᴍ ʀᴇᴘᴏ](https://t.me/Abishnoi_bots/43)
 
 ━━━━━━━━━━━━━━━━━━━━
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
 ━━━━━━━━━━━━━━━━━━━━
 <h3 align="center">
     ─「 ᴄʀᴇᴅɪᴛs 」─
