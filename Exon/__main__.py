@@ -140,7 +140,8 @@ for module_name in ALL_MODULES:
 async def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-    await application.bot.send_message(
+    await application.bot.reply_photo(
+        START_IMG,
         chat_id=chat_id,
         text=text,
         parse_mode=ParseMode.MARKDOWN,
@@ -306,9 +307,8 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
                 + HELPABLE[module].__help__
             )
-            await update.effective_message.reply_photo(
-                START_IMG,
-                caption=text,
+            await query.message.edit_text(
+                text=text,
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
