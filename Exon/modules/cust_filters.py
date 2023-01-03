@@ -104,7 +104,7 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = msg.text.split(
         None, 1
     )  # use python's maxsplit to separate Cmd, keyword, and reply_text
-
+    buttons = None
     conn = await connected(context.bot, update, chat, user.id)
     if not conn is False:
         chat_id = conn
