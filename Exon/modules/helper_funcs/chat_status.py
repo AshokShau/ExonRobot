@@ -1,7 +1,7 @@
 from functools import wraps
 from threading import RLock
 from time import perf_counter
-
+from telegram.error import Forbidden
 from cachetools import TTLCache
 from telegram import Chat, ChatMember, ChatMemberAdministrator, ChatMemberOwner, Update
 from telegram.constants import ChatMemberStatus, ChatType
@@ -200,10 +200,10 @@ async def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> 
             try:
                 return user_id in ADMIN_CACHE[chat.id]
             except KeyError:
-                # keyerror happend means cache is deleted,
-                # so query bot api again and return user status
-                # while saving it in cache for future usage...
-                chat_admins = await application.bot.getChatAdministrators(chat.id)
+                try:
+                    chat_admins = await application.bot.getChatAdministrators(chat.id)
+                except Forbidden:
+                    return False
                 admin_list = [x.user.id for x in chat_admins]
                 ADMIN_CACHE[chat.id] = admin_list
 
