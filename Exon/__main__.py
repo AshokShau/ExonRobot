@@ -43,7 +43,8 @@ from Exon import (
 from Exon.modules import ALL_MODULES
 from Exon.modules.helper_funcs.chat_status import is_user_admin
 from Exon.modules.helper_funcs.misc import paginate_modules
-
+from Exon.modules.connection import connected
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Chat, User
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -136,12 +137,10 @@ for module_name in ALL_MODULES:
         USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
 
 
-# do not async
-async def send_help(chat_id, text, if keyboard is None):
+async def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-    await Update.effective_message.reply_photo(
-        START_IMG,
+    await application.bot.send_message(
         chat_id=chat_id,
         text=text,
         parse_mode=ParseMode.MARKDOWN,
@@ -183,9 +182,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat = await application.bot.getChat(match.group(1))
 
                 if await is_user_admin(chat, update.effective_user.id):
-                    await send_settings(match.group(1), update.effective_user.id, False)
+                    await send_settings(match.group(1), update.effective_user, update, context, False)
                 else:
-                    await send_settings(match.group(1), update.effective_user.id, True)
+                    await send_settings(match.group(1), update.effective_user, update, context, False)
 
             elif args[0][1:].isdigit() and "rules" in IMPORTED:
                 await IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
@@ -414,7 +413,7 @@ async def get_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await send_help(chat.id, HELP_STRINGS)
 
 
-async def send_settings(chat_id, user_id, user=False):
+async def send_settings(chat: Chat | (int | str), user: User, update: Update, context:ContextTypes.DEFAULT_TYPE, is_user=False):
     if user:
         if USER_SETTINGS:
             settings = "\n\n".join(
@@ -422,34 +421,40 @@ async def send_settings(chat_id, user_id, user=False):
                 for mod in USER_SETTINGS.values()
             )
             await application.bot.send_message(
-                user_id,
+                user.id,
                 "ᴛʜᴇsᴇ ᴀʀᴇ ʏᴏᴜʀ ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
             await application.bot.send_message(
-                user_id,
+                user.id,
                 "sᴇᴇᴍs ʟɪᴋᴇ ᴛʜᴇʀᴇ ᴀʀᴇɴ'ᴛ ᴀɴʏ ᴜsᴇʀ sᴘᴇᴄɪғɪᴄ sᴇᴛᴛɪɴɢs ᴀᴠᴀɪʟᴀʙʟᴇ :'(",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
     else:
         if CHAT_SETTINGS:
+            if not isinstance(chat, Chat):
+                chat = await context.bot.get_chat(chat)
+
+            conn = await connected(context.bot, update, chat, user.id, need_admin=True)
+
+
             chat_obj = await application.bot.getChat(conn)
             chat_name = chat_obj.title
             await application.bot.send_message(
-                user_id,
+                user.id,
                 text="ᴡʜɪᴄʜ ᴍᴏᴅᴜʟᴇ ᴡᴏᴜʟᴅ ʏᴏᴜ ʟɪᴋᴇ ᴛᴏ ᴄʜᴇᴄᴋ {}'s sᴇᴛᴛɪɴɢs ғᴏʀ ᴅᴀʀʟɪɴɢ?".format(
                     chat_name,
                 ),
                 reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id),
+                    paginate_modules(0, CHAT_SETTINGS, "stngs", chat=user.id),
                 ),
             )
         else:
             await application.bot.send_message(
-                user_id,
+                user.id,
                 "sᴇᴇᴍs ʟɪᴋᴇ ᴛʜᴇʀᴇ ᴀʀᴇɴ'ᴛ ᴀɴʏ ᴄʜᴀᴛ sᴇᴛᴛɪɴɢs ᴀᴠᴀɪʟᴀʙʟᴇ :'(\nsᴇɴᴅ ᴛʜɪs "
                 "ɪɴ ᴀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ ʏᴏᴜ'ʀᴇ ᴀᴅᴍɪɴ ɪɴ ᴛᴏ ғɪɴᴅ ɪᴛs ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs!",
                 parse_mode=ParseMode.MARKDOWN,
@@ -575,7 +580,7 @@ async def get_settings(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text = "ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ᴄʜᴇᴄᴋ ʏᴏᴜʀ sᴇᴛᴛɪɴɢs."
 
     else:
-        await send_settings(chat.id, user.id, True)
+        await send_settings(chat, user, update, context, True)
 
 
 async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
