@@ -201,7 +201,7 @@ async def ASUX_back_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
     if query.data == "asux_back":
         first_name = update.effective_user.first_name
 
-        await query.message.edit_caption(
+        await query.message.edit_text(
             PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME),
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(buttons),
