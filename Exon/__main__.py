@@ -41,9 +41,13 @@ from Exon import (
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Exon.modules import ALL_MODULES
-from Exon.modules.connection import connected
+
 from Exon.modules.helper_funcs.chat_status import is_user_admin
 from Exon.modules.helper_funcs.misc import paginate_modules
+try:
+    from Exon.modules.connection import connected
+except ImportError as e:
+    print(e)
 
 
 def get_readable_time(seconds: int) -> str:
