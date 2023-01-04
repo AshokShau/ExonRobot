@@ -9,6 +9,7 @@ from telegram.error import Forbidden
 from telegram.ext import ContextTypes
 
 from Exon import DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, application
+
 try:
     from Exon.modules import connection
 except ImportError as e:
@@ -341,8 +342,6 @@ def connection_status(func):
             return await func(update, context, *args, **kwargs)
 
     return connected_status
-
-
 
 
 connected = connection.connected
