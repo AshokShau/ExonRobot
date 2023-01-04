@@ -29,7 +29,7 @@ class Config(object):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
     LOAD = []
-    NO_LOAD = []
+    NO_LOAD = ["connection"]
     INFOPIC = True
     URL = None
     DRAGONS = get_user_list("elevated_users.json", "sudos")
