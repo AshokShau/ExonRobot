@@ -10,8 +10,6 @@ from telegram.ext import ContextTypes
 
 from Exon import DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, application
 
-
-
 # stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
@@ -340,9 +338,10 @@ def connection_status(func):
 
     return connected_status
 
+
 try:
     from Exon.modules import connection
 except ImportError as e:
     print(e)
-    
+
 connected = connection.connected
