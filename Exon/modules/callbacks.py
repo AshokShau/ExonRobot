@@ -196,9 +196,6 @@ async def EXON_back_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
 
 
-
-
-
 about_callback_handler = CallbackQueryHandler(
     EXON_about_callback, pattern=r"EXON_", block=False
 )
