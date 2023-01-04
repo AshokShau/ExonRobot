@@ -46,12 +46,13 @@ try:
     from Exon.modules.helper_funcs.misc import paginate_modules
 except ImportError as e:
     print(e)
-
+    
+"""
 try:
     from Exon.modules.connection import connected
 except ImportError as e:
     print(e)
-
+"""
 
 try:
     from Exon.modules.helper_funcs.chat_status import is_user_admin
@@ -461,10 +462,10 @@ async def send_settings(
             if not isinstance(chat, Chat):
                 chat = await context.bot.get_chat(chat)
 
-            conn = await connected(context.bot, update, chat, user.id, need_admin=True)
+            # conn = await connected(context.bot, update, chat, user.id, need_admin=True)
 
-            chat_obj = await application.bot.getChat(conn)
-            chat_name = chat_obj.title
+            #chat_obj = await application.bot.getChat(conn)
+            chat_name = await application.bot.getChat(chat.id).title
             await application.bot.send_message(
                 user.id,
                 text="ᴡʜɪᴄʜ ᴍᴏᴅᴜʟᴇ ᴡᴏᴜʟᴅ ʏᴏᴜ ʟɪᴋᴇ ᴛᴏ ᴄʜᴇᴄᴋ {}'s sᴇᴛᴛɪɴɢs ғᴏʀ ᴅᴀʀʟɪɴɢ?".format(
