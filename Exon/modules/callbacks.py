@@ -194,6 +194,17 @@ async def EXON_back_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(buttons),
         )
+        
+async def ASUX_back_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    if query.data == "asux_back":
+        first_name = update.effective_user.first_name
+
+        await query.message.edit_caption(
+            PM_START_TEXT.format(escape_markdown(first_name), BOT_NAME),
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
 
 
 about_callback_handler = CallbackQueryHandler(
@@ -202,6 +213,10 @@ about_callback_handler = CallbackQueryHandler(
 back_callback_handler = CallbackQueryHandler(
     EXON_back_callback, pattern="start_back", block=False
 )
+asux_callback_handler = CallbackQueryHandler(
+    ASUX_back_callback, pattern="asux_back", block=False
+)
 
 application.add_handler(about_callback_handler)
 application.add_handler(back_callback_handler)
+application.add_handler(asux_callback_handler)
