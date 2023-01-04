@@ -441,7 +441,7 @@ async def send_settings(
     if user:
         if USER_SETTINGS:
             settings = "\n\n".join(
-                "*{}*:\n{}".format(mod.__mod_name__, mod.__user_settings__(user_id))
+                "*{}*:\n{}".format(mod.__mod_name__, mod.__user_settings__(user.id))
                 for mod in USER_SETTINGS.values()
             )
             await application.bot.send_message(
