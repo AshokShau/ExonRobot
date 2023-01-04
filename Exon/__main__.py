@@ -166,7 +166,7 @@ async def send_help(chat_id, text, keyboard=None):
     await application.bot.send_photo(
         chat_id,
         photo=START_IMG,
-        caption=text
+        caption=text,
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
         reply_markup=keyboard,
