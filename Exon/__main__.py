@@ -164,7 +164,7 @@ async def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     await application.bot.send_photo(
-        chat_id,
+        chat_id=chat_id,
         photo=START_IMG,
         caption=text,
         parse_mode=ParseMode.MARKDOWN,
@@ -329,8 +329,8 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 )
                 + HELPABLE[module].__help__
             )
-            await query.message.edit_text(
-                text=text,
+            await query.message.edit_caption(
+                caption=text,
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
@@ -340,8 +340,8 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         elif prev_match:
             curr_page = int(prev_match.group(1))
-            await query.message.edit_text(
-                text=HELP_STRINGS,
+            await query.message.edit_caption(
+                caption=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(curr_page - 1, HELPABLE, "help"),
@@ -350,8 +350,8 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         elif next_match:
             next_page = int(next_match.group(1))
-            await query.message.edit_text(
-                text=HELP_STRINGS,
+            await query.message.edit_caption(
+                caption=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(next_page + 1, HELPABLE, "help"),
@@ -359,8 +359,8 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
 
         elif back_match:
-            await query.message.edit_text(
-                text=HELP_STRINGS,
+            await query.message.edit_caption(
+                caption=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, HELPABLE, "help"),
