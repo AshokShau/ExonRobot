@@ -46,7 +46,7 @@ try:
     from Exon.modules.helper_funcs.misc import paginate_modules
 except ImportError as e:
     print(e)
-    
+
 """
 try:
     from Exon.modules.connection import connected
@@ -464,7 +464,7 @@ async def send_settings(
 
             # conn = await connected(context.bot, update, chat, user.id, need_admin=True)
 
-            #chat_obj = await application.bot.getChat(conn)
+            # chat_obj = await application.bot.getChat(conn)
             chat_name = await application.bot.getChat(chat.id).title
             await application.bot.send_message(
                 user.id,
