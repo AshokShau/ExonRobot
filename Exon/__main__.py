@@ -46,13 +46,12 @@ try:
     from Exon.modules.helper_funcs.misc import paginate_modules
 except ImportError as e:
     print(e)
-    
-"""
+
 try:
     from Exon.modules.connection import connected
 except ImportError as e:
     print(e)
-"""
+
 
 try:
     from Exon.modules.helper_funcs.chat_status import is_user_admin
@@ -462,25 +461,26 @@ async def send_settings(
             if not isinstance(chat, Chat):
                 chat = await context.bot.get_chat(chat)
 
-           # conn = await connected(context.bot, update, chat, user.id, need_admin=True)
+            conn = await connected(context.bot, update, chat, user.id, need_admin=True)
 
-            chat_name = application.bot.getChat(chat.id).title
-        await application.bot.send_message(
-            user.id,
-            text="ᴡʜɪᴄʜ ᴍᴏᴅᴜʟᴇ ᴡᴏᴜʟᴅ ʏᴏᴜ ʟɪᴋᴇ ᴛᴏ ᴄʜᴇᴄᴋ {}'s sᴇᴛᴛɪɴɢs ғᴏʀ?".format(
-                chat_name
-            ),
-            reply_markup=InlineKeyboardMarkup(
-                paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat.id)
-            ),
-        )
-    else:
-        await application.bot.send_message(
-            user.id,
-            "sᴇᴇᴍs ʟɪᴋᴇ ᴛʜᴇʀᴇ ᴀʀᴇɴ'ᴛ ᴀɴʏ ᴄʜᴀᴛ sᴇᴛᴛɪɴɢs ᴀᴠᴀɪʟᴀʙʟᴇ :'(\nsᴇɴᴅ ᴛʜɪs "
-            "ɪɴ ᴀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ ʏᴏᴜ'ʀᴇ ᴀᴅᴍɪɴ ɪɴ ᴛᴏ ғɪɴᴅ ɪᴛs ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs!",
-            parse_mode=ParseMode.MARKDOWN,
-        )
+            chat_obj = await application.bot.getChat(conn)
+            chat_name = chat_obj.title
+            await application.bot.send_message(
+                user.id,
+                text="ᴡʜɪᴄʜ ᴍᴏᴅᴜʟᴇ ᴡᴏᴜʟᴅ ʏᴏᴜ ʟɪᴋᴇ ᴛᴏ ᴄʜᴇᴄᴋ {}'s sᴇᴛᴛɪɴɢs ғᴏʀ ᴅᴀʀʟɪɴɢ?".format(
+                    chat_name,
+                ),
+                reply_markup=InlineKeyboardMarkup(
+                    paginate_modules(0, CHAT_SETTINGS, "stngs", chat=user.id),
+                ),
+            )
+        else:
+             await application.bot.send_message(
+                user.id,
+                "sᴇᴇᴍs ʟɪᴋᴇ ᴛʜᴇʀᴇ ᴀʀᴇɴ'ᴛ ᴀɴʏ ᴄʜᴀᴛ sᴇᴛᴛɪɴɢs ᴀᴠᴀɪʟᴀʙʟᴇ :'(\nsᴇɴᴅ ᴛʜɪs "
+                "ɪɴ ᴀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ ʏᴏᴜ'ʀᴇ ᴀᴅᴍɪɴ ɪɴ ᴛᴏ ғɪɴᴅ ɪᴛs ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs!",
+                parse_mode=ParseMode.MARKDOWN,
+            )
 
 
 async def settings_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
