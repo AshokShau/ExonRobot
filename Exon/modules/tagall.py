@@ -10,18 +10,19 @@ from Exon import telethn as abishnoi
 spam_chats = []
 
 
-import dateparser
-import os
 import asyncio
-import pytz
-
-from pyrogram import filters
-from pymongo import MongoClient
+import os
 from datetime import datetime, timedelta
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ChatPermissions
 
+import dateparser
+import pytz
+from pymongo import MongoClient
+from pyrogram import filters
+from pyrogram.types import ChatPermissions, InlineKeyboardButton, InlineKeyboardMarkup
+
+from Exon import BOT_ID, MONGO_DB_URI
 from Exon import app as AsuX
-from Exon import BOT_ID, mdb as db MONGO_DB_URI
+from Exon import mdb as db
 
 approved_users = db.approve
 tagdb = db.tagdb1
@@ -316,9 +317,6 @@ async def mentioned_alert(client, message):
         message.continue_propagation()
     except:
         return message.continue_propagation()
-
-
-
 
 
 @abishnoi.on(events.NewMessage(pattern="^/tagall ?(.*)"))
