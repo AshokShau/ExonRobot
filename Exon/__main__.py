@@ -163,10 +163,10 @@ for module_name in ALL_MODULES:
 async def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-        chat_id = (chat_id,)
     await application.bot.send_photo(
-        START_IMG,
-        caption=text,
+        chat_id,
+        photo=START_IMG,
+        caption=text
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
         reply_markup=keyboard,
