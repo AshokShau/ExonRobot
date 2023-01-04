@@ -24,7 +24,7 @@ telethon-tgcrypto
 TgCrypto==1.2.5
 pillow==9.4.0
 psycopg2-binary==2.9.2
-pyrate-limiter==2.8.4
+pyrate-limiter==2.8.5
 pyrogram==2.0.93
 pymongo[srv]==4.3.3
 python-dotenv==0.21.0
