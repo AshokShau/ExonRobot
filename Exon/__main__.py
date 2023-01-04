@@ -332,7 +332,7 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.edit_caption(
                 caption=text,
                 parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=True,
+                #disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
                     [[InlineKeyboardButton(text="ʙᴀᴄᴋ", callback_data="help_back")]],
                 ),
