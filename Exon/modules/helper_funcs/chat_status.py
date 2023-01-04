@@ -339,6 +339,9 @@ def connection_status(func):
     return connected_status
 
 
-from Exon.modules import connection
+try:
+    from Exon.modules import connection
+except ImportError as e:
+    print(e)
 
 connected = connection.connected
