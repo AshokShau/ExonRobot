@@ -164,7 +164,7 @@ async def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     await application.bot.send_photo(
-        START_IMG
+        START_IMG,
         chat_id=chat_id,
         caption=text,
         parse_mode=ParseMode.MARKDOWN,
