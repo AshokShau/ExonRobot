@@ -11,16 +11,12 @@ spam_chats = []
 
 
 import asyncio
-import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 import dateparser
-import pytz
-from pymongo import MongoClient
 from pyrogram import filters
 from pyrogram.types import ChatPermissions, InlineKeyboardButton, InlineKeyboardMarkup
 
-from Exon import BOT_ID, MONGO_DB_URI
 from Exon import app as AsuX
 from Exon import mdb as db
 
@@ -247,7 +243,7 @@ async def mentioned_alert(client, message):
                 zone = c["zone"]
                 ctime = c["ctime"]
                 c["otime"]
-                optime = c["otime"]
+                c["otime"]
                 present = dateparser.parse(
                     "now", settings={"TIMEZONE": f"{zone}", "DATE_ORDER": "YMD"}
                 )
@@ -293,7 +289,7 @@ async def mentioned_alert(client, message):
         # print("Im inn")
         try:
             chat_name = message.chat.title
-            chat_id = message.chat.id
+            message.chat.id
             tagged_msg_link = message.link
         except:
             return message.continue_propagation()
