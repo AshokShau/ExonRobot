@@ -9,9 +9,7 @@ from time import time
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-
-from Rani import DRAGONS
-from Rani import app
+from Rani import DRAGONS, app
 
 
 async def aexec(code, client, message):
