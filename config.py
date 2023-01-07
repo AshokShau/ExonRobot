@@ -30,20 +30,10 @@ class Config(object):
 
     LOAD = []
     NO_LOAD = ["connection"]
-    INFOPIC = True
-    URL = None
+
     DRAGONS = get_user_list("elevated_users.json", "sudos")
     DEV_USERS = get_user_list("elevated_users.json", "devs")
-    SPAMMERS = None
-    CERT_PATH = None
-    DEL_CMDS = True
-    STRICT_GBAN = True
-    BAN_STICKER = "CAADBQAD1gkAAjvoCVXK6sii-SVBrAI"
-    KICK_STICKER = "CAADBQADXAkAAlTD8VWDZUADwfd2CQI"
-    ALLOW_EXCL = True
-    BL_CHATS = []
-    ALLOW_CHATS = True
-    TEMP_DOWNLOAD_LOC = "./Downloads"
+
 
 
 class Production(Config):
