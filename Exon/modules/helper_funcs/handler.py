@@ -10,8 +10,10 @@ from telegram.ext.filters import MessageFilter
 
 from Exon import LOGGER
 from Exon import application as n
-from Exon.modules.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
-
+try:
+    from Exon.modules.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
+except ImportError as e:
+    print(e)
 
 class ExonTelegramHandler:
     def __init__(self, n):
