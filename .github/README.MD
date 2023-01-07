@@ -52,8 +52,6 @@ _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏ
 
 - `sudo apt install tmux && tmux`
 
-- `tmux`
-
 - ᴜᴘɢʀᴀᴅᴇ ᴀɴᴅ ᴜᴘᴅᴀᴛᴇ ʙʏ :
 - `sudo apt-get update && sudo apt-get upgrade -y`
 
