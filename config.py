@@ -35,7 +35,6 @@ class Config(object):
     DEV_USERS = get_user_list("elevated_users.json", "devs")
 
 
-
 class Production(Config):
     LOGGER = True
 
