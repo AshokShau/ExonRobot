@@ -1,7 +1,7 @@
 import html
 from typing import Union
 
-from telegram import Bot, Chat, ChatMemberRestricted, ChatPermissions, Update, ChatMember
+from telegram import Bot, Chat, ChatMember, ChatPermissions, Update
 from telegram.constants import ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, ContextTypes
