@@ -36,6 +36,7 @@ from Exon import (
     StartTime,
     application,
     telethn,
+    app,
 )
 
 # needed to dynamically load modules
@@ -693,5 +694,6 @@ if __name__ == "__main__":
     LOGGER.info(
         "sᴜᴄᴄᴇssғᴜʟʟʏ ʟᴏᴀᴅᴇᴅ ᴍᴏᴅᴜʟᴇs ɪғ sʜᴏᴡ ᴀɴʏ ᴇʀʀᴏʀ ʀᴇᴘᴏʀᴛ ᴀᴛ - @AbishnoiMF :"
     )
+    app.start()
     telethn.start(bot_token=TOKEN)
     main()
