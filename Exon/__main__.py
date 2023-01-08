@@ -634,28 +634,6 @@ async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
 
 def main():
 
-    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
-        try:
-            application.bot.sendAnimation(
-                f"@{SUPPORT_CHAT}",
-                animation="https://telegra.ph/file/8dea393ddf4fc2e339179.gif",
-                caption=f"""
-ㅤ🥀 {application.bot.first_name} ɪs ᴀʟɪᴠᴇ ʙᴀʙʏ .....
-
-━━━━━━━━━━━━━
-⍟ **ᴍʏ ᴏᴡɴᴇʀ :** [{BOT_NAME}](tg://user?id={OWNER_ID})
-⍟ **ʙᴏᴛ ᴠᴇʀsɪᴏɴ :** `2.69`
-━━━━━━━━━━━━━
-""",
-                parse_mode=ParseMode.MARKDOWN,
-            )
-        except Unauthorized:
-            LOGGER.warning(
-                "ʙᴏᴛ ɪsɴᴛ ᴀʙʟᴇ ᴛᴏ sᴇɴᴅ ᴍᴇssᴀɢᴇ ᴛᴏ support_chat, ɢᴏ ᴀɴᴅ ᴄʜᴇᴄᴋ !"
-            )
-        except BadRequest as e:
-            LOGGER.warning(e.message)
-
     start_handler = CommandHandler("start", start, block=False)
 
     help_handler = CommandHandler("help", get_help, block=False)
