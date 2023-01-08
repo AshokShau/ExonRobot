@@ -30,7 +30,7 @@ class Config(object):
 
     LOAD = []
     NO_LOAD = ["connection"]
-
+    BL_CHATS = []
     DRAGONS = get_user_list("elevated_users.json", "sudos")
     DEV_USERS = get_user_list("elevated_users.json", "devs")
 
