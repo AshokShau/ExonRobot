@@ -25,6 +25,8 @@ class Config(object):
     MONGO_DB_URI = getenv("MONGO_DB_URI", "")
     DB_NAME = getenv("DB_NAME", "EXON_2")
     DATABASE_URL = getenv("DATABASE_URL", "")
+    
+    # ɴᴏ ᴇᴅɪᴛ ᴢᴏɴᴇ 
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
