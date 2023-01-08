@@ -34,9 +34,9 @@ from Exon import (
     SUPPORT_CHAT,
     TOKEN,
     StartTime,
+    app,
     application,
     telethn,
-    app,
 )
 
 # needed to dynamically load modules
