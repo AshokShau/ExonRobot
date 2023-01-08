@@ -12,8 +12,6 @@ from Exon.modules.sql.nightmode_sql import (
     rmnightmode,
 )
 
-
-
 __help__ = """
 •➥ /nightmode ᴏɴ ᴏʀ ᴏғғ *:* ᴀᴅᴅs ɢʀᴏᴜᴘ ᴛᴏ ɴɪɢʜᴛᴍᴏᴅᴇ ᴄʜᴀᴛs
 
@@ -167,6 +165,3 @@ async def job_open():
 scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
 scheduler.add_job(job_open, trigger="cron", hour=5, minute=59)
 scheduler.start()
-
-
-
