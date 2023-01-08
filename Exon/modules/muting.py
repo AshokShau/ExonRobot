@@ -1,7 +1,7 @@
 import html
 from typing import Union
 
-from telegram import Bot, Chat, ChatMemberRestricted, ChatPermissions, Update
+from telegram import Bot, Chat, ChatMemberRestricted, ChatPermissions, Update, ChatMember
 from telegram.constants import ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, ContextTypes
@@ -37,7 +37,7 @@ async def check_user(user_id: int, bot: Bot, chat: Chat) -> Union[str, None]:
         return reply
 
     if await is_user_admin(chat, user_id, member):
-        reply = "ᴄᴀɴ'ᴛ. ғɪɴᴅ sᴏᴍᴇᴏɴᴇ ᴇʟsᴇ ᴛᴏ ᴍᴜᴛᴇ ʙᴜᴛ ɴᴏᴛ ᴛʜɪs ᴏɴᴇ."
+        reply = "ᴡʜʏ ᴡᴏᴜʟᴅ I ᴍᴜᴛᴇ ᴀɴ ᴀᴅᴍɪɴ? ᴛʜᴀᴛ sᴏᴜɴᴅs ʟɪᴋᴇ ᴀ ᴘʀᴇᴛᴛʏ ᴅᴜᴍʙ ɪᴅᴇᴀ."
         return reply
 
     return None
@@ -73,9 +73,7 @@ async def mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     if reason:
         log += f"\n<b>ʀᴇᴀsᴏɴ:</b> {reason}"
 
-    if not isinstance(member, ChatMemberRestricted) and (
-        member.can_send_messages if isinstance(member, ChatMemberRestricted) else None
-    ):
+    if member.status in [ChatMember.RESTRICTED, ChatMember.MEMBER]:
         chat_permissions = ChatPermissions(can_send_messages=False)
         await bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         await bot.sendMessage(
@@ -110,8 +108,8 @@ async def unmute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
 
     member = await chat.get_member(int(user_id))
 
-    if member.status != "kicked" and member.status != "left":
-        if not isinstance(member, ChatMemberRestricted):
+    if member.status not in [ChatMember.LEFT, ChatMember.BANNED]:
+        if member.status != ChatMember.RESTRICTED:
             await message.reply_text("ᴛʜɪs ᴜsᴇʀ ᴀʟʀᴇᴀᴅʏ ʜᴀs ᴛʜᴇ ʀɪɢʜᴛ ᴛᴏ sᴘᴇᴀᴋ.")
         else:
             chat_permissions = ChatPermissions(
@@ -195,11 +193,7 @@ async def temp_mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         log += f"\n<b>ʀᴇᴀsᴏɴ:</b> {reason}"
 
     try:
-        if not isinstance(member, ChatMemberRestricted) and (
-            member.can_send_messages
-            if isinstance(member, ChatMemberRestricted)
-            else None
-        ):
+        if member.status in [ChatMember.RESTRICTED, ChatMember.MEMBER]:
             chat_permissions = ChatPermissions(can_send_messages=False)
             await bot.restrict_chat_member(
                 chat.id,
