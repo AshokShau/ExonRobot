@@ -60,7 +60,15 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     elif query.data == "EXON_ADMIN":
         await query.message.edit_caption(
-            f"━━━━━━━ *ᴀᴅᴍɪɴs* ━━━━━━━\n",
+            caption=f"""
+• /pin*:* sɪʟᴇɴᴛʟʏ ᴘɪɴs ᴛʜᴇ ᴍᴇssᴀɢᴇ ʀᴇᴘʟɪᴇᴅ ᴛᴏ - ᴀᴅᴅ `'loud'` ᴏʀ `'notify'` ᴛᴏ ɢɪᴠᴇ ɴᴏᴛɪғs ᴛᴏ ᴜsᴇʀs
+• /unpin*:* ᴜɴᴘɪɴs ᴛʜᴇ ᴄᴜʀʀᴇɴᴛʟʏ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ
+• /unpinall*:* ᴜɴᴘɪɴs ᴀʟʟ ᴛʜᴇ ᴘɪɴɴᴇᴅ ᴍᴇssᴀɢᴇ, ᴡᴏʀᴋs ɪɴ ᴛᴏᴘɪᴄs ᴛᴏᴏ (ᴏɴʟʏ OWNER ᴄᴀɴ ᴅᴏ.)
+• /invitelink*:* ɢᴇᴛs ɪɴᴠɪᴛᴇʟɪɴᴋ
+• /promote*:* ᴘʀᴏᴍᴏᴛᴇs ᴛʜᴇ ᴜsᴇʀ ʀᴇᴘʟɪᴇᴅ ᴛᴏ
+• /demote*:* ᴅᴇᴍᴏᴛᴇs ᴛʜᴇ ᴜsᴇʀ ʀᴇᴘʟɪᴇᴅ to
+• /title <ᴛɪᴛʟᴇ ʜᴇʀᴇ>*:* sᴇᴛs ᴀ ᴄᴜsᴛᴏᴍ ᴛɪᴛʟᴇ ғᴏʀ ᴀɴ ᴀᴅᴍɪɴ ᴛʜᴀᴛ ᴛʜᴇ ʙᴏᴛ ᴘʀᴏᴍᴏᴛᴇᴅ
+""",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
@@ -79,11 +87,15 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     elif query.data == "EXON_notes":
         await query.message.edit_caption(
-            f"<b>๏ sᴇᴛᴛɪɴɢ ᴜᴘ ɴᴏᴛᴇs</b>"
+            f"*sᴇᴛᴛɪɴɢ ᴜᴘ ɴᴏᴛᴇs*"
             f"\nʏᴏᴜ ᴄᴀɴ sᴀᴠᴇ ᴍᴇssᴀɢᴇ/ᴍᴇᴅɪᴀ/ᴀᴜᴅɪᴏ ᴏʀ ᴀɴʏᴛʜɪɴɢ ᴀs ɴᴏᴛᴇs"
             f"\nᴛᴏ ɢᴇᴛ ᴀ ɴᴏᴛᴇ sɪᴍᴘʟʏ ᴜsᴇ # ᴀᴛ ᴛʜᴇ ʙᴇɢɪɴɴɪɴɢ ᴏғ ᴀ ᴡᴏʀᴅ"
-            f"\n\nʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ sᴇᴛ ʙᴜᴛᴛᴏɴs ғᴏʀ ɴᴏᴛᴇs ᴀɴᴅ ғɪʟᴛᴇʀs (ʀᴇғᴇʀ ʜᴇʟᴘ ᴍᴇɴᴜ)",
-            parse_mode=ParseMode.HTML,
+            f"\nʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ sᴇᴛ ʙᴜᴛᴛᴏɴs ғᴏʀ ɴᴏᴛᴇs ᴀɴᴅ ғɪʟᴛᴇʀs (ʀᴇғᴇʀ ʜᴇʟᴘ ᴍᴇɴᴜ)",
+            f"\n/get <ɴᴏᴛᴇɴᴀᴍᴇ>*:* ɢᴇᴛ ᴛʜᴇ ɴᴏᴛᴇ ᴡɪᴛʜ ᴛʜɪs ɴᴏᴛᴇɴᴀᴍᴇ",
+            f"\n #<ɴᴏᴛᴇɴᴀᴍᴇ>*:* sᴀᴍᴇ ᴀs /get",
+            f"\n/notes or /saved*:* ʟɪsᴛ ᴀʟʟ sᴀᴠᴇᴅ ɴᴏᴛᴇs ɪɴ ᴛʜɪs ᴄʜᴀᴛ",
+            f"\n\n/number *:* ᴡɪʟʟ ᴘᴜʟʟ ᴛʜᴇ ɴᴏᴛᴇ ᴏғ ᴛʜᴀᴛ ɴᴜᴍʙᴇʀ ɪɴ ᴛʜᴇ ʟɪsᴛ",
+            parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="ɢᴏ ʙᴀᴄᴋ", callback_data="EXON_")]]
             ),
@@ -134,7 +146,7 @@ async def EXON_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
                     [
                         InlineKeyboardButton(
                             text="ᴀʙɪsʜɴᴏɪ",
-                            url="https://t.me/Abishnoi1M",  # ᴄʀᴇᴅɪᴛ ( ɪ ʜᴏᴘᴇ ɴᴏ ᴄʜᴀɴɢᴇ )
+                            url="https://t.me/Abishnoi1M",  # ᴄʀᴇᴅɪᴛ ( ɪ ʜᴏᴘᴇ ᴄʜᴀɴɢᴇ ɴᴀɪ ᴋʀᴏɢᴇ )
                         ),
                         InlineKeyboardButton(
                             text="ᴄʜᴀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"
