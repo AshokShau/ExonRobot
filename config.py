@@ -17,7 +17,7 @@ class Config(object):
 
     API_ID = int(getenv("API_ID", "13600724"))
     API_HASH = getenv("API_HASH", "ee59fd28d0d065c6b7d105082c6a0ba0")
-    TOKEN = getenv("TOKEN", None)  # ɢᴇᴛ ᴏɴᴇ ғʀᴏᴍ @BotFather
+    TOKEN = getenv("TOKEN", None)  # ɢᴇᴛ ᴏɴᴇ ғʀᴏᴍ @BotFather [ᴅᴏɴ'ᴛ ᴀᴅᴅ ʜᴇᴀʀ ʙᴏᴛ ᴛᴏᴋᴇɴ ] 
     OWNER_ID = int(getenv("OWNER_ID", "5938660179"))  # sᴛᴀʀᴛ @Exon_Robot ᴛʏᴘᴇ /id
     OWNER_USERNAME = getenv("OWNER_USERNAME", None)  # ʏᴏᴜʀᴇ ᴛɢ ᴜsᴇʀɴᴀᴍᴇ ᴡɪᴛʜᴏᴜᴛ @
     SUPPORT_CHAT = getenv(
@@ -39,7 +39,7 @@ class Config(object):
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
     LOAD = []
-    NO_LOAD = ["connection"]
+    NO_LOAD = []
     BL_CHATS = []
     DRAGONS = get_user_list("elevated_users.json", "sudos")  # ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
     DEV_USERS = get_user_list("elevated_users.json", "devs")  # ᴅᴏɴ'ᴛ ᴇᴅɪᴛ
