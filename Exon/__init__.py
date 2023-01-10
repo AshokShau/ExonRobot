@@ -19,7 +19,6 @@ from telegram.ext import Application
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
-
 StartTime = time.time()
 # ᴇɴᴀʙʟᴇ ʟᴏɢɢɪɴɢ
 logging.basicConfig(
@@ -43,7 +42,6 @@ except Exception as ef:
 load_dotenv()
 
 
-
 # ɪғ ᴠᴇʀsɪᴏɴ < 3.9, sᴛᴏᴘ ʙᴏᴛ .
 if sys.version_info[0] < 3 or sys.version_info[1] < 9:
     LOGGER.error(
@@ -51,10 +49,7 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 9:
     )
     quit(1)
 
-    
-    
-    
-    
+
 LOGGER.info("------------------------")
 LOGGER.info(f"|    @{Config.OWNER_USERNAME}    |")
 LOGGER.info("------------------------")
