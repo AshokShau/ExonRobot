@@ -5,9 +5,10 @@ import platform
 import random
 import sys
 import time
+from os import environ, mkdir, path
 from sys import exit as sysexit
 from traceback import format_exc
-from os import environ, mkdir, path
+
 import telegram.ext as tg
 from aiohttp import ClientSession
 from dotenv import load_dotenv
