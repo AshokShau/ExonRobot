@@ -1,7 +1,8 @@
 from enum import IntEnum, unique
 
-from Exon.modules.helper_funcs.string_handling import button_markdown_parser
 from telegram import Message
+
+from Exon.modules.helper_funcs.string_handling import button_markdown_parser
 
 
 @unique
@@ -96,7 +97,8 @@ def get_welcome_type(msg: Message):
                 args = msg.reply_to_message.caption
         else:
             args = msg.text.split(
-                None, 1,
+                None,
+                1,
             )  # use python's maxsplit to separate cmd and args
     except AttributeError:
         args = False
@@ -153,7 +155,9 @@ def get_welcome_type(msg: Message):
             )  # set correct offset relative to command + notename
             entities = msg.parse_entities()
         text, buttons = button_markdown_parser(
-            argumen, entities=entities, offset=offset,
+            argumen,
+            entities=entities,
+            offset=offset,
         )
 
     if not data_type:
@@ -177,11 +181,8 @@ def get_filter_type(msg: Message):
         text = msg.text.split(None, 2)[2]
         data_type = Types.TEXT
         media_spoiler = None
-    elif msg.reply_to_message and not msg.reply_to_message.forum_topic_created:    
-        if (
-            msg.reply_to_message.text
-            and len(msg.text.split()) >= 2
-        ):
+    elif msg.reply_to_message and not msg.reply_to_message.forum_topic_created:
+        if msg.reply_to_message.text and len(msg.text.split()) >= 2:
             content = None
             text = msg.reply_to_message.text
             data_type = Types.TEXT
@@ -239,6 +240,5 @@ def get_filter_type(msg: Message):
         data_type = None
         content = None
         media_spoiler = None
-
 
     return text, data_type, content, media_spoiler
