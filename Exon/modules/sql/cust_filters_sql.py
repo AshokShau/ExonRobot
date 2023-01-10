@@ -1,9 +1,10 @@
 import threading
 
-from sqlalchemy import Column, String, UnicodeText, Boolean, Integer, distinct, func
+from sqlalchemy import Boolean, Column, Integer, String, UnicodeText, distinct, func
 
 from Exon.modules.helper_funcs.msg_types import Types
 from Exon.modules.sql import BASE, SESSION
+
 
 class CustomFilters(BASE):
     __tablename__ = "cust_filters"
@@ -14,19 +15,20 @@ class CustomFilters(BASE):
     file_type = Column(Integer, nullable=False, default=1)
     file_id = Column(UnicodeText, default=None)
     has_buttons = Column(Boolean, nullable=False, default=False)
-    
+
     has_media_spoiler = Column(Boolean, nullable=False, default=False)
 
-    def __init__(self, 
-        chat_id: int | str, 
-        keyword: str, 
+    def __init__(
+        self,
+        chat_id: int | str,
+        keyword: str,
         reply: str,
         reply_text: str,
         has_buttons: bool,
         has_media_spoiler: bool,
-        file_type: int, 
-        file_id: str
-        ):
+        file_type: int,
+        file_id: str,
+    ):
         self.chat_id = str(chat_id)  # ensure string
         self.keyword = keyword
         self.reply = reply
@@ -78,7 +80,10 @@ def get_all_filters():
     finally:
         SESSION.close()
 
-def new_add_filter(chat_id, keyword, reply_text, file_type, file_id, buttons, media_spoiler):
+
+def new_add_filter(
+    chat_id, keyword, reply_text, file_type, file_id, buttons, media_spoiler
+):
     global CHAT_FILTERS
 
     if buttons is None:
@@ -245,11 +250,19 @@ def __migrate_filters():
 
             if file_type == Types.TEXT:
                 filt = CustomFilters(
-                    str(x.chat_id), x.keyword, x.reply, file_type.value, None,
+                    str(x.chat_id),
+                    x.keyword,
+                    x.reply,
+                    file_type.value,
+                    None,
                 )
             else:
                 filt = CustomFilters(
-                    str(x.chat_id), x.keyword, None, file_type.value, x.reply,
+                    str(x.chat_id),
+                    x.keyword,
+                    None,
+                    file_type.value,
+                    x.reply,
                 )
 
             SESSION.add(filt)
