@@ -19,13 +19,6 @@ from telegram.ext import Application
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
-try:
-    from config import *
-except:
-    print("ᴄᴀɴ'ᴛ ɪᴍᴘᴏʀᴛ ᴄᴏɴғɪɢ!")
-
-load_dotenv()
-
 
 StartTime = time.time()
 # ᴇɴᴀʙʟᴇ ʟᴏɢɢɪɴɢ
@@ -35,7 +28,21 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("[ᴇxᴏɴ]")
+
+try:
+    if environ.get("ENV"):
+        from config import Config
+    else:
+        from config import Development as Config
+except Exception as ef:
+    LOGGER.error(ef)  # Print Error
+    LOGGER.error(format_exc())
+    sysexit(1)
+
+load_dotenv()
+
+
 
 # ɪғ ᴠᴇʀsɪᴏɴ < 3.9, sᴛᴏᴘ ʙᴏᴛ .
 if sys.version_info[0] < 3 or sys.version_info[1] < 9:
@@ -44,6 +51,17 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 9:
     )
     quit(1)
 
+    
+    
+    
+    
+LOGGER.info("------------------------")
+LOGGER.info(f"|    @{Config.OWNER_USERNAME}    |")
+LOGGER.info("------------------------")
+LOGGER.info(f"ᴠᴇʀsɪᴏɴ: 2.69")
+LOGGER.info(f"ᴏᴡɴᴇʀ: {str(Config.OWNER_ID)}")
+LOGGER.info("sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ: https://github.com/Abishnoi69/ExonRobot\n")
+LOGGER.info("ᴇxᴏɴ ɪs sᴛᴀʀᴛɪɴɢ. | ᴀɴ ᴀʙɪsʜɴᴏɪᴍғ ᴘʀᴏᴊᴇᴄᴛ ᴘᴀʀᴛs. | ")
 
 # ᴠᴇʀs
 API_ID = Config.API_ID
@@ -86,6 +104,7 @@ app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 
 EXON_PTB = Application.builder().token(TOKEN).build()
 asyncio.get_event_loop().run_until_complete(EXON_PTB.bot.initialize())
+
 
 # ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀsᴇ
 mongo = MongoCli(MONGO_DB_URI)
