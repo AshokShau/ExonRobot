@@ -19,6 +19,7 @@ from telegram.error import BadRequest, Forbidden
 from telegram.ext import Application
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
+from sys import exit as sysexit
 
 StartTime = time.time()
 # ᴇɴᴀʙʟᴇ ʟᴏɢɢɪɴɢ
