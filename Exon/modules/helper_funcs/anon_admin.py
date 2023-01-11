@@ -1,18 +1,11 @@
 import functools
 from enum import Enum
-from telegram.constants import ParseMode
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import (
-    ApplicationHandlerStop,
-    CallbackQueryHandler,
-    CommandHandler,
-    ContextTypes,
-    MessageHandler,
-    filters,
-)
+from telegram.constants import ParseMode
+from telegram.ext import CallbackQueryHandler, ContextTypes
 
 from Exon import DEV_USERS, DRAGONS, application
-
 
 
 class AdminPerms(Enum):
@@ -140,5 +133,7 @@ def resolve_user(user, message_id, chat):
     return user
 
 
-anon_callback_handler = CallbackQueryHandler(anon_callback_handler1, pattern=r"anoncb", block=False)
+anon_callback_handler = CallbackQueryHandler(
+    anon_callback_handler1, pattern=r"anoncb", block=False
+)
 application.add_handler(anon_callback_handler)
