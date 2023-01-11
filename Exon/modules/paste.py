@@ -4,20 +4,17 @@ import typing
 import zlib
 from io import BytesIO
 from urllib.parse import urljoin, urlparse, urlunparse
-from uuid import uuid4
-from Crypto import Hash, Protocol, Random
+
 import base58
-from Crypto.Cipher import AES
 import requests
-from typing import Dict, List
+from Crypto import Hash, Protocol, Random
+from Crypto.Cipher import AES
 from telegram import Update
-from telegram.constants import ParseMode
-
-
 from telegram.ext import ContextTypes
 
 from Exon import application
 from Exon.modules.disable import DisableAbleCommandHandler
+
 
 def upload_text(data: str) -> typing.Optional[str]:
     passphrase = Random.get_random_bytes(32)
@@ -67,8 +64,6 @@ def upload_text(data: str) -> typing.Optional[str]:
     return urlunparse(url)
 
 
-
-
 async def paste(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     message = update.effective_message
@@ -96,6 +91,7 @@ async def paste(update: Update, context: ContextTypes.DEFAULT_TYPE):
         txt = "sᴜᴄᴄᴇssғᴜʟʟʏ ᴜᴘʟᴏᴀᴅᴇᴅ ᴛᴏ ᴘʀɪᴠᴀᴛᴇʙɪɴ: {}".format(paste_url)
 
     message.reply_text(txt, disable_web_page_preview=True)
+
 
 __mod_name__ = "𝐏ᴀsᴛᴇ"
 __help__ = """
