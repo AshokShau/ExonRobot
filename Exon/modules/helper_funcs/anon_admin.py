@@ -30,7 +30,9 @@ anon_users = {}
 def user_admin(permission: AdminPerms):
     def wrapper(func):
         @functools.wraps(func)
-        async def awrapper(update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs):
+        async def awrapper(
+            update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
+        ):
             nonlocal permission
             if update.effective_chat.type == "private":
                 return func(update, context, *args, **kwargs)
