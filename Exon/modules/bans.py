@@ -33,7 +33,9 @@ from Exon.modules.helper_funcs.extraction import extract_user_and_text
 from Exon.modules.helper_funcs.misc import mention_username
 from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import gloggable, loggable
+
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
+
 
 @connection_status
 @check_admin(permission="can_restrict_members", is_both=True)
@@ -200,7 +202,6 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             await message.reply_text("ᴜʜᴍ...ᴛʜᴀᴛ ᴅɪᴅɴ'ᴛ ᴡᴏʀᴋ...")
 
     return log_message
-
 
 
 @connection_status
@@ -466,6 +467,7 @@ async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         log += f"\n<b>ʀᴇᴀsᴏɴ:</b> {reason}"
 
     return log
+
 
 @connection_status
 @check_admin(permission="can_restrict_members", is_both=True)
