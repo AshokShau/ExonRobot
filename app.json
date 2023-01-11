@@ -47,6 +47,11 @@
          "required": true,
          "value": "5938660179"
       },
+      "DEV_USERS": {
+         "description": "ᴅᴇᴠs ᴜsᴇʀ ID ᴀs ᴀɴ ɪɴᴛᴇɢᴇʀ.",
+         "required": true,
+         "value": "5938660179"
+      },
       "OWNER_USERNAME": {
          "description": "ʏᴏᴜʀ ᴛɢ ᴜsᴇʀɴᴀᴍᴇ",
          "required": true,
