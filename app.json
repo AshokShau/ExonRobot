@@ -32,6 +32,16 @@
       }
    ],   
    "env": {
+      "API_ID": {
+         "description": "ɢᴇᴛ ᴛʜɪs ᴠᴀʟᴜᴇ ғʀᴏᴍ my.telegram.org/apps.",
+         "required": true,
+         "value": ""
+      },
+      "API_HASH": {
+         "description": "ɢᴇᴛ ᴛʜɪs ᴠᴀʟᴜᴇ ғʀᴏᴍ my.telegram.org/apps.",
+         "required": true,
+         "value": ""
+      },
       "OWNER_ID": {
          "description": "ʏᴏᴜʀ ᴜsᴇʀ ID ᴀs ᴀɴ ɪɴᴛᴇɢᴇʀ.",
          "required": true,
