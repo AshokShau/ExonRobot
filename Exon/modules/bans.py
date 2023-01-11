@@ -34,7 +34,7 @@ from Exon.modules.helper_funcs.misc import mention_username
 from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import gloggable, loggable
 
-from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
+from ..modules.helper_funcs.anon_admin import AdminPerms, user_admin
 
 
 @connection_status
