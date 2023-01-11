@@ -2,12 +2,10 @@ aiohttp==3.8.3
 alphabet-detector==0.0.7
 APScheduler==3.9.1.post1
 asyncio==3.4.3
-base58==2.1.1
 beautifulsoup4==4.11.1
 bleach==5.0.1
 cachetools==5.2.1
 cloudscraper==1.2.68
-Crypto==1.4.1
 dateparser==1.1.5
 emoji==2.2.0
 ffmpeg-python==0.2.0
@@ -34,7 +32,6 @@ pymongo[srv]==4.3.3
 python-dotenv==0.21.0
 python-telegram-bot==20.0
 python-telegram-bot[job-queue]
-requests==2.28.1
 SQLAlchemy==1.4.46
 webcolors==1.12
 wikipedia==1.4.0
