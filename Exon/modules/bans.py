@@ -33,11 +33,12 @@ from Exon.modules.helper_funcs.extraction import extract_user_and_text
 from Exon.modules.helper_funcs.misc import mention_username
 from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import gloggable, loggable
-
+from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 @connection_status
-@loggable
 @check_admin(permission="can_restrict_members", is_both=True)
+@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
+@loggable
 async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     chat = update.effective_chat
     user = update.effective_user
@@ -201,9 +202,11 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     return log_message
 
 
+
 @connection_status
-@loggable
 @check_admin(permission="can_restrict_members", is_both=True)
+@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
+@loggable
 async def temp_ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     chat = update.effective_chat
     user = update.effective_user
@@ -293,8 +296,9 @@ async def temp_ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
 
 
 @connection_status
-@loggable
 @check_admin(permission="can_restrict_members", is_both=True)
+@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
+@loggable
 async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     chat = update.effective_chat
     user = update.effective_user
@@ -375,8 +379,9 @@ async def kickme(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 @connection_status
-@loggable
 @check_admin(permission="can_restrict_members", is_both=True)
+@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
+@loggable
 async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -462,10 +467,9 @@ async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
 
     return log
 
-
 @connection_status
+@check_admin(permission="can_restrict_members", is_both=True)
 @gloggable
-@check_admin(permission="can_restrict_members", is_bot=True)
 async def selfunban(context: ContextTypes.DEFAULT_TYPE, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
