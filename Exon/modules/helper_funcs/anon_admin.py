@@ -73,7 +73,7 @@ def user_admin(permission: AdminPerms):
                 ):
                     return func(update, context, *args, **kwargs)
                 else:
-                    return message.reply_text(
+                    return await message.reply_text(
                         f"ʏᴏᴜ ʟᴀᴄᴋ ᴛʜᴇ ᴘᴇʀᴍɪssɪᴏɴ: `{permission.name}`",
                         parse_mode=ParseMode.MARKDOWN,
                     )
