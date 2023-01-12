@@ -22,13 +22,13 @@ except ImportError as e:
 
 class ExonTelegramHandler:
     def __init__(self, n):
-        self._Application = n
+        self._application = n
 
     def command(
         self,
         command: str,
         filters: Optional[MessageFilter] = None,
-        admin_ok: bool = True,
+        admin_ok: bool = False,
         pass_args: bool = False,
         pass_chat_data: bool = False,
         block: bool = False,
@@ -38,7 +38,7 @@ class ExonTelegramHandler:
         def _command(func):
             try:
                 if can_disable:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         DisableAbleCommandHandler(
                             command,
                             func,
@@ -50,7 +50,7 @@ class ExonTelegramHandler:
                         group,
                     )
                 else:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         CommandHandler(
                             command,
                             func,
@@ -65,7 +65,7 @@ class ExonTelegramHandler:
                 )
             except TypeError:
                 if can_disable:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         DisableAbleCommandHandler(
                             command,
                             func,
@@ -77,7 +77,7 @@ class ExonTelegramHandler:
                         )
                     )
                 else:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         CommandHandler(
                             command,
                             func,
@@ -106,14 +106,14 @@ class ExonTelegramHandler:
         def _message(func):
             try:
                 if can_disable:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         DisableAbleMessageHandler(
                             pattern, func, friendly=friendly, block=block
                         ),
                         group,
                     )
                 else:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         MessageHandler(pattern, func, block=block), group
                     )
                 LOGGER.debug(
@@ -121,13 +121,13 @@ class ExonTelegramHandler:
                 )
             except TypeError:
                 if can_disable:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         DisableAbleMessageHandler(
                             pattern, func, friendly=friendly, block=block
                         )
                     )
                 else:
-                    self._Application.add_handler(
+                    self._application.add_handler(
                         MessageHandler(pattern, func, block=block)
                     )
                 LOGGER.debug(
@@ -138,10 +138,12 @@ class ExonTelegramHandler:
 
         return _message
 
-    def callbackquery(self, pattern: str = None, block: bool = True):
+    def callbackquery(self, pattern: str = None, block: bool = False):
         def _callbackquery(func):
-            self._Application.add_handler(
-                CallbackQueryHandler(pattern=pattern, callback=func, block=block)
+            self._application.add_handler(
+                CallbackQueryHandler(
+                    pattern=pattern, callback=func, block=block
+                )
             )
             LOGGER.debug(
                 f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
@@ -159,7 +161,7 @@ class ExonTelegramHandler:
         chat_types: List[str] = None,
     ):
         def _inlinequery(func):
-            self._Application.add_handler(
+            self._application.add_handler(
                 InlineQueryHandler(
                     pattern=pattern,
                     callback=func,
