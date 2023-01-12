@@ -141,9 +141,7 @@ class ExonTelegramHandler:
     def callbackquery(self, pattern: str = None, block: bool = False):
         def _callbackquery(func):
             self._application.add_handler(
-                CallbackQueryHandler(
-                    pattern=pattern, callback=func, block=block
-                )
+                CallbackQueryHandler(pattern=pattern, callback=func, block=block)
             )
             LOGGER.debug(
                 f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
