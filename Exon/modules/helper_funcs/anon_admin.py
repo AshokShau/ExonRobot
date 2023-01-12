@@ -67,7 +67,7 @@ def user_admin(permission: AdminPerms):
                 chat_id = message.chat.id
                 mem = context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
                 if (
-                    getattr(mem, permission.value) is True
+                    await getattr(mem, permission.value) is True
                     or mem.status == "creator"
                     or user_id in DRAGONS
                 ):
