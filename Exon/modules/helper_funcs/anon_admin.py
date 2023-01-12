@@ -27,7 +27,7 @@ anon_callback_messages = {}
 anon_users = {}
 
 
-def user_admin(permission: AdminPerms):
+async def user_admin(permission: AdminPerms):
     def wrapper(func):
         @functools.wraps(func)
         async def awrapper(
