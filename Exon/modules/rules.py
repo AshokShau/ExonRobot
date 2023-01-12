@@ -6,10 +6,10 @@ from telegram.helpers import escape_markdown
 
 import Exon.modules.sql.rules_sql as sql
 from Exon import application
-from Exon.modules.helper_funcs.chat_status import check_admin
+from Exon.modules.helper_funcs.chat_status import check_admin, connection_status
 from Exon.modules.helper_funcs.string_handling import markdown_parser, markdown_to_html
 
-
+@connection_status
 async def get_rules(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     await send_rules(update, chat_id)
