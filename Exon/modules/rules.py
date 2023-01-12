@@ -130,7 +130,7 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(chat_id, user.id):
+def __chat_settings__(chat_id, user_id):
     return f"ᴛʜɪs ᴄʜᴀᴛ has had it's rules set: `{bool(sql.get_rules(chat_id))}`"
 
 
