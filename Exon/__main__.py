@@ -215,8 +215,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         match.group(1), update.effective_user, update, context, False
                     )
 
-            elif args[0][1:].isdigit() and "rules" in IMPORTED:
-                await IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
+            elif args[0][1:].isdigit() and "𝐑ᴜʟᴇs" in IMPORTED:
+                await IMPORTED["𝐑ᴜʟᴇs"].send_rules(update, args[0], from_pm=True)
 
         else:
             first_name = update.effective_user.first_name
