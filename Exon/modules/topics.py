@@ -54,7 +54,7 @@ from Exon.modules.log_channel import loggable
 #         if topic_chat:
 #             res = del_action_topic(chat.id)
 #             if res:
-#                 await message.reply_text(f"Successfully removed the old topic ({topic_chat}) chat for actions, You can set new one now.")
+#                 await message.reply_text(f"sᴜᴄᴄᴇssғᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ᴛʜᴇ ᴏʟᴅ ᴛᴏᴘɪᴄ ({topic_chat}) ᴄʜᴀᴛ ғᴏʀ ᴀᴄᴛɪᴏɴs, ʏᴏᴜ ᴄᴀɴ sᴇᴛ ɴᴇᴡ ᴏɴᴇ ɴᴏᴡ.")
 #                 log_message = (
 #                     f"<b>{html.escape(chat.title)}:</b>\n"
 #                     f"#𝐃𝐄𝐋𝐀𝐂𝐓𝐈𝐎𝐍𝐓𝐎𝐏𝐈𝐂\n"
@@ -69,7 +69,7 @@ from Exon.modules.log_channel import loggable
 #             await message.reply_text("It seems like you haven't set any topic for actions, you can set one by using /setactiontopic in the topic.")
 #             return ""
 #     else:
-#         await message.reply_text("Action Topic can be only removed in Groups with Topic support.")
+#         await message.reply_text("ᴀᴄᴛɪᴏɴ ᴛᴏᴘɪᴄ ᴄᴀɴ ʙᴇ ᴏɴʟʏ ʀᴇᴍᴏᴠᴇᴅ ɪɴ ɢʀᴏᴜᴘs ᴡɪᴛʜ ᴛᴏᴘɪᴄ sᴜᴘᴘᴏʀᴛ.")
 #         return ""
 
 """
@@ -128,7 +128,7 @@ async def delete_topic(update: Update, context: ContextTypes.DEFAULT_TYPE):
             try:
                 topic_chat = await context.bot.delete_forum_topic(chat.id, args[0])
                 if topic_chat:
-                    await message.reply_text(f"Succesfully deleted {args[0]}")
+                    await message.reply_text(f"sᴜᴄᴄᴇsғᴜʟʟʏ ᴅᴇʟᴇᴛᴇᴅ {args[0]}")
                     log_message = (
                         f"<b>{html.escape(chat.title)}:</b>\n"
                         f"#𝐃𝐄𝐋𝐓𝐎𝐏𝐈𝐂\n"
@@ -190,7 +190,7 @@ async def open_topic(update: Update, context: ContextTypes.DEFAULT_TYPE):
             try:
                 topic_chat = await context.bot.reopen_forum_topic(chat.id, args[0])
                 if topic_chat:
-                    await message.reply_text(f"Succesfully Opened {args[0]}")
+                    await message.reply_text(f"sᴜᴄᴄᴇsғᴜʟʟʏ ᴏᴘᴇɴᴇᴅ {args[0]}")
                     log_message = (
                         f"<b>{html.escape(chat.title)}:</b>\n"
                         f"#𝐎𝐏𝐄𝐍𝐓𝐎𝐏𝐈𝐂\n"
