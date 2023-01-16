@@ -97,16 +97,16 @@ async def downvote(_, message):
         f"ᴅᴇᴄʀᴇᴍᴇɴᴛᴇᴅ ᴋᴀʀᴍᴀ ᴏғ {user_mention} ʙʏ 1.\n**ᴛᴏᴛᴀʟ ᴩᴏɪɴᴛs :** {karma}"
     )
 
-
 @abishnoi.on_message(filters.command("karmastat") & filters.group)
-async def karma(_, message):
+async def command_karma(_, message):
+    chat_id = message.chat.id
     if not message.reply_to_message:
-        m = await message.reply_text("🦋")
-        karma = await get_karmas(message.chat.id)
+        m = await message.reply_text("ɢᴇᴛᴛɪɴɢ ᴋᴀʀᴍᴀ ʟɪsᴛ ᴏғ ᴛᴏᴘ 10 ᴜsᴇʀs ᴡᴀɪᴛ...")
+        karma = await get_karmas(chat_id)
         if not karma:
-            await m.edit_text("ɴᴏ ᴋᴀʀᴍᴀ ɪɴ ᴅʙ ғᴏʀ ᴛʜɪs ᴄʜᴀᴛ.")
+            await m.edit("ɴᴏ ᴋᴀʀᴍᴀ ɪɴ ᴅʙ ғᴏʀ ᴛʜɪs ᴄʜᴀᴛ.")
             return
-        msg = f"**ᴋᴀʀᴍᴀ ʟɪsᴛ ᴏғ {message.chat.title} :**\n"
+        msg = f"🏆 **ᴋᴀʀᴍᴀ ʟɪsᴛ ᴏғ {message.chat.title}**\n"
         limit = 0
         karma_dicc = {}
         for i in karma:
@@ -114,10 +114,14 @@ async def karma(_, message):
             user_karma = karma[i]["karma"]
             karma_dicc[str(user_id)] = user_karma
             karma_arranged = dict(
-                sorted(karma_dicc.items(), key=lambda item: item[1], reverse=True)
+                sorted(
+                    karma_dicc.items(),
+                    key=lambda item: item[1],
+                    reverse=True,
+                )
             )
         if not karma_dicc:
-            await m.edit_text("ɴᴏ ᴋᴀʀᴍᴀ ɪɴ DB ғᴏʀ ᴛʜɪs ᴄʜᴀᴛ.")
+            await m.edit("ɴᴏ ᴋᴀʀᴍᴀ ɪɴ ᴅʙ ғᴏʀ ᴛʜɪs ᴄʜᴀᴛ.")
             return
         for user_idd, karma_count in karma_arranged.items():
             if limit > 9:
@@ -130,15 +134,19 @@ async def karma(_, message):
             first_name = user.first_name
             if not first_name:
                 continue
-            msg += f"`{karma_count}`  {(first_name[0:12] + '...') if len(first_name) > 12 else first_name}\n"
+            username = user.username
+            msg += f"\n≛ [{first_name}](https://t.me/{username}) : {karma_count}"
             limit += 1
-        await m.edit_text(msg)
+        await m.edit(msg, disable_web_page_preview=True)
     else:
         user_id = message.reply_to_message.from_user.id
-        karma = await get_karma(message.chat.id, await int_to_alpha(user_id))
-        karma = karma["karma"] if karma else 0
-        await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴩᴏɪɴᴛs :** {karma}")
-
+        karma = await get_karma(chat_id, await int_to_alpha(user_id))
+        if karma:
+            karma = karma["karma"]
+            await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
+        else:
+            karma = 0
+            await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
 
 @abishnoi.on_message(filters.command("karma") & ~filters.private)
 @can_change_info
