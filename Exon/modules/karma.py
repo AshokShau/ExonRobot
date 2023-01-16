@@ -97,6 +97,7 @@ async def downvote(_, message):
         f"ᴅᴇᴄʀᴇᴍᴇɴᴛᴇᴅ ᴋᴀʀᴍᴀ ᴏғ {user_mention} ʙʏ 1.\n**ᴛᴏᴛᴀʟ ᴩᴏɪɴᴛs :** {karma}"
     )
 
+
 @abishnoi.on_message(filters.command("karmastat") & filters.group)
 async def command_karma(_, message):
     chat_id = message.chat.id
@@ -147,6 +148,7 @@ async def command_karma(_, message):
         else:
             karma = 0
             await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
+
 
 @abishnoi.on_message(filters.command("karma") & ~filters.private)
 @can_change_info
