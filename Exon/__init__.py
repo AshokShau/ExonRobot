@@ -2,7 +2,6 @@ import asyncio
 import logging
 import os
 import platform
-import random
 import sys
 import time
 from os import environ, mkdir, path
@@ -15,9 +14,6 @@ from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient
 from pyrogram import Client
-from telegram import __bot_api_version__
-from telegram import __version__ as ptb_version
-from telegram.error import BadRequest, Forbidden
 from telegram.ext import Application
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
@@ -30,6 +26,9 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
+logging.getLogger("apscheduler").setLevel(logging.ERROR)
+logging.getLogger("telethon").setLevel(logging.ERROR)
+logging.getLogger("pyrogram").setLevel(logging.ERROR)
 LOGGER = logging.getLogger("[ᴇxᴏɴ]")
 
 try:
