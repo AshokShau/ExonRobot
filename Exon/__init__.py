@@ -99,8 +99,8 @@ tbot = telethn.start(bot_token=TOKEN)
 app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 
 
-EXON_PTB = Application.builder().token(TOKEN).build()
-asyncio.get_event_loop().run_until_complete(EXON_PTB.bot.initialize())
+Exon = Application.builder().token(TOKEN).build()
+asyncio.get_event_loop().run_until_complete(Exon.bot.initialize())
 
 
 # ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀsᴇ
@@ -151,7 +151,7 @@ def Asuinline(**args):
     return decorator
 
 
-application = EXON_PTB
+application = Exon
 aiohttpsession = ClientSession()
 print("[ᴇxᴏɴ]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
 BOT_ID = application.bot.id
