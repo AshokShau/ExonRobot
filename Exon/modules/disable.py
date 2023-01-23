@@ -327,9 +327,7 @@ if is_module_loaded(FILENAME):
         return build_curr_disabled(chat_id)
 
     DISABLE_HANDLER = CommandHandler("disable", disable)
-    DISABLE_MODULE_HANDLER = CommandHandler(
-        "disablemodule", disable_module
-    )
+    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module)
     ENABLE_HANDLER = CommandHandler("enable", enable)
     ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module)
     COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands)
