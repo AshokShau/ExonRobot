@@ -3,7 +3,7 @@ alphabet-detector==0.0.7
 APScheduler==3.9.1.post1
 asyncio==3.4.3
 beautifulsoup4==4.11.1
-bleach==5.0.1
+bleach==6.0.0
 cachetools==5.3.0
 cloudscraper==1.2.68
 dateparser==1.1.6
