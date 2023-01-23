@@ -11,7 +11,7 @@ from sqlalchemy import (
     func,
 )
 
-from Exon import application
+from Exon import exon
 from Exon.modules.sql import BASE, SESSION
 
 
@@ -79,7 +79,7 @@ INSERTION_LOCK = threading.RLock()
 
 def ensure_bot_in_db():
     with INSERTION_LOCK:
-        bot = Users(application.bot.id, application.bot.username)
+        bot = Users(exon.bot.id, exon.bot.username)
         SESSION.merge(bot)
         SESSION.commit()
 
