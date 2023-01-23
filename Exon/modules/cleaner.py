@@ -9,7 +9,7 @@ from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin, connection_status
 from Exon.modules.sql import cleaner_sql as sql
 
-CMD_STARTERS = ("/", "!", ".", "+", "-", "*", "^") 
+CMD_STARTERS = ("/", "!", ".", "+", "-", "*", "^")
 BLUE_TEXT_CLEAN_GROUP = 13
 CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
 command_list = [
