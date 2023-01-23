@@ -1,11 +1,8 @@
 import asyncio
 import logging
-import os
-import platform
 import sys
 import time
-from os import environ, mkdir, path
-from sys import exit as sysexit
+from os import environ
 from traceback import format_exc
 
 import telegram.ext as tg
@@ -18,18 +15,20 @@ from telegram.ext import Application
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
+
 StartTime = time.time()
-# ᴇɴᴀʙʟᴇ ʟᴏɢɢɪɴɢ
+
+# Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
 )
 
-logging.getLogger("apscheduler").setLevel(logging.ERROR)
-logging.getLogger("telethon").setLevel(logging.ERROR)
-logging.getLogger("pyrogram").setLevel(logging.ERROR)
-LOGGER = logging.getLogger("[ᴇxᴏɴ]")
+logging.getLogger("apscheduler").setLevel(logging.WARNING)
+logging.getLogger("telethon").setLevel(logging.WARNING)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+LOGGER = logging.getLogger("[EXON]")
 
 try:
     if environ.get("ENV"):
@@ -39,15 +38,15 @@ try:
 except Exception as ef:
     LOGGER.error(ef)  # Print Error
     LOGGER.error(format_exc())
-    sysexit(1)
+    exit(1)
 
 load_dotenv()
 
 
-# ɪғ ᴠᴇʀsɪᴏɴ < 3.9, sᴛᴏᴘ ʙᴏᴛ .
-if sys.version_info[0] < 3 or sys.version_info[1] < 9:
+# if version < 3.6, stop bot.
+if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     LOGGER.error(
-        "ʏᴏᴜ MUST ʜᴀᴠᴇ ᴀ ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ᴏғ ᴀᴛ ʟᴇᴀsᴛ 3.9 ! ᴍᴜʟᴛɪᴘʟᴇ ғᴇᴀᴛᴜʀᴇs ᴅᴇᴘᴇɴᴅ ᴏɴ ᴛʜɪs. ʙᴏᴛ ǫᴜɪᴛᴛɪɴɢ.",
+        "ʏᴏᴜ MUST ʜᴀᴠᴇ ᴀ ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ᴏғ ᴀᴛ ʟᴇᴀsᴛ 3.6 ! ᴍᴜʟᴛɪᴘʟᴇ ғᴇᴀᴛᴜʀᴇs ᴅᴇᴘᴇɴᴅ ᴏɴ ᴛʜɪs. ʙᴏᴛ ǫᴜɪᴛᴛɪɴɢ.",
     )
     quit(1)
 
@@ -84,7 +83,7 @@ KICK_STICKER = "CAADBQADXAkAAlTD8VWDZUADwfd2CQI"
 ALLOW_CHATS = True
 ALLOW_EXCL = True
 INFOPIC = True
-TEMP_DOWNLOAD_LOC = "./Downloads"
+TEMP_DOWNLOAD_LOC = "./downloads"
 
 
 DRAGONS.add(OWNER_ID)
@@ -96,7 +95,7 @@ DEV_USERS = list(DEV_USERS)
 
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 tbot = telethn.start(bot_token=TOKEN)
-app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
+app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True)
 
 
 Exon = Application.builder().token(TOKEN).build()
@@ -109,8 +108,8 @@ db = mongo.EXON_ROBOT
 
 try:
     client = MongoClient(MONGO_DB_URI)
-except PyMongoError:
-    exiter(1)
+except:
+    exit(1)
 mdb = client[DB_NAME]
 
 
@@ -152,11 +151,14 @@ def Asuinline(**args):
 
 
 application = Exon
+
 aiohttpsession = ClientSession()
+
 print("[ᴇxᴏɴ]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
 BOT_ID = application.bot.id
 BOT_NAME = application.bot.first_name
 BOT_USERNAME = application.bot.username
+
 from Exon.modules.helper_funcs.handlers import (
     CustomCommandHandler,
     CustomMessageHandler,
