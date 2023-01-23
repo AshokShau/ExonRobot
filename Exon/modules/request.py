@@ -6,7 +6,7 @@ from telegram.error import BadRequest, Forbidden
 from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 from telegram.helpers import mention_html
 
-from Exon import LOGGER, application
+from Exon import LOGGER, exon
 from Exon.modules.helper_funcs.chat_status import check_admin, user_not_admin
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql import request_sql as sql
@@ -159,18 +159,18 @@ def __user_settings__(user_id):
     return text
 
 
-SETTINGS_HANDLER = CommandHandler("requests", settings, block=False)
+SETTINGS_HANDLER = CommandHandler("requests", settings)
 REQUEST_HANDLER = CommandHandler(
-    "request", request, filters=filters.ChatType.GROUPS, block=False
+    "request", request, filters=filters.ChatType.GROUPS
 )
 HASH_REQUEST_HANDLER = MessageHandler(
-    filters.Regex(r"(?i)#request(s)?"), request, block=False
+    filters.Regex(r"(?i)#request(s)?"), request
 )
 
 
-application.add_handler(SETTINGS_HANDLER)
-application.add_handler(REQUEST_HANDLER, REQUEST_GROUP)
-application.add_handler(HASH_REQUEST_HANDLER)
+exon.add_handler(SETTINGS_HANDLER)
+exon.add_handler(REQUEST_HANDLER, REQUEST_GROUP)
+exon.add_handler(HASH_REQUEST_HANDLER)
 
 __mod_name__ = "𝐑ᴇǫᴜᴇsᴛ"
 __help__ = """

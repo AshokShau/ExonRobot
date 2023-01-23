@@ -6,7 +6,7 @@ from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
 
 import Exon.modules.sql.global_bans_sql as gban_sql
 import Exon.modules.sql.users_sql as user_sql
-from Exon import DEV_USERS, OWNER_ID, application
+from Exon import DEV_USERS, OWNER_ID, exon
 from Exon.modules.helper_funcs.chat_status import check_admin
 
 
@@ -160,11 +160,11 @@ async def callback_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs.")
 
 
-DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup, block=False)
-BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern="db_.*", block=False)
+DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup)
+BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern="db_.*")
 
-application.add_handler(DB_CLEANUP_HANDLER)
-application.add_handler(BUTTON_HANDLER)
+exon.add_handler(DB_CLEANUP_HANDLER)
+exon.add_handler(BUTTON_HANDLER)
 
 __mod_name__ = "𝐃𝐁-ᴄʟᴇᴀɴ"
 __handlers__ = [DB_CLEANUP_HANDLER, BUTTON_HANDLER]

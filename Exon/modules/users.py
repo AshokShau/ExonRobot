@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 from telegram.helpers import escape_markdown
 
 import Exon.modules.sql.users_sql as sql
-from Exon import DEV_USERS, LOGGER, OWNER_ID, application
+from Exon import DEV_USERS, LOGGER, OWNER_ID, exon
 from Exon.modules.helper_funcs.chat_status import check_admin
 from Exon.modules.sql.users_sql import get_all_users
 
@@ -40,7 +40,7 @@ async def get_user_id(username: str) -> Union[int, None]:
     else:
         for user_obj in users:
             try:
-                userdat = await application.bot.get_chat(user_obj.user_id)
+                userdat = await exon.bot.get_chat(user_obj.user_id)
                 if userdat.username == username:
                     return userdat.id
 
@@ -161,7 +161,7 @@ async def chat_checker(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def __user_info__(user_id):
     if user_id in [777000, 1087968824]:
         return """╘══「 ɢʀᴏᴜᴘs ᴄᴏᴜɴᴛ: <code>???</code> 」"""
-    if user_id == application.bot.id:
+    if user_id == exon.bot.id:
         return """╘══「 ɢʀᴏᴜᴘs ᴄᴏᴜɴᴛ: <code>???</code> 」"""
     num_chats = sql.get_user_num_chats(user_id)
     return f"""╘══「 ɢʀᴏᴜᴘs ᴄᴏᴜɴᴛ: <code>{num_chats}</code> 」"""
@@ -178,20 +178,20 @@ def __migrate__(old_chat_id, new_chat_id):
 __help__ = ""  # no help string
 
 BROADCAST_HANDLER = CommandHandler(
-    ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast, block=False
+    ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast
 )
 USER_HANDLER = MessageHandler(
-    filters.ALL & filters.ChatType.GROUPS, log_user, allow_edit=True, block=False
+    filters.ALL & filters.ChatType.GROUPS, log_user, allow_edit=True
 )
 CHAT_CHECKER_HANDLER = MessageHandler(
-    filters.ALL & filters.ChatType.GROUPS, chat_checker, allow_edit=True, block=False
+    filters.ALL & filters.ChatType.GROUPS, chat_checker, allow_edit=True
 )
-CHATLIST_HANDLER = CommandHandler("groups", chats, block=False)
+CHATLIST_HANDLER = CommandHandler("groups", chats)
 
-application.add_handler(USER_HANDLER, USERS_GROUP)
-application.add_handler(BROADCAST_HANDLER)
-application.add_handler(CHATLIST_HANDLER)
-application.add_handler(CHAT_CHECKER_HANDLER, CHAT_GROUP)
+exon.add_handler(USER_HANDLER, USERS_GROUP)
+exon.add_handler(BROADCAST_HANDLER)
+exon.add_handler(CHATLIST_HANDLER)
+exon.add_handler(CHAT_CHECKER_HANDLER, CHAT_GROUP)
 
 __mod_name__ = "𝐔sᴇʀs"
 __handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER, CHATLIST_HANDLER]

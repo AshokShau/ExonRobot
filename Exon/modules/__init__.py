@@ -1,5 +1,7 @@
-from Exon import LOAD, LOGGER, NO_LOAD
+from Exon import LOGGER
 
+LOAD = []
+NO_LOAD = []
 
 def __list_all_modules():
     import glob

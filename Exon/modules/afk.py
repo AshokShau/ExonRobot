@@ -9,7 +9,7 @@ from Exon.modules.sql.mongo.afk_db import add_afk, is_afk, remove_afk
 
 
 # bug :- /afk with bot username afk back in 2 sec.
-@app.on_message(filters.command(["afk", f"afk@{BOT_USERNAME}"]))
+@app.on_message(filters.command(["afk"]))
 async def active_afk(_, message: Message):
     if message.sender_chat:
         return

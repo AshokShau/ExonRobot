@@ -8,7 +8,7 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 from telegram.helpers import mention_html
 
 import Exon.modules.sql.blacklist_sql as sql
-from Exon import LOGGER, application
+from Exon import LOGGER, exon
 from Exon.modules.connection import connected
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
@@ -33,7 +33,7 @@ async def blacklist(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id, need_admin=False)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if chat.type == "private":
@@ -80,7 +80,7 @@ async def add_blacklist(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         chat_id = update.effective_chat.id
@@ -135,7 +135,7 @@ async def unblacklist(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         chat_id = update.effective_chat.id
@@ -216,9 +216,9 @@ async def blacklist_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
@@ -499,24 +499,23 @@ __help__ = """
  • /blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>*:* ᴀᴄᴛɪᴏɴ ᴛᴏ ᴘᴇʀғᴏʀᴍ when sᴏᴍᴇᴏɴᴇ sᴇɴᴅs ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs.
 """
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
-    "blacklist", blacklist, admin_ok=True, block=False
+    "blacklist", blacklist, admin_ok=Trueexon
 )
-ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklist, block=False)
-UNBLACKLIST_HANDLER = CommandHandler("unblacklist", unblacklist, block=False)
-BLACKLISTMODE_HANDLER = CommandHandler("blacklistmode", blacklist_mode, block=False)
+ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklistexon)
+UNBLACKLIST_HANDLER = CommandHandler("unblacklist", unblacklistexon)
+BLACKLISTMODE_HANDLER = CommandHandler("blacklistmode", blacklist_modeexon)
 BLACKLIST_DEL_HANDLER = MessageHandler(
     (filters.TEXT | filters.COMMAND | filters.Sticker.ALL | filters.PHOTO)
     & filters.ChatType.GROUPS,
     del_blacklist,
     allow_edit=True,
-    block=False,
 )
 
-application.add_handler(BLACKLIST_HANDLER)
-application.add_handler(ADD_BLACKLIST_HANDLER)
-application.add_handler(UNBLACKLIST_HANDLER)
-application.add_handler(BLACKLISTMODE_HANDLER)
-application.add_handler(BLACKLIST_DEL_HANDLER, group=BLACKLIST_GROUP)
+exon.add_handler(BLACKLIST_HANDLER)
+exon.add_handler(ADD_BLACKLIST_HANDLER)
+exon.add_handler(UNBLACKLIST_HANDLER)
+exon.add_handler(BLACKLISTMODE_HANDLER)
+exon.add_handler(BLACKLIST_DEL_HANDLER, group=BLACKLIST_GROUP)
 
 __handlers__ = [
     BLACKLIST_HANDLER,

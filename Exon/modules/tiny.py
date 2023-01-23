@@ -4,7 +4,7 @@ import cv2
 from PIL import Image
 
 from Exon import register as abishnoi
-from Exon import telethn as tbot
+from Exon import telethn as Abishnoi
 
 
 @abishnoi(pattern="^/tiny ?(.*)")
@@ -14,10 +14,10 @@ async def _(event):
         await event.reply("`ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ sᴛɪᴄᴋᴇʀ`")
         return
     kontol = await event.reply("`ᴘʀᴏᴄᴇssɪɴɢ ᴛɪɴʏ...`")
-    ik = await tbot.download_media(reply)
+    ik = await Abishnoi.download_media(reply)
     im1 = Image.open("Exon/modules/resources/blank_background.png")
     if ik.endswith(".tgs"):
-        await tbot.download_media(reply, "blank_background.tgs")
+        await Abishnoi.download_media(reply, "blank_background.tgs")
         os.system("lottie_convert.py blank_background.tgs json.json")
         json = open("json.json", "r")
         jsn = json.read()
@@ -73,7 +73,7 @@ async def _(event):
         back_im.save("o.webp", "WEBP", quality=95)
         file = "o.webp"
         os.remove("k.png")
-    await tbot.send_file(event.chat_id, file, reply_to=event.reply_to_msg_id)
+    await Abishnoi.send_file(event.chat_id, file, reply_to=event.reply_to_msg_id)
     await kontol.delete()
     os.remove(file)
     os.remove(ik)

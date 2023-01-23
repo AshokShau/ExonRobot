@@ -12,7 +12,7 @@ from webcolors import hex_to_name, name_to_hex
 from Exon import DRAGONS as AUTH
 from Exon import OWNER_ID
 from Exon import mdb as qdb
-from Exon import telethn as bot
+from Exon import telethn as Abishnoi
 
 # ʙʏ @Abishnoi1M
 # ==============================================
@@ -61,7 +61,7 @@ def command(**args):
                 ERRORS.append(e)
                 await ev.reply(str(e))
 
-        bot.add_event_handler(wrapper, telethon.events.NewMessage(**args))
+        Abishnoi.add_event_handler(wrapper, telethon.events.NewMessage(**args))
         return func
 
     return decorator
@@ -75,7 +75,7 @@ def InlineQuery(**args):
             except Exception as e:
                 ERRORS.append(e)
 
-        bot.add_event_handler(wrapper, telethon.events.InlineQuery(**args))
+        Abishnoi.add_event_handler(wrapper, telethon.events.InlineQuery(**args))
         return func
 
     return decorator
@@ -90,7 +90,7 @@ def Callback(**args):
                 ERRORS.append(e)
                 await ev.answer(str(e), alert=True)
 
-        bot.add_event_handler(func, telethon.events.CallbackQuery(**args))
+        Abishnoi.add_event_handler(func, telethon.events.CallbackQuery(**args))
         return func
 
     return decorator
@@ -143,7 +143,7 @@ async def HasRight(chat_id, user_id, right):
         return True
     if user_id in AUTH:
         return True
-    p = await bot(
+    p = await Abishnoi(
         telethon.tl.functions.channels.GetParticipantRequest(chat_id, user_id)
     )
     p: telethon.tl.types.ChannelParticipant.to_dict
@@ -462,7 +462,7 @@ async def _quotly_api_(e):
         "messages": messages,
     }
     req = post(
-        "https://bot.lyo.su/quote/generate",
+        "https://Abishnoi.lyo.su/quote/generate",
         headers={"Content-type": "application/json"},
         json=post_data,
     )

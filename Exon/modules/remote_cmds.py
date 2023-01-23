@@ -7,7 +7,7 @@ from telegram import (
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, ContextTypes, filters
 
-from Exon import DRAGONS, LOGGER, application
+from Exon import DRAGONS, LOGGER, exon
 from Exon.modules.helper_funcs.chat_status import (
     is_bot_admin,
     is_user_ban_protected,
@@ -528,22 +528,22 @@ async def runmute(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await message.reply_text("ᴡᴇʟʟ ᴅᴀᴍɴ, I ᴄᴀɴ'ᴛ ᴜɴᴍᴜᴛᴇ ᴛʜᴀᴛ ᴜsᴇʀ.")
 
 
-RBAN_HANDLER = CommandHandler("rban", rban, filters=filters.User(DRAGONS), block=False)
+RBAN_HANDLER = CommandHandler("rban", rban, filters=filters.User(DRAGONS))
 RUNBAN_HANDLER = CommandHandler(
-    "runban", runban, filters=filters.User(DRAGONS), block=False
+    "runban", runban, filters=filters.User(DRAGONS)
 )
 RKICK_HANDLER = CommandHandler(
-    "rkick", rkick, filters=filters.User(DRAGONS), block=False
+    "rkick", rkick, filters=filters.User(DRAGONS)
 )
 RMUTE_HANDLER = CommandHandler(
-    "rmute", rmute, filters=filters.User(DRAGONS), block=False
+    "rmute", rmute, filters=filters.User(DRAGONS)
 )
 RUNMUTE_HANDLER = CommandHandler(
-    "runmute", runmute, filters=filters.User(DRAGONS), block=False
+    "runmute", runmute, filters=filters.User(DRAGONS)
 )
 
-application.add_handler(RBAN_HANDLER)
-application.add_handler(RUNBAN_HANDLER)
-application.add_handler(RKICK_HANDLER)
-application.add_handler(RMUTE_HANDLER)
-application.add_handler(RUNMUTE_HANDLER)
+exon.add_handler(RBAN_HANDLER)
+exon.add_handler(RUNBAN_HANDLER)
+exon.add_handler(RKICK_HANDLER)
+exon.add_handler(RMUTE_HANDLER)
+exon.add_handler(RUNMUTE_HANDLER)

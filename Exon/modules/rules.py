@@ -5,7 +5,7 @@ from telegram.ext import CommandHandler, ContextTypes, filters
 from telegram.helpers import escape_markdown
 
 import Exon.modules.sql.rules_sql as sql
-from Exon import application
+from Exon import exon
 from Exon.modules.helper_funcs.chat_status import check_admin, connection_status
 from Exon.modules.helper_funcs.string_handling import markdown_parser, markdown_to_html
 
@@ -18,7 +18,7 @@ async def get_rules(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # Do not async - not from a handler
 async def send_rules(update, chat_id, from_pm=False):
-    bot = application.bot
+    bot = exon.bot
     user = update.effective_user  # type: Optional[User]
     reply_msg = update.message.reply_to_message
     try:
@@ -145,15 +145,15 @@ __help__ = """
 __mod_name__ = "𝐑ᴜʟᴇs"
 
 GET_RULES_HANDLER = CommandHandler(
-    "rules", get_rules, filters=filters.ChatType.GROUPS, block=False
+    "rules", get_rules, filters=filters.ChatType.GROUPS
 )
 SET_RULES_HANDLER = CommandHandler(
-    "setrules", set_rules, filters=filters.ChatType.GROUPS, block=False
+    "setrules", set_rules, filters=filters.ChatType.GROUPS
 )
 RESET_RULES_HANDLER = CommandHandler(
-    "clearrules", clear_rules, filters=filters.ChatType.GROUPS, block=False
+    "clearrules", clear_rules, filters=filters.ChatType.GROUPS
 )
 
-application.add_handler(GET_RULES_HANDLER)
-application.add_handler(SET_RULES_HANDLER)
-application.add_handler(RESET_RULES_HANDLER)
+exon.add_handler(GET_RULES_HANDLER)
+exon.add_handler(SET_RULES_HANDLER)
+exon.add_handler(RESET_RULES_HANDLER)

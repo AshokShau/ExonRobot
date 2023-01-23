@@ -14,7 +14,7 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 from telegram.helpers import mention_html
 
 import Exon.modules.sql.locks_sql as sql
-from Exon import DRAGONS, LOGGER, application
+from Exon import DRAGONS, LOGGER, exon
 from Exon.modules.connection import connected
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
@@ -190,7 +190,7 @@ async def lock(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             # Connection check
             conn = await connected(context.bot, update, chat, user.id, need_admin=True)
             if conn:
-                chat = await application.bot.getChat(conn)
+                chat = await exon.bot.getChat(conn)
                 chat_id = conn
                 chat_name = chat.title
                 text = "ʟᴏᴄᴋᴇᴅ {} ғᴏʀ ɴᴏɴ-ᴀᴅᴍɪɴs ɪɴ {}!".format(ltype, chat_name)
@@ -223,7 +223,7 @@ async def lock(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             # Connection check
             conn = await connected(context.bot, update, chat, user.id, need_admin=True)
             if conn:
-                chat = await application.bot.getChat(conn)
+                chat = await exon.bot.getChat(conn)
                 chat_id = conn
                 chat_name = chat.title
                 text = "ʟᴏᴄᴋᴇᴅ {} ғᴏʀ ᴀʟʟ ɴᴏɴ-ᴀᴅᴍɪɴ ɪɴ {}!".format(
@@ -312,7 +312,7 @@ async def unlock(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             # Connection check
             conn = await connected(context.bot, update, chat, user.id, need_admin=True)
             if conn:
-                chat = await application.bot.getChat(conn)
+                chat = await exon.bot.getChat(conn)
                 chat_id = conn
                 chat_name = chat.title
                 text = "ᴜɴʟᴏᴄᴋᴇᴅ {} ғᴏʀ ᴇᴠᴇʀʏᴏɴᴇ in {}!".format(ltype, chat_name)
@@ -344,7 +344,7 @@ async def unlock(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             # Connection check
             conn = await connected(context.bot, update, chat, user.id, need_admin=True)
             if conn:
-                chat = await application.bot.getChat(conn)
+                chat = await exon.bot.getChat(conn)
                 chat_id = conn
                 chat_name = chat.title
                 text = "ᴜɴʟᴏᴄᴋᴇᴅ {} ғᴏʀ ᴇᴠᴇʀʏᴏɴᴇ ɪɴ {}!".format(ltype, chat_name)
@@ -575,7 +575,7 @@ async def build_lock_message(chat_id):
             locklist.append("stickerpremium = `{}`".format(locks.stickerpremium))
             locklist.append("stickeranimated = `{}`".format(locks.stickeranimated))
 
-    permissions = await application.bot.get_chat(chat_id)
+    permissions = await exon.bot.get_chat(chat_id)
     if isinstance(permissions, Chat):
         permissions = permissions.permissions
         permslist.append("messages = `{}`".format(permissions.can_send_messages))
@@ -611,7 +611,7 @@ async def list_locks(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Connection check
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
         chat_name = chat.title
     else:
         if update.effective_message.chat.type == "private":
@@ -695,23 +695,23 @@ __help__ = """
 
 __mod_name__ = "𝐋ᴏᴄᴋs"
 
-LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes, block=False)
+LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
 LOCK_HANDLER = CommandHandler(
-    "lock", lock, block=False
+    "lock", lock
 )  # , filters=filters.ChatType.GROUPS)
 UNLOCK_HANDLER = CommandHandler(
-    "unlock", unlock, block=False
+    "unlock", unlock
 )  # , filters=filters.ChatType.GROUPS)
 LOCKED_HANDLER = CommandHandler(
-    "locks", list_locks, block=False
+    "locks", list_locks
 )  # , filters=filters.ChatType.GROUPS)
 
-application.add_handler(LOCK_HANDLER)
-application.add_handler(UNLOCK_HANDLER)
-application.add_handler(LOCKTYPES_HANDLER)
-application.add_handler(LOCKED_HANDLER)
+exon.add_handler(LOCK_HANDLER)
+exon.add_handler(UNLOCK_HANDLER)
+exon.add_handler(LOCKTYPES_HANDLER)
+exon.add_handler(LOCKED_HANDLER)
 
-application.add_handler(
-    MessageHandler(filters.ALL & filters.ChatType.GROUPS, del_lockables, block=False),
+exon.add_handler(
+    MessageHandler(filters.ALL & filters.ChatType.GROUPS, del_lockables),
     PERM_GROUP,
 )

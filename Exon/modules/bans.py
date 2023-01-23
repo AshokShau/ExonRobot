@@ -11,7 +11,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes, filters
 from telegram.helpers import mention_html
 
-from Exon import BAN_STICKER, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, application
+from Exon import BAN_STICKER, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import (
     can_delete,
@@ -697,25 +697,25 @@ __help__ = """
  • /kick <ᴜsᴇʀʜᴀɴᴅʟᴇ>*:* ᴋɪᴄᴋs ᴀ ᴜsᴇʀ ᴏᴜᴛ ᴏғ ᴛʜᴇ ɢʀᴏᴜᴘ, (ᴠɪᴀ ʜᴀɴᴅʟᴇ, ᴏʀ ʀᴇᴘʟʏ)
 """
 
-BAN_HANDLER = CommandHandler(["ban", "sban"], ban, block=False)
-TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, block=False)
-KICK_HANDLER = CommandHandler("kick", kick, block=False)
-UNBAN_HANDLER = CommandHandler("unban", unban, block=False)
-ROAR_HANDLER = CommandHandler("roar", selfunban, block=False)
+BAN_HANDLER = CommandHandler(["ban", "sban"], ban)
+TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
+KICK_HANDLER = CommandHandler("kick", kick)
+UNBAN_HANDLER = CommandHandler("unban", unban)
+ROAR_HANDLER = CommandHandler("roar", selfunban)
 KICKME_HANDLER = DisableAbleCommandHandler(
-    "kickme", kickme, filters=filters.ChatType.GROUPS, block=False
+    "kickme", kickme, filters=filters.ChatType.GROUPS
 )
 BAN_CALLBACK_HANDLER = CallbackQueryHandler(
-    bans_callback, block=False, pattern=r"bans_"
+    bans_callback, pattern=r"bans_"
 )
 
-application.add_handler(BAN_HANDLER)
-application.add_handler(TEMPBAN_HANDLER)
-application.add_handler(KICK_HANDLER)
-application.add_handler(UNBAN_HANDLER)
-application.add_handler(ROAR_HANDLER)
-application.add_handler(KICKME_HANDLER)
-application.add_handler(BAN_CALLBACK_HANDLER)
+exon.add_handler(BAN_HANDLER)
+exon.add_handler(TEMPBAN_HANDLER)
+exon.add_handler(KICK_HANDLER)
+exon.add_handler(UNBAN_HANDLER)
+exon.add_handler(ROAR_HANDLER)
+exon.add_handler(KICKME_HANDLER)
+exon.add_handler(BAN_CALLBACK_HANDLER)
 
 __mod_name__ = "𝐁ᴀɴs"
 __handlers__ = [

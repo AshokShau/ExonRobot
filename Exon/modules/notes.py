@@ -16,7 +16,7 @@ from telegram.ext import (
 from telegram.helpers import escape_markdown, mention_markdown
 
 import Exon.modules.sql.notes_sql as sql
-from Exon import DRAGONS, EVENT_LOGS, LOGGER, SUPPORT_CHAT, application
+from Exon import DRAGONS, EVENT_LOGS, LOGGER, SUPPORT_CHAT, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin, connection_status
 from Exon.modules.helper_funcs.handlers import MessageHandlerChecker
@@ -38,14 +38,14 @@ MYVIDEO_MATCHER = re.compile(r"^###video(!photo)?###:")
 MYVIDEONOTE_MATCHER = re.compile(r"^###video_note(!photo)?###:")
 
 ENUM_FUNC_MAP = {
-    sql.Types.TEXT.value: application.bot.send_message,
-    sql.Types.BUTTON_TEXT.value: application.bot.send_message,
-    sql.Types.STICKER.value: application.bot.send_sticker,
-    sql.Types.DOCUMENT.value: application.bot.send_document,
-    sql.Types.PHOTO.value: application.bot.send_photo,
-    sql.Types.AUDIO.value: application.bot.send_audio,
-    sql.Types.VOICE.value: application.bot.send_voice,
-    sql.Types.VIDEO.value: application.bot.send_video,
+    sql.Types.TEXT.value: exon.bot.send_message,
+    sql.Types.BUTTON_TEXT.value: exon.bot.send_message,
+    sql.Types.STICKER.value: exon.bot.send_sticker,
+    sql.Types.DOCUMENT.value: exon.bot.send_document,
+    sql.Types.PHOTO.value: exon.bot.send_photo,
+    sql.Types.AUDIO.value: exon.bot.send_audio,
+    sql.Types.VOICE.value: exon.bot.send_voice,
+    sql.Types.VIDEO.value: exon.bot.send_video,
 }
 
 
@@ -549,7 +549,7 @@ async def __import_data__(chat_id, data, message: Message):
     if failures:
         with BytesIO(str.encode("\n".join(failures))) as output:
             output.name = "failed_imports.txt"
-            await application.bot.send_document(
+            await exon.bot.send_document(
                 chat_id,
                 document=output,
                 filename="failed_imports.txt",
@@ -610,24 +610,24 @@ __help__ = """
 __mod_name__ = "𝐍ᴏᴛᴇs"
 
 GET_HANDLER = CommandHandler("get", cmd_get)
-HASH_GET_HANDLER = MessageHandler(filters.Regex(r"^#[^\s]+"), hash_get, block=False)
-SLASH_GET_HANDLER = MessageHandler(filters.Regex(r"^/\d+$"), slash_get, block=False)
-SAVE_HANDLER = CommandHandler(["save", "note"], save, block=False)
-DELETE_HANDLER = CommandHandler("clear", clear, block=False)
+HASH_GET_HANDLER = MessageHandler(filters.Regex(r"^#[^\s]+"), hash_get)
+SLASH_GET_HANDLER = MessageHandler(filters.Regex(r"^/\d+$"), slash_get)
+SAVE_HANDLER = CommandHandler(["save", "note"], save)
+DELETE_HANDLER = CommandHandler("clear", clear)
 
 LIST_HANDLER = DisableAbleCommandHandler(
-    ["notes", "saved"], list_notes, admin_ok=True, block=False
+    ["notes", "saved"], list_notes, admin_ok=True
 )
 
 
-CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall, block=False)
-CLEARALL_BTN = CallbackQueryHandler(clearall_btn, pattern=r"notes_.*", block=False)
+CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall)
+CLEARALL_BTN = CallbackQueryHandler(clearall_btn, pattern=r"notes_.*")
 
-application.add_handler(GET_HANDLER)
-application.add_handler(SAVE_HANDLER)
-application.add_handler(LIST_HANDLER)
-application.add_handler(DELETE_HANDLER)
-application.add_handler(HASH_GET_HANDLER)
-application.add_handler(SLASH_GET_HANDLER)
-application.add_handler(CLEARALL)
-application.add_handler(CLEARALL_BTN)
+exon.add_handler(GET_HANDLER)
+exon.add_handler(SAVE_HANDLER)
+exon.add_handler(LIST_HANDLER)
+exon.add_handler(DELETE_HANDLER)
+exon.add_handler(HASH_GET_HANDLER)
+exon.add_handler(SLASH_GET_HANDLER)
+exon.add_handler(CLEARALL)
+exon.add_handler(CLEARALL_BTN)

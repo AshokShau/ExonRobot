@@ -12,7 +12,7 @@ from telegram.ext import (
 )
 from telegram.helpers import mention_html
 
-from Exon import DRAGONS, LOGGER, application
+from Exon import DRAGONS, LOGGER, exon
 from Exon.modules.helper_funcs.chat_status import check_admin, user_not_admin
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql import reporting_sql as sql
@@ -280,20 +280,20 @@ __help__ = """
   • ɪғ ɪɴ ɢʀᴏᴜᴘ, ᴛᴏɢɢʟᴇs ᴛʜᴀᴛ ɢʀᴏᴜᴘ's sᴛᴀᴛᴜs.
 """
 
-SETTING_HANDLER = CommandHandler("reports", report_setting, block=False)
+SETTING_HANDLER = CommandHandler("reports", report_setting)
 REPORT_HANDLER = CommandHandler(
-    "report", report, filters=filters.ChatType.GROUPS, block=False
+    "report", report, filters=filters.ChatType.GROUPS
 )
 ADMIN_REPORT_HANDLER = MessageHandler(
-    filters.Regex(r"(?i)@admin(s)?"), report, block=False
+    filters.Regex(r"(?i)@admin(s)?"), report
 )
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
-application.add_handler(REPORT_BUTTON_USER_HANDLER)
+exon.add_handler(REPORT_BUTTON_USER_HANDLER)
 
-application.add_handler(SETTING_HANDLER)
-application.add_handler(REPORT_HANDLER, REPORT_GROUP)
-application.add_handler(ADMIN_REPORT_HANDLER, REPORT_GROUP)
+exon.add_handler(SETTING_HANDLER)
+exon.add_handler(REPORT_HANDLER, REPORT_GROUP)
+exon.add_handler(ADMIN_REPORT_HANDLER, REPORT_GROUP)
 
 __mod_name__ = "𝐑ᴇᴘᴏʀᴛs"
 

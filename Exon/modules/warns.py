@@ -25,7 +25,7 @@ from telegram.ext import (
 )
 from telegram.helpers import mention_html
 
-from Exon import BAN_STICKER, application
+from Exon import BAN_STICKER, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin, is_user_admin
 from Exon.modules.helper_funcs.extraction import (
@@ -291,9 +291,9 @@ async def add_warn_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # Note: perhaps handlers can be removed somehow using sql.get_chat_filters
-    for handler in application.handlers.get(WARN_HANDLER_GROUP, []):
+    for handler in exon.handlers.get(WARN_HANDLER_GROUP, []):
         if handler.filters == (keyword, chat.id):
-            application.remove_handler(handler, WARN_HANDLER_GROUP)
+            exon.remove_handler(handler, WARN_HANDLER_GROUP)
 
     sql.add_warn_filter(chat.id, keyword, content)
 
@@ -509,17 +509,16 @@ __help__ = """
 __mod_name__ = "𝐖ᴀʀɴs"
 
 WARN_HANDLER = CommandHandler(
-    ["warn", "dwarn"], warn_user, filters=filters.ChatType.GROUPS, block=False
+    ["warn", "dwarn"], warn_user, filters=filters.ChatType.GROUPS
 )
 RESET_WARN_HANDLER = CommandHandler(
     ["resetwarn", "resetwarns"],
     reset_warns,
-    filters=filters.ChatType.GROUPS,
-    block=False,
+    filters=filters.ChatType.GROUPS
 )
 CALLBACK_QUERY_HANDLER = CallbackQueryHandler(button, pattern=r"rm_warn", block=False)
 MYWARNS_HANDLER = DisableAbleCommandHandler(
-    "warns", warns, filters=filters.ChatType.GROUPS, block=False
+    "warns", warns, filters=filters.ChatType.GROUPS
 )
 ADD_WARN_HANDLER = CommandHandler(
     "addwarn", add_warn_filter, filters=filters.ChatType.GROUPS
@@ -534,25 +533,24 @@ LIST_WARN_HANDLER = DisableAbleCommandHandler(
     list_warn_filters,
     filters=filters.ChatType.GROUPS,
     admin_ok=True,
-    block=False,
 )
 WARN_FILTER_HANDLER = MessageHandler(
-    filters.TEXT & filters.ChatType.GROUPS, reply_filter, block=False
+    filters.TEXT & filters.ChatType.GROUPS, reply_filter
 )
 WARN_LIMIT_HANDLER = CommandHandler(
-    "warnlimit", set_warn_limit, filters=filters.ChatType.GROUPS, block=False
+    "warnlimit", set_warn_limit, filters=filters.ChatType.GROUPS
 )
 WARN_STRENGTH_HANDLER = CommandHandler(
-    "strongwarn", set_warn_strength, filters=filters.ChatType.GROUPS, block=False
+    "strongwarn", set_warn_strength, filters=filters.ChatType.GROUPS
 )
 
-application.add_handler(WARN_HANDLER)
-application.add_handler(CALLBACK_QUERY_HANDLER)
-application.add_handler(RESET_WARN_HANDLER)
-application.add_handler(MYWARNS_HANDLER)
-application.add_handler(ADD_WARN_HANDLER)
-application.add_handler(RM_WARN_HANDLER)
-application.add_handler(LIST_WARN_HANDLER)
-application.add_handler(WARN_LIMIT_HANDLER)
-application.add_handler(WARN_STRENGTH_HANDLER)
-application.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)
+exon.add_handler(WARN_HANDLER)
+exon.add_handler(CALLBACK_QUERY_HANDLER)
+exon.add_handler(RESET_WARN_HANDLER)
+exon.add_handler(MYWARNS_HANDLER)
+exon.add_handler(ADD_WARN_HANDLER)
+exon.add_handler(RM_WARN_HANDLER)
+exon.add_handler(LIST_WARN_HANDLER)
+exon.add_handler(WARN_LIMIT_HANDLER)
+exon.add_handler(WARN_STRENGTH_HANDLER)
+exon.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)

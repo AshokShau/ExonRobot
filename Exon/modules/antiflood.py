@@ -12,7 +12,7 @@ from telegram.ext import (
 )
 from telegram.helpers import mention_html
 
-from Exon import application
+from Exon import exon
 from Exon.modules.connection import connected
 from Exon.modules.helper_funcs.alternate import send_message
 from Exon.modules.helper_funcs.chat_status import check_admin, is_user_admin
@@ -147,7 +147,7 @@ async def set_flood(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
@@ -243,7 +243,7 @@ async def flood(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id, need_admin=False)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
@@ -288,9 +288,9 @@ async def set_flood_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
@@ -416,27 +416,26 @@ __mod_name__ = "𝐀-ғʟᴏᴏᴅ"
 
 FLOOD_BAN_HANDLER = MessageHandler(
     filters.ALL & ~filters.StatusUpdate.ALL & filters.ChatType.GROUPS,
-    check_flood,
-    block=False,
+    check_flood
 )
 SET_FLOOD_HANDLER = CommandHandler(
-    "setflood", set_flood, filters=filters.ChatType.GROUPS, block=False
+    "setflood", set_flood, filters=filters.ChatType.GROUPS
 )
 SET_FLOOD_MODE_HANDLER = CommandHandler(
-    "setfloodmode", set_flood_mode, block=False
+    "setfloodmode", set_flood_mode
 )  # , filters=filters.ChatType.GROUPS)
 FLOOD_QUERY_HANDLER = CallbackQueryHandler(
-    flood_button, pattern=r"unmute_flooder", block=False
+    flood_button, pattern=r"unmute_flooder"
 )
 FLOOD_HANDLER = CommandHandler(
-    "flood", flood, filters=filters.ChatType.GROUPS, block=False
+    "flood", flood, filters=filters.ChatType.GROUPS
 )
 
-application.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
-application.add_handler(FLOOD_QUERY_HANDLER)
-application.add_handler(SET_FLOOD_HANDLER)
-application.add_handler(SET_FLOOD_MODE_HANDLER)
-application.add_handler(FLOOD_HANDLER)
+exon.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
+exon.add_handler(FLOOD_QUERY_HANDLER)
+exon.add_handler(SET_FLOOD_HANDLER)
+exon.add_handler(SET_FLOOD_MODE_HANDLER)
+exon.add_handler(FLOOD_HANDLER)
 
 __handlers__ = [
     (FLOOD_BAN_HANDLER, FLOOD_GROUP),

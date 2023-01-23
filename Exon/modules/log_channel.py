@@ -17,7 +17,7 @@ if is_module_loaded(FILENAME):
     from telegram.ext import CommandHandler, JobQueue
     from telegram.helpers import escape_markdown
 
-    from Exon import EVENT_LOGS, LOGGER, application
+    from Exon import EVENT_LOGS, LOGGER, exon
     from Exon.modules.helper_funcs.chat_status import check_admin
     from Exon.modules.sql import log_channel_sql as sql
 
@@ -214,7 +214,7 @@ if is_module_loaded(FILENAME):
     async def __chat_settings__(chat_id, user_id):
         log_channel = sql.get_chat_log_channel(chat_id)
         if log_channel:
-            log_channel_info = await application.bot.get_chat(log_channel)
+            log_channel_info = await exon.bot.get_chat(log_channel)
             return f"ᴛʜɪs ɢʀᴏᴜᴘ ʜᴀs ᴀʟʟ ɪᴛ's ʟᴏɢs sᴇɴᴛ ᴛᴏ: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
         return "ɴᴏ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ɪs sᴇᴛ ғᴏʀ ᴛʜɪs ɢʀᴏᴜᴘ!"
 
@@ -232,13 +232,13 @@ sᴇᴛᴛɪɴɢ ᴛʜᴇ ʟᴏɢ ᴄʜᴀɴɴᴇʟ ɪs ᴅᴏɴᴇ ʙʏ:
 
     __mod_name__ = "𝐋ᴏɢs"
 
-    LOG_HANDLER = CommandHandler("logchannel", logging, block=False)
-    SET_LOG_HANDLER = CommandHandler("setlog", setlog, block=False)
-    UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog, block=False)
+    LOG_HANDLER = CommandHandler("logchannel", logging)
+    SET_LOG_HANDLER = CommandHandler("setlog", setlog)
+    UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog)
 
-    application.add_handler(LOG_HANDLER)
-    application.add_handler(SET_LOG_HANDLER)
-    application.add_handler(UNSET_LOG_HANDLER)
+    exon.add_handler(LOG_HANDLER)
+    exon.add_handler(SET_LOG_HANDLER)
+    exon.add_handler(UNSET_LOG_HANDLER)
 
 else:
     # run anyway if module not loaded

@@ -3,7 +3,7 @@ from telethon.tl import *
 
 # @Abishnoi1M
 from Exon import BOT_ID, mdb, register
-from Exon import telethn as tbot
+from Exon import telethn as Abishnoi
 
 approved_users = mdb.approve
 
@@ -14,14 +14,14 @@ async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
         return isinstance(
             (
-                await tbot(functions.channels.GetParticipantRequest(chat, user))
+                await Abishnoi(functions.channels.GetParticipantRequest(chat, user))
             ).participant,
             (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
         )
     if isinstance(chat, types.InputPeerChat):
-        ui = await tbot.get_peer_id(user)
+        ui = await Abishnoi.get_peer_id(user)
         ps = (
-            await tbot(functions.messages.GetFullChatRequest(chat.chat_id))
+            await Abishnoi(functions.messages.GetFullChatRequest(chat.chat_id))
         ).full_chat.participants.participants
         return isinstance(
             next((p for p in ps if p.user_id == ui), None),
@@ -215,7 +215,7 @@ async def _(event):
         st = None
 
     if pvoty is False and quizy is False and mchoicee is False:
-        await tbot.send_file(
+        await Abishnoi.send_file(
             event.chat_id,
             types.InputMediaPoll(
                 poll=types.Poll(id=12345, question=ques, answers=optionss, quiz=False)
@@ -223,7 +223,7 @@ async def _(event):
         )
 
     if pvoty is True and quizy is False and mchoicee is True:
-        await tbot.send_file(
+        await Abishnoi.send_file(
             event.chat_id,
             types.InputMediaPoll(
                 poll=types.Poll(
@@ -238,7 +238,7 @@ async def _(event):
         )
 
     if pvoty is False and quizy is False and mchoicee is True:
-        await tbot.send_file(
+        await Abishnoi.send_file(
             event.chat_id,
             types.InputMediaPoll(
                 poll=types.Poll(
@@ -253,7 +253,7 @@ async def _(event):
         )
 
     if pvoty is True and quizy is False and mchoicee is False:
-        await tbot.send_file(
+        await Abishnoi.send_file(
             event.chat_id,
             types.InputMediaPoll(
                 poll=types.Poll(
@@ -268,7 +268,7 @@ async def _(event):
         )
 
     if pvoty is False and quizy is True and mchoicee is False:
-        await tbot.send_file(
+        await Abishnoi.send_file(
             event.chat_id,
             types.InputMediaPoll(
                 poll=types.Poll(
@@ -279,7 +279,7 @@ async def _(event):
         )
 
     if pvoty is True and quizy is True and mchoicee is False:
-        await tbot.send_file(
+        await Abishnoi.send_file(
             event.chat_id,
             types.InputMediaPoll(
                 poll=types.Poll(

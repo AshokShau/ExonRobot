@@ -11,7 +11,7 @@ from telethon import events
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 
-from Exon import DEV_USERS, DRAGONS, OWNER_ID, application, telethn
+from Exon import DEV_USERS, DRAGONS, OWNER_ID, exon, telethn
 from Exon.__main__ import STATS, USER_INFO
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin
@@ -321,16 +321,16 @@ __help__ = """
 """
 
 
-STATS_HANDLER = CommandHandler(["stats", "gstats"], stats, block=False)
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, block=False)
-GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, block=False)
-INFO_HANDLER = DisableAbleCommandHandler(("info", "book"), info, block=False)
+STATS_HANDLER = CommandHandler(["stats", "gstats"], stats)
+ID_HANDLER = DisableAbleCommandHandler("id", get_id)
+GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
+INFO_HANDLER = DisableAbleCommandHandler(("info", "book"), info)
 
 
-application.add_handler(STATS_HANDLER)
-application.add_handler(ID_HANDLER)
-application.add_handler(GIFID_HANDLER)
-application.add_handler(INFO_HANDLER)
+exon.add_handler(STATS_HANDLER)
+exon.add_handler(ID_HANDLER)
+exon.add_handler(GIFID_HANDLER)
+exon.add_handler(INFO_HANDLER)
 
 
 __mod_name__ = "𝐈ɴғᴏ"

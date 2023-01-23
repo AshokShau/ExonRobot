@@ -7,7 +7,7 @@ from telegram.ext import CommandHandler, ContextTypes
 from telegram.helpers import mention_html
 
 import Exon.modules.sql.blacklistusers_sql as sql
-from Exon import DEV_USERS, DRAGONS, OWNER_ID, application
+from Exon import DEV_USERS, DRAGONS, OWNER_ID, exon
 from Exon.modules.helper_funcs.chat_status import check_admin
 from Exon.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from Exon.modules.log_channel import gloggable
@@ -132,7 +132,7 @@ def __user_info__(user_id):
     text = "ʙʟᴀᴄᴋʟɪsᴛᴇᴅ: <b>{}</b>"
     if user_id in [777000, 1087968824]:
         return ""
-    if user_id == application.bot.id:
+    if user_id == exon.bot.id:
         return ""
     if int(user_id) in DRAGONS:
         return ""
@@ -147,13 +147,13 @@ def __user_info__(user_id):
     return text
 
 
-BL_HANDLER = CommandHandler("ignore", bl_user, block=False)
-UNBL_HANDLER = CommandHandler("notice", unbl_user, block=False)
-BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users, block=False)
+BL_HANDLER = CommandHandler("ignore", bl_user)
+UNBL_HANDLER = CommandHandler("notice", unbl_user)
+BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users)
 
-application.add_handler(BL_HANDLER)
-application.add_handler(UNBL_HANDLER)
-application.add_handler(BLUSERS_HANDLER)
+exon.add_handler(BL_HANDLER)
+exon.add_handler(UNBL_HANDLER)
+exon.add_handler(BLUSERS_HANDLER)
 
 __mod_name__ = "𝐁-ᴜsᴇʀs"
 __handlers__ = [BL_HANDLER, UNBL_HANDLER, BLUSERS_HANDLER]

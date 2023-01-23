@@ -15,7 +15,7 @@ from telegram.error import BadRequest, TelegramError
 from telegram.ext import ContextTypes
 from telegram.helpers import mention_html
 
-from Exon import LOGGER, application
+from Exon import LOGGER, exon
 from Exon import register as asux
 from Exon import telethn as bot
 from Exon.modules.disable import DisableAbleCommandHandler
@@ -836,14 +836,14 @@ __help__ = """
 __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀs"
 
 
-STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, block=False)
-GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, block=False)
-KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True, block=False)
-STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, block=False)
-DELSTICKER_HANDLER = DisableAbleCommandHandler("delsticker", delsticker, block=False)
+STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid)
+GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
+KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True)
+STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker)
+DELSTICKER_HANDLER = DisableAbleCommandHandler("delsticker", delsticker)
 
-application.add_handler(STICKERS_HANDLER)
-application.add_handler(STICKERID_HANDLER)
-application.add_handler(GETSTICKER_HANDLER)
-application.add_handler(KANG_HANDLER)
-application.add_handler(DELSTICKER_HANDLER)
+exon.add_handler(STICKERS_HANDLER)
+exon.add_handler(STICKERID_HANDLER)
+exon.add_handler(GETSTICKER_HANDLER)
+exon.add_handler(KANG_HANDLER)
+exon.add_handler(DELSTICKER_HANDLER)
