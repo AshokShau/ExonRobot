@@ -301,40 +301,36 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     message = update.effective_message
     log_message = ""
     bot, args = context.bot, context.args
-    user_id, reason = await extract_user_and_text(message, context, args)
+
+    user_id, reason = await extract_user_and_text(message, args)
 
     if not user_id:
-        await message.reply_text("I ᴅᴏᴜʙᴛ ᴛʜᴀᴛ's  ᴜsᴇʀ.")
+        await message.reply_text("I ᴅᴏᴜʙᴛ ᴛʜᴀᴛ's ᴀ ᴜsᴇʀ.")
         return log_message
 
     try:
         member = await chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message != "ᴜsᴇʀ ɴᴏᴛ ғᴏᴜɴᴅ":
+        if excp.message != "User not found":
             raise
 
         await message.reply_text("I ᴄᴀɴ'ᴛ sᴇᴇᴍ ᴛᴏ ғɪɴᴅ ᴛʜɪs ᴜsᴇʀ.")
         return log_message
     if user_id == bot.id:
-        await message.reply_text("ʏᴇᴀʜʜʜ I'ᴍ ɴᴏᴛ ɢᴏɴɴᴀ ᴅᴏ ᴛʜᴀᴛ.")
+        await message.reply_text("ʏᴇᴀʜʜʜ ɪ'ᴍ ɴᴏᴛ ɢᴏɴɴᴀ ᴅᴏ ᴛʜᴀᴛ.")
         return log_message
 
-    if await is_user_ban_protected(chat, user_id):
-        await message.reply_text("I ʀᴇᴀʟʟʏ ᴡɪsʜ ɪ ᴄᴏᴜʟᴅ ᴋɪᴄᴋ ᴛʜɪs ᴜsᴇʀ....")
+    if is_user_ban_protected(update, user_id):
+        await message.reply_text("I ʀᴇᴀʟʟʏ ᴡɪsʜ ɪ ᴄᴏᴜʟᴅ ᴘᴜɴᴄʜ ᴛʜɪs ᴜsᴇʀ....")
         return log_message
 
     res = chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        await bot.send_sticker(
-            chat.id,
-            KICK_STICKER,
-            message_thread_id=message.message_thread_id if chat.is_forum else None,
-        )  # banhammer marie sticker
+        # await bot.send_sticker(chat.id, KICK_STICKER)  # banhammer marie sticker
         await bot.sendMessage(
             chat.id,
-            f"ᴄᴀᴘɪᴛᴀɪɴ I ʜᴀᴠᴇ ᴋɪᴄᴋᴇᴅ, {mention_html(member.user.id, html.escape(member.user.first_name))}.",
+            f"ᴏɴᴇ ᴋɪᴄᴋᴇᴅ! {mention_html(member.user.id, html.escape(member.user.first_name))}.",
             parse_mode=ParseMode.HTML,
-            message_thread_id=message.message_thread_id if chat.is_forum else None,
         )
         log = (
             f"<b>{html.escape(chat.title)}:</b>\n"
@@ -346,11 +342,10 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             log += f"\n<b>ʀᴇᴀsᴏɴ:</b> {reason}"
 
         return log
-
-    else:
-        await message.reply_text("ᴡᴇʟʟ ᴅᴀᴍɴ, I ᴄᴀɴ'ᴛ ᴋɪᴄᴋ ᴛʜᴀᴛ ᴜsᴇʀ.")
+    await message.reply_text("I ᴄᴀɴ'ᴛ sᴇᴇᴍ ᴛᴏ ғɪɴᴅ ᴛʜɪs ᴜsᴇʀ.")
 
     return log_message
+
 
 
 @check_admin(permission="can_restrict_members", is_bot=True)
