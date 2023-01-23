@@ -323,7 +323,7 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             chat.id,
             f"ᴏɴᴇ ᴋɪᴄᴋᴇᴅ! {mention_html(member.user.id, html.escape(member.user.first_name))}.",
             parse_mode=ParseMode.HTML,
-            message_thread_id=message.message_thread_id if chat.is_forum else None
+            message_thread_id=message.message_thread_id if chat.is_forum else None,
         )
         log = (
             f"<b>{html.escape(chat.title)}:</b>\n"
