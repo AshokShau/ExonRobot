@@ -8,7 +8,7 @@ from telegram.constants import ChatMemberStatus, ChatType
 from telegram.error import Forbidden
 from telegram.ext import ContextTypes
 
-from Exon import DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, application
+from Exon import DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, exon
 
 # stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
@@ -25,18 +25,6 @@ def check_admin(
     only_dev: bool = False,
     no_reply: object = False,
 ) -> object:
-    """Check for permission level to perform some operations
-
-    Args:
-        permission (str, optional): permission type to check. Defaults to None.
-        is_bot (bool, optional): if bot can perform the action. Defaults to False.
-        is_user (bool, optional): if user can perform the action. Defaults to False.
-        is_both (bool, optional): if both user and bot can perform the action. Defaults to False.
-        only_owner (bool, optional): if only owner can perform the action. Defaults to False.
-        only_sudo (bool, optional): if only sudo users can perform the operation. Defaults to False.
-        only_dev (bool, optional): if only dev users can perform the operation. Defaults to False.
-        no_reply (boot, optional): if should not reply. Defaults to False.
-    """
 
     def wrapper(func):
         @wraps(func)
@@ -205,7 +193,7 @@ async def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> 
                 return user_id in ADMIN_CACHE[chat.id]
             except KeyError:
                 try:
-                    chat_admins = await application.bot.getChatAdministrators(chat.id)
+                    chat_admins = await exon.bot.getChatAdministrators(chat.id)
                 except Forbidden:
                     return False
                 admin_list = [x.user.id for x in chat_admins]
@@ -327,7 +315,7 @@ def connection_status(func):
         )
 
         if conn:
-            chat = await application.bot.getChat(conn)
+            chat = await exon.bot.getChat(conn)
             update.__setattr__("_effective_chat", chat)
             return await func(update, context, *args, **kwargs)
         else:
