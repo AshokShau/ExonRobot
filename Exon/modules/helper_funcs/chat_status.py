@@ -25,7 +25,6 @@ def check_admin(
     only_dev: bool = False,
     no_reply: object = False,
 ) -> object:
-
     def wrapper(func):
         @wraps(func)
         async def wrapped(

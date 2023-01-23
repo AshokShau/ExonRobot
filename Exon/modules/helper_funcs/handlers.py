@@ -14,6 +14,7 @@ from telegram.ext import filters as filters_module
 
 import Exon.modules.sql.blacklistusers_sql as sql
 from Exon import DEV_USERS, DRAGONS
+
 ALLOW_EXCL = True
 
 if ALLOW_EXCL:
@@ -122,9 +123,7 @@ class CustomCommandHandler(CommandHandler):
             self.collect_additional_context(context, update, exon, check_result)
             return self.callback(update, context)
         else:
-            optional_args = self.collect_optional_args(
-                exon, update, check_result
-            )
+            optional_args = self.collect_optional_args(exon, update, check_result)
             return self.callback(exon.bot, update, **optional_args)
 
     def collect_additional_context(
@@ -143,9 +142,7 @@ class CustomCommandHandler(CommandHandler):
 
 
 class CustomMessageHandler(MessageHandler):
-    def __init__(
-        self, filters, callback, friendly="", allow_edit=False, **kwargs
-    ):
+    def __init__(self, filters, callback, friendly="", allow_edit=False, **kwargs):
         super().__init__(filters, callback, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
