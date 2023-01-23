@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler
 from telegram.ext import filters as filters_module
 from telegram.helpers import escape_markdown
 
-from Exon import application
+from Exon import exon
 from Exon.modules.helper_funcs.handlers import CMD_STARTERS
 from Exon.modules.helper_funcs.misc import is_module_loaded
 
@@ -327,21 +327,21 @@ if is_module_loaded(FILENAME):
     def __chat_settings__(chat_id, user_id):
         return build_curr_disabled(chat_id)
 
-    DISABLE_HANDLER = CommandHandler("disable", disable, block=False)
+    DISABLE_HANDLER = CommandHandler("disable", disable)
     DISABLE_MODULE_HANDLER = CommandHandler(
-        "disablemodule", disable_module, block=False
+        "disablemodule", disable_module
     )
-    ENABLE_HANDLER = CommandHandler("enable", enable, block=False)
-    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module, block=False)
-    COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands, block=False)
-    TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds, block=False)
+    ENABLE_HANDLER = CommandHandler("enable", enable)
+    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module)
+    COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands)
+    TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds)
 
-    application.add_handler(DISABLE_HANDLER)
-    application.add_handler(DISABLE_MODULE_HANDLER)
-    application.add_handler(ENABLE_HANDLER)
-    application.add_handler(ENABLE_MODULE_HANDLER)
-    application.add_handler(COMMANDS_HANDLER)
-    application.add_handler(TOGGLE_HANDLER)
+    exon.add_handler(DISABLE_HANDLER)
+    exon.add_handler(DISABLE_MODULE_HANDLER)
+    exon.add_handler(ENABLE_HANDLER)
+    exon.add_handler(ENABLE_MODULE_HANDLER)
+    exon.add_handler(COMMANDS_HANDLER)
+    exon.add_handler(TOGGLE_HANDLER)
 
     __help__ = """
     • /cmds*:* ᴄʜᴇᴄᴋ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ sᴛᴀᴛᴜs ᴏғ ᴅɪsᴀʙʟᴇᴅ ᴄᴏᴍᴍᴀɴᴅs
