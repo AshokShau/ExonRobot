@@ -498,10 +498,10 @@ __help__ = """
  • /unblacklist <triggers>*:* ʀᴇᴍᴏᴠᴇ ᴛʀɪɢɢᴇʀs ғʀᴏᴍ ᴛʜᴇ ʙʟᴀᴄᴋʟɪsᴛ. sᴀᴍᴇ ɴᴇᴡʟɪɴᴇ ʟᴏɢɪᴄ ᴀᴘᴘʟɪᴇs ʜᴇʀᴇ, sᴏ ʏᴏᴜ can ʀᴇᴍᴏᴠᴇ ᴍᴜʟᴛɪᴘʟᴇ ᴛʀɪɢɢᴇʀs ᴀᴛ ᴏɴᴄᴇ.
  • /blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>*:* ᴀᴄᴛɪᴏɴ ᴛᴏ ᴘᴇʀғᴏʀᴍ when sᴏᴍᴇᴏɴᴇ sᴇɴᴅs ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs.
 """
-BLACKLIST_HANDLER = DisableAbleCommandHandler("blacklist", blacklist, admin_ok=Trueexon)
-ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklistexon)
-UNBLACKLIST_HANDLER = CommandHandler("unblacklist", unblacklistexon)
-BLACKLISTMODE_HANDLER = CommandHandler("blacklistmode", blacklist_modeexon)
+BLACKLIST_HANDLER = DisableAbleCommandHandler("blacklist", blacklist, admin_ok=True)
+ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklist)
+UNBLACKLIST_HANDLER = CommandHandler("unblacklist", unblacklist)
+BLACKLISTMODE_HANDLER = CommandHandler("blacklistmode", blacklist_mode)
 BLACKLIST_DEL_HANDLER = MessageHandler(
     (filters.TEXT | filters.COMMAND | filters.Sticker.ALL | filters.PHOTO)
     & filters.ChatType.GROUPS,
