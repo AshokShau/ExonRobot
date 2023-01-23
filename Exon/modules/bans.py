@@ -11,15 +11,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes, filters
 from telegram.helpers import mention_html
 
-from Exon import (
-    BAN_STICKER,
-    DEV_USERS,
-    DRAGONS,
-    KICK_STICKER,
-    LOGGER,
-    OWNER_ID,
-    application,
-)
+from Exon import BAN_STICKER, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, application
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import (
     can_delete,
@@ -345,7 +337,6 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     await message.reply_text("I ᴄᴀɴ'ᴛ sᴇᴇᴍ ᴛᴏ ғɪɴᴅ ᴛʜɪs ᴜsᴇʀ.")
 
     return log_message
-
 
 
 @check_admin(permission="can_restrict_members", is_bot=True)
