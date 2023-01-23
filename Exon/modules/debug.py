@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.ext import CommandHandler, ContextTypes
 from telethon import events
 
-from Exon import LOGGER, application, telethn
+from Exon import LOGGER, exon, telethn
 from Exon.modules.helper_funcs.chat_status import check_admin
 
 DEBUG_MODE = False
@@ -46,9 +46,6 @@ async def i_do_nothing_yes(event):
                 )
 
 
-support_chat = os.getenv("SUPPORT_CHAT")
-
-
 @check_admin(only_dev=True)
 async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
@@ -72,13 +69,13 @@ async def debug_log(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await message.reply_text("sᴏʀʀʏ sɪʀ, ʙᴜᴛ 404")
 
 
-LOG_HANDLER = CommandHandler("logs", logs, block=False)
-SEND_DEBUG_HANDLER = CommandHandler("debuglog", debug_log, block=False)
-DEBUG_HANDLER = CommandHandler("debug", debug, block=False)
+LOG_HANDLER = CommandHandler("logs", logs)
+SEND_DEBUG_HANDLER = CommandHandler("debuglog", debug_log)
+DEBUG_HANDLER = CommandHandler("debug", debug)
 
-application.add_handler(DEBUG_HANDLER)
-application.add_handler(LOG_HANDLER)
-application.add_handler(SEND_DEBUG_HANDLER)
+exon.add_handler(DEBUG_HANDLER)
+exon.add_handler(LOG_HANDLER)
+exon.add_handler(SEND_DEBUG_HANDLER)
 
 __mod_name__ = "𝐃ᴇʙᴜɢ"
 __command_list__ = ["debug"]

@@ -5,7 +5,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, ContextTypes
 from telegram.helpers import mention_html
 
-from Exon import application
+from Exon import exon
 from Exon.modules.helper_funcs.chat_status import check_admin
 from Exon.modules.log_channel import loggable
 
@@ -227,19 +227,19 @@ __help__ = """
 # • /delactiontopic*:* ᴅᴇʟᴇᴛᴇ ᴅᴇғᴀᴜʟᴛ ᴛᴏᴘɪᴄ ғᴏʀ ᴀᴄᴛɪᴏɴs ᴍᴇssᴀɢᴇs.
 
 
-# SET_TOPIC_HANDLER = CommandHandler("setactiontopic", set_topic_action, block=False)
-# DEL_TOPIC_HANDLER = CommandHandler("delactiontopic", del_topic_action, block=False)
-CREATE_TOPIC_HANDLER = CommandHandler("topicnew", create_topic, block=False)
-DELETE_TOPIC_HANDLER = CommandHandler("topicdel", delete_topic, block=False)
-CLOSE_TOPIC_HANDLER = CommandHandler("topicclose", close_topic, block=False)
-OPEN_TOPIC_HANDLER = CommandHandler("topicopen", open_topic, block=False)
+# SET_TOPIC_HANDLER = CommandHandler("setactiontopic", set_topic_action)
+# DEL_TOPIC_HANDLER = CommandHandler("delactiontopic", del_topic_action)
+CREATE_TOPIC_HANDLER = CommandHandler("topicnew", create_topic)
+DELETE_TOPIC_HANDLER = CommandHandler("topicdel", delete_topic)
+CLOSE_TOPIC_HANDLER = CommandHandler("topicclose", close_topic)
+OPEN_TOPIC_HANDLER = CommandHandler("topicopen", open_topic)
 
-# application.add_handler(SET_TOPIC_HANDLER)
-# application.add_handler(DEL_TOPIC_HANDLER)
-application.add_handler(CREATE_TOPIC_HANDLER)
-application.add_handler(DELETE_TOPIC_HANDLER)
-application.add_handler(CLOSE_TOPIC_HANDLER)
-application.add_handler(OPEN_TOPIC_HANDLER)
+# exon.add_handler(SET_TOPIC_HANDLER)
+# exon.add_handler(DEL_TOPIC_HANDLER)
+exon.add_handler(CREATE_TOPIC_HANDLER)
+exon.add_handler(DELETE_TOPIC_HANDLER)
+exon.add_handler(CLOSE_TOPIC_HANDLER)
+exon.add_handler(OPEN_TOPIC_HANDLER)
 
 
 __command_list__ = [

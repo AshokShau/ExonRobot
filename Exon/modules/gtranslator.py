@@ -1,56 +1,7 @@
-import os
-
 from gpytranslate import Translator
-from gtts import gTTS
-from mutagen.mp3 import MP3
 from pyrogram import filters
 
 from Exon import app as Abishnoi
-from Exon import register as Asubot
-
-
-@Asubot(pattern="^/tts ?(.*)")
-async def tts(event):
-    if not event.reply_to_msg_id and event.pattern_match.group(1):
-        text = event.text.split(None, 1)[1]
-        _total = text.split(None, 1)
-        if len(_total) == 2:
-            lang = (_total[0]).lower()
-            text = _total[1]
-        else:
-            lang = "en"
-            text = _total[0]
-    elif event.reply_to_msg_id:
-        text = (await event.get_reply_message()).text
-        if event.pattern_match.group(1):
-            lang = (event.pattern_match.group(1)).lower()
-        else:
-            lang = "en"
-    else:
-        return await event.reply(
-            "`/tts <ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇ>` ᴀs ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ `/tts <ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇ> <text>`",
-        )
-    try:
-        tts = gTTS(text, tld="com", lang=lang)
-        tts.save("exon-tts.mp3")
-    except BaseException as e:
-        return await event.reply(str(e))
-    aud_len = int((MP3("exon-tts.mp3")).info.length)
-    if aud_len == 0:
-        aud_len = 1
-    async with Rani.action(event.chat_id, "record-voice"):
-        await event.respond(
-            file="exon-tts.mp3",
-            attributes=[
-                DocumentAttributeAudio(
-                    duration=aud_len,
-                    title=f"stt_{lang}",
-                    performer="rani_form",
-                    waveform="320",
-                )
-            ],
-        )
-        os.remove("exon-tts.mp3")
 
 
 @Abishnoi.on_message(filters.command(["tr", "tl"]))
@@ -92,7 +43,6 @@ __help__ = """
 *ᴇxᴀᴍᴘʟᴇ:* 
 ❍ /tr en*:* ᴛʀᴀɴsʟᴀᴛᴇs sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ ᴇɴɢʟɪsʜ
 ❍ /tr hi-en*:* ᴛʀᴀɴsʟᴀᴛᴇs ʜɪɴᴅɪ ᴛᴏ ᴇɴɢʟɪsʜ
-❍ /tts *:* ᴛᴇxᴛ ᴛᴏ sᴘᴇᴀᴋ
 
 [ʟᴀɴɢᴜᴀɢᴇ ᴄᴏᴅᴇs](https://telegra.ph/ɪᴛs-ᴍᴇ-𒆜-Aʙɪsʜɴᴏɪ-07-30-2)
 """

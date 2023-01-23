@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import CommandHandler, ContextTypes
 
-from Exon import application, telethn
+from Exon import exon, telethn
 from Exon.__main__ import (
     CHAT_SETTINGS,
     DATA_EXPORT,
@@ -47,14 +47,14 @@ async def load(update: Update, context: ContextTypes.DEFAULT_TYPE):
         handlers = imported_module.__handlers__
         for handler in handlers:
             if not isinstance(handler, tuple):
-                application.add_handler(handler)
+                exon.add_handler(handler)
             else:
                 if isinstance(handler[0], collections.Callable):
                     callback, telethon_event = handler
                     telethn.add_event_handler(callback, telethon_event)
                 else:
                     handler_name, priority = handler
-                    application.add_handler(handler_name, priority)
+                    exon.add_handler(handler_name, priority)
     else:
         IMPORTED.pop(imported_module.__mod_name__.lower())
         await load_messasge.edit_text("ᴛʜᴇ ᴍᴏᴅᴜʟᴇ ᴄᴀɴɴᴏᴛ ʙᴇ ʟᴏᴀᴅᴇᴅ.")
@@ -120,14 +120,14 @@ async def unload(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await unload_messasge.edit_text("ᴛʜɪs ᴍᴏᴅᴜʟᴇ ᴄᴀɴ'ᴛ ʙᴇ ᴜɴʟᴏᴀᴅᴇᴅ!")
                 return
             elif not isinstance(handler, tuple):
-                application.remove_handler(handler)
+                exon.remove_handler(handler)
             else:
                 if isinstance(handler[0], collections.Callable):
                     callback, telethon_event = handler
                     telethn.remove_event_handler(callback, telethon_event)
                 else:
                     handler_name, priority = handler
-                    application.remove_handler(handler_name, priority)
+                    exon.remove_handler(handler_name, priority)
     else:
         await unload_messasge.edit_text("ᴛʜᴇ ᴍᴏᴅᴜʟᴇ ᴄᴀɴɴᴏᴛ ʙᴇ ᴜɴʟᴏᴀᴅᴇᴅ.")
         return
@@ -178,12 +178,12 @@ async def listmodules(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await message.reply_text(module_list, parse_mode=ParseMode.HTML)
 
 
-LOAD_HANDLER = CommandHandler("load", load, block=False)
-UNLOAD_HANDLER = CommandHandler("unload", unload, block=False)
-LISTMODULES_HANDLER = CommandHandler("listmodules", listmodules, block=False)
+LOAD_HANDLER = CommandHandler("load", load)
+UNLOAD_HANDLER = CommandHandler("unload", unload)
+LISTMODULES_HANDLER = CommandHandler("listmodules", listmodules)
 
-application.add_handler(LOAD_HANDLER)
-application.add_handler(UNLOAD_HANDLER)
-application.add_handler(LISTMODULES_HANDLER)
+exon.add_handler(LOAD_HANDLER)
+exon.add_handler(UNLOAD_HANDLER)
+exon.add_handler(LISTMODULES_HANDLER)
 
 __mod_name__ = "𝐌ᴏᴅᴜʟᴇs"

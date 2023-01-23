@@ -4,7 +4,7 @@ from telegram import ChatMemberAdministrator, Update
 from telegram.constants import ParseMode
 from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 
-from Exon import ALLOW_EXCL, CustomCommandHandler, application
+from Exon import ALLOW_EXCL, CustomCommandHandler, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin, connection_status
 from Exon.modules.sql import cleaner_sql as sql
@@ -28,8 +28,8 @@ command_list = [
 ]
 
 
-for handler_list in application.handlers:
-    for handler in application.handlers[handler_list]:
+for handler_list in exon.handlers:
+    for handler in exon.handlers[handler_list]:
         if any(isinstance(handler, cmd_handler) for cmd_handler in CommandHandlerList):
             command_list += handler.commands
 
@@ -232,35 +232,27 @@ __help__ = """
  • /ungignoreblue <ᴡᴏʀᴅ>*:* ʀᴇᴍᴏᴠᴇ sᴀɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғʀᴏᴍ ɢʟᴏʙᴀʟ ᴄʟᴇᴀɴɪɴɢ ʟɪsᴛ
 """
 
-SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "cleanblue", set_blue_text_must_click, block=False
-)
-ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "ignoreblue", add_bluetext_ignore, block=False
-)
-REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "unignoreblue", remove_bluetext_ignore, block=False
-)
+SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("cleanblue", set_blue_text_must_click)
+ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("ignoreblue", add_bluetext_ignore)
+REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("unignoreblue", remove_bluetext_ignore)
 ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler(
-    "gignoreblue", add_bluetext_ignore_global, block=False
+    "gignoreblue", add_bluetext_ignore_global
 )
 REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler(
-    "ungignoreblue", remove_bluetext_ignore_global, block=False
+    "ungignoreblue", remove_bluetext_ignore_global
 )
-LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "listblue", bluetext_ignore_list, block=False
-)
+LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("listblue", bluetext_ignore_list)
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
-    filters.COMMAND & filters.ChatType.GROUPS, clean_blue_text_must_click, block=False
+    filters.COMMAND & filters.ChatType.GROUPS, clean_blue_text_must_click
 )
 
-application.add_handler(SET_CLEAN_BLUE_TEXT_HANDLER)
-application.add_handler(ADD_CLEAN_BLUE_TEXT_HANDLER)
-application.add_handler(REMOVE_CLEAN_BLUE_TEXT_HANDLER)
-application.add_handler(ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
-application.add_handler(REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
-application.add_handler(LIST_CLEAN_BLUE_TEXT_HANDLER)
-application.add_handler(CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)
+exon.add_handler(SET_CLEAN_BLUE_TEXT_HANDLER)
+exon.add_handler(ADD_CLEAN_BLUE_TEXT_HANDLER)
+exon.add_handler(REMOVE_CLEAN_BLUE_TEXT_HANDLER)
+exon.add_handler(ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
+exon.add_handler(REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
+exon.add_handler(LIST_CLEAN_BLUE_TEXT_HANDLER)
+exon.add_handler(CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)
 
 __mod_name__ = "𝐂ʟᴇᴀɴ"
 __handlers__ = [

@@ -4,7 +4,7 @@ import time
 from pyrogram import filters
 from pyrogram.enums import MessageEntityType
 
-from Exon import BOT_USERNAME, app
+from Exon import app
 from Exon.modules.helper_funcs import get_readable_time
 from Exon.modules.sql.mongo.afk_db import is_afk, remove_afk
 
@@ -21,7 +21,7 @@ async def chat_watcher_func(_, message):
     userid = message.from_user.id
     user_name = message.from_user.first_name
     if message.entities:
-        possible = ["/afk", f"/afk@{BOT_USERNAME}"]
+        possible = ["/afk"]
         message_text = message.text or message.caption
         for entity in message.entities:
             if entity.type == MessageEntityType.BOT_COMMAND:

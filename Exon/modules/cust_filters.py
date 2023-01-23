@@ -15,7 +15,7 @@ from telegram.ext import (
 from telegram.ext import filters as filters_module
 from telegram.helpers import escape_markdown, mention_html
 
-from Exon import DRAGONS, LOGGER, application
+from Exon import DRAGONS, LOGGER, exon
 from Exon.modules.connection import connected
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
@@ -35,15 +35,15 @@ from Exon.modules.sql import cust_filters_sql as sql
 HANDLER_GROUP = 10
 
 ENUM_FUNC_MAP = {
-    sql.Types.TEXT.value: application.bot.send_message,
-    sql.Types.BUTTON_TEXT.value: application.bot.send_message,
-    sql.Types.STICKER.value: application.bot.send_sticker,
-    sql.Types.DOCUMENT.value: application.bot.send_document,
-    sql.Types.PHOTO.value: application.bot.send_photo,
-    sql.Types.AUDIO.value: application.bot.send_audio,
-    sql.Types.VOICE.value: application.bot.send_voice,
-    sql.Types.VIDEO.value: application.bot.send_video,
-    # sql.Types.VIDEO_NOTE.value: application.bot.send_video_note
+    sql.Types.TEXT.value: exon.bot.send_message,
+    sql.Types.BUTTON_TEXT.value: exon.bot.send_message,
+    sql.Types.STICKER.value: exon.bot.send_sticker,
+    sql.Types.DOCUMENT.value: exon.bot.send_document,
+    sql.Types.PHOTO.value: exon.bot.send_photo,
+    sql.Types.AUDIO.value: exon.bot.send_audio,
+    sql.Types.VOICE.value: exon.bot.send_voice,
+    sql.Types.VIDEO.value: exon.bot.send_video,
+    # sql.Types.VIDEO_NOTE.value: exon.bot.send_video_note
 }
 
 
@@ -55,7 +55,7 @@ async def list_handlers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id, need_admin=False)
     if not conn is False:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
         filter_list = "*Filter in {}:*\n"
     else:
@@ -109,7 +109,7 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id)
     if not conn is False:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         chat_id = update.effective_chat.id
@@ -143,9 +143,9 @@ async def filters(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Add the filter
     # Note: perhaps handlers can be removed somehow using sql.get_chat_filters
-    for handler in application.handlers.get(HANDLER_GROUP, []):
+    for handler in exon.handlers.get(HANDLER_GROUP, []):
         if handler.filters == (keyword, chat_id):
-            application.remove_handler(handler, HANDLER_GROUP)
+            exon.remove_handler(handler, HANDLER_GROUP)
 
     text, file_type, file_id, media_spoiler = get_filter_type(msg)
     if not msg.reply_to_message and len(extracted) >= 2:
@@ -263,7 +263,7 @@ async def stop_filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id)
     if not conn is False:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         chat_id = update.effective_chat.id
@@ -676,32 +676,24 @@ __help__ = """
 
 __mod_name__ = "𝐅ɪʟᴛᴇʀs"
 
-FILTER_HANDLER = CommandHandler("filter", filters, block=False)
-STOP_HANDLER = CommandHandler("stop", stop_filter, block=False)
+FILTER_HANDLER = CommandHandler("filter", filters)
+STOP_HANDLER = CommandHandler("stop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters",
-    rmall_filters,
-    filters=filters_module.ChatType.GROUPS,
-    block=False,
+    "removeallfilters", rmall_filters, filters=filters_module.ChatType.GROUPS
 )
-RMALLFILTER_CALLBACK = CallbackQueryHandler(
-    rmall_callback, pattern=r"filters_.*", block=False
-)
-LIST_HANDLER = DisableAbleCommandHandler(
-    "filters", list_handlers, admin_ok=True, block=False
-)
+RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
+LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
     filters_module.TEXT & ~filters_module.UpdateType.EDITED_MESSAGE,
     reply_filter,
-    block=False,
 )
 
-application.add_handler(FILTER_HANDLER)
-application.add_handler(STOP_HANDLER)
-application.add_handler(LIST_HANDLER)
-application.add_handler(CUST_FILTER_HANDLER, HANDLER_GROUP)
-application.add_handler(RMALLFILTER_HANDLER)
-application.add_handler(RMALLFILTER_CALLBACK)
+exon.add_handler(FILTER_HANDLER)
+exon.add_handler(STOP_HANDLER)
+exon.add_handler(LIST_HANDLER)
+exon.add_handler(CUST_FILTER_HANDLER, HANDLER_GROUP)
+exon.add_handler(RMALLFILTER_HANDLER)
+exon.add_handler(RMALLFILTER_CALLBACK)
 
 __handlers__ = [
     FILTER_HANDLER,

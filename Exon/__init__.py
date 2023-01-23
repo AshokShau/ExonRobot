@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient
 from pyrogram import Client
-from telegram.ext import Application
+from telegram.ext import Application, Defaults
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
@@ -49,12 +49,7 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     )
     quit(1)
 
-
-LOGGER.info("------------------------")
-LOGGER.info(f"|    @{Config.OWNER_USERNAME}    |")
-LOGGER.info("------------------------")
 LOGGER.info(f"ᴠᴇʀsɪᴏɴ: 2.69")
-LOGGER.info(f"ᴏᴡɴᴇʀ: {str(Config.OWNER_ID)}")
 LOGGER.info("sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ: https://github.com/Abishnoi69/ExonRobot\n")
 LOGGER.info("ᴇxᴏɴ ɪs sᴛᴀʀᴛɪɴɢ. | ᴀɴ ᴀʙɪsʜɴᴏɪᴍғ ᴘʀᴏᴊᴇᴄᴛ ᴘᴀʀᴛs. | ")
 
@@ -79,9 +74,6 @@ DEL_CMDS = True
 STRICT_GBAN = True
 BAN_STICKER = "CAADBQAD1gkAAjvoCVXK6sii-SVBrAI"
 KICK_STICKER = "CAADBQADXAkAAlTD8VWDZUADwfd2CQI"
-ALLOW_CHATS = True
-ALLOW_EXCL = True
-INFOPIC = True
 TEMP_DOWNLOAD_LOC = "./downloads"
 
 
@@ -99,14 +91,19 @@ app = Client(
 )
 
 
-Exon = Application.builder().token(TOKEN).build()
-asyncio.get_event_loop().run_until_complete(Exon.bot.initialize())
+exon = (
+    Application.builder()
+    .token(TOKEN)
+    .defaults(Defaults(block=False))
+    .concurrent_updates(True)
+    .build()
+)
+asyncio.get_event_loop().run_until_complete(exon.bot.initialize())
 
 
 # ᴍᴏɴɢᴏ ᴅᴀᴛᴀʙᴀsᴇ
 mongo = MongoCli(MONGO_DB_URI)
 db = mongo.EXON_ROBOT
-
 try:
     client = MongoClient(MONGO_DB_URI)
 except:
@@ -151,14 +148,12 @@ def Asuinline(**args):
     return decorator
 
 
-application = Exon
-
 aiohttpsession = ClientSession()
 
 print("[ᴇxᴏɴ]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
-BOT_ID = application.bot.id
-BOT_NAME = application.bot.first_name
-BOT_USERNAME = application.bot.username
+BOT_ID = exon.bot.id
+BOT_NAME = exon.bot.first_name
+BOT_USERNAME = exon.bot.username
 
 from Exon.modules.helper_funcs.handlers import (
     CustomCommandHandler,

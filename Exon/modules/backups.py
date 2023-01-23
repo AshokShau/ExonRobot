@@ -18,7 +18,7 @@ import Exon.modules.sql.notes_sql as sql
 
 # from Exon.modules.rules import get_rules
 import Exon.modules.sql.rules_sql as rulessql
-from Exon import EVENT_LOGS, LOGGER, OWNER_ID, SUPPORT_CHAT, application
+from Exon import EVENT_LOGS, LOGGER, OWNER_ID, SUPPORT_CHAT, exon
 from Exon.__main__ import DATA_IMPORT
 from Exon.modules.connection import connected
 from Exon.modules.helper_funcs.alternate import typing_action
@@ -37,8 +37,8 @@ async def import_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = await application.bot.getChat(conn)
-        chat_obj = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
@@ -138,9 +138,9 @@ async def export_data(update: Update, context: ContextTypes.DEFAULT_TYPE):
     current_chat_id = update.effective_chat.id
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
         chat_id = conn
-        # chat_name = await application.bot.getChat(conn).title
+        # chat_name = await exon.bot.getChat(conn).title
     else:
         if update.effective_message.chat.type == "private":
             await update.effective_message.reply_text("ᴛʜɪs ɪs ᴀ ɢʀᴏᴜᴘ ᴏɴʟʏ ᴄᴏᴍᴍᴀɴᴅ!")
@@ -400,8 +400,8 @@ __help__ = """
 
 """
 
-IMPORT_HANDLER = CommandHandler("import", import_data, block=False)
-EXPORT_HANDLER = CommandHandler("export", export_data, block=False)
+IMPORT_HANDLER = CommandHandler("import", import_data)
+EXPORT_HANDLER = CommandHandler("export", export_data)
 
-application.add_handler(IMPORT_HANDLER)
-application.add_handler(EXPORT_HANDLER)
+exon.add_handler(IMPORT_HANDLER)
+exon.add_handler(EXPORT_HANDLER)

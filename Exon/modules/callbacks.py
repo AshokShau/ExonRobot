@@ -5,7 +5,7 @@ from telegram.constants import ParseMode
 from telegram.ext import CallbackQueryHandler, ContextTypes
 from telegram.helpers import escape_markdown
 
-from Exon import BOT_NAME, BOT_USERNAME, OWNER_ID, SUPPORT_CHAT, app, application
+from Exon import BOT_NAME, BOT_USERNAME, OWNER_ID, SUPPORT_CHAT, app, exon
 from Exon.__main__ import PM_START_TEXT, buttons
 
 
@@ -208,13 +208,9 @@ async def EXON_back_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
 
 
-about_callback_handler = CallbackQueryHandler(
-    EXON_about_callback, pattern=r"EXON_", block=False
-)
-back_callback_handler = CallbackQueryHandler(
-    EXON_back_callback, pattern="start_back", block=False
-)
+about_callback_handler = CallbackQueryHandler(EXON_about_callback, pattern=r"EXON_")
+back_callback_handler = CallbackQueryHandler(EXON_back_callback, pattern="start_back")
 
 
-application.add_handler(about_callback_handler)
-application.add_handler(back_callback_handler)
+exon.add_handler(about_callback_handler)
+exon.add_handler(back_callback_handler)

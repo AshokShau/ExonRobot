@@ -12,7 +12,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes, filters
 from telegram.helpers import mention_html
 
-from Exon import DRAGONS, application
+from Exon import DRAGONS, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.alternate import send_message
 from Exon.modules.helper_funcs.chat_status import (
@@ -981,39 +981,33 @@ __help__ = """
  • /admincache*:* ғᴏʀᴄᴇ ʀᴇғʀᴇsʜ ᴛʜᴇ ᴀᴅᴍɪɴs ʟɪsᴛ
 """
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist, block=False)
+ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=filters.ChatType.GROUPS, block=False)
-UNPIN_HANDLER = CommandHandler(
-    "unpin", unpin, filters=filters.ChatType.GROUPS, block=False
-)
-UNPINALL_HANDLER = CommandHandler(
-    "unpinall", unpinall, filters=filters.ChatType.GROUPS, block=False
-)
+PIN_HANDLER = CommandHandler("pin", pin, filters=filters.ChatType.GROUPS)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=filters.ChatType.GROUPS)
+UNPINALL_HANDLER = CommandHandler("unpinall", unpinall, filters=filters.ChatType.GROUPS)
 
-INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, block=False)
+INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
-PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, block=False)
-DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, block=False)
+PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
+DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
-SET_TITLE_HANDLER = CommandHandler("title", set_title, block=False)
+SET_TITLE_HANDLER = CommandHandler("title", set_title)
 ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache", refresh_admin, filters=filters.ChatType.GROUPS, block=False
+    "admincache", refresh_admin, filters=filters.ChatType.GROUPS
 )
-ADMIN_CALLBACK_HANDLER = CallbackQueryHandler(
-    admin_callback, block=False, pattern=r"admin_"
-)
+ADMIN_CALLBACK_HANDLER = CallbackQueryHandler(admin_callback, pattern=r"admin_")
 
-application.add_handler(ADMINLIST_HANDLER)
-application.add_handler(PIN_HANDLER)
-application.add_handler(UNPIN_HANDLER)
-application.add_handler(UNPINALL_HANDLER)
-application.add_handler(INVITE_HANDLER)
-application.add_handler(PROMOTE_HANDLER)
-application.add_handler(DEMOTE_HANDLER)
-application.add_handler(SET_TITLE_HANDLER)
-application.add_handler(ADMIN_REFRESH_HANDLER)
-application.add_handler(ADMIN_CALLBACK_HANDLER)
+exon.add_handler(ADMINLIST_HANDLER)
+exon.add_handler(PIN_HANDLER)
+exon.add_handler(UNPIN_HANDLER)
+exon.add_handler(UNPINALL_HANDLER)
+exon.add_handler(INVITE_HANDLER)
+exon.add_handler(PROMOTE_HANDLER)
+exon.add_handler(DEMOTE_HANDLER)
+exon.add_handler(SET_TITLE_HANDLER)
+exon.add_handler(ADMIN_REFRESH_HANDLER)
+exon.add_handler(ADMIN_CALLBACK_HANDLER)
 
 __mod_name__ = "𝐀ᴅᴍɪɴ"
 __command_list__ = [

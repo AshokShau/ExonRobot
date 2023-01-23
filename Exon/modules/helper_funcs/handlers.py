@@ -13,7 +13,9 @@ from telegram.ext import CommandHandler, MessageHandler
 from telegram.ext import filters as filters_module
 
 import Exon.modules.sql.blacklistusers_sql as sql
-from Exon import ALLOW_EXCL, DEV_USERS, DRAGONS
+from Exon import DEV_USERS, DRAGONS
+
+ALLOW_EXCL = True
 
 if ALLOW_EXCL:
     CMD_STARTERS = (
@@ -116,21 +118,19 @@ class CustomCommandHandler(CommandHandler):
                     return False
         return None
 
-    def handle_update(self, update, application, check_result, context=None):
+    def handle_update(self, update, exon, check_result, context=None):
         if context:
-            self.collect_additional_context(context, update, application, check_result)
+            self.collect_additional_context(context, update, exon, check_result)
             return self.callback(update, context)
         else:
-            optional_args = self.collect_optional_args(
-                application, update, check_result
-            )
-            return self.callback(application.bot, update, **optional_args)
+            optional_args = self.collect_optional_args(exon, update, check_result)
+            return self.callback(exon.bot, update, **optional_args)
 
     def collect_additional_context(
         self,
         context,
         update,
-        application,
+        exon,
         check_result: Optional[Union[bool, Tuple[List[str], Optional[bool]]]],
     ) -> None:
         if isinstance(check_result, tuple):
@@ -142,10 +142,8 @@ class CustomCommandHandler(CommandHandler):
 
 
 class CustomMessageHandler(MessageHandler):
-    def __init__(
-        self, filters, callback, block, friendly="", allow_edit=False, **kwargs
-    ):
-        super().__init__(filters, callback, block=block, **kwargs)
+    def __init__(self, filters, callback, friendly="", allow_edit=False, **kwargs):
+        super().__init__(filters, callback, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
                 filters_module.UpdateType.EDITED_MESSAGE

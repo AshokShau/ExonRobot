@@ -17,7 +17,7 @@ from Exon import (
     OWNER_ID,
     STRICT_GBAN,
     SUPPORT_CHAT,
-    application,
+    exon,
 )
 from Exon.modules.helper_funcs.chat_status import (
     check_admin,
@@ -478,7 +478,7 @@ def __user_info__(user_id):
     text = "ᴍᴀʟɪᴄɪᴏᴜs: <b>{}</b>"
     if user_id in [777000, 1087968824]:
         return ""
-    if user_id == application.bot.id:
+    if user_id == exon.bot.id:
         return ""
     if int(user_id) in DRAGONS:
         return ""
@@ -511,26 +511,22 @@ __help__ = f"""
 *ɴᴏᴛᴇ:* ᴜsᴇʀs ᴄᴀɴ ᴀᴘᴘᴇᴀʟ ɢʙᴀɴs ᴏʀ ʀᴇᴘᴏʀᴛ sᴘᴀᴍᴍᴇʀs ᴀᴛ @{SUPPORT_CHAT}
 """
 
-GBAN_HANDLER = CommandHandler("gban", gban, block=False)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban, block=False)
-GBAN_LIST = CommandHandler("gbanlist", gbanlist, block=False)
+GBAN_HANDLER = CommandHandler("gban", gban)
+UNGBAN_HANDLER = CommandHandler("ungban", ungban)
+GBAN_LIST = CommandHandler("gbanlist", gbanlist)
 
-GBAN_STATUS = CommandHandler(
-    "antispam", gbanstat, filters=filters.ChatType.GROUPS, block=False
-)
+GBAN_STATUS = CommandHandler("antispam", gbanstat, filters=filters.ChatType.GROUPS)
 
-GBAN_ENFORCER = MessageHandler(
-    filters.ALL & filters.ChatType.GROUPS, enforce_gban, block=False
-)
+GBAN_ENFORCER = MessageHandler(filters.ALL & filters.ChatType.GROUPS, enforce_gban)
 
-application.add_handler(GBAN_HANDLER)
-application.add_handler(UNGBAN_HANDLER)
-application.add_handler(GBAN_LIST)
-application.add_handler(GBAN_STATUS)
+exon.add_handler(GBAN_HANDLER)
+exon.add_handler(UNGBAN_HANDLER)
+exon.add_handler(GBAN_LIST)
+exon.add_handler(GBAN_STATUS)
 
 __mod_name__ = "𝐀-sᴘᴀᴍ"
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set
-    application.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)
+    exon.add_handler(GBAN_ENFORCER, GBAN_ENFORCE_GROUP)
     __handlers__.append((GBAN_ENFORCER, GBAN_ENFORCE_GROUP))

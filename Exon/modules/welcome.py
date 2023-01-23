@@ -21,7 +21,7 @@ from telegram.helpers import escape_markdown, mention_html, mention_markdown
 
 import Exon
 import Exon.modules.sql.welcome_sql as sql
-from Exon import DEV_USERS, DRAGONS, EVENT_LOGS, LOGGER, OWNER_ID, application
+from Exon import DEV_USERS, DRAGONS, EVENT_LOGS, LOGGER, OWNER_ID, exon
 from Exon.modules.helper_funcs.chat_status import check_admin, is_user_ban_protected
 from Exon.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from Exon.modules.helper_funcs.msg_types import get_welcome_type
@@ -45,14 +45,14 @@ VALID_WELCOME_FORMATTERS = [
 ]
 
 ENUM_FUNC_MAP = {
-    sql.Types.TEXT.value: application.bot.send_message,
-    sql.Types.BUTTON_TEXT.value: application.bot.send_message,
-    sql.Types.STICKER.value: application.bot.send_sticker,
-    sql.Types.DOCUMENT.value: application.bot.send_document,
-    sql.Types.PHOTO.value: application.bot.send_photo,
-    sql.Types.AUDIO.value: application.bot.send_audio,
-    sql.Types.VOICE.value: application.bot.send_voice,
-    sql.Types.VIDEO.value: application.bot.send_video,
+    sql.Types.TEXT.value: exon.bot.send_message,
+    sql.Types.BUTTON_TEXT.value: exon.bot.send_message,
+    sql.Types.STICKER.value: exon.bot.send_sticker,
+    sql.Types.DOCUMENT.value: exon.bot.send_document,
+    sql.Types.PHOTO.value: exon.bot.send_photo,
+    sql.Types.AUDIO.value: exon.bot.send_audio,
+    sql.Types.VOICE.value: exon.bot.send_voice,
+    sql.Types.VIDEO.value: exon.bot.send_video,
 }
 
 VERIFIED_USER_WAITLIST = {}
@@ -67,13 +67,13 @@ async def send(update: Update, message, keyboard, backup_message):
     # Clean service welcome
     if cleanserv:
         try:
-            await application.bot.delete_message(chat.id, update.message.message_id)
+            await exon.bot.delete_message(chat.id, update.message.message_id)
         except BadRequest:
             pass
         reply = False
     try:
         try:
-            msg = await application.bot.send_message(
+            msg = await exon.bot.send_message(
                 chat.id,
                 markdown_to_html(message),
                 parse_mode=ParseMode.HTML,
@@ -96,7 +96,7 @@ async def send(update: Update, message, keyboard, backup_message):
             )
         elif excp.message == "Button_url_invalid":
             try:
-                msg = await application.bot.send_message(
+                msg = await exon.bot.send_message(
                     chat.id,
                     markdown_parser(
                         backup_message
@@ -117,7 +117,7 @@ async def send(update: Update, message, keyboard, backup_message):
                 )
         elif excp.message == "ᴜɴsᴜᴘᴘᴏʀᴛᴇᴅ ᴜʀʟ ᴘʀᴏᴛᴏᴄᴏʟ":
             try:
-                msg = await application.bot.send_message(
+                msg = await exon.bot.send_message(
                     chat.id,
                     markdown_parser(
                         backup_message
@@ -140,7 +140,7 @@ async def send(update: Update, message, keyboard, backup_message):
                 )
         elif excp.message == "ᴡʀᴏɴɢ ᴜʀʟ ʜᴏsᴛ":
             try:
-                msg = await application.bot.send_message(
+                msg = await exon.bot.send_message(
                     chat.id,
                     markdown_parser(
                         backup_message
@@ -166,7 +166,7 @@ async def send(update: Update, message, keyboard, backup_message):
             return
         else:
             try:
-                msg = await application.bot.send_message(
+                msg = await exon.bot.send_message(
                     chat.id,
                     markdown_parser(
                         backup_message + "\nɴᴏᴛᴇ: ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ ᴡʜᴇɴ sᴇɴᴅɪɴɢ ᴛʜᴇ "
@@ -228,9 +228,7 @@ async def new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # Clean service welcome
             if cleanserv:
                 try:
-                    await application.bot.delete_message(
-                        chat.id, update.message.message_id
-                    )
+                    await exon.bot.delete_message(chat.id, update.message.message_id)
                 except BadRequest:
                     pass
                 reply = False
@@ -563,7 +561,7 @@ async def left_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Clean service welcome
         if cleanserv:
             try:
-                await application.bot.delete_message(chat.id, update.message.message_id)
+                await exon.bot.delete_message(chat.id, update.message.message_id)
             except BadRequest:
                 pass
             reply = False
@@ -1159,58 +1157,50 @@ __help__ = """
 """
 
 NEW_MEM_HANDLER = MessageHandler(
-    filters.StatusUpdate.NEW_CHAT_MEMBERS, new_member, allow_edit=True, block=False
+    filters.StatusUpdate.NEW_CHAT_MEMBERS, new_member, allow_edit=True
 )
 LEFT_MEM_HANDLER = MessageHandler(
-    filters.StatusUpdate.LEFT_CHAT_MEMBER, left_member, allow_edit=True, block=False
+    filters.StatusUpdate.LEFT_CHAT_MEMBER, left_member, allow_edit=True
 )
-WELC_PREF_HANDLER = CommandHandler(
-    "welcome", welcome, filters=filters.ChatType.GROUPS, block=False
-)
+WELC_PREF_HANDLER = CommandHandler("welcome", welcome, filters=filters.ChatType.GROUPS)
 GOODBYE_PREF_HANDLER = CommandHandler(
-    "goodbye", goodbye, filters=filters.ChatType.GROUPS, block=False
+    "goodbye", goodbye, filters=filters.ChatType.GROUPS
 )
-SET_WELCOME = CommandHandler(
-    "setwelcome", set_welcome, filters=filters.ChatType.GROUPS, block=False
-)
-SET_GOODBYE = CommandHandler(
-    "setgoodbye", set_goodbye, filters=filters.ChatType.GROUPS, block=False
-)
+SET_WELCOME = CommandHandler("setwelcome", set_welcome, filters=filters.ChatType.GROUPS)
+SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=filters.ChatType.GROUPS)
 RESET_WELCOME = CommandHandler(
-    "resetwelcome", reset_welcome, filters=filters.ChatType.GROUPS, block=False
+    "resetwelcome", reset_welcome, filters=filters.ChatType.GROUPS
 )
 RESET_GOODBYE = CommandHandler(
-    "resetgoodbye", reset_goodbye, filters=filters.ChatType.GROUPS, block=False
+    "resetgoodbye", reset_goodbye, filters=filters.ChatType.GROUPS
 )
 WELCOMEMUTE_HANDLER = CommandHandler(
-    "welcomemute", welcomemute, filters=filters.ChatType.GROUPS, block=False
+    "welcomemute", welcomemute, filters=filters.ChatType.GROUPS
 )
 CLEAN_SERVICE_HANDLER = CommandHandler(
-    "cleanservice", cleanservice, filters=filters.ChatType.GROUPS, block=False
+    "cleanservice", cleanservice, filters=filters.ChatType.GROUPS
 )
 CLEAN_WELCOME = CommandHandler(
-    "cleanwelcome", clean_welcome, filters=filters.ChatType.GROUPS, block=False
+    "cleanwelcome", clean_welcome, filters=filters.ChatType.GROUPS
 )
-WELCOME_HELP = CommandHandler("welcomehelp", welcome_help, block=False)
-WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help, block=False)
-BUTTON_VERIFY_HANDLER = CallbackQueryHandler(
-    user_button, pattern=r"user_join_", block=False
-)
+WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
+WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help)
+BUTTON_VERIFY_HANDLER = CallbackQueryHandler(user_button, pattern=r"user_join_")
 
-application.add_handler(NEW_MEM_HANDLER)
-application.add_handler(LEFT_MEM_HANDLER)
-application.add_handler(WELC_PREF_HANDLER)
-application.add_handler(GOODBYE_PREF_HANDLER)
-application.add_handler(SET_WELCOME)
-application.add_handler(SET_GOODBYE)
-application.add_handler(RESET_WELCOME)
-application.add_handler(RESET_GOODBYE)
-application.add_handler(CLEAN_WELCOME)
-application.add_handler(WELCOME_HELP)
-application.add_handler(WELCOMEMUTE_HANDLER)
-application.add_handler(CLEAN_SERVICE_HANDLER)
-application.add_handler(BUTTON_VERIFY_HANDLER)
-application.add_handler(WELCOME_MUTE_HELP)
+exon.add_handler(NEW_MEM_HANDLER)
+exon.add_handler(LEFT_MEM_HANDLER)
+exon.add_handler(WELC_PREF_HANDLER)
+exon.add_handler(GOODBYE_PREF_HANDLER)
+exon.add_handler(SET_WELCOME)
+exon.add_handler(SET_GOODBYE)
+exon.add_handler(RESET_WELCOME)
+exon.add_handler(RESET_GOODBYE)
+exon.add_handler(CLEAN_WELCOME)
+exon.add_handler(WELCOME_HELP)
+exon.add_handler(WELCOMEMUTE_HANDLER)
+exon.add_handler(CLEAN_SERVICE_HANDLER)
+exon.add_handler(BUTTON_VERIFY_HANDLER)
+exon.add_handler(WELCOME_MUTE_HELP)
 
 __mod_name__ = "𝐖ᴇʟᴄᴏᴍᴇ"
 __command_list__ = []

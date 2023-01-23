@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import CommandHandler, ContextTypes
 
-from Exon import application
+from Exon import exon
 
 
 async def convert(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -52,9 +52,9 @@ help = """
 ᴜsᴀɢᴇ: /cash ᴀᴍᴏᴜɴᴛ ғʀᴏᴍ ᴛᴏ
 ᴇxᴀᴍᴘʟᴇ: `/cash 20 USD INR`"""
 
-CONVERTER_HANDLER = CommandHandler("cash", convert, block=False)
+CONVERTER_HANDLER = CommandHandler("cash", convert)
 
-application.add_handler(CONVERTER_HANDLER)
+exon.add_handler(CONVERTER_HANDLER)
 
 __command_list__ = ["cash"]
 __handlers__ = [CONVERTER_HANDLER]

@@ -7,7 +7,7 @@ from telegram.error import BadRequest, Forbidden
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
 
 import Exon.modules.sql.connection_sql as sql
-from Exon import DEV_USERS, DRAGONS, application
+from Exon import DEV_USERS, DRAGONS, exon
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
 
 try:
@@ -76,8 +76,8 @@ async def connection_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(context.bot, update, chat, user.id, need_admin=True)
 
     if conn:
-        chat = await application.bot.getChat(conn)
-        chat_obj = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type != "private":
@@ -136,7 +136,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     conn = await connected(
                         context.bot, update, chat, user.id, need_admin=False
                     )
-                    conn_chat = await application.bot.getChat(conn)
+                    conn_chat = await exon.bot.getChat(conn)
                     chat_name = conn_chat.title
                     await send_message(
                         update.effective_message,
@@ -170,7 +170,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 buttons = []
             conn = await connected(context.bot, update, chat, user.id, need_admin=False)
             if conn:
-                connectedchat = await application.bot.getChat(conn)
+                connectedchat = await exon.bot.getChat(conn)
                 text = "ʏᴏᴜ ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ *{}* (`{}`)".format(
                     connectedchat.title,
                     conn,
@@ -238,7 +238,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat.id,
             )
             if connection_status:
-                chat_obj = await application.bot.getChat(chat.id)
+                chat_obj = await exon.bot.getChat(chat.id)
                 chat_name = chat_obj.title
                 await send_message(
                     update.effective_message,
@@ -381,7 +381,7 @@ async def connect_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 conn = await connected(
                     context.bot, update, chat, user.id, need_admin=False
                 )
-                conn_chat = await application.bot.getChat(conn)
+                conn_chat = await exon.bot.getChat(conn)
                 chat_name = conn_chat.title
                 await query.message.edit_text(
                     "sᴜᴄᴄᴇssғᴜʟʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ *{}*. \n ᴍᴜsᴇ `/helpconnect` ᴛᴏ ᴄʜᴇᴄᴋ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs.".format(
@@ -436,22 +436,16 @@ sᴏᴍᴇᴛɪᴍᴇs ʏᴏᴜ ᴊᴜsᴛ ᴡᴀɴᴛ ᴛᴏ ᴀᴅᴅ sᴏᴍ�
 __mod_name__ = "𝐂ᴏɴɴᴇᴄᴛ"
 
 
-CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, block=False)
-CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat, block=False)
+CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat)
+CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat)
 DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat)
-ALLOW_CONNECTIONS_HANDLER = CommandHandler(
-    "allowconnect", allow_connections, block=False
-)
-HELP_CONNECT_CHAT_HANDLER = CommandHandler(
-    "helpconnect", help_connect_chat, block=False
-)
-CONNECT_BTN_HANDLER = CallbackQueryHandler(
-    connect_button, pattern=r"connect", block=False
-)
+ALLOW_CONNECTIONS_HANDLER = CommandHandler("allowconnect", allow_connections)
+HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat)
+CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect")
 
-application.add_handler(CONNECT_CHAT_HANDLER)
-application.add_handler(CONNECTION_CHAT_HANDLER)
-application.add_handler(DISCONNECT_CHAT_HANDLER)
-application.add_handler(ALLOW_CONNECTIONS_HANDLER)
-application.add_handler(HELP_CONNECT_CHAT_HANDLER)
-application.add_handler(CONNECT_BTN_HANDLER)
+exon.add_handler(CONNECT_CHAT_HANDLER)
+exon.add_handler(CONNECTION_CHAT_HANDLER)
+exon.add_handler(DISCONNECT_CHAT_HANDLER)
+exon.add_handler(ALLOW_CONNECTIONS_HANDLER)
+exon.add_handler(HELP_CONNECT_CHAT_HANDLER)
+exon.add_handler(CONNECT_BTN_HANDLER)

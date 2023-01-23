@@ -9,7 +9,7 @@ from telegram.error import TelegramError
 from telegram.ext import CommandHandler, ContextTypes
 from telegram.helpers import mention_html
 
-from Exon import DEV_USERS, DRAGONS, OWNER_ID, SUPPORT_CHAT, application
+from Exon import DEV_USERS, DRAGONS, OWNER_ID, SUPPORT_CHAT, exon
 from Exon.modules.helper_funcs.chat_status import check_admin, whitelist_plus
 from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.log_channel import gloggable
@@ -186,13 +186,13 @@ __help__ = f"""
 ᴠɪsɪᴛ @{SUPPORT_CHAT} ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏʀᴍᴀᴛɪᴏɴ.
 """
 
-SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo, block=False)
-SUDOLIST_HANDLER = CommandHandler(["sudolist", "dragons"], sudolist, block=False)
-DEVLIST_HANDLER = CommandHandler(["devlist", "darlings"], devlist, block=False)
+SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
+SUDOLIST_HANDLER = CommandHandler(["sudolist", "dragons"], sudolist)
+DEVLIST_HANDLER = CommandHandler(["devlist", "darlings"], devlist)
 
-application.add_handler(SUDO_HANDLER)
-application.add_handler(SUDOLIST_HANDLER)
-application.add_handler(DEVLIST_HANDLER)
+exon.add_handler(SUDO_HANDLER)
+exon.add_handler(SUDOLIST_HANDLER)
+exon.add_handler(DEVLIST_HANDLER)
 
 __mod_name__ = "𝐃ᴇᴠs"
 __handlers__ = [

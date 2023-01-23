@@ -7,7 +7,7 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 from telegram.helpers import mention_html, mention_markdown
 
 import Exon.modules.sql.blsticker_sql as sql
-from Exon import LOGGER, application
+from Exon import LOGGER, exon
 from Exon.modules.connection import connected
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.alternate import send_message
@@ -26,7 +26,7 @@ async def blackliststicker(update: Update, context: ContextTypes.DEFAULT_TYPE):
     conn = await connected(bot, update, chat, user.id, need_admin=False)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if chat.type == "private":
@@ -78,7 +78,7 @@ async def add_blackliststicker(update: Update, context: ContextTypes.DEFAULT_TYP
     conn = await connected(bot, update, chat, user.id)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         chat_id = update.effective_chat.id
@@ -176,7 +176,7 @@ async def unblackliststicker(update: Update, context: ContextTypes.DEFAULT_TYPE)
     conn = await connected(bot, update, chat, user.id)
     if conn:
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         chat_id = update.effective_chat.id
@@ -279,9 +279,9 @@ async def blacklist_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot, args = context.bot, context.args
     conn = await connected(bot, update, chat, user.id, need_admin=True)
     if conn:
-        chat = await application.bot.getChat(conn)
+        chat = await exon.bot.getChat(conn)
         chat_id = conn
-        chat_obj = await application.bot.getChat(conn)
+        chat_obj = await exon.bot.getChat(conn)
         chat_name = chat_obj.title
     else:
         if update.effective_message.chat.type == "private":
@@ -570,21 +570,21 @@ __help__ = """
 """
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "blsticker", blackliststicker, admin_ok=True, block=False
+    "blsticker", blackliststicker, admin_ok=True
 )
 ADDBLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "addblsticker", add_blackliststicker, block=False
+    "addblsticker", add_blackliststicker
 )
 UNBLACKLIST_STICKER_HANDLER = CommandHandler(
-    ["unblsticker", "rmblsticker"], unblackliststicker, block=False
+    ["unblsticker", "rmblsticker"], unblackliststicker
 )
-BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode, block=False)
+BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode)
 BLACKLIST_STICKER_DEL_HANDLER = MessageHandler(
-    filters.Sticker.ALL & filters.ChatType.GROUPS, del_blackliststicker, block=False
+    filters.Sticker.ALL & filters.ChatType.GROUPS, del_blackliststicker
 )
 
-application.add_handler(BLACKLIST_STICKER_HANDLER)
-application.add_handler(ADDBLACKLIST_STICKER_HANDLER)
-application.add_handler(UNBLACKLIST_STICKER_HANDLER)
-application.add_handler(BLACKLISTMODE_HANDLER)
-application.add_handler(BLACKLIST_STICKER_DEL_HANDLER)
+exon.add_handler(BLACKLIST_STICKER_HANDLER)
+exon.add_handler(ADDBLACKLIST_STICKER_HANDLER)
+exon.add_handler(UNBLACKLIST_STICKER_HANDLER)
+exon.add_handler(BLACKLISTMODE_HANDLER)
+exon.add_handler(BLACKLIST_STICKER_DEL_HANDLER)

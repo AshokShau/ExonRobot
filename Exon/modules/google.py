@@ -14,7 +14,7 @@ from telegram.error import BadRequest
 from telegram.ext import ContextTypes
 from wikipedia.exceptions import DisambiguationError, PageError
 
-from Exon import application
+from Exon import exon
 from Exon import register as Asubot
 from Exon.modules.disable import DisableAbleCommandHandler
 
@@ -253,12 +253,14 @@ async def wiki(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
 
 
-REVERSE_HANDLER = DisableAbleCommandHandler(["reverse", "pp"], reverse, block=False)
-UD_HANDLER = DisableAbleCommandHandler(["ud"], ud, block=False)
-WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, block=False)
-application.add_handler(WIKI_HANDLER)
-application.add_handler(UD_HANDLER)
-application.add_handler(REVERSE_HANDLER)
+REVERSE_HANDLER = DisableAbleCommandHandler(["reverse", "pp"], reverse)
+UD_HANDLER = DisableAbleCommandHandler(["ud"], ud)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
+
+
+exon.add_handler(WIKI_HANDLER)
+exon.add_handler(UD_HANDLER)
+exon.add_handler(REVERSE_HANDLER)
 
 
 __command_list__ = ["ud"]

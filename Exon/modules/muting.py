@@ -7,7 +7,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, ContextTypes
 from telegram.helpers import mention_html
 
-from Exon import LOGGER, application
+from Exon import LOGGER, exon
 from Exon.modules.helper_funcs.chat_status import (
     check_admin,
     connection_status,
@@ -237,13 +237,13 @@ __help__ = """
 • /unmute <ᴜsᴇʀʜᴀɴᴅʟᴇ>`*:* ᴜɴᴍᴜᴛᴇs ᴀ ᴜsᴇʀ. ᴄᴀɴ ᴀʟsᴏ ʙᴇ ᴜsᴇᴅ ᴀs ᴀ ʀᴇᴘʟʏ, ᴍᴜᴛɪɴɢ ᴛʜᴇ ʀᴇᴘʟɪᴇᴅ ᴛᴏ ᴜsᴇʀ.
 """
 
-MUTE_HANDLER = CommandHandler("mute", mute, block=False)
-UNMUTE_HANDLER = CommandHandler("unmute", unmute, block=False)
-TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute, block=False)
+MUTE_HANDLER = CommandHandler("mute", mute)
+UNMUTE_HANDLER = CommandHandler("unmute", unmute)
+TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute)
 
-application.add_handler(MUTE_HANDLER)
-application.add_handler(UNMUTE_HANDLER)
-application.add_handler(TEMPMUTE_HANDLER)
+exon.add_handler(MUTE_HANDLER)
+exon.add_handler(UNMUTE_HANDLER)
+exon.add_handler(TEMPMUTE_HANDLER)
 
 __mod_name__ = "𝐌ᴜᴛɪɴɢ"
 __handlers__ = [MUTE_HANDLER, UNMUTE_HANDLER, TEMPMUTE_HANDLER]

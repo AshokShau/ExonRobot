@@ -35,7 +35,7 @@ from Exon import (
     TOKEN,
     StartTime,
     app,
-    application,
+    exon,
     telethn,
 )
 
@@ -164,7 +164,7 @@ for module_name in ALL_MODULES:
 async def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
-    await application.bot.send_photo(
+    await exon.bot.send_photo(
         chat_id=chat_id,
         photo=START_IMG,
         caption=text,
@@ -204,7 +204,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await IMPORTED["extras"].markdown_help_sender(update)
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
-                chat = await application.bot.getChat(match.group(1))
+                chat = await exon.bot.getChat(match.group(1))
 
                 if await is_user_admin(chat, update.effective_user.id):
                     await send_settings(
@@ -450,14 +450,14 @@ async def send_settings(
                 "*{}*:\n{}".format(mod.__mod_name__, mod.__user_settings__(user.id))
                 for mod in USER_SETTINGS.values()
             )
-            await application.bot.send_message(
+            await exon.bot.send_message(
                 user.id,
                 "ᴛʜᴇsᴇ ᴀʀᴇ ʏᴏᴜʀ ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs:" + "\n\n" + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
         else:
-            await application.bot.send_message(
+            await exon.bot.send_message(
                 user.id,
                 "sᴇᴇᴍs ʟɪᴋᴇ ᴛʜᴇʀᴇ ᴀʀᴇɴ'ᴛ ᴀɴʏ ᴜsᴇʀ sᴘᴇᴄɪғɪᴄ sᴇᴛᴛɪɴɢs ᴀᴠᴀɪʟᴀʙʟᴇ :'(",
                 parse_mode=ParseMode.MARKDOWN,
@@ -470,9 +470,9 @@ async def send_settings(
 
             # conn = await connected(context.bot, update, chat, user.id, need_admin=True)
 
-            # chat_obj = await application.bot.getChat(conn)
-            chat_name = await application.bot.getChat(chat.id).title
-            await application.bot.send_message(
+            # chat_obj = await exon.bot.getChat(conn)
+            chat_name = await exon.bot.getChat(chat.id).title
+            await exon.bot.send_message(
                 user.id,
                 text="ᴡʜɪᴄʜ ᴍᴏᴅᴜʟᴇ ᴡᴏᴜʟᴅ ʏᴏᴜ ʟɪᴋᴇ ᴛᴏ ᴄʜᴇᴄᴋ {}'s sᴇᴛᴛɪɴɢs ғᴏʀ ᴅᴀʀʟɪɴɢ?".format(
                     chat_name,
@@ -482,7 +482,7 @@ async def send_settings(
                 ),
             )
         else:
-            await application.bot.send_message(
+            await exon.bot.send_message(
                 user.id,
                 "sᴇᴇᴍs ʟɪᴋᴇ ᴛʜᴇʀᴇ ᴀʀᴇɴ'ᴛ ᴀɴʏ ᴄʜᴀᴛ sᴇᴛᴛɪɴɢs ᴀᴠᴀɪʟᴀʙʟᴇ :'(\nsᴇɴᴅ ᴛʜɪs "
                 "ɪɴ ᴀ ɢʀᴏᴜᴘ ᴄʜᴀᴛ ʏᴏᴜ'ʀᴇ ᴀᴅᴍɪɴ ɪɴ ᴛᴏ ғɪɴᴅ ɪᴛs ᴄᴜʀʀᴇɴᴛ sᴇᴛᴛɪɴɢs!",
@@ -634,33 +634,39 @@ async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
 
 def main():
 
-    start_handler = CommandHandler("start", start, block=False)
+    start_handler = CommandHandler(
+        "start",
+        start,
+    )
 
-    help_handler = CommandHandler("help", get_help, block=False)
+    help_handler = CommandHandler(
+        "help",
+        get_help,
+    )
     help_callback_handler = CallbackQueryHandler(
-        help_button, pattern=r"help_.*", block=False
+        help_button,
+        pattern=r"help_.*",
     )
 
-    settings_handler = CommandHandler("settings", get_settings, block=False)
-    settings_callback_handler = CallbackQueryHandler(
-        settings_button, pattern=r"stngs_", block=False
+    settings_handler = CommandHandler(
+        "settings",
+        get_settings,
     )
+    settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
-    migrate_handler = MessageHandler(
-        filters.StatusUpdate.MIGRATE, migrate_chats, block=False
-    )
+    migrate_handler = MessageHandler(filters.StatusUpdate.MIGRATE, migrate_chats)
 
-    application.add_handler(start_handler)
-    application.add_handler(help_handler)
-    application.add_handler(settings_handler)
-    application.add_handler(help_callback_handler)
-    application.add_handler(settings_callback_handler)
-    application.add_handler(migrate_handler)
+    exon.add_handler(start_handler)
+    exon.add_handler(help_handler)
+    exon.add_handler(settings_handler)
+    exon.add_handler(help_callback_handler)
+    exon.add_handler(settings_callback_handler)
+    exon.add_handler(migrate_handler)
 
-    application.add_error_handler(error_callback)
+    exon.add_error_handler(error_callback)
 
     LOGGER.info("ᴜsɪɴɢ ʟᴏɴɢ ᴘᴏʟʟɪɴɢ.")
-    application.run_polling(timeout=15, drop_pending_updates=True)
+    exon.run_polling(timeout=15, drop_pending_updates=True)
 
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()

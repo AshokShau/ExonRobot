@@ -6,7 +6,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
-from Exon import StartTime, application
+from Exon import StartTime, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin
 
@@ -105,11 +105,11 @@ async def pingall(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-PING_HANDLER = DisableAbleCommandHandler("ping", ping, block=False)
-PINGALL_HANDLER = DisableAbleCommandHandler("pingall", pingall, block=False)
+PING_HANDLER = DisableAbleCommandHandler("ping", ping)
+PINGALL_HANDLER = DisableAbleCommandHandler("pingall", pingall)
 
-application.add_handler(PING_HANDLER)
-application.add_handler(PINGALL_HANDLER)
+exon.add_handler(PING_HANDLER)
+exon.add_handler(PINGALL_HANDLER)
 
 __command_list__ = ["ping", "pingall"]
 __handlers__ = [PING_HANDLER, PINGALL_HANDLER]
