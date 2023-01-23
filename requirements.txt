@@ -16,7 +16,7 @@ gpytranslate==1.4.0
 gtts==2.3.1
 httpx[http2]>=0.18.1,<1.0.0
 humanize==4.4.0
-markdown2==2.4.6
+markdown2==2.4.7
 motor==3.1.1
 mutagen==1.46.0
 opencv-python-headless==4.7.0.68
