@@ -48,6 +48,9 @@ def check_admin(
             user = update.effective_user
             message = update.effective_message
 
+            if message.from_user.id == 1087968824:
+                return await func(update, context, *args, **kwargs)   
+            
             if chat.type == ChatType.PRIVATE and not (
                 only_dev or only_sudo or only_owner
             ):
