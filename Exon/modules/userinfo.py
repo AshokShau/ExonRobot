@@ -34,7 +34,7 @@ async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
     else:
         pass
-            
+
     if message.reply_to_message and message.reply_to_message.forward_from:
 
         user1 = message.reply_to_message.from_user
@@ -54,13 +54,16 @@ async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     elif chat.type == "private":
         await message.reply_text(
-            f"ʏᴏᴜʀ ɪᴅ ɪs <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
+            f"ʏᴏᴜʀ ɪᴅ ɪs <code>{chat.id}</code>.",
+            parse_mode=ParseMode.HTML,
         )
     else:
         await message.reply_text(
-        f"ᴛʜɪs ɢʀᴏᴜᴘ's ɪᴅ ɪs <code>{chat.id}</code>.", parse_mode=ParseMode.HTML,
+            f"ᴛʜɪs ɢʀᴏᴜᴘ's ɪᴅ ɪs <code>{chat.id}</code>.",
+            parse_mode=ParseMode.HTML,
         )
     return
+
 
 @telethn.on(
     events.NewMessage(
