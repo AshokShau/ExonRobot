@@ -4,12 +4,12 @@ from telegram import ChatMemberAdministrator, Update
 from telegram.constants import ParseMode
 from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 
-from Exon import ALLOW_EXCL, CustomCommandHandler, exon
+from Exon import CustomCommandHandler, exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin, connection_status
 from Exon.modules.sql import cleaner_sql as sql
 
-CMD_STARTERS = ("/", "!", ".", "+", "-", "*", "^") if ALLOW_EXCL else "/"
+CMD_STARTERS = ("/", "!", ".", "+", "-", "*", "^") 
 BLUE_TEXT_CLEAN_GROUP = 13
 CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
 command_list = [
