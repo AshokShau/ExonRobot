@@ -15,7 +15,6 @@ from telegram.ext import Application
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
-
 StartTime = time.time()
 
 # Enable logging
@@ -95,7 +94,9 @@ DEV_USERS = list(DEV_USERS)
 
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 tbot = telethn.start(bot_token=TOKEN)
-app = Client("ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True)
+app = Client(
+    "ExonRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN, in_memory=True
+)
 
 
 Exon = Application.builder().token(TOKEN).build()
