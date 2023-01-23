@@ -1,12 +1,7 @@
-import os
-
 from gpytranslate import Translator
-from gtts import gTTS
-from mutagen.mp3 import MP3
 from pyrogram import filters
 
 from Exon import app as Abishnoi
-from Exon import register as Asubot
 
 
 @Abishnoi.on_message(filters.command(["tr", "tl"]))

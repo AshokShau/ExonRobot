@@ -439,15 +439,9 @@ __mod_name__ = "𝐂ᴏɴɴᴇᴄᴛ"
 CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat)
 CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat)
 DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat)
-ALLOW_CONNECTIONS_HANDLER = CommandHandler(
-    "allowconnect", allow_connections
-)
-HELP_CONNECT_CHAT_HANDLER = CommandHandler(
-    "helpconnect", help_connect_chat
-)
-CONNECT_BTN_HANDLER = CallbackQueryHandler(
-    connect_button, pattern=r"connect"
-)
+ALLOW_CONNECTIONS_HANDLER = CommandHandler("allowconnect", allow_connections)
+HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat)
+CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect")
 
 exon.add_handler(CONNECT_CHAT_HANDLER)
 exon.add_handler(CONNECTION_CHAT_HANDLER)

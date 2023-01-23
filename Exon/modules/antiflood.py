@@ -415,8 +415,7 @@ __help__ = """
 __mod_name__ = "𝐀-ғʟᴏᴏᴅ"
 
 FLOOD_BAN_HANDLER = MessageHandler(
-    filters.ALL & ~filters.StatusUpdate.ALL & filters.ChatType.GROUPS,
-    check_flood
+    filters.ALL & ~filters.StatusUpdate.ALL & filters.ChatType.GROUPS, check_flood
 )
 SET_FLOOD_HANDLER = CommandHandler(
     "setflood", set_flood, filters=filters.ChatType.GROUPS
@@ -424,12 +423,8 @@ SET_FLOOD_HANDLER = CommandHandler(
 SET_FLOOD_MODE_HANDLER = CommandHandler(
     "setfloodmode", set_flood_mode
 )  # , filters=filters.ChatType.GROUPS)
-FLOOD_QUERY_HANDLER = CallbackQueryHandler(
-    flood_button, pattern=r"unmute_flooder"
-)
-FLOOD_HANDLER = CommandHandler(
-    "flood", flood, filters=filters.ChatType.GROUPS
-)
+FLOOD_QUERY_HANDLER = CallbackQueryHandler(flood_button, pattern=r"unmute_flooder")
+FLOOD_HANDLER = CommandHandler("flood", flood, filters=filters.ChatType.GROUPS)
 
 exon.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
 exon.add_handler(FLOOD_QUERY_HANDLER)

@@ -529,18 +529,10 @@ async def runmute(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 RBAN_HANDLER = CommandHandler("rban", rban, filters=filters.User(DRAGONS))
-RUNBAN_HANDLER = CommandHandler(
-    "runban", runban, filters=filters.User(DRAGONS)
-)
-RKICK_HANDLER = CommandHandler(
-    "rkick", rkick, filters=filters.User(DRAGONS)
-)
-RMUTE_HANDLER = CommandHandler(
-    "rmute", rmute, filters=filters.User(DRAGONS)
-)
-RUNMUTE_HANDLER = CommandHandler(
-    "runmute", runmute, filters=filters.User(DRAGONS)
-)
+RUNBAN_HANDLER = CommandHandler("runban", runban, filters=filters.User(DRAGONS))
+RKICK_HANDLER = CommandHandler("rkick", rkick, filters=filters.User(DRAGONS))
+RMUTE_HANDLER = CommandHandler("rmute", rmute, filters=filters.User(DRAGONS))
+RUNMUTE_HANDLER = CommandHandler("runmute", runmute, filters=filters.User(DRAGONS))
 
 exon.add_handler(RBAN_HANDLER)
 exon.add_handler(RUNBAN_HANDLER)

@@ -984,12 +984,8 @@ __help__ = """
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
 
 PIN_HANDLER = CommandHandler("pin", pin, filters=filters.ChatType.GROUPS)
-UNPIN_HANDLER = CommandHandler(
-    "unpin", unpin, filters=filters.ChatType.GROUPS
-)
-UNPINALL_HANDLER = CommandHandler(
-    "unpinall", unpinall, filters=filters.ChatType.GROUPS
-)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=filters.ChatType.GROUPS)
+UNPINALL_HANDLER = CommandHandler("unpinall", unpinall, filters=filters.ChatType.GROUPS)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
@@ -1000,9 +996,7 @@ SET_TITLE_HANDLER = CommandHandler("title", set_title)
 ADMIN_REFRESH_HANDLER = CommandHandler(
     "admincache", refresh_admin, filters=filters.ChatType.GROUPS
 )
-ADMIN_CALLBACK_HANDLER = CallbackQueryHandler(
-    admin_callback, pattern=r"admin_"
-)
+ADMIN_CALLBACK_HANDLER = CallbackQueryHandler(admin_callback, pattern=r"admin_")
 
 exon.add_handler(ADMINLIST_HANDLER)
 exon.add_handler(PIN_HANDLER)

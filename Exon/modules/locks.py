@@ -696,12 +696,8 @@ __help__ = """
 __mod_name__ = "𝐋ᴏᴄᴋs"
 
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
-LOCK_HANDLER = CommandHandler(
-    "lock", lock
-)  # , filters=filters.ChatType.GROUPS)
-UNLOCK_HANDLER = CommandHandler(
-    "unlock", unlock
-)  # , filters=filters.ChatType.GROUPS)
+LOCK_HANDLER = CommandHandler("lock", lock)  # , filters=filters.ChatType.GROUPS)
+UNLOCK_HANDLER = CommandHandler("unlock", unlock)  # , filters=filters.ChatType.GROUPS)
 LOCKED_HANDLER = CommandHandler(
     "locks", list_locks
 )  # , filters=filters.ChatType.GROUPS)

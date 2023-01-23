@@ -45,6 +45,7 @@ async def i_do_nothing_yes(event):
                     f"- {event.from_id} ({event.chat_id}) : {event.text} | {datetime.datetime.now()}",
                 )
 
+
 @check_admin(only_dev=True)
 async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user

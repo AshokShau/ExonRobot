@@ -615,9 +615,7 @@ SLASH_GET_HANDLER = MessageHandler(filters.Regex(r"^/\d+$"), slash_get)
 SAVE_HANDLER = CommandHandler(["save", "note"], save)
 DELETE_HANDLER = CommandHandler("clear", clear)
 
-LIST_HANDLER = DisableAbleCommandHandler(
-    ["notes", "saved"], list_notes, admin_ok=True
-)
+LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"], list_notes, admin_ok=True)
 
 
 CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall)

@@ -4,11 +4,11 @@ from telegram import Update
 from telegram.error import Forbidden, TelegramError
 from telegram.ext import CommandHandler, ContextTypes
 
-import Exon
 from Exon import exon
 from Exon.modules.helper_funcs.chat_status import check_admin
 
 ALLOW_CHATS = True
+
 
 @check_admin(only_dev=True)
 async def allow_groups(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -18,9 +18,9 @@ async def allow_groups(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.effective_message.reply_text(f"ᴄᴜʀʀᴇɴᴛ sᴛᴀᴛᴇ: {state}")
         return
     if args[0].lower() in ["off", "no"]:
-        ALLOW_CHATS = True
+        pass
     elif args[0].lower() in ["yes", "on"]:
-        ALLOW_CHATS = False
+        pass
     else:
         await update.effective_message.reply_text("ғᴏʀᴍᴀᴛ: /lockdown ʏᴇs/ɴᴏ ᴏʀ ᴏғғ/ᴏɴ")
         return

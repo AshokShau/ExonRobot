@@ -515,13 +515,9 @@ GBAN_HANDLER = CommandHandler("gban", gban)
 UNGBAN_HANDLER = CommandHandler("ungban", ungban)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist)
 
-GBAN_STATUS = CommandHandler(
-    "antispam", gbanstat, filters=filters.ChatType.GROUPS
-)
+GBAN_STATUS = CommandHandler("antispam", gbanstat, filters=filters.ChatType.GROUPS)
 
-GBAN_ENFORCER = MessageHandler(
-    filters.ALL & filters.ChatType.GROUPS, enforce_gban
-)
+GBAN_ENFORCER = MessageHandler(filters.ALL & filters.ChatType.GROUPS, enforce_gban)
 
 exon.add_handler(GBAN_HANDLER)
 exon.add_handler(UNGBAN_HANDLER)

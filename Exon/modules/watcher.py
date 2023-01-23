@@ -4,7 +4,7 @@ import time
 from pyrogram import filters
 from pyrogram.enums import MessageEntityType
 
-from Exon import BOT_USERNAME, app
+from Exon import app
 from Exon.modules.helper_funcs import get_readable_time
 from Exon.modules.sql.mongo.afk_db import is_afk, remove_afk
 

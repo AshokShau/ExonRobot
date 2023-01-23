@@ -228,9 +228,7 @@ async def new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # Clean service welcome
             if cleanserv:
                 try:
-                    await exon.bot.delete_message(
-                        chat.id, update.message.message_id
-                    )
+                    await exon.bot.delete_message(chat.id, update.message.message_id)
                 except BadRequest:
                     pass
                 reply = False
@@ -1164,18 +1162,12 @@ NEW_MEM_HANDLER = MessageHandler(
 LEFT_MEM_HANDLER = MessageHandler(
     filters.StatusUpdate.LEFT_CHAT_MEMBER, left_member, allow_edit=True
 )
-WELC_PREF_HANDLER = CommandHandler(
-    "welcome", welcome, filters=filters.ChatType.GROUPS
-)
+WELC_PREF_HANDLER = CommandHandler("welcome", welcome, filters=filters.ChatType.GROUPS)
 GOODBYE_PREF_HANDLER = CommandHandler(
     "goodbye", goodbye, filters=filters.ChatType.GROUPS
 )
-SET_WELCOME = CommandHandler(
-    "setwelcome", set_welcome, filters=filters.ChatType.GROUPS
-)
-SET_GOODBYE = CommandHandler(
-    "setgoodbye", set_goodbye, filters=filters.ChatType.GROUPS
-)
+SET_WELCOME = CommandHandler("setwelcome", set_welcome, filters=filters.ChatType.GROUPS)
+SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=filters.ChatType.GROUPS)
 RESET_WELCOME = CommandHandler(
     "resetwelcome", reset_welcome, filters=filters.ChatType.GROUPS
 )
@@ -1193,9 +1185,7 @@ CLEAN_WELCOME = CommandHandler(
 )
 WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
 WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help)
-BUTTON_VERIFY_HANDLER = CallbackQueryHandler(
-    user_button, pattern=r"user_join_"
-)
+BUTTON_VERIFY_HANDLER = CallbackQueryHandler(user_button, pattern=r"user_join_")
 
 exon.add_handler(NEW_MEM_HANDLER)
 exon.add_handler(LEFT_MEM_HANDLER)

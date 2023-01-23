@@ -232,24 +232,16 @@ __help__ = """
  • /ungignoreblue <ᴡᴏʀᴅ>*:* ʀᴇᴍᴏᴠᴇ sᴀɪᴅ ᴄᴏᴍᴍᴀɴᴅ ғʀᴏᴍ ɢʟᴏʙᴀʟ ᴄʟᴇᴀɴɪɴɢ ʟɪsᴛ
 """
 
-SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "cleanblue", set_blue_text_must_click
-)
-ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "ignoreblue", add_bluetext_ignore
-)
-REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "unignoreblue", remove_bluetext_ignore
-)
+SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("cleanblue", set_blue_text_must_click)
+ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("ignoreblue", add_bluetext_ignore)
+REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("unignoreblue", remove_bluetext_ignore)
 ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler(
     "gignoreblue", add_bluetext_ignore_global
 )
 REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler(
     "ungignoreblue", remove_bluetext_ignore_global
 )
-LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
-    "listblue", bluetext_ignore_list
-)
+LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("listblue", bluetext_ignore_list)
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
     filters.COMMAND & filters.ChatType.GROUPS, clean_blue_text_must_click
 )

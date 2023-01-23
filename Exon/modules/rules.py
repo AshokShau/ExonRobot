@@ -144,9 +144,7 @@ __help__ = """
 
 __mod_name__ = "𝐑ᴜʟᴇs"
 
-GET_RULES_HANDLER = CommandHandler(
-    "rules", get_rules, filters=filters.ChatType.GROUPS
-)
+GET_RULES_HANDLER = CommandHandler("rules", get_rules, filters=filters.ChatType.GROUPS)
 SET_RULES_HANDLER = CommandHandler(
     "setrules", set_rules, filters=filters.ChatType.GROUPS
 )

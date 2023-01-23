@@ -679,16 +679,10 @@ __mod_name__ = "𝐅ɪʟᴛᴇʀs"
 FILTER_HANDLER = CommandHandler("filter", filters)
 STOP_HANDLER = CommandHandler("stop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters",
-    rmall_filters,
-    filters=filters_module.ChatType.GROUPS
+    "removeallfilters", rmall_filters, filters=filters_module.ChatType.GROUPS
 )
-RMALLFILTER_CALLBACK = CallbackQueryHandler(
-    rmall_callback, pattern=r"filters_.*"
-)
-LIST_HANDLER = DisableAbleCommandHandler(
-    "filters", list_handlers, admin_ok=True
-)
+RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
+LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
     filters_module.TEXT & ~filters_module.UpdateType.EDITED_MESSAGE,
     reply_filter,

@@ -512,9 +512,7 @@ WARN_HANDLER = CommandHandler(
     ["warn", "dwarn"], warn_user, filters=filters.ChatType.GROUPS
 )
 RESET_WARN_HANDLER = CommandHandler(
-    ["resetwarn", "resetwarns"],
-    reset_warns,
-    filters=filters.ChatType.GROUPS
+    ["resetwarn", "resetwarns"], reset_warns, filters=filters.ChatType.GROUPS
 )
 CALLBACK_QUERY_HANDLER = CallbackQueryHandler(button, pattern=r"rm_warn", block=False)
 MYWARNS_HANDLER = DisableAbleCommandHandler(

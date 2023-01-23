@@ -160,12 +160,8 @@ def __user_settings__(user_id):
 
 
 SETTINGS_HANDLER = CommandHandler("requests", settings)
-REQUEST_HANDLER = CommandHandler(
-    "request", request, filters=filters.ChatType.GROUPS
-)
-HASH_REQUEST_HANDLER = MessageHandler(
-    filters.Regex(r"(?i)#request(s)?"), request
-)
+REQUEST_HANDLER = CommandHandler("request", request, filters=filters.ChatType.GROUPS)
+HASH_REQUEST_HANDLER = MessageHandler(filters.Regex(r"(?i)#request(s)?"), request)
 
 
 exon.add_handler(SETTINGS_HANDLER)

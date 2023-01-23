@@ -94,9 +94,7 @@ __help__ = """
 • /markdownhelp*:* ǫᴜɪᴄᴋ sᴜᴍᴍᴀʀʏ ᴏғ ʜᴏᴡ ᴍᴀʀᴋᴅᴏᴡɴ ᴡᴏʀᴋs ɪɴ ᴛᴇʟᴇɢʀᴀᴍ - ᴄᴀɴ ᴏɴʟʏ ʙᴇ ᴄᴀʟʟᴇᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛs
 """
 
-ECHO_HANDLER = DisableAbleCommandHandler(
-    "echo", echo, filters=filters.ChatType.GROUPS
-)
+ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=filters.ChatType.GROUPS)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 
 exon.add_handler(ECHO_HANDLER)

@@ -705,9 +705,7 @@ ROAR_HANDLER = CommandHandler("roar", selfunban)
 KICKME_HANDLER = DisableAbleCommandHandler(
     "kickme", kickme, filters=filters.ChatType.GROUPS
 )
-BAN_CALLBACK_HANDLER = CallbackQueryHandler(
-    bans_callback, pattern=r"bans_"
-)
+BAN_CALLBACK_HANDLER = CallbackQueryHandler(bans_callback, pattern=r"bans_")
 
 exon.add_handler(BAN_HANDLER)
 exon.add_handler(TEMPBAN_HANDLER)

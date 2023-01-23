@@ -281,12 +281,8 @@ __help__ = """
 """
 
 SETTING_HANDLER = CommandHandler("reports", report_setting)
-REPORT_HANDLER = CommandHandler(
-    "report", report, filters=filters.ChatType.GROUPS
-)
-ADMIN_REPORT_HANDLER = MessageHandler(
-    filters.Regex(r"(?i)@admin(s)?"), report
-)
+REPORT_HANDLER = CommandHandler("report", report, filters=filters.ChatType.GROUPS)
+ADMIN_REPORT_HANDLER = MessageHandler(filters.Regex(r"(?i)@admin(s)?"), report)
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
 exon.add_handler(REPORT_BUTTON_USER_HANDLER)
