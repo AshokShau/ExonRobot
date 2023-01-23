@@ -312,7 +312,7 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         await message.reply_text("ʏᴇᴀʜʜʜ ɪ'ᴍ ɴᴏᴛ ɢᴏɴɴᴀ ᴅᴏ ᴛʜᴀᴛ.")
         return log_message
 
-    if is_user_ban_protected(update, user_id):
+    if await is_user_ban_protected(update, user_id):
         await message.reply_text("I ʀᴇᴀʟʟʏ ᴡɪsʜ ɪ ᴄᴏᴜʟᴅ ᴘᴜɴᴄʜ ᴛʜɪs ᴜsᴇʀ....")
         return log_message
 
@@ -323,6 +323,7 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             chat.id,
             f"ᴏɴᴇ ᴋɪᴄᴋᴇᴅ! {mention_html(member.user.id, html.escape(member.user.first_name))}.",
             parse_mode=ParseMode.HTML,
+            message_thread_id=message.message_thread_id if chat.is_forum else None
         )
         log = (
             f"<b>{html.escape(chat.title)}:</b>\n"
