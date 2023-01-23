@@ -21,6 +21,7 @@ from Exon.modules.users import get_user_id
 
 INFOPIC = True
 
+
 async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot, args = context.bot, context.args
     chat = update.effective_chat
