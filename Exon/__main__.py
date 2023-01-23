@@ -634,21 +634,27 @@ async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
 
 def main():
 
-    start_handler = CommandHandler("start", start, )
+    start_handler = CommandHandler(
+        "start",
+        start,
+    )
 
-    help_handler = CommandHandler("help", get_help, )
+    help_handler = CommandHandler(
+        "help",
+        get_help,
+    )
     help_callback_handler = CallbackQueryHandler(
-        help_button, pattern=r"help_.*", 
+        help_button,
+        pattern=r"help_.*",
     )
 
-    settings_handler = CommandHandler("settings", get_settings, )
-    settings_callback_handler = CallbackQueryHandler(
-        settings_button, pattern=r"stngs_" 
+    settings_handler = CommandHandler(
+        "settings",
+        get_settings,
     )
+    settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
-    migrate_handler = MessageHandler(
-        filters.StatusUpdate.MIGRATE, migrate_chats
-    )
+    migrate_handler = MessageHandler(filters.StatusUpdate.MIGRATE, migrate_chats)
 
     exon.add_handler(start_handler)
     exon.add_handler(help_handler)

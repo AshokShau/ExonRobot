@@ -91,7 +91,13 @@ app = Client(
 )
 
 
-exon = Application.builder().token(TOKEN).defaults(Defaults(block=False)).concurrent_updates(True).build()
+exon = (
+    Application.builder()
+    .token(TOKEN)
+    .defaults(Defaults(block=False))
+    .concurrent_updates(True)
+    .build()
+)
 asyncio.get_event_loop().run_until_complete(exon.bot.initialize())
 
 
@@ -140,6 +146,7 @@ def Asuinline(**args):
         return func
 
     return decorator
+
 
 aiohttpsession = ClientSession()
 
