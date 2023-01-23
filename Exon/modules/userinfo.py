@@ -11,13 +11,15 @@ from telethon import events
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 
-from Exon import DEV_USERS, DRAGONS, INFOPIC, OWNER_ID, application, telethn
+from Exon import DEV_USERS, DRAGONS, OWNER_ID, application, telethn
 from Exon.__main__ import STATS, USER_INFO
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import check_admin
+from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.sql.approve_sql import is_approved
 from Exon.modules.users import get_user_id
 
+INFOPIC = True
 
 async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot, args = context.bot, context.args
