@@ -685,7 +685,7 @@ RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*
 LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
     filters_module.TEXT & ~filters_module.UpdateType.EDITED_MESSAGE,
-    reply_filter,
+    reply_filter
 )
 
 exon.add_handler(FILTER_HANDLER)
