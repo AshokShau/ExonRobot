@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient
 from pyrogram import Client
-from telegram.ext import Application, Defaults, ApplicationBuilder
+from telegram.ext import Application, ApplicationBuilder, Defaults
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
