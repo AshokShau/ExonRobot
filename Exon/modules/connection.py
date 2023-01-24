@@ -15,7 +15,7 @@ try:
 except ImportError as e:
     print(e)
 
-check_admin = chat_status.check_admin
+check_admin = check_admin
 
 
 @check_admin(is_user=True)
