@@ -88,7 +88,7 @@ async def connection_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message = "ʏᴏᴜ ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ {}.\n".format(chat_name)
     else:
         message = "ʏᴏᴜ ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ɴᴏᴛ ᴄᴏɴɴᴇᴄᴛᴇᴅ ɪɴ ᴀɴʏ ɢʀᴏᴜᴘ.\n"
-    await send_message(update.effective_message, message, parse_mode=ParseMode.MARKDOWN))
+    await send_message(update.effective_message, message, parse_mode=ParseMode.MARKDOWN)
 
 
 @typing_action
@@ -329,14 +329,14 @@ async def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
 
 CONN_HELP = """
  ᴀᴄᴛɪᴏɴs ᴀʀᴇ ᴀᴠᴀɪʟᴀʙʟᴇ ᴡɪᴛʜ ᴄᴏɴɴᴇᴄᴛᴇᴅ ɢʀᴏᴜᴘs:
- • View and edit Notes.
- • View and edit Filters.
- • Get invite link of chat.
- • Set and control AntiFlood settings.
- • Set and control Blacklist settings.
- • Set Locks and Unlocks in chat.
- • Enable and Disable commands in chat.
- • Export and Imports of chat backup.
+ • ᴠɪᴇᴡ ᴀɴᴅ ᴇᴅɪᴛ ɴᴏᴛᴇs.
+ • ᴠɪᴇᴡ ᴀɴᴅ ᴇᴅɪᴛ ғɪʟᴛᴇʀs.
+ • ɢᴇᴛ ɪɴᴠɪᴛᴇ ʟɪɴᴋ ᴏғ ᴄʜᴀᴛ.
+ • sᴇᴛ ᴀɴᴅ ᴄᴏɴᴛʀᴏʟ ᴀɴᴛɪғʟᴏᴏᴅ sᴇᴛᴛɪɴɢs.
+ • sᴇᴛ ᴀɴᴅ ᴄᴏɴᴛʀᴏʟ ʙʟᴀᴄᴋʟɪsᴛ sᴇᴛᴛɪɴɢs.
+ • sᴇᴛ ʟᴏᴄᴋs ᴀɴᴅ ᴜɴʟᴏᴄᴋs ɪɴ ᴄʜᴀᴛ.
+ • ᴇɴᴀʙʟᴇ ᴀɴᴅ ᴅɪsᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs ɪɴ ᴄʜᴀᴛ.
+ • ᴇxᴘᴏʀᴛ ᴀɴᴅ ɪᴍᴘᴏʀᴛs ᴏғ ᴄʜᴀᴛ ʙᴀᴄᴋᴜᴘ.
  """
 
 
