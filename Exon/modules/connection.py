@@ -2,7 +2,7 @@ import re
 import time
 
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.constants import ParseMode
+from telegram.constants import ChatType, ChatMemberStatus, ParseMode
 from telegram.error import BadRequest, Forbidden
 from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
 
@@ -11,7 +11,7 @@ from Exon import DEV_USERS, DRAGONS, exon
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
 
 try:
-    from Exon.modules.helper_funcs import chat_status
+    from Exon.modules.helper_funcs.chat_status import check_admin
 except ImportError as e:
     print(e)
 
@@ -25,7 +25,7 @@ async def allow_connections(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     chat = update.effective_chat
     args = context.args
 
-    if chat.type != chat.PRIVATE:
+    if chat.type != ChatType.PRIVATE:
         if len(args) >= 1:
             var = args[0]
             if var == "no":
@@ -43,7 +43,7 @@ async def allow_connections(update: Update, context: ContextTypes.DEFAULT_TYPE) 
             else:
                 await send_message(
                     update.effective_message,
-                    "Please enter `yes` or `no`!",
+                    "ᴘʟᴇᴀsᴇ ᴇɴᴛᴇʀ `yes` ᴏʀ `no`!",
                     parse_mode=ParseMode.MARKDOWN,
                 )
         else:
@@ -77,10 +77,9 @@ async def connection_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if conn:
         chat = await exon.bot.getChat(conn)
-        chat_obj = await exon.bot.getChat(conn)
-        chat_name = chat_obj.title
+        chat_name = (await exon.bot.getChat(conn)).title
     else:
-        if update.effective_message.chat.type != "private":
+        if update.effective_message.chat.type != "ChatType.PRIVATE":
             return
         chat = update.effective_chat
         chat_name = update.effective_message.chat.title
@@ -89,7 +88,7 @@ async def connection_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message = "ʏᴏᴜ ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ {}.\n".format(chat_name)
     else:
         message = "ʏᴏᴜ ᴀʀᴇ ᴄᴜʀʀᴇɴᴛʟʏ ɴᴏᴛ ᴄᴏɴɴᴇᴄᴛᴇᴅ ɪɴ ᴀɴʏ ɢʀᴏᴜᴘ.\n"
-    await send_message(update.effective_message, message, parse_mode="markdown")
+    await send_message(update.effective_message, message, parse_mode=ParseMode.MARKDOWN))
 
 
 @typing_action
@@ -99,7 +98,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     args = context.args
 
-    if update.effective_chat.type == "private":
+    if update.effective_chat.type == "ChatType.PRIVATE":
         if args and len(args) >= 1:
             try:
                 connect_chat = int(args[0])
@@ -123,8 +122,8 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await send_message(update.effective_message, "Invalid Chat ID!")
                 return
 
-            isadmin = getstatusadmin.status in ("administrator", "creator")
-            ismember = getstatusadmin.status in ("member")
+            isadmin = getstatusadmin.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
+            ismember = getstatusadmin.status == ChatMemberStatus.MEMBER
             isallow = sql.allow_connect_to_chat(connect_chat)
 
             if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
@@ -220,7 +219,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await send_message(
                 update.effective_message,
                 text,
-                parse_mode="markdown",
+                parse_mode=ParseMode.MARKDOWN",
                 reply_markup=conn_hist,
             )
 
@@ -229,8 +228,8 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
             chat.id,
             update.effective_message.from_user.id,
         )
-        isadmin = getstatusadmin.status in ("administrator", "creator")
-        ismember = getstatusadmin.status in ("member")
+        isadmin = getstatusadmin.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
+        ismember = getstatusadmin.status == ChatMemberStatus.MEMBER
         isallow = sql.allow_connect_to_chat(chat.id)
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
             connection_status = sql.connect(
@@ -252,7 +251,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         "ʏᴏᴜ ᴀʀᴇ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ *{}*. \nᴜsᴇ `/helpconnect` ᴛᴏ ᴄʜᴇᴄᴋ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs.".format(
                             chat_name,
                         ),
-                        parse_mode="markdown",
+                        parse_mode=ParseMode.MARKDOWN",
                     )
                 except BadRequest:
                     pass
@@ -269,7 +268,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def disconnect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    if update.effective_chat.type == "private":
+    if update.effective_chat.type == "ChatType.PRIVATE":
         disconnection_status = sql.disconnect(update.effective_message.from_user.id)
         if disconnection_status:
             sql.disconnected_chat = await send_message(
@@ -287,15 +286,15 @@ async def disconnect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
     user = update.effective_user
 
-    if chat.type == chat.PRIVATE and sql.get_connected_chat(user_id):
+    if chat.type == ChatType.PRIVATE and sql.get_connected_chat(user_id):
 
         conn_id = sql.get_connected_chat(user_id).chat_id
         getstatusadmin = await bot.get_chat_member(
             conn_id,
             update.effective_message.from_user.id,
         )
-        isadmin = getstatusadmin.status in ("administrator", "creator")
-        ismember = getstatusadmin.status in ("member")
+        isadmin = getstatusadmin.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
+        ismember = getstatusadmin.status == ChatMemberStatus.MEMBER
         isallow = sql.allow_connect_to_chat(conn_id)
 
         if (
@@ -306,7 +305,7 @@ async def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
         ):
             if need_admin is True:
                 if (
-                    getstatusadmin.status in ("administrator", "creator")
+                    getstatusadmin.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
                     or user_id in DRAGONS
                     or user.id in DEV_USERS
                 ):
@@ -345,13 +344,13 @@ async def help_connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     context.args
 
-    if update.effective_message.chat.type != "private":
+    if update.effective_message.chat.type != "ChatType.PRIVATE:
         await send_message(
             update.effective_message, "PM me with that command to get help."
         )
         return
     else:
-        await send_message(update.effective_message, CONN_HELP, parse_mode="markdown")
+        await send_message(update.effective_message, CONN_HELP, parse_mode=ParseMode.MARKDOWN)
 
 
 async def connect_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -370,8 +369,8 @@ async def connect_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         getstatusadmin = await context.bot.get_chat_member(
             target_chat, query.from_user.id
         )
-        isadmin = getstatusadmin.status in ("administrator", "creator")
-        ismember = getstatusadmin.status in ("member")
+        isadmin = getstatusadmin.status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]
+        ismember = getstatusadmin.status == ChatMemberStatus.MEMBER
         isallow = sql.allow_connect_to_chat(target_chat)
 
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
