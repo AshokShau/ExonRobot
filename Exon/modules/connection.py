@@ -219,7 +219,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await send_message(
                 update.effective_message,
                 text,
-                parse_mode=ParseMode.MARKDOWN",
+                parse_mode=ParseMode.MARKDOWN,
                 reply_markup=conn_hist,
             )
 
