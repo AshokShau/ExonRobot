@@ -251,7 +251,7 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         "ʏᴏᴜ ᴀʀᴇ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ *{}*. \nᴜsᴇ `/helpconnect` ᴛᴏ ᴄʜᴇᴄᴋ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs.".format(
                             chat_name,
                         ),
-                        parse_mode=ParseMode.MARKDOWN",
+                        parse_mode=ParseMode.MARKDOWN,
                     )
                 except BadRequest:
                     pass
