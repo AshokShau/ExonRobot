@@ -344,7 +344,7 @@ async def help_connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     context.args
 
-    if update.effective_message.chat.type != "ChatType.PRIVATE:
+    if update.effective_message.chat.type != ChatType.PRIVATE:
         await send_message(
             update.effective_message, "PM me with that command to get help."
         )
