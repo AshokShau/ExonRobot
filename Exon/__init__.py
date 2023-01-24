@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient
 from pyrogram import Client
-from telegram.ext import Application, Defaults
+from telegram.ext import Application, Defaults, ApplicationBuilder
 from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
@@ -92,7 +92,7 @@ app = Client(
 
 
 exon = (
-    Application.builder()
+    ApplicationBuilder()
     .token(TOKEN)
     .defaults(Defaults(block=False))
     .concurrent_updates(True)
