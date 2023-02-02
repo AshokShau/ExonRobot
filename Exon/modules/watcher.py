@@ -8,26 +8,24 @@ from Exon import app
 from Exon.modules.helper_funcs import get_readable_time
 from Exon.modules.sql.mongo.afk_db import is_afk, remove_afk
 
-chat_watcher_group = 1
-
 
 @app.on_message(
     ~filters.me & ~filters.bot & ~filters.via_bot,
-    group=chat_watcher_group,
+    group=1,
 )
 async def chat_watcher_func(_, message):
     if message.sender_chat:
         return
     userid = message.from_user.id
+    bot_username = (await _.get_me()).username
     user_name = message.from_user.first_name
-    if message.entities:
-        possible = ["/afk"]
-        message_text = message.text or message.caption
-        for entity in message.entities:
-            if entity.type == MessageEntityType.BOT_COMMAND:
-                if (message_text[0 : 0 + entity.length]).lower() in possible:
-                    return
-
+    possible = ["/afk",f"/afk{bot_username}".lower()]
+    
+    try:
+        if message.text.split()[0].lower() in possible:
+            return 
+    except:
+        pass
     msg = ""
     replied_user_id = 0
 
