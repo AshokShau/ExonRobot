@@ -50,7 +50,6 @@ async def ping_func(to_ping: List[str]) -> List[str]:
     ping_result = []
 
     for each_ping in to_ping:
-
         start_time = time.time()
         site_to_ping = sites_list[each_ping]
         async with AsyncClient() as client:

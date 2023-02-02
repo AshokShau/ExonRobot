@@ -86,7 +86,6 @@ async def unbl_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             raise
 
     if sql.is_user_blacklisted(user_id):
-
         sql.unblacklist_user(user_id)
         await message.reply_text("*notices user*")
         log_message = (

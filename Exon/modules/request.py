@@ -118,7 +118,6 @@ async def request(update: Update, context: ContextTypes.DEFAULT_TYPE):
                             await message.forward(admin.user.id)
 
                     if chat.username and chat.type == chat.SUPERGROUP:
-
                         await bot.send_message(
                             admin.user.id,
                             msg + link,

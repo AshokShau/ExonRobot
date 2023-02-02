@@ -202,7 +202,6 @@ async def new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
     new_members = update.effective_message.new_chat_members
 
     for new_mem in new_members:
-
         if new_mem.id == bot.id and not Exon.ALLOW_CHATS:
             with suppress(BadRequest):
                 await update.effective_message.reply_text(
@@ -222,7 +221,6 @@ async def new_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
 
         if should_welc:
-
             reply = update.message.message_id
             cleanserv = sql.clean_service(chat.id)
             # Clean service welcome
@@ -568,7 +566,6 @@ async def left_member(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         left_mem = update.effective_message.left_chat_member
         if left_mem:
-
             if is_user_gbanned(left_mem.id):
                 return
 

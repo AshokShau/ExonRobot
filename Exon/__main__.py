@@ -175,7 +175,6 @@ async def send_help(chat_id, text, keyboard=None):
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     args = context.args
     usr = update.effective_user
     uptime = get_readable_time((time.time() - StartTime))
@@ -314,7 +313,6 @@ async def error_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
@@ -377,7 +375,6 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def get_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)  # type: ignore
 
@@ -633,7 +630,6 @@ async def migrate_chats(update: Update, _: ContextTypes.DEFAULT_TYPE):
 
 
 def main():
-
     start_handler = CommandHandler(
         "start",
         start,

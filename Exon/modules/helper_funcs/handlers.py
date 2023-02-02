@@ -98,7 +98,6 @@ class CustomCommandHandler(CommandHandler):
                 if len(fst_word) > 1 and any(
                     fst_word.startswith(start) for start in CMD_STARTERS
                 ):
-
                     args = message.text.split()[1:]
                     command_parts = fst_word[1:].split("@")
                     command_parts.append(message.get_bot().username)

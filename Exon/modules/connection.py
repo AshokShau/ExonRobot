@@ -21,7 +21,6 @@ check_admin = check_admin
 @check_admin(is_user=True)
 @typing_action
 async def allow_connections(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
-
     chat = update.effective_chat
     args = context.args
 
@@ -69,7 +68,6 @@ async def allow_connections(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
 @typing_action
 async def connection_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     chat = update.effective_chat
     user = update.effective_user
 
@@ -93,7 +91,6 @@ async def connection_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @typing_action
 async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     chat = update.effective_chat
     user = update.effective_user
     args = context.args
@@ -273,7 +270,6 @@ async def connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def disconnect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     if update.effective_chat.type == "ChatType.PRIVATE":
         disconnection_status = sql.disconnect(update.effective_message.from_user.id)
         if disconnection_status:
@@ -293,7 +289,6 @@ async def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
     user = update.effective_user
 
     if chat.type == ChatType.PRIVATE and sql.get_connected_chat(user_id):
-
         conn_id = sql.get_connected_chat(user_id).chat_id
         getstatusadmin = await bot.get_chat_member(
             conn_id,
@@ -351,7 +346,6 @@ CONN_HELP = """
 
 
 async def help_connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     context.args
 
     if update.effective_message.chat.type != ChatType.PRIVATE:
@@ -366,7 +360,6 @@ async def help_connect_chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def connect_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     query = update.callback_query
     chat = update.effective_chat
     user = update.effective_user

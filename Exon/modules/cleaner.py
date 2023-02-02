@@ -53,7 +53,6 @@ async def clean_blue_text_must_click(
             if len(fst_word) > 1 and any(
                 fst_word.startswith(start) for start in CMD_STARTERS
             ):
-
                 command = fst_word[1:].split("@")
                 chat = update.effective_chat
 
@@ -190,7 +189,6 @@ async def remove_bluetext_ignore_global(
 
 @check_admin(only_dev=True)
 async def bluetext_ignore_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
     message = update.effective_message
     chat = update.effective_chat
 

@@ -39,7 +39,6 @@ async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
         pass
 
     if message.reply_to_message and message.reply_to_message.forward_from:
-
         user1 = message.reply_to_message.from_user
         user2 = message.reply_to_message.forward_from
 

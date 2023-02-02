@@ -21,7 +21,6 @@ async def get_invalid_chats(
     progress_message = None
 
     for chat in chats:
-
         if ((100 * chats.index(chat)) / len(chats)) > progress:
             progress_bar = f"{progress}% completed in getting invalid chats."
             if progress_message:

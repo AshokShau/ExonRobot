@@ -39,7 +39,6 @@ async def promote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     await chat.get_member(user.id)
 
     if message.from_user.id == ChatID.ANONYMOUS_ADMIN:
-
         await message.reply_text(
             text="ʏᴏᴜ ᴀʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ.",
             reply_markup=InlineKeyboardMarkup(
@@ -143,7 +142,6 @@ async def demote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     await chat.get_member(user.id)
 
     if message.from_user.id == ChatID.ANONYMOUS_ADMIN:
-
         await message.reply_text(
             text="ʏᴏᴜ ᴀʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ.",
             reply_markup=InlineKeyboardMarkup(
@@ -247,7 +245,6 @@ async def set_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id, title = await extract_user_and_text(message, context, args)
 
     if message.from_user.id == 1087968824:
-
         await message.reply_text(
             text="ʏᴏᴜ ᴀʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ.",
             reply_markup=InlineKeyboardMarkup(
@@ -345,7 +342,6 @@ async def pin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         return
 
     if message.from_user.id == 1087968824:
-
         await message.reply_text(
             text="ʏᴏᴜ ᴀʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ.",
             reply_markup=InlineKeyboardMarkup(
@@ -392,7 +388,6 @@ async def unpin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     message = update.effective_message
 
     if message.from_user.id == 1087968824:
-
         await message.reply_text(
             text="ʏᴏᴜ ᴀʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ.",
             reply_markup=InlineKeyboardMarkup(
@@ -439,7 +434,6 @@ async def unpinall(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     admin_member = await chat.get_member(user.id)
 
     if message.from_user.id == 1087968824:
-
         await message.reply_text(
             text="ʏᴏᴜ ᴀʀᴇ ᴀɴ ᴀɴᴏɴʏᴍᴏᴜs ᴀᴅᴍɪɴ.",
             reply_markup=InlineKeyboardMarkup(
@@ -608,7 +602,6 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     splitter = query.data.replace("admin_", "").split("=")
 
     if splitter[1] == "promote":
-
         promoter = await chat.get_member(admin_user.id)
 
         if (
@@ -690,7 +683,6 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return log_message
 
     elif splitter[1] == "demote":
-
         demoter = await chat.get_member(admin_user.id)
 
         if not (
@@ -844,7 +836,6 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
     elif splitter[1] == "pin":
-
         admin_member = await chat.get_member(admin_user.id)
 
         if (
@@ -895,7 +886,6 @@ async def admin_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return log_message
 
     elif splitter[1] == "unpin":
-
         admin_member = await chat.get_member(admin_user.id)
 
         if (

@@ -109,7 +109,6 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     if sql.is_user_gbanned(user_id):
-
         if not reason:
             await message.reply_text(
                 "ᴛʜɪs ᴜsᴇʀ ɪs ᴀʟʀᴇᴀᴅʏ ɢʙᴀɴɴᴇᴅ; ɪᴅ ᴄʜᴀɴɢᴇ ᴛʜᴇ ʀᴇᴀsᴏɴ, ʙᴜᴛ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ ɢɪᴠᴇɴ ᴍᴇ ᴏɴᴇ...",
@@ -395,7 +394,6 @@ async def gbanlist(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def check_and_ban(update, user_id, should_message=True):
-
     if sql.is_user_gbanned(user_id):
         await update.effective_chat.ban_member(user_id)
         if should_message:

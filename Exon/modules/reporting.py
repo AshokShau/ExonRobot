@@ -101,7 +101,6 @@ async def report(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
             return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
-
             reported = f"{mention_html(user.id, user.first_name)} ʀᴇᴘᴏʀᴛᴇᴅ {mention_html(reported_user.id, reported_user.first_name)} ᴛᴏ ᴛʜᴇ ᴀᴅᴍɪɴs!"
 
             msg = (

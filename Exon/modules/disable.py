@@ -17,7 +17,6 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
-
     from Exon.modules.helper_funcs.chat_status import (
         check_admin,
         connection_status,
@@ -105,7 +104,6 @@ if is_module_loaded(FILENAME):
 
     class DisableAbleMessageHandler(MessageHandler):
         def __init__(self, filters, callback, friendly, **kwargs):
-
             super().__init__(filters, callback, **kwargs)
             DISABLE_OTHER.append(friendly)
             self.friendly = friendly
@@ -115,7 +113,6 @@ if is_module_loaded(FILENAME):
                 self.filters = filters_module.UpdateType.MESSAGES
 
         def check_update(self, update):
-
             chat = update.effective_chat
             message = update.effective_message
             filter_result = self.filters.check_update(update)

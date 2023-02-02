@@ -44,7 +44,6 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
 
     # if update is coming from anonymous admin then send button and return.
     if message.from_user.id == 1087968824:
-
         if SILENT:
             await message.reply_text("ᴄᴜʀʀᴇɴᴛʟʏ /sban ᴡᴏɴ'ᴛ ᴡᴏʀᴋ ғᴏʀ ᴀɴᴏʏᴍᴏᴜs ᴀᴅᴍɪɴs.")
             return log_message

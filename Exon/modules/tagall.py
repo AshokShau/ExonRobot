@@ -86,7 +86,6 @@ async def mentioned_alert(client, message):
         input_str = message.text
         input_str = input_str.lower()
         if "@" in input_str:
-
             input_str = input_str.replace("@", "  |")
             inuka = input_str.split("|")[1]
             text = inuka.split()[0]
