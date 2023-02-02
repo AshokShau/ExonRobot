@@ -1,6 +1,6 @@
 aiohttp==3.8.3
 alphabet-detector==0.0.7
-APScheduler==3.9.1.post1
+APScheduler==3.10.0
 asyncio==3.4.3
 beautifulsoup4==4.11.1
 bleach==6.0.0
