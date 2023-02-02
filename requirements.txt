@@ -31,7 +31,7 @@ pyrogram==2.0.97
 pymongo[srv]==4.3.3
 python-dotenv==0.21.1
 python-telegram-bot==20.0
-python-telegram-bot[job-queue]
+#python-telegram-bot[job-queue]
 SQLAlchemy==1.4.46
 webcolors==1.12
 wikipedia==1.4.0
