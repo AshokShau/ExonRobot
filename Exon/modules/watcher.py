@@ -19,11 +19,11 @@ async def chat_watcher_func(_, message):
     userid = message.from_user.id
     bot_username = (await _.get_me()).username
     user_name = message.from_user.first_name
-    possible = ["/afk",f"/afk{bot_username}".lower()]
-    
+    possible = ["/afk", f"/afk{bot_username}".lower()]
+
     try:
         if message.text.split()[0].lower() in possible:
-            return 
+            return
     except:
         pass
     msg = ""
