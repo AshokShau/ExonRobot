@@ -155,7 +155,6 @@ def gban(update: Update, context: CallbackContext):
         return
 
     if gban_db.is_user_gbanned(user_id):
-
         if not reason:
             message.reply_text(
                 "This user is already gbanned; I'd change the reason, but you haven't given me one...",
@@ -428,7 +427,6 @@ def gbanlist(update: Update, context: CallbackContext):
 
 
 def check_and_ban(update, user_id, should_message=True):
-
     if user_id in TIGERS or user_id in WOLVES:
         sw_ban = None
     else:

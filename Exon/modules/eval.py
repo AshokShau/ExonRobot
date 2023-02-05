@@ -44,8 +44,9 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
-from Exon import DEV_USERS, LOGGER, dispatcher
+from Exon import DEV_USERS, LOGGER
 from Exon import Abishnoi as app
+from Exon import dispatcher
 from Exon.modules.helper_funcs.chat_status import dev_plus
 
 namespaces = {}

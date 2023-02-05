@@ -28,7 +28,6 @@ SOFTWARE.
 #     GITHUB :- ABISHNOI69 ""
 
 
-
 import time
 
 from pyrogram import filters
@@ -124,7 +123,9 @@ async def active_afk(_, message: Message):
             "reason": _reason,
         }
     elif len(message.command) == 1 and message.reply_to_message.photo:
-        await Abishnoi.download_media(message.reply_to_message, file_name=f"{user_id}.jpg")
+        await Abishnoi.download_media(
+            message.reply_to_message, file_name=f"{user_id}.jpg"
+        )
         details = {
             "type": "photo",
             "time": time.time(),
@@ -132,7 +133,9 @@ async def active_afk(_, message: Message):
             "reason": None,
         }
     elif len(message.command) > 1 and message.reply_to_message.photo:
-        await Abishnoi.download_media(message.reply_to_message, file_name=f"{user_id}.jpg")
+        await Abishnoi.download_media(
+            message.reply_to_message, file_name=f"{user_id}.jpg"
+        )
         _reason = message.text.split(None, 1)[1].strip()
         details = {
             "type": "photo",

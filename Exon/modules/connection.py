@@ -46,7 +46,6 @@ user_admin = chat_status.user_admin
 @user_admin
 @typing_action
 def allow_connections(update, context) -> str:
-
     chat = update.effective_chat
     args = context.args
 
@@ -94,7 +93,6 @@ def allow_connections(update, context) -> str:
 
 @typing_action
 def connection_chat(update, context):
-
     chat = update.effective_chat
     user = update.effective_user
 
@@ -118,7 +116,6 @@ def connection_chat(update, context):
 
 @typing_action
 def connect_chat(update, context):
-
     chat = update.effective_chat
     user = update.effective_user
     args = context.args
@@ -288,7 +285,6 @@ def connect_chat(update, context):
 
 
 def disconnect_chat(update, context):
-
     if update.effective_chat.type == "private":
         disconnection_status = sql.disconnect(update.effective_message.from_user.id)
         if disconnection_status:
@@ -306,7 +302,6 @@ def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
     user = update.effective_user
 
     if chat.type == chat.PRIVATE and sql.get_connected_chat(user_id):
-
         conn_id = sql.get_connected_chat(user_id).chat_id
         getstatusadmin = bot.get_chat_member(
             conn_id,
@@ -367,7 +362,6 @@ Actions which are available with connected groups:-
 
 
 def help_connect_chat(update, context):
-
     context.args
 
     if update.effective_message.chat.type != "private":
@@ -377,7 +371,6 @@ def help_connect_chat(update, context):
 
 
 def connect_button(update, context):
-
     query = update.callback_query
     chat = update.effective_chat
     user = update.effective_user

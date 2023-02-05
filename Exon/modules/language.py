@@ -57,6 +57,7 @@ def gs(chat_id: Union[int, str], string: str) -> str:
     except:
         return "ᴍᴇ ɴᴏᴡ ʙᴜsʏ ᴡʜᴇɴ ғʀᴇᴇ ᴀᴅᴅ ᴛʜɪs "
 
+
 @Exoncmd(command="language")
 @user_admin
 def set_lang(update: Update, _) -> None:

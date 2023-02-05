@@ -43,7 +43,7 @@ from telethon import events
 from telethon.tl import *
 from telethon.tl import functions, types
 
-from Exon import dispatcher, Abishnoi
+from Exon import Abishnoi, dispatcher
 from Exon import telethn as bot
 from Exon.modules.connection import connected
 from Exon.modules.disable import DisableAbleCommandHandler

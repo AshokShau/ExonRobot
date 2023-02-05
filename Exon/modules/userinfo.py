@@ -28,9 +28,6 @@ SOFTWARE.
 #     GITHUB :- ABISHNOI69 ""
 
 
-
-
-
 import datetime
 import html
 import platform
@@ -75,6 +72,7 @@ from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd
 from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.no_sql.global_bans_db import is_user_gbanned
 from Exon.modules.no_sql.users_db import get_user_num_chats
+
 afk_reason = None
 is_user_afk = None
 from Exon.modules.sql import SESSION
@@ -128,7 +126,6 @@ def hpmanager(user):
     total_hp = (get_user_num_chats(user.id) + 10) * 10
 
     if not is_user_gbanned(user.id):
-
         # Assign new var `new_hp` since we need `total_hp` in
         # end to calculate percentage.
         new_hp = total_hp
@@ -182,9 +179,7 @@ def get_id(update: Update, context: CallbackContext):
     user_id = extract_user(msg, args)
 
     if user_id:
-
         if msg.reply_to_message and msg.reply_to_message.forward_from:
-
             user1 = message.reply_to_message.from_user
             user2 = message.reply_to_message.forward_from
 
@@ -195,7 +190,6 @@ def get_id(update: Update, context: CallbackContext):
             )
 
         else:
-
             user = bot.get_chat(user_id)
             msg.reply_text(
                 f"× <b>ʀᴇᴘʟɪᴇᴅ ᴛᴏ:</b> {mention_html(user.id, user.first_name)}\n× <b>ID of the user:</b> <code>{user.id}</code>",
@@ -203,7 +197,6 @@ def get_id(update: Update, context: CallbackContext):
             )
 
     else:
-
         if chat.type == "private":
             msg.reply_text(
                 f"⟃ ʏᴏᴜʀ ɪᴅ ɪꜱ <code>{chat.id}</code>.", parse_mode=ParseMode.HTML

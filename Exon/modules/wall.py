@@ -34,7 +34,7 @@ import requests
 from pyrogram import enums, filters
 from pyrogram.types import Message
 
-from Exon import arq, Abishnoi
+from Exon import Abishnoi, arq
 
 
 @Abishnoi.on_message(filters.command(["wallpaper"]))

@@ -31,8 +31,8 @@ from pyrogram.types import CallbackQuery
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import CallbackQueryHandler
 
-from Exon import dispatcher
 from Exon import Abishnoi as pbot
+from Exon import dispatcher
 
 
 def get_readable_time(seconds: int) -> str:

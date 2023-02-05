@@ -65,14 +65,13 @@ from Exon.modules.helper_funcs.chat_status import (
 )
 from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
 from Exon.modules.helper_funcs.chat_status import user_admin_no_reply, user_can_ban
-from Exon.modules.helper_funcs.decorators import Exoncmd
 from Exon.modules.helper_funcs.extraction import extract_user_and_text
 from Exon.modules.helper_funcs.filters import CustomFilters
 from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import gloggable, loggable
 
 
-#@Exoncmd(command=["ban", "sban", "dban"], pass_args=True)
+# @Exoncmd(command=["ban", "sban", "dban"], pass_args=True)
 @connection_status
 @bot_admin
 @can_restrict
@@ -624,7 +623,6 @@ def snipe(update: Update, context: CallbackContext):
 
 
 __mod_name__ = "𝐁ᴀɴs"
-
 
 
 BAN_HANDLER = CommandHandler(["ban", "sban", "dban"], ban, run_async=True)
