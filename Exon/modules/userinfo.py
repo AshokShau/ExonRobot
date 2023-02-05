@@ -297,7 +297,7 @@ def info(update: Update, context: CallbackContext):
         _stext = "\n➻ ᴘʀᴇꜱᴇɴᴄᴇ: <code>{}</code>"
 
 
-        else:
+        #else:
             status = status = bot.get_chat_member(chat.id, user.id).status
             if status:
                 if status in {"left", "kicked"}:
