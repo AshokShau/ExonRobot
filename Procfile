@@ -1,2 +1,1 @@
-worker: python3 -m Exon
-
+worker: bash start
