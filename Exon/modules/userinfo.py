@@ -144,7 +144,7 @@ def hpmanager(user):
         # if no bio exsit ==> -10% of hp
         if not sql.get_user_bio(user.id):
             new_hp -= no_by_per(total_hp, 10)
-
+"""
         if is_user_afk(user.id):
             afkst = afk_reason(user.id)
             # if user is afk and no reason then decrease 7%
@@ -157,7 +157,7 @@ def hpmanager(user):
 
     else:
         new_hp = no_by_per(total_hp, 5)
-
+"""
     return {
         "earnedhp": int(new_hp),
         "totalhp": int(total_hp),
