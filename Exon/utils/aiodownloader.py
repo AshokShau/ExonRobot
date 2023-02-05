@@ -23,7 +23,6 @@ SOFTWARE.
 """
 
 
-
 import asyncio
 import os
 from typing import Optional
@@ -48,7 +47,6 @@ class DownloadJob:
         save_path: Optional[str] = None,
         chunk_size: Optional[int] = 1024,
     ):
-
         self.file_url = file_url
         self._session = session
         self._chunk_size = chunk_size
@@ -98,7 +96,6 @@ class DownloadJob:
             if 200 <= resp.status < 300:
                 # Saving the data to the file chunk by chunk.
                 async with aiofiles.open(self.file_path, "wb") as file:
-
                     # Downloading the file using the aiohttp.StreamReader
                     async for data in resp.content.iter_chunked(self._chunk_size):
                         await file.write(data)
@@ -127,7 +124,6 @@ class Handler:
         session: Optional[aiohttp.ClientSession] = None,
         chunk_size: Optional[int] = 1024,
     ):
-
         self._loop = loop or asyncio.get_event_loop()
         self._session = session or aiohttp.ClientSession(loop=self._loop)
         self._chunk_size = chunk_size

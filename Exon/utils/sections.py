@@ -39,7 +39,6 @@ def section(
     indent: int = 2,
     underline: bool = False,
 ) -> str:
-
     text = (bold_ul(title) + n) if underline else bold(title) + n
 
     for key, value in body.items():

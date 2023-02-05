@@ -23,7 +23,6 @@ SOFTWARE.
 """
 
 
-
 import math
 import time
 
