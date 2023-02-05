@@ -191,7 +191,7 @@ def __user_info__(user_id):
 
 
 def __stats__():
-    return f"× 1{user_db.num_users()} ᴜsᴇʀs, ᴀᴄʀᴏss 1{user_db.num_chats()} ᴄʜᴀᴛs"
+    return f"× 0{user_db.num_users()} ᴜsᴇʀs, ᴀᴄʀᴏss 0{user_db.num_chats()} ᴄʜᴀᴛs"
 
 
 def __migrate__(old_chat_id, new_chat_id):
