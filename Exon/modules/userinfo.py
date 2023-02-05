@@ -294,17 +294,20 @@ def info(update: Update, context: CallbackContext):
     text += f"\n➻ ᴜꜱᴇʀʟɪɴᴋ: {mention_html(user.id, 'link')}"
 
     if chat.type != "private" and user_id != bot.id:
-        _stext = "\n➻ ᴘʀᴇꜱᴇɴᴄᴇ: <code>{}</code>"
+        _stext = "\n➻ <b>ᴩʀᴇsᴇɴᴄᴇ:</b> <code>{}</code>"
 
-    try:
+       # afk_st = is_afk(user.id)
+       #  if afk_st:
+       #     text += _stext.format("AFK")
+       # else:
         status = status = bot.get_chat_member(chat.id, user.id).status
-            if status:
+        if status:
             if status in {"left", "kicked"}:
-                 text += _stext.format("ɴᴏᴛ ʜᴇʀᴇ")
+                text += _stext.format("ɴᴏᴛ ʜᴇʀᴇ")
             elif status == "member":
-                 text += _stext.format("ᴅᴇᴛᴇᴄᴛᴇᴅ")
+                text += _stext.format("ᴅᴇᴛᴇᴄᴛᴇᴅ")
             elif status in {"administrator", "creator"}:
-                 text += _stext.format("ᴀᴅᴍɪɴ")
+                text += _stext.format("ᴀᴅᴍɪɴ")
     if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
         text += f"\n\n<b>ʜᴇᴀʟᴛʜ:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
