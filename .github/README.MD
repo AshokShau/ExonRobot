@@ -155,6 +155,18 @@ OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id
 ━━━━━━━━━━━━━━━━━━━━
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<h2 align="center"> 
+   ⇝ 2 ʙʀᴀɴᴄʜ ᴀᴠᴀɪʟᴀʙʟᴇ  ⇜
+</h2>
+
+```
+1. sᴛᴀʙʟᴇ  ʙʀᴀɴᴄʜ : ᴏʟᴅ ᴠᴇʀsɪᴏɴ & sᴛᴀʙʟᴇ
+2. ᴍᴀɪɴ ʙʀᴀɴᴄʜ : ᴏɴ ᴜᴘᴅᴀᴛᴇ
+ 
+```
+
+
 ━━━━━━━━━━━━━━━━━━━━
 <h3 align="center">
     ─「 ᴄʀᴇᴅɪᴛs 」─
@@ -165,6 +177,5 @@ OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id
 
 ➥ [𝐀ɴᴏɴʏᴍᴏᴜs] × <a href="http://github.com/AnonymousX1025/FallenRobot" alt="AnonymousX1025"> <img src="https://img.shields.io/badge/Anonymous-90302f?logo=github" /></a>  
 
-➥ [𝐁ʟᴀᴄᴋ ʙᴜʟʟs] × <a href="https://github.com/Black-Bulls-Bots/zerotwobot" alt="Black-Bulls-Bots"> <img src="https://img.shields.io/badge/BlackBullsBots-90302f?logo=github" /></a>  
 
 ━━━━━━━━━━━━━━━━━━━━
