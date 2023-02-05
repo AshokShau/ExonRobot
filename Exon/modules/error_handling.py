@@ -130,7 +130,7 @@ def error_callback(update: Update, context: CallbackContext):
                 f"</b>\n<code>{e}</code>",
                 parse_mode="html",
             )
-    ғᴏʀ        return
+            return
 
         url = f"https://spaceb.in/{response['payload']['id']}"
         context.bot.send_message(
