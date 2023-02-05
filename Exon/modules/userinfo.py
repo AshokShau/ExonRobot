@@ -296,16 +296,15 @@ def info(update: Update, context: CallbackContext):
     if chat.type != "private" and user_id != bot.id:
         _stext = "\n➻ ᴘʀᴇꜱᴇɴᴄᴇ: <code>{}</code>"
 
-
-        #else:
-            status = status = bot.get_chat_member(chat.id, user.id).status
+    try:
+        status = status = bot.get_chat_member(chat.id, user.id).status
             if status:
-                if status in {"left", "kicked"}:
-                    text += _stext.format("Not here")
-                elif status == "member":
-                    text += _stext.format("Detected")
-                elif status in {"administrator", "creator"}:
-                    text += _stext.format("Admin")
+            if status in {"left", "kicked"}:
+                 text += _stext.format("ɴᴏᴛ ʜᴇʀᴇ")
+            elif status == "member":
+                 text += _stext.format("ᴅᴇᴛᴇᴄᴛᴇᴅ")
+            elif status in {"administrator", "creator"}:
+                 text += _stext.format("ᴀᴅᴍɪɴ")
     if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
         text += f"\n\n<b>ʜᴇᴀʟᴛʜ:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
