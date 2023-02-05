@@ -173,7 +173,6 @@ def add_filter(
     is_video=False,
     buttons=None,
 ):
-
     if buttons is None:
         buttons = []
 
@@ -217,7 +216,6 @@ def add_filter(
 
 
 def new_add_filter(chat_id, keyword, reply_text, file_type, file_id, buttons):
-
     if buttons is None:
         buttons = []
 
