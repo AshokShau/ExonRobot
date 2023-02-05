@@ -57,7 +57,7 @@
          "required": true,
          "value": "Abishnoi1M"
       },
-      "EVENT_LOGS": {
+      "LOG_GROUP_ID": {
          "description": "ᴇᴠᴇɴᴛ ʟᴏɢs ᴄʜᴀɴɴᴇʟ  ᴛᴏ ɴᴏᴛᴇ ᴅᴏᴡɴ ɪᴍᴘᴏʀᴛᴀɴᴛ ʙᴏᴛ ʟᴇᴠᴇʟ ᴇᴠᴇɴᴛs, ᴇx: '-10023456'",
          "required": true,
          "value": "-100"
