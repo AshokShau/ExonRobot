@@ -144,19 +144,8 @@ def hpmanager(user):
         # if no bio exsit ==> -10% of hp
         if not sql.get_user_bio(user.id):
             new_hp -= no_by_per(total_hp, 10)
-"""
-        if is_user_afk(user.id):
-            afkst = afk_reason(user.id)
-            # if user is afk and no reason then decrease 7%
-            # else if reason exist decrease 5%
-            new_hp -= no_by_per(total_hp, 7) if not afkst else no_by_per(total_hp, 5)
-            # fbanned users will have (2*number of fbans) less from max HP
-            # Example: if HP is 100 but user has 5 diff fbans
-            # Available HP is (2*5) = 10% less than Max HP
-            # So.. 10% of 100HP = 90HP
-"""
-    else:
-        new_hp = no_by_per(total_hp, 5)
+
+        #new_hp = no_by_per(total_hp, 5)
 
     return {
         "earnedhp": int(new_hp),
