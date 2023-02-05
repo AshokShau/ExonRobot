@@ -155,7 +155,6 @@ def article(
     reply_markup: InlineKeyboardMarkup = None,
     disable_web_page_preview: bool = False,
 ) -> InlineQueryResultArticle:
-
     return InlineQueryResultArticle(
         id=uuid4(),
         title=title,
