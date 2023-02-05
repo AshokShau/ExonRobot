@@ -72,8 +72,6 @@ from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd
 from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.no_sql.global_bans_db import is_user_gbanned
 from Exon.modules.no_sql.users_db import get_user_num_chats
-
-
 from Exon.modules.sql import SESSION
 
 
@@ -296,10 +294,10 @@ def info(update: Update, context: CallbackContext):
     if chat.type != "private" and user_id != bot.id:
         _stext = "\n➻ <b>ᴩʀᴇsᴇɴᴄᴇ:</b> <code>{}</code>"
 
-       # afk_st = is_afk(user.id)
-       #  if afk_st:
-       #     text += _stext.format("AFK")
-       # else:
+        # afk_st = is_afk(user.id)
+        #  if afk_st:
+        #     text += _stext.format("AFK")
+        # else:
         status = status = bot.get_chat_member(chat.id, user.id).status
         if status:
             if status in {"left", "kicked"}:
