@@ -73,8 +73,7 @@ from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.no_sql.global_bans_db import is_user_gbanned
 from Exon.modules.no_sql.users_db import get_user_num_chats
 
-afk_reason = None
-is_user_afk = None
+
 from Exon.modules.sql import SESSION
 
 
@@ -297,9 +296,7 @@ def info(update: Update, context: CallbackContext):
     if chat.type != "private" and user_id != bot.id:
         _stext = "\n➻ ᴘʀᴇꜱᴇɴᴄᴇ: <code>{}</code>"
 
-        afk_st = is_user_afk(user.id)
-        if afk_st:
-            text += _stext.format("AFK")
+
         else:
             status = status = bot.get_chat_member(chat.id, user.id).status
             if status:
@@ -316,7 +313,7 @@ def info(update: Update, context: CallbackContext):
     try:
         spamwtc = sw.get_ban(int(user.id))
         if spamwtc:
-            text += "\n\n<b>This person is Spamwatched!</b>"
+            text += "\n\n<b>ᴛʜɪs ᴘᴇʀsᴏɴ ɪs sᴘᴀᴍᴡᴀᴛᴄʜᴇᴅ!</b>"
             text += f"\nʀᴇᴀꜱᴏɴ: <pre>{spamwtc.reason}</pre>"
             text += "\nᴀᴘᴘᴇᴀʟ ᴀᴛ @AbishnoiMF"
     except:
@@ -325,7 +322,7 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe level for my master is Heroine"
+        text += "\n\nᴛʜᴇ ʟᴇᴠᴇʟ ғᴏʀ ᴍʏ ᴍᴀsᴛᴇʀ "
         disaster_level_present = True
     elif user.id in DEV_USERS:
         text += "\n\nThe level for this user is Destroyers"
@@ -343,7 +340,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nThe level for this user is Villain"
         disaster_level_present = True
     elif user.id == 5938660179:
-        text += "\n\nCo-Owner Of A Bot."
+        text += "\n\nᴄᴏ-ᴏᴡᴇʀɴ ᴏғ ᴀ ʙᴏᴛ."
         disaster_level_present = True
 
     if disaster_level_present:
