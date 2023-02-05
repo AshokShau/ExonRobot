@@ -47,7 +47,7 @@ from Exon.modules.helper_funcs.chat_status import user_not_admin
 from Exon.modules.helper_funcs.decorators import Exoncmd as natsunagicmd
 from Exon.modules.helper_funcs.decorators import Exonmsg as natsunagimsg
 from Exon.modules.log_channel import loggable
-from Exon.modules.sql.approval_sql import is_approved
+from Exon.modules.sql.approve_sql import is_approved
 
 ad = AlphabetDetector()
 
