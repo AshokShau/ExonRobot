@@ -27,32 +27,45 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy import Column, String
 
-from Exon import DB_URL as DB_URI
-from Exon import LOGGER as log
-
-if DB_URI and DB_URI.startswith("postgres://"):
-    DB_URI = DB_URI.replace("postgres://", "postgresql://", 1)
+from Exon.modules.sql import BASE, SESSION
 
 
-def start() -> scoped_session:
-    engine = create_engine(DB_URI, client_encoding="utf8")
-    log.info("[PostgreSQL] Connecting to database......")
-    BASE.metadata.bind = engine
-    BASE.metadata.create_all(engine)
-    return scoped_session(sessionmaker(bind=engine, autoflush=False))
+class Nightmode(BASE):
+    __tablename__ = "nightmode"
+    chat_id = Column(String(14), primary_key=True)
+
+    def __init__(self, chat_id):
+        self.chat_id = chat_id
 
 
-BASE = declarative_base()
-try:
-    SESSION: scoped_session = start()
-except Exception as e:
-    log.exception(f"[PostgreSQL] Failed to connect due to {e}")
-    exit()
-
-log.info("[PostgreSQL] Connection successful, session started.")
+Nightmode.__table__.create(checkfirst=True)
 
 
+def add_nightmode(chat_id: str):
+    nightmoddy = Nightmode(str(chat_id))
+    SESSION.add(nightmoddy)
+    SESSION.commit()
+
+
+def rmnightmode(chat_id: str):
+    rmnightmoddy = SESSION.query(Nightmode).get(str(chat_id))
+    if rmnightmoddy:
+        SESSION.delete(rmnightmoddy)
+        SESSION.commit()
+
+
+def get_all_chat_id():
+    stark = SESSION.query(Nightmode).all()
+    SESSION.close()
+    return stark
+
+
+def is_nightmode_indb(chat_id: str):
+    try:
+        s__ = SESSION.query(Nightmode).get(str(chat_id))
+        if s__:
+            return str(s__.chat_id)
+    finally:
+        SESSION.close()

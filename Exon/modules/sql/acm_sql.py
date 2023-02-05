@@ -27,32 +27,44 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
 
-from Exon import DB_URL as DB_URI
-from Exon import LOGGER as log
+import threading
 
-if DB_URI and DB_URI.startswith("postgres://"):
-    DB_URI = DB_URI.replace("postgres://", "postgresql://", 1)
+from sqlalchemy import Boolean, Column, String
+
+from Exon.modules.sql import BASE, SESSION
 
 
-def start() -> scoped_session:
-    engine = create_engine(DB_URI, client_encoding="utf8")
-    log.info("[PostgreSQL] Connecting to database......")
-    BASE.metadata.bind = engine
-    BASE.metadata.create_all(engine)
-    return scoped_session(sessionmaker(bind=engine, autoflush=False))
+class CleanLinked(BASE):
+    __tablename__ = "clean_linked"
+    chat_id = Column(String(14), primary_key=True)
+    status = Column(Boolean, default=False)
+
+    def __init__(self, chat_id, status):
+        self.chat_id = str(chat_id)
+        self.status = status
 
 
-BASE = declarative_base()
-try:
-    SESSION: scoped_session = start()
-except Exception as e:
-    log.exception(f"[PostgreSQL] Failed to connect due to {e}")
-    exit()
+CleanLinked.__table__.create(checkfirst=True)
 
-log.info("[PostgreSQL] Connection successful, session started.")
+CLEANLINKED_LOCK = threading.RLock()
 
 
+def getCleanLinked(chat_id):
+    try:
+        resultObj = SESSION.query(CleanLinked).get(str(chat_id))
+        if resultObj:
+            return resultObj.status
+        return False  # default
+    finally:
+        SESSION.close()
+
+
+def setCleanLinked(chat_id, status):
+    with CLEANLINKED_LOCK:
+        prevObj = SESSION.query(CleanLinked).get(str(chat_id))
+        if prevObj:
+            SESSION.delete(prevObj)
+        newObj = CleanLinked(str(chat_id), status)
+        SESSION.add(newObj)
+        SESSION.commit()

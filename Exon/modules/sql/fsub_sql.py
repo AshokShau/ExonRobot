@@ -26,33 +26,49 @@ SOFTWARE.
 # TG :- @Abishnoi1m
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
+from sqlalchemy import Column, Numeric, String
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
-
-from Exon import DB_URL as DB_URI
-from Exon import LOGGER as log
-
-if DB_URI and DB_URI.startswith("postgres://"):
-    DB_URI = DB_URI.replace("postgres://", "postgresql://", 1)
+from Exon.modules.sql import BASE, SESSION
 
 
-def start() -> scoped_session:
-    engine = create_engine(DB_URI, client_encoding="utf8")
-    log.info("[PostgreSQL] Connecting to database......")
-    BASE.metadata.bind = engine
-    BASE.metadata.create_all(engine)
-    return scoped_session(sessionmaker(bind=engine, autoflush=False))
+class forceSubscribe(BASE):
+    __tablename__ = "forceSubscribe"
+    chat_id = Column(Numeric, primary_key=True)
+    channel = Column(String)
+
+    def __init__(self, chat_id, channel):
+        self.chat_id = chat_id
+        self.channel = channel
 
 
-BASE = declarative_base()
-try:
-    SESSION: scoped_session = start()
-except Exception as e:
-    log.exception(f"[PostgreSQL] Failed to connect due to {e}")
-    exit()
-
-log.info("[PostgreSQL] Connection successful, session started.")
+forceSubscribe.__table__.create(checkfirst=True)
 
 
+def fs_settings(chat_id):
+    try:
+        return (
+            SESSION.query(forceSubscribe)
+            .filter(forceSubscribe.chat_id == chat_id)
+            .one()
+        )
+    except:
+        return None
+    finally:
+        SESSION.close()
+
+
+def add_channel(chat_id, channel):
+    adder = SESSION.query(forceSubscribe).get(chat_id)
+    if adder:
+        adder.channel = channel
+    else:
+        adder = forceSubscribe(chat_id, channel)
+    SESSION.add(adder)
+    SESSION.commit()
+
+
+def disapprove(chat_id):
+    rem = SESSION.query(forceSubscribe).get(chat_id)
+    if rem:
+        SESSION.delete(rem)
+        SESSION.commit()
