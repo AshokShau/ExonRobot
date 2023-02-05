@@ -41,8 +41,8 @@ from Exon.modules.helper_funcs.alternate import send_message, typing_action
 from Exon.modules.helper_funcs.chat_status import is_user_admin
 from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import loggable
-from Exon.modules.sql.approve_sql import is_approved
 from Exon.modules.sql import antiflood_sql as sql
+from Exon.modules.sql.approve_sql import is_approved
 
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
