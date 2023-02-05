@@ -27,6 +27,10 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
+
+
+
+
 import datetime
 import html
 import platform
@@ -71,6 +75,8 @@ from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd
 from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.no_sql.global_bans_db import is_user_gbanned
 from Exon.modules.no_sql.users_db import get_user_num_chats
+afk_reason = None
+is_user_afk = None
 from Exon.modules.sql import SESSION
 
 
@@ -97,7 +103,7 @@ def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
     time_list = []
-    time_suffix_list = ["s", "m", "h", "days"]
+    time_suffix_list = ["s", "ᴍ", "ʜ", "ᴅᴀʏs"]
 
     while count < 4:
         count += 1
@@ -141,6 +147,16 @@ def hpmanager(user):
         # if no bio exsit ==> -10% of hp
         if not sql.get_user_bio(user.id):
             new_hp -= no_by_per(total_hp, 10)
+
+        if is_user_afk(user.id):
+            afkst = afk_reason(user.id)
+            # if user is afk and no reason then decrease 7%
+            # else if reason exist decrease 5%
+            new_hp -= no_by_per(total_hp, 7) if not afkst else no_by_per(total_hp, 5)
+            # fbanned users will have (2*number of fbans) less from max HP
+            # Example: if HP is 100 but user has 5 diff fbans
+            # Available HP is (2*5) = 10% less than Max HP
+            # So.. 10% of 100HP = 90HP
 
     else:
         new_hp = no_by_per(total_hp, 5)
@@ -298,7 +314,10 @@ def info(update: Update, context: CallbackContext):
 
     if chat.type != "private" and user_id != bot.id:
         _stext = "\n➻ ᴘʀᴇꜱᴇɴᴄᴇ: <code>{}</code>"
-        
+
+        afk_st = is_user_afk(user.id)
+        if afk_st:
+            text += _stext.format("AFK")
         else:
             status = status = bot.get_chat_member(chat.id, user.id).status
             if status:
@@ -317,7 +336,7 @@ def info(update: Update, context: CallbackContext):
         if spamwtc:
             text += "\n\n<b>This person is Spamwatched!</b>"
             text += f"\nʀᴇᴀꜱᴏɴ: <pre>{spamwtc.reason}</pre>"
-            text += "\nᴀᴘᴘᴇᴀʟ ᴀᴛ @SpamWatchSupport"
+            text += "\nᴀᴘᴘᴇᴀʟ ᴀᴛ @AbishnoiMF"
     except:
         pass  # don't crash if api is down somehow...
 
@@ -341,7 +360,7 @@ def info(update: Update, context: CallbackContext):
     elif user.id in WOLVES:
         text += "\n\nThe level for this user is Villain"
         disaster_level_present = True
-    elif user.id == 1452219013:
+    elif user.id == 5938660179:
         text += "\n\nCo-Owner Of A Bot."
         disaster_level_present = True
 
@@ -392,6 +411,7 @@ def info(update: Update, context: CallbackContext):
                     ]
                 ),
                 parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True,
             )
 
         # Incase user don't have profile pic, send normal text
@@ -418,6 +438,7 @@ def info(update: Update, context: CallbackContext):
         message.reply_text(
             text,
             parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True,
         )
 
     rep.delete()
