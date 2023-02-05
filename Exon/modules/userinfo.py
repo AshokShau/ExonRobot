@@ -145,7 +145,7 @@ def hpmanager(user):
         if not sql.get_user_bio(user.id):
             new_hp -= no_by_per(total_hp, 10)
 
-        #new_hp = no_by_per(total_hp, 5)
+        # new_hp = no_by_per(total_hp, 5)
 
     return {
         "earnedhp": int(new_hp),
