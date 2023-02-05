@@ -26,6 +26,7 @@ SOFTWARE.
 # TG :- @Abishnoi1m
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
+
 import sys
 
 from Exon import LOAD, LOGGER, NO_LOAD
@@ -69,5 +70,5 @@ def __list_all_modules():
 
 
 ALL_MODULES = __list_all_modules()
-LOGGER.info("ᴍᴏᴅᴜʟᴇs ᴛᴏ ʟᴏᴀᴅ:)
+
 __all__ = ALL_MODULES + ["ALL_MODULES"]
