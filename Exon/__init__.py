@@ -2,14 +2,14 @@ import asyncio
 import json
 import logging
 import os
-from os import environ, mkdir, path
 import sys
 import time
-import json
 from functools import wraps
 from inspect import getfullargspec
+from os import environ, mkdir, path
 from sys import exit as sysexit
 from traceback import format_exc
+
 import spamwatch
 import telegram.ext as tg
 from aiohttp import ClientSession
@@ -72,22 +72,22 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
 # VERS
 TOKEN = Config.TOKEN
 OWNER_ID = int(Config.OWNER_ID)
-JOIN_LOGGER = Config.LOG_GROUP_ID    
-OWNER_USERNAME = Config.OWNER_USERNAME    
-DRAGONS = get_user_list("elevated_users.json", "sudos") # DON'T EDIT 
-DEV_USERS = get_user_list("elevated_users.json", "devs") #. DON'T EDIT 
-DEMONS = get_user_list("elevated_users.json", "supports") # DON'T EDIT 
-WOLVES = get_user_list("elevated_users.json", "whitelists") # DON'T EDIT
-TIGERS = get_user_list("elevated_users.json", "tigers") # DON'T EDIT
+JOIN_LOGGER = Config.LOG_GROUP_ID
+OWNER_USERNAME = Config.OWNER_USERNAME
+DRAGONS = get_user_list("elevated_users.json", "sudos")  # DON'T EDIT
+DEV_USERS = get_user_list("elevated_users.json", "devs")  # . DON'T EDIT
+DEMONS = get_user_list("elevated_users.json", "supports")  # DON'T EDIT
+WOLVES = get_user_list("elevated_users.json", "whitelists")  # DON'T EDIT
+TIGERS = get_user_list("elevated_users.json", "tigers")  # DON'T EDIT
 API_ID = Config.API_ID
 API_HASH = Config.API_HASH
 BAN_STICKER = "CAADBQAD3AcAAor_2VaLJ7V3SdP8dgI"
 REDIS_URL = Config.REDIS_URL
 SUPPORT_CHAT = Config.SUPPORT_CHAT
-MONGO_DB = "Exon" # DON'T EDIT
-MONGO_PORT = "27017" # DON'T EDIT
+MONGO_DB = "Exon"  # DON'T EDIT
+MONGO_PORT = "27017"  # DON'T EDIT
 MONGO_URI = Config.MONGO_URI
-BOT_API_URL = "https://api.telegram.org/bot" # DON'T EDIT 
+BOT_API_URL = "https://api.telegram.org/bot"  # DON'T EDIT
 DB_URL = Config.DATABASE_URL
 INFOPIC = False
 DEBUG = False
@@ -118,12 +118,8 @@ BACKUP_PASS = 1
 WHITELIST_CHATS = []
 BL_CHATS = []
 SPAMMERS = []
-STRING_SESSION = Config.STRING_SESSION  
-    
-    
-    
-    
-    
+STRING_SESSION = Config.STRING_SESSION
+
 
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 try:

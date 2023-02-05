@@ -22,20 +22,9 @@ from telethon import __version__ as tver
 import Exon.modules.no_sql.users_db as sql
 from Exon import BOT_USERNAME, CERT_PATH
 from Exon import LOGGER as log
-from Exon import (
-    OWNER_ID,
-    OWNER_USERNAME,
-    PORT,
-    OWNER_ID,
-    SUPPORT_CHAT,
-    TOKEN,
-    URL,
-    WEBHOOK,
-    StartTime,
-    dispatcher,
-)
+from Exon import OWNER_ID, OWNER_USERNAME, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK
 from Exon import Abishnoi as pbot
-from Exon import telethn, updater
+from Exon import StartTime, dispatcher, telethn, updater
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
@@ -721,7 +710,6 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 
 def main():
-
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendAnimation(
@@ -767,6 +755,7 @@ def main():
         telethn.run_until_disconnected()
 
     updater.idle()
+
 
 if __name__ == "__main__":
     log.info("[ᴇxᴏɴ] →  sᴜᴄᴄᴇssғᴜʟʟʏ ʟᴏᴀᴅᴇᴅ ᴍᴏᴅᴜʟᴇs: " + str(ALL_MODULES))
