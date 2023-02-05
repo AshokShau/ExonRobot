@@ -36,7 +36,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Upda
 from telegram.ext import CallbackContext
 
 from Exon import StartTime, dispatcher
-from Exon import pgram as Exon
+from Exon import Abishnoi as Exon
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import sudo_plus
 from Exon.modules.stats import bot_sys_stats as nagisa
