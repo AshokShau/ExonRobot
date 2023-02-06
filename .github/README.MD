@@ -32,11 +32,43 @@ _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏ
 <b>𝗗𝗘𝗣𝗟𝗢𝗬𝗠𝗘𝗡𝗧 𝗠𝗘𝗧𝗛𝗢𝗗𝗦</b>
 </p>
 
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <h3 align="center">
     ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʜᴇʀᴏᴋᴜ 」─
 </h3>
+<details>
+<summary><h3>
+- <b>  ᴅᴇᴩʟᴏʏ ᴏɴ ʜᴇʀᴏᴋᴜ </b>
+</h3></summary>
 
 <p align="center"><a href="https://dashboard.heroku.com/new?template=https://github.com/Abishnoi69/ExonRobot"> <img src="https://img.shields.io/badge/Deploy%20On%20Heroku-black?style=for-the-badge&logo=heroku" width="220" height="38.45"/></a></p>
+
+
+</details>
+
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<h3 align="center">
+    ─「 ᴅᴇᴩʟᴏʏ ᴏɴ ʀᴀɪʟᴡᴀʏ 」─
+</h3>
+<details>
+<summary><h3>
+- <b>  ᴅᴇᴩʟᴏʏ ᴏɴ ʀᴀɪʟᴡᴀʏ </b>
+</h3></summary>
+
+<p align="center"><a href="https://railway.app/new/template=https://github.com/Abishnoi69/ExonRobot"> <img src="https://img.shields.io/badge/Deploy%20On%20Railway-black?style=for-the-badge&logo=Railway" width="220" height="38.45"/></a></p>
+
+
+</details>
+
+
+
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+
+
 
 
 <h3 align="center">
@@ -178,4 +210,5 @@ OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id
 ➥ [𝐀ɴᴏɴʏᴍᴏᴜs] × <a href="http://github.com/AnonymousX1025/FallenRobot" alt="AnonymousX1025"> <img src="https://img.shields.io/badge/Anonymous-90302f?logo=github" /></a>  
 
 
+➥ [𝐏ᴀᴜʟsᴏɴᴏғʟᴀʀs] × <a href="https://github.com/PaulSonOfLars/tgbot" alt="PaulSonOfLars"> <img src="https://img.shields.io/badge/PaulSonOfLars-90302f?logo=github" /></a>  
 ━━━━━━━━━━━━━━━━━━━━
