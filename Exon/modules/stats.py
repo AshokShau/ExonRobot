@@ -32,7 +32,7 @@ import time
 import psutil
 
 import Exon.modules.no_sql.users_db as users_db
-from Exon import StartTime
+from Exon import StartTime, BOT_NAME, OWNER_USERNAME
 from Exon.modules.helper_funcs import formatter
 
 # sᴛᴀᴛs ᴍᴏᴅᴜʟᴇ
@@ -45,15 +45,15 @@ async def bot_sys_stats():
     disk = psutil.disk_usage("/").percent
     process = psutil.Process(os.getpid())
     stats = f"""
-    @Abishnoi1M:~$ ᴇxᴏɴ:
+     ⎇ @{OWNER_USERNAME}:
 ------------------
-ᴇxᴏɴ ᴜᴘᴛɪᴍᴇ : {formatter.get_readable_time((bot_uptime))}
-ʙᴏᴛ ᴄᴀᴘᴀsɪᴛʏ : {round(process.memory_info()[0] / 1024 ** 2)} MB
-ᴄᴘᴜ ᴜsᴀɢᴇ : {cpu}%
-ʀᴀᴍ ᴜsᴀɢᴇ : {mem}%
-ᴅɪsᴋ ᴜsᴀɢᴇ : {disk}%
-ᴜsᴇʀs : 0{users_db.num_users()} ᴜsᴇʀs.
-ɢʀᴏᴜᴘs : 0{users_db.num_chats()} ɢʀᴏᴜᴘs.
+⛖ {BOT_NAME} ᴜᴘᴛɪᴍᴇ : {formatter.get_readable_time((bot_uptime))}
+⛖ ʙᴏᴛ ᴄᴀᴘᴀsɪᴛʏ : {round(process.memory_info()[0] / 1024 ** 2)} ᴍʙ
+⛖ ᴄᴘᴜ ᴜsᴀɢᴇ : {cpu}%
+⛖ ʀᴀᴍ ᴜsᴀɢᴇ : {mem}%
+⛖ ᴅɪsᴋ ᴜsᴀɢᴇ : {disk}%
+⛖ ᴜsᴇʀs : 0{users_db.num_users()} ᴜsᴇʀs.
+⛖ ɢʀᴏᴜᴘs : 0{users_db.num_chats()} ɢʀᴏᴜᴘs.
 """
 
     return stats
