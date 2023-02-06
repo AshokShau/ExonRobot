@@ -30,11 +30,11 @@ SOFTWARE.
 import html
 from typing import Optional
 
-from telegram import ChatPermissions
+from telegram import ChatPermissions, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, MessageHandler
 from telegram.utils.helpers import mention_html
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+
 from Exon import dispatcher
 from Exon.modules.connection import connected
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
