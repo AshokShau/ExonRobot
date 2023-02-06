@@ -44,7 +44,7 @@ from telegram import (
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
-
+from Exon.modules.helper_funcs.anonymous import resolve_user as res_user
 import Exon.modules.sql.log_channel_sql as logsql
 import Exon.modules.sql.welcome_sql as sql
 from Exon import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, dispatcher, sw
@@ -1211,7 +1211,7 @@ def user_captcha_button(update: Update, context: CallbackContext):
         query.answer(text="You're not allowed to do this!")
 
 
-"""
+#"""
 @Exoncmd(command="lockgroup", pass_args=True)
 @u_admin(AdminPerms.CAN_CHANGE_INFO)
 def setDefense(update: Update, context: CallbackContext):
@@ -1244,7 +1244,7 @@ def setDefense(update: Update, context: CallbackContext):
         msg.reply_text("Invalid status to set!")  # on or off ffs
 
     return
-"""
+#"""
 
 WELC_HELP_TXT = (
     "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
