@@ -1,32 +1,21 @@
 ━━━━━━━━━━━━━━━━━━━━
+
 **ᴋɪɴɢ ᴀʙɪsʜɴᴏɪ**
-
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
 
 <h2 align="center">
     ──「 ᴇxᴏɴ   ʀᴏʙᴏᴛ 」──
 </h2>
 
-
 ##  ᴄᴀᴛᴄʜ ᴍᴇ ɪɴ [ᴛɢ🏃‍♀️](https://t.me/AbishnoiMF) 
 
-## [ғᴏʀ ᴜᴘᴅᴀᴛᴇ](https://t.me/Abishnoi_bots)  
+## sᴛᴀᴛs
 
-## ⚡ (ɢɪᴠᴇ sᴛᴀʀ)
+[![ɢɪᴛʜᴜʙ ғᴏʀᴋs](https://img.shields.io/github/forks/Abishnoi69/ExonRobot.svg?style=social&label=ғᴏʀᴋs&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/network/) [![ɢɪᴛʜᴜʙ sᴛᴀʀs](https://img.shields.io/github/stars/Abishnoi69/ExonRobot.svg?style=social&label=sᴛᴀʀs&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/stargazers/) [![ɢɪᴛʜᴜʙ ᴡᴀᴛᴄʜᴇʀs](https://img.shields.io/github/watchers/Abishnoi69/ExonRobot.svg?style=social&label=ᴡᴀᴛᴄʜ&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/watchers/)
+[![ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ](https://img.shields.io/badge/ᴍᴀɪɴᴛᴀɪɴᴇᴅ%3F-yes-green.svg)](https://github.com/Abishnoi69/ExonRobot/graphs/commit-activity)
 
 _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://t.me/Exon_Robot)**_
-━━━━━━━━━━━━━━━━━━━━
-<h3 align="center"> 
-    𝗚𝗥𝗢𝗨𝗣  𝗠𝗔𝗡𝗔𝗚𝗘𝗥    
-</h3>
-
-━━━━━━━━━━━━━━━━━━━━
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
-
 
 <p align="center">
 <b>𝗗𝗘𝗣𝗟𝗢𝗬𝗠𝗘𝗡𝗧 𝗠𝗘𝗧𝗛𝗢𝗗𝗦</b>
@@ -61,15 +50,7 @@ _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏ
 
 
 </details>
-
-
-
-
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
-
-
-
 
 <h3 align="center">
     ─「 ⇝ ɪɴsᴛᴀʟʟ ʟᴏᴄᴀʟʟʏ ᴏʀ ᴏɴ ᴀ ᴠᴘs ⇜ 」─
@@ -125,27 +106,8 @@ _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏ
 - `python3 -m Exon`
 
 - -ғᴏʀ ᴜᴘᴅᴀᴛᴇ ʏᴏᴜʀ ɴᴇᴡ ᴄᴏᴍᴍɪᴛ ᴜsᴇ :→ `git pull`
-
-
-
-
-
-
-
-
-
-
-
-
 ━━━━━━━━━━━━━━━━━━━━
-
-
-
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-
-
-
 
 
 <h2 align="center"> 
@@ -162,13 +124,7 @@ TOKEN =  ʏᴏᴜʀ ʙᴏᴛ ᴛᴏᴋᴇɴ. ɢᴇᴛ ᴏɴᴇ ғʀᴏᴍ @BotFa
 OWNER_USERNAME =  ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴍ ᴜsᴇʀɴᴀᴍᴇ ᴡɪᴛʜᴏᴜᴛ ᴛʜᴇ @
 OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id 
 ```
-
-
-
 </details>
-
-
-
 ━━━━━━━━━━━━━━━━━━━━
 
 <h3 align="center">
