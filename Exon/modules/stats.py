@@ -45,7 +45,6 @@ async def bot_sys_stats():
     disk = psutil.disk_usage("/").percent
     process = psutil.Process(os.getpid())
     stats = f"""
-     ⎇ @{OWNER_USERNAME}:
 ------------------
 ⛖ {BOT_NAME} ᴜᴘᴛɪᴍᴇ : {formatter.get_readable_time((bot_uptime))}
 ⛖ ʙᴏᴛ ᴄᴀᴘᴀsɪᴛʏ : {round(process.memory_info()[0] / 1024 ** 2)} ᴍʙ
