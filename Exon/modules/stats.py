@@ -32,7 +32,7 @@ import time
 import psutil
 
 import Exon.modules.no_sql.users_db as users_db
-from Exon import BOT_NAME, OWNER_USERNAME, StartTime
+from Exon import BOT_NAME, StartTime
 from Exon.modules.helper_funcs import formatter
 
 # sᴛᴀᴛs ᴍᴏᴅᴜʟᴇ
