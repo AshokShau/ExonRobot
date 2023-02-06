@@ -1213,10 +1213,11 @@ def user_captcha_button(update: Update, context: CallbackContext):
         query.answer(text="You're not allowed to do this!")
 
 
-# """
+"""
 @Exoncmd(command="lockgroup", pass_args=True)
 @u_admin(AdminPerms.CAN_CHANGE_INFO)
 def setDefense(update: Update, context: CallbackContext):
+
     context.bot
     args = context.args
     chat = update.effective_chat
@@ -1248,7 +1249,7 @@ def setDefense(update: Update, context: CallbackContext):
     return
 
 
-# """
+ """
 
 WELC_HELP_TXT = (
     "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
