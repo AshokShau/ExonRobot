@@ -44,11 +44,13 @@ from telegram import (
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
-from Exon.modules.helper_funcs.anonymous import resolve_user as res_user
+
 import Exon.modules.sql.log_channel_sql as logsql
 import Exon.modules.sql.welcome_sql as sql
 from Exon import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, dispatcher, sw
-from Exon.modules.helper_funcs.anonymous import AdminPerms, user_admin
+from Exon.modules.helper_funcs.anonymous import AdminPerms
+from Exon.modules.helper_funcs.anonymous import resolve_user as res_user
+from Exon.modules.helper_funcs.anonymous import user_admin
 from Exon.modules.helper_funcs.chat_status import is_user_ban_protected
 from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
 from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd, Exonmsg
@@ -1211,16 +1213,16 @@ def user_captcha_button(update: Update, context: CallbackContext):
         query.answer(text="You're not allowed to do this!")
 
 
-#"""
+# """
 @Exoncmd(command="lockgroup", pass_args=True)
 @u_admin(AdminPerms.CAN_CHANGE_INFO)
 def setDefense(update: Update, context: CallbackContext):
-    bot = context.bot
+    context.bot
     args = context.args
     chat = update.effective_chat
     msg = update.effective_message
     u = update.effective_user
-    user = res_user(u, msg.message_id, chat)
+    res_user(u, msg.message_id, chat)
     stat, time, acttime = sql.getDefenseStatus(chat.id)
     if len(args) != 1:
         text = (
@@ -1244,7 +1246,9 @@ def setDefense(update: Update, context: CallbackContext):
         msg.reply_text("Invalid status to set!")  # on or off ffs
 
     return
-#"""
+
+
+# """
 
 WELC_HELP_TXT = (
     "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
