@@ -11,7 +11,7 @@
 ## sᴛᴀᴛs
 
 [![ɢɪᴛʜᴜʙ ғᴏʀᴋs](https://img.shields.io/github/forks/Abishnoi69/ExonRobot.svg?style=social&label=ғᴏʀᴋs&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/network/) [![ɢɪᴛʜᴜʙ sᴛᴀʀs](https://img.shields.io/github/stars/Abishnoi69/ExonRobot.svg?style=social&label=sᴛᴀʀs&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/stargazers/) [![ɢɪᴛʜᴜʙ ᴡᴀᴛᴄʜᴇʀs](https://img.shields.io/github/watchers/Abishnoi69/ExonRobot.svg?style=social&label=ᴡᴀᴛᴄʜ&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/watchers/)
-[![ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ](https://img.shields.io/badge/ᴍᴀɪɴᴛᴀɪɴᴇᴅ%3F-yes-green.svg)](https://github.com/Abishnoi69/ExonRobot/graphs/commit-activity)
+[![ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ](https://img.shields.io/badge/ᴍᴀɪɴᴛᴀɪɴᴇᴅ%3F-yes-red.svg)](https://github.com/Abishnoi69/ExonRobot/graphs/commit-activity)
 
 _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://t.me/Exon_Robot)**_
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
