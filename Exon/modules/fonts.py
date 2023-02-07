@@ -32,7 +32,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from Exon import Abishnoi as abishnoi
-from Exon.modules.resources import Fonts
+from Exon.modules.resources.fonts import Fonts
 
 
 @abishnoi.on_message(filters.command(["font", "fonts"]))
