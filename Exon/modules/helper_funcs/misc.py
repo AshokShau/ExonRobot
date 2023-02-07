@@ -120,7 +120,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
             )
         )
 
-    COLUMN_SIZE = 4
+    COLUMN_SIZE = 6
 
     max_num_pages = ceil(len(pairs) / COLUMN_SIZE)
     modulo_page = page_n % max_num_pages
