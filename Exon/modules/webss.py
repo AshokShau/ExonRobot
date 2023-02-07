@@ -1,4 +1,3 @@
-
 """
 MIT License
 
@@ -27,7 +26,6 @@ SOFTWARE.
 # TG :- @Abishnoi1M
 #      :- Abishnoi_bots
 #     GITHUB :- Abishnoi69 ""
-
 
 
 from base64 import b64decode
