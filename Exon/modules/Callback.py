@@ -31,8 +31,9 @@ from pyrogram.types import CallbackQuery
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import CallbackQueryHandler
 
+from Exon import BOT_NAME, OWNER_ID, SUPPORT_CHAT
 from Exon import Abishnoi as pbot
-from Exon import dispatcher, BOT_NAME, SUPPORT_CHAT, OWNER_ID
+from Exon import dispatcher
 
 
 def get_readable_time(seconds: int) -> str:
@@ -151,7 +152,9 @@ def ABG_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="sᴜᴘᴘᴏʀᴛ", url=f"t.me/{SUPPORT_CHAT}"),
+                        InlineKeyboardButton(
+                            text="sᴜᴘᴘᴏʀᴛ", url=f"t.me/{SUPPORT_CHAT}"
+                        ),
                         InlineKeyboardButton(
                             text="ᴜᴘᴅᴀᴛᴇs", url="https://t.me/Abishnoi_bots"
                         ),
