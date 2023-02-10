@@ -35,7 +35,7 @@ from telegram.ext import CommandHandler, Filters, MessageHandler, RegexHandler
 import Exon.modules.sql.blacklistusers_sql as sql
 from Exon import ALLOW_EXCL, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES
 
-CMD_STARTERS = ("/", "!", "-", ".", "?") if ALLOW_EXCL else ("/", "!", "-", ".", "?")
+CMD_STARTERS = ("/", "!", "-", "?") if ALLOW_EXCL else ("/", "!", "-", "?")
 
 
 class AntiSpam:
