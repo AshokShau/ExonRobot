@@ -31,7 +31,7 @@ from pyrogram.types import CallbackQuery
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import CallbackQueryHandler
 
-from Exon import BOT_NAME, OWNER_ID, SUPPORT_CHAT
+from Exon import BOT_NAME, OWNER_ID, SUPPORT_CHAT, OWNER_USERNAME
 from Exon import Abishnoi as pbot
 from Exon import dispatcher
 
@@ -173,7 +173,7 @@ def ABG_about_callback(update, context):
             "\n\nʜᴇʀᴇ ɪꜱ ᴛʜᴇ ᴅᴇᴠᴇʟᴏᴘᴇʀ ᴀɴᴅ"
             "\nꜱᴘᴏɴꜱᴏʀ ᴏꜰ [{BOT_NAME}](t.me/Exon_Robot)"
             "\n\nʜᴇ ꜱᴘᴇɴᴛ ᴀ ʟᴏᴛ ᴏꜰ ᴛɪᴍᴇ ꜰᴏʀ"
-            "\nᴍᴀᴋɪɴɢ [{BOT_NAME}](t.me/Abishnoi1M) ᴀ"
+            "\nᴍᴀᴋɪɴɢ [{BOT_NAME}](t.me/{OWNER_USERNAME}) ᴀ"
             "\nꜱᴜᴘᴇʀ ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
@@ -183,7 +183,7 @@ def ABG_about_callback(update, context):
                         InlineKeyboardButton(text="🏡", callback_data="start_back"),
                         InlineKeyboardButton(text="🛡️", callback_data="ABG_admin"),
                         InlineKeyboardButton(text="💳", callback_data="AsuX_help"),
-                        InlineKeyboardButton(text="🧑‍💻", callback_data="source_"),
+                        InlineKeyboardButton(text="🧑‍", callback_data="source_"),
                         InlineKeyboardButton(text="🖥️", callback_data="help_back"),
                     ],
                     [
@@ -191,7 +191,7 @@ def ABG_about_callback(update, context):
                             text="ᴀʙɪsʜɴᴏɪ", url="https://t.me/Abishnoi1M"
                         ),
                         InlineKeyboardButton(
-                            text="ᴄʜᴀᴛ", url="https://t.me/AbishnoiMF"
+                            text="ᴄʜᴀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"
                         ),
                     ],
                 ]
