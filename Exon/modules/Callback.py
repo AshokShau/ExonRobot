@@ -31,7 +31,7 @@ from pyrogram.types import CallbackQuery
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import CallbackQueryHandler
 
-from Exon import BOT_NAME, OWNER_ID, SUPPORT_CHAT, OWNER_USERNAME
+from Exon import BOT_NAME, OWNER_ID, SUPPORT_CHAT
 from Exon import Abishnoi as pbot
 from Exon import dispatcher
 
