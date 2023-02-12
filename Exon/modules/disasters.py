@@ -35,7 +35,7 @@ from telegram import ParseMode, TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.utils.helpers import mention_html
 
-from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher
+from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher, SUPPORT_CHAT
 from Exon.modules.helper_funcs.chat_status import dev_plus, sudo_plus, whitelist_plus
 from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.log_channel import gloggable
@@ -446,7 +446,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
 
 @whitelist_plus
 def whitelistlist(update: Update, context: CallbackContext):
-    reply = "<b>Known Villains Members:</b>\n"
+    reply = "<b>ᴛᴇᴍᴀ ᴀʙɪsʜᴏɪɴ ᴍᴇᴍʙᴇʀs:</b>\n"
     m = update.effective_message.reply_text(
         "<code>Gathering intel..</code>",
         parse_mode=ParseMode.HTML,
@@ -465,7 +465,7 @@ def whitelistlist(update: Update, context: CallbackContext):
 
 @whitelist_plus
 def tigerlist(update: Update, context: CallbackContext):
-    reply = "<b>Known Light Shooters Members:</b>\n"
+    reply = "<b>ᴋɴᴏᴡɴ ʟɪɢʜᴛ sʜᴏᴏᴛᴇʀs ᴍᴇᴍʙᴇʀs:</b>\n"
     m = update.effective_message.reply_text(
         "<code>Gathering intel..</code>",
         parse_mode=ParseMode.HTML,
