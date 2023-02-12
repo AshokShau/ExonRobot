@@ -32,7 +32,7 @@ from pyrogram import filters
 from telegram import Chat, ChatMember, ParseMode, TelegramError, Update, User
 from telegram.ext import CallbackContext
 
-from Exon import DEL_CMDS, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES, dispatcher
+from Exon import DEL_CMDS, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES, dispatcher, SUPPORT_CHAT
 
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
@@ -294,7 +294,7 @@ def whitelist_plus(func):
         if user and is_whitelist_plus(chat, user.id):
             return func(update, context, *args, **kwargs)
         update.effective_message.reply_text(
-            f"You don't have access to use this.\nVisit @ExonCorporationGroup"
+            f"You don't have access to use this.\nVisit @{SUPPORT_CHAT}"
         )
 
     return is_whitelist_plus_func
