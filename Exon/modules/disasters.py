@@ -35,7 +35,7 @@ from telegram import ParseMode, TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.utils.helpers import mention_html
 
-from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher, SUPPORT_CHAT
+from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher
 from Exon.modules.helper_funcs.chat_status import dev_plus, sudo_plus, whitelist_plus
 from Exon.modules.helper_funcs.extraction import extract_user
 from Exon.modules.log_channel import gloggable
