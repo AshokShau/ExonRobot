@@ -5,7 +5,7 @@ requests==2.28.2
 alphabet_detector==0.0.7
 beautifulsoup4==4.12.1
 bleach==6.0.0
-cachetools==5.3.0
+cachetools #==5.3.0
 configparser==5.3.0
 dateparser==1.1.8
 emoji==1.7.0
