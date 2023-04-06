@@ -1,11 +1,11 @@
 aiofiles
 aiohttp>=2.2.5
-httpx[http2]>=0.18.1,<1.0.0
-requests
+httpx[http2] ~= 0.23.3
+requests==2.28.2
 alphabet_detector==0.0.7
 beautifulsoup4==4.12.1
 bleach==6.0.0
-cachetools
+cachetools==5.3.0
 configparser==5.3.0
 dateparser==1.1.8
 emoji==1.7.0
@@ -55,4 +55,4 @@ googletrans==2.4.0
 gpytranslate==1.5.1
 cloudscraper==1.2.69
 carbonnow
-pretty_errors
+pretty_errors==1.2.25
