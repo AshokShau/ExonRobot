@@ -53,6 +53,6 @@ gtts==2.3.1
 search_engine_parser==0.6.8
 googletrans==2.4.0
 gpytranslate==1.5.1
-cloudscraper==1.2.68
+cloudscraper==1.2.69
 carbonnow
 pretty_errors
