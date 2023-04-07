@@ -37,7 +37,7 @@ pyrogram==2.0.97
 python-arq==6.0.5
 python-dotenv==0.21.1
 ffmpeg-python==0.2.0
-redis==4.1.3
+redis==4.5.4
 telegraph==2.2.0
 motor
 pymongo[srv]==4.3.3
