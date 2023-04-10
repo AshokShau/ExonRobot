@@ -856,24 +856,24 @@ async def handler(event):
     reply_message = await event.get_reply_message()
 
     if not reply_message.media:
-        await event.reply("```Reply to a image/sticker.```")
+        await event.reply("```ʀᴇᴘʟʏ ᴛᴏ ᴀ ɪᴍᴀɢᴇ/sᴛɪᴄᴋᴇʀ.```")
 
         return
 
     file = await bot.download_media(reply_message)
 
-    msg = await event.reply("```Memifying this image! ✊🏻 ```")
+    msg = await event.reply("```ᴍᴇᴍɪғʏɪɴɢ ᴛʜɪs ɪᴍᴀɢᴇ! 😉 ```")
 
     if "Abishnoi69" in Credit:
         pass
 
     else:
-        await event.reply("This nigga removed credit line from code")
+        await event.reply("ᴛʜɪs ɴɪɢɢᴀ ʀᴇᴍᴏᴠᴇᴅ ᴄʀᴇᴅɪᴛ ʟɪɴᴇ ғʀᴏᴍ ᴄᴏᴅᴇ 😶")
 
     text = str(event.pattern_match.group(1)).strip()
 
     if len(text) < 1:
-        return await msg.reply("You might want to try `/mmf text`")
+        return await msg.reply("ʏᴏᴜ ᴍɪɢʜᴛ ᴡᴀɴᴛ ᴛᴏ ᴛʀʏ `/mmf text`")
 
     meme = await drawText(file, text)
 
@@ -895,7 +895,7 @@ async def drawText(image_path, text):
         fnt = "ariel.ttf"
 
     else:
-        fnt = "./Rani/Plugins/extra/asu.ttf"
+        fnt = "./Exon/modules/resources/asu.ttf"
 
     m_font = ImageFont.truetype(fnt, int((70 / 640) * i_width))
 
