@@ -9,9 +9,16 @@
 ##  ᴄᴀᴛᴄʜ ᴍᴇ ɪɴ [ᴛɢ🏃‍♀️](https://t.me/AbishnoiMF) 
 
 ## sᴛᴀᴛs
-
-[![ɢɪᴛʜᴜʙ ғᴏʀᴋs](https://img.shields.io/github/forks/Abishnoi69/ExonRobot.svg?style=social&label=ғᴏʀᴋs&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/network/) [![ɢɪᴛʜᴜʙ sᴛᴀʀs](https://img.shields.io/github/stars/Abishnoi69/ExonRobot.svg?style=social&label=sᴛᴀʀs&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/stargazers/) [![ɢɪᴛʜᴜʙ ᴡᴀᴛᴄʜᴇʀs](https://img.shields.io/github/watchers/Abishnoi69/ExonRobot.svg?style=social&label=ᴡᴀᴛᴄʜ&maxAge=25920000)](https://github.com/Abishnoi69/ExonRobot/watchers/)
-[![ᴍᴀɪɴᴛᴇɴᴀɴᴄᴇ](https://img.shields.io/badge/ᴍᴀɪɴᴛᴀɪɴᴇᴅ%3F-yes-red.svg)](https://github.com/Abishnoi69/ExonRobot/graphs/commit-activity)
+<p align="center">
+<a href="https://github.com/Abishnoi69/ExonRobot/stargazers"><img src="https://img.shields.io/github/stars/Abishnoi69/ExonRobot?color=black&logo=github&logoColor=black&style=for-the-badge" alt="Stars" /></a>
+<a href="https://github.com/Abishnoi69/ExonRobot/network/members"> <img src="https://img.shields.io/github/forks/Abishnoi69/ExonRobot?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
+<a href="https://github.com/Abishnoi69/ExonRobot/blob/master/LICENSE"> <img src="https://img.shields.io/badge/License-MIT-blueviolet?style=for-the-badge" alt="License" /> </a>
+<a href="https://www.python.org/"> <img src="https://img.shields.io/badge/Written%20in-Python-skyblue?style=for-the-badge&logo=python" alt="Python" /> </a>
+<a href="https://pypi.org/project/Telethon/"> <img src="https://img.shields.io/pypi/v/telethon?color=white&label=telethon&logo=python&logoColor=blue&style=for-the-badge" /></a>
+<a href="https://pypi.org/project/Pyrogram/"> <img src="https://img.shields.io/pypi/v/pyrogram?color=white&label=pyrogram&logo=python&logoColor=blue&style=for-the-badge" /></a>
+<a href="https://github.com/Abishnoi69/ExonRobot"> <img src="https://img.shields.io/github/repo-size/Abishnoi69/ExonRobot?color=skyblue&logo=github&logoColor=blue&style=for-the-badge" /></a>
+<a href="https://github.com/Abishnoi69/ExonRobot/commits/Abishnoi69"> <img src="https://img.shields.io/github/last-commit/Abishnoi69/ExonRobot?color=black&logo=github&logoColor=black&style=for-the-badge" /></a>
+</p>
 
 _**ᴀᴠᴀɪʟᴀʙʟᴇ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ ᴀs [ᴇxᴏɴ ✘ ʀᴏʙᴏᴛ](https://t.me/Exon_Robot)**_
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
