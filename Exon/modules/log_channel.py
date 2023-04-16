@@ -32,8 +32,10 @@ from datetime import datetime
 from functools import wraps
 
 from telegram.ext import CallbackContext
-from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd
+
+from Exon.modules.helper_funcs.decorators import Exoncmd
 from Exon.modules.helper_funcs.misc import is_module_loaded
+
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 FILENAME = __name__.rsplit(".", 1)[-1]
@@ -41,12 +43,12 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 if is_module_loaded(FILENAME):
     from telegram import ParseMode, Update
     from telegram.error import BadRequest, Unauthorized
-    from telegram.ext import CommandHandler, JobQueue, run_async
+    from telegram.ext import JobQueue
     from telegram.utils.helpers import escape_markdown
-    from Exon.modules.helper_funcs.chat_status import is_user_admin
-    from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
+
     from Exon import EVENT_LOGS, LOGGER, dispatcher
     from Exon.modules.helper_funcs.chat_status import user_admin
+    from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
     from Exon.modules.sql import log_channel_sql as sql
 
     def loggable(func):
@@ -225,7 +227,6 @@ if is_module_loaded(FILENAME):
         return "No log channel is set for this group!"
 
     from Exon.modules.language import gs
-
 
     def get_help(chat):
         return gs(chat, "log_help")
