@@ -357,7 +357,6 @@ if is_module_loaded(FILENAME):
     dispatcher.add_handler(TOGGLE_HANDLER)
 
 
-
 else:
     DisableAbleCommandHandler = CommandHandler
     DisableAbleRegexHandler = RegexHandler
