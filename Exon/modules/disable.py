@@ -45,8 +45,6 @@ from Exon import dispatcher
 from Exon.modules.helper_funcs.handlers import CMD_STARTERS, SpamChecker
 from Exon.modules.helper_funcs.misc import is_module_loaded
 
-
-
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 
@@ -357,9 +355,10 @@ if is_module_loaded(FILENAME):
     dispatcher.add_handler(ENABLE_MODULE_HANDLER)
     dispatcher.add_handler(COMMANDS_HANDLER)
     dispatcher.add_handler(TOGGLE_HANDLER)
-    
-    from Exon.modules.language import gs # ɪғ ɢᴏᴛ ᴇʀʀᴏʀ -ʀᴇᴍᴏᴠᴇ ᴛʜɪs ʟɪɴᴇ
-    def get_help(chat): 
+
+    from Exon.modules.language import gs  # ɪғ ɢᴏᴛ ᴇʀʀᴏʀ -ʀᴇᴍᴏᴠᴇ ᴛʜɪs ʟɪɴᴇ
+
+    def get_help(chat):
         return gs(chat, "disable_help")
 
     __mod_name__ = "𝐃ɪsᴀʙʟᴇ"
