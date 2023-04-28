@@ -47,7 +47,9 @@ from telegram.utils.helpers import escape_markdown, mention_html, mention_markdo
 
 import Exon.modules.sql.log_channel_sql as logsql
 import Exon.modules.sql.welcome_sql as sql
-from Exon import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, dispatcher, sw, SUPPORT_CHAT as AbishnoiMF
+from Exon import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID
+from Exon import SUPPORT_CHAT as AbishnoiMF
+from Exon import WOLVES, dispatcher, sw
 from Exon.modules.helper_funcs.anonymous import AdminPerms, user_admin
 from Exon.modules.helper_funcs.chat_status import is_user_ban_protected
 from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
