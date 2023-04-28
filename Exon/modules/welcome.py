@@ -47,7 +47,7 @@ from telegram.utils.helpers import escape_markdown, mention_html, mention_markdo
 
 import Exon.modules.sql.log_channel_sql as logsql
 import Exon.modules.sql.welcome_sql as sql
-from Exon import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, dispatcher, sw
+from Exon import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, dispatcher, sw, SUPPORT_CHAT as AbishnoiMF
 from Exon.modules.helper_funcs.anonymous import AdminPerms, user_admin
 from Exon.modules.helper_funcs.chat_status import is_user_ban_protected
 from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
@@ -266,7 +266,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
             # Welcome yourself
             elif new_mem.id == bot.id:
                 update.effective_message.reply_text(
-                    "ᴛʜᴀɴᴋꜱ ꜰᴏʀ ᴀᴅᴅɪɴɢ ᴍᴇ! ᴊᴏɪɴ @AbishnoiMF ꜰᴏʀ ꜱᴜᴘᴘᴏʀᴛ.",
+                    f"ᴛʜᴀɴᴋꜱ ꜰᴏʀ ᴀᴅᴅɪɴɢ ᴍᴇ! ᴊᴏɪɴ @{AbishnoiMF} ꜰᴏʀ ꜱᴜᴘᴘᴏʀᴛ.",
                     reply_to_message_id=reply,
                 )
                 continue
