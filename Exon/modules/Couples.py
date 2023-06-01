@@ -1,8 +1,8 @@
-from ichika import pbot as app 
+from exon import pbot as app 
 
-from ichika.utils.errors import capture_err 
+from exon.utils.errors import capture_err 
 
-from ichika.Extras.dbfunctions import get_couple, save_couple 
+from exon.Extras.dbfunctions import get_couple, save_couple 
 
 from pyrogram import filters 
 
