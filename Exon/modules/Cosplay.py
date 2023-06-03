@@ -6,7 +6,7 @@ from pyrogram import filters
 
 from pyrogram.types import Message
 
-from Shikimori import pbot
+from exon import pbot
 
 @pbot.on_message(filters.command('cosplay'))
 
