@@ -20,9 +20,9 @@ from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tver
 
 import Exon.modules.no_sql.users_db as sql
-from Exon import BOT_USERNAME, CERT_PATH
+from Exon import BOT_USERNAME
 from Exon import LOGGER as log
-from Exon import OWNER_ID, OWNER_USERNAME, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK
+from Exon import OWNER_ID, OWNER_USERNAME, SUPPORT_CHAT, TOKEN
 from Exon import Abishnoi as pbot
 from Exon import StartTime, dispatcher, telethn, updater
 
@@ -733,7 +733,6 @@ def main():
             log.warning("ʙᴏᴛ ɪsɴᴛ ᴀʙʟᴇ ᴛᴏ sᴇɴᴅ ᴍᴇssᴀɢᴇ ᴛᴏ sᴜᴘᴘᴏʀᴛ_ᴄʜᴀᴛ, ɢᴏ ᴀɴᴅ ᴄʜᴇᴄᴋ !")
         except BadRequest as e:
             log.warning(e.message)
-
 
     log.info(
         f"ᴜsɪɴɢ ʟᴏɴɢ ᴘᴏʟʟɪɴɢ. ........... ᴇɴᴊᴏʏ ʏᴏᴜʀ ʙᴏᴛ sᴛᴀʀᴛᴇᴅ ᴀs →  {dispatcher.bot.first_name} "
