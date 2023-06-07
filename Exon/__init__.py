@@ -172,6 +172,7 @@ Abishnoi = Client(
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=TOKEN,
+    in_memory=True,
 )
 
 
@@ -185,7 +186,7 @@ aiohttpsession = ClientSession()
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 loop = asyncio.get_event_loop()
 
-
+apps = [Abishnoi]
 async def get_entity(client, entity):
     entity_client = client
     if not isinstance(entity, Chat):
@@ -213,7 +214,7 @@ async def get_entity(client, entity):
     return entity, entity_client
 
 
-apps = [Abishnoi]
+
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
