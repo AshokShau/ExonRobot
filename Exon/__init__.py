@@ -53,4 +53,3 @@ exon = (
 aiohttpsession = ClientSession()
 sw = None
 BOT_ID = TOKEN.split(":")[0]
-
