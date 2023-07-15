@@ -4,8 +4,6 @@ import logging
 import os
 import sys
 import time
-
-from Abg import patch # types : ignore
 from functools import wraps
 from inspect import getfullargspec
 from os import environ, mkdir, path
@@ -14,6 +12,7 @@ from traceback import format_exc
 
 import spamwatch
 import telegram.ext as tg
+from Abg import patch  # types : ignore
 from aiohttp import ClientSession
 from ptbcontrib.postgres_persistence import PostgresPersistence
 from pyrogram import Client
