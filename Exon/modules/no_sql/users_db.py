@@ -32,9 +32,9 @@ SOFTWARE.
 from Exon import dispatcher
 from Exon.modules.no_sql import get_collection
 
-USERS_DB = get_collection("USERS")
-CHATS_DB = get_collection("CHATS")
-CHAT_MEMBERS_DB = get_collection("CHAT_MEMBERS")
+USERS_DB = get_collection("users")
+CHATS_DB = get_collection("chats")
+CHAT_MEMBERS_DB = get_collection("chat_mamber")
 
 
 def ensure_bot_in_db():
