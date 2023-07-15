@@ -34,13 +34,13 @@ from pymongo import MongoClient, collection
 from Exon import MONGO_URI as MONGO_DB_URI
 
 mongo = MongoCli(MONGO_DB_URI)
-Asudb = mongo.ASU_EXON
+Asudb = mongo.ExonRobot_
 
 try:
     client = MongoClient(MONGO_DB_URI)
 except PyMongoError:
     exiter(1)
-main_db = client["EXON_ROBOT"]
+main_db = client["ExonRobot"]
 
 
 AsuXdb = main_db
