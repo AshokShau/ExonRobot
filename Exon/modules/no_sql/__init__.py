@@ -31,7 +31,7 @@ SOFTWARE.
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient, collection
 
-from Exon import MONGO_URI as MONGO_DB_URI
+from Exon import MONGO_URI as MONGO_DB_URI, DB_NAME
 
 mongo = MongoCli(MONGO_DB_URI)
 Asudb = mongo.ExonRobot_
@@ -40,7 +40,7 @@ try:
     client = MongoClient(MONGO_DB_URI)
 except PyMongoError:
     exiter(1)
-main_db = client["ExonRobot"]
+main_db = client[DB_NAME]
 
 
 AsuXdb = main_db
