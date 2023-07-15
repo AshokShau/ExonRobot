@@ -27,91 +27,117 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-import time
 
-from telethon import events
+from asyncio import sleep
 
-from Exon import telethn
-from Exon.modules.helper_funcs.telethn.chatstatus import (
-    can_delete_messages,
-    user_is_admin,
-)
+from pyrogram.enums import ChatType
+from pyrogram.errors import MessageDeleteForbidden, RPCError
+from pyrogram.types import Message
+
+from Exon import LOGGER, Abishnoi
 
 
-async def purge_messages(event):
-    start = time.perf_counter()
-    if event.from_id is None:
+@Abishnoi.on_cmd("purge")
+@Abishnoi.adminsOnly(permissions="can_delete_messages", is_both=True)
+async def purge(c: Abishnoi, m: Message):
+    if m.chat.type != ChatType.SUPERGROUP:
+        await m.reply_text(text="ᴄᴀɴɴᴏᴛ ᴘᴜʀɢᴇ ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʙᴀsɪᴄ ɢʀᴏᴜᴘ")
         return
 
-    if not await user_is_admin(
-        user_id=event.sender_id,
-        message=event,
-    ) and event.from_id not in [1087968824]:
-        await event.reply("Only Admins are allowed to use this command")
+    if m.reply_to_message:
+        message_ids = list(range(m.reply_to_message.id, m.id))
+
+        def divide_chunks(l: list, n: int = 100):
+            for i in range(0, len(l), n):
+                yield l[i : i + n]
+
+        # Dielete messages in chunks of 100 messages
+        m_list = list(divide_chunks(message_ids))
+
+        try:
+            for plist in m_list:
+                await c.delete_messages(
+                    chat_id=m.chat.id,
+                    message_ids=plist,
+                    revoke=True,
+                )
+            await m.delete()
+        except MessageDeleteForbidden:
+            await m.reply_text(
+                text="ᴄᴀɴɴᴏᴛ ᴅᴇʟᴇᴛᴇ ᴀʟʟ ᴍᴇssᴀɢᴇs. ᴛʜᴇ ᴍᴇssᴀɢᴇs ᴍᴀʏ ʙᴇ ᴛᴏᴏ ᴏʟᴅ, I ᴍɪɢʜᴛ ɴᴏᴛ ʜᴀᴠᴇ ᴅᴇʟᴇᴛᴇ ʀɪɢʜᴛs, ᴏʀ ᴛʜɪs ᴍɪɢʜᴛ ɴᴏᴛ ʙᴇ ᴀ sᴜᴘᴇʀɢʀᴏᴜᴘ."
+            )
+            return
+        except RPCError as ef:
+            LOGGER.info(f"ERROR on purge {ef}")
+
+        count_del_msg = len(message_ids)
+
+        z = await m.reply_text(text=f"ᴅᴇʟᴇᴛᴇᴅ <i>{count_del_msg}</i> messages")
+        return
+    await m.reply_text("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ sᴛᴀʀᴛ ᴘᴜʀɢᴇ !")
+    return
+
+
+@Abishnoi.on_cmd("spurge")
+@Abishnoi.adminsOnly(permissions="can_delete_messages", is_both=True)
+async def spurge(c: Abishnoi, m: Message):
+    if m.chat.type != ChatType.SUPERGROUP:
+        await m.reply_text(text="ᴄᴀɴɴᴏᴛ ᴘᴜʀɢᴇ ᴍᴇssᴀɢᴇs ɪɴ ᴀ ʙᴀsɪᴄ ɢʀᴏᴜᴘ")
         return
 
-    if not await can_delete_messages(message=event):
-        await event.reply("Can't seem to purge the message")
+    if m.reply_to_message:
+        message_ids = list(range(m.reply_to_message.id, m.id))
+
+        def divide_chunks(l: list, n: int = 100):
+            for i in range(0, len(l), n):
+                yield l[i : i + n]
+
+        # Dielete messages in chunks of 100 messages
+        m_list = list(divide_chunks(message_ids))
+
+        try:
+            for plist in m_list:
+                await c.delete_messages(
+                    chat_id=m.chat.id,
+                    message_ids=plist,
+                    revoke=True,
+                )
+            await m.delete()
+        except MessageDeleteForbidden:
+            await m.reply_text(
+                text="ᴄᴀɴɴᴏᴛ ᴅᴇʟᴇᴛᴇ ᴀʟʟ ᴍᴇssᴀɢᴇs. ᴛʜᴇ ᴍᴇssᴀɢᴇs ᴍᴀʏ ʙᴇ ᴛᴏᴏ ᴏʟᴅ, I ᴍɪɢʜᴛ ɴᴏᴛ ʜᴀᴠᴇ ᴅᴇʟᴇᴛᴇ ʀɪɢʜᴛs, ᴏʀ ᴛʜɪs ᴍɪɢʜᴛ ɴᴏᴛ ʙᴇ ᴀ sᴜᴘᴇʀɢʀᴏᴜᴘ."
+            )
+            return
+        except RPCError as ef:
+            LOGGER.info(f"ERROR on purge {ef}")
         return
-
-    reply_msg = await event.get_reply_message()
-    if not reply_msg:
-        await event.reply("Reply to a message to select where to start purging from.")
-        return
-    messages = []
-    message_id = reply_msg.id
-    delete_to = event.message.id
-
-    messages.append(event.reply_to_msg_id)
-    for msg_id in range(message_id, delete_to + 1):
-        messages.append(msg_id)
-        if len(messages) == 100:
-            await event.client.delete_messages(event.chat_id, messages)
-            messages = []
-
-    try:
-        await event.client.delete_messages(event.chat_id, messages)
-    except:
-        pass
-    time_ = time.perf_counter() - start
-    text = f"Purged Successfully in {time_:0.2f} Second(s)"
-    await event.respond(text, parse_mode="markdown")
+    await m.reply_text("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ sᴛᴀʀᴛ sᴘᴜʀɢᴇ !")
+    return
 
 
-async def delete_messages(event):
-    if event.from_id is None:
-        return
-
-    if not await user_is_admin(
-        user_id=event.sender_id,
-        message=event,
-    ) and event.from_id not in [1087968824]:
-        await event.reply("Only Admins are allowed to use this command")
-        return
-
-    if not await can_delete_messages(message=event):
-        await event.reply("Can't seem to delete this?")
-        return
-
-    message = await event.get_reply_message()
-    if not message:
-        await event.reply("Whadya want to delete?")
-        return
-    chat = await event.get_input_chat()
-    del_message = [message, event.message]
-    await event.client.delete_messages(chat, del_message)
+@Abishnoi.on_cmd("del")
+@Abishnoi.adminsOnly(permissions="can_delete_messages", is_both=True)
+async def del_msg(c: Abishnoi, m: Message):
+    if m.reply_to_message:
+        await m.delete()
+        await c.delete_messages(
+            chat_id=m.chat.id,
+            message_ids=m.reply_to_message.id,
+        )
+    else:
+        await m.reply_text(text="ᴡʜᴀᴛ ᴅᴏ ʏᴏᴜ ᴡᴀɴɴᴀ ᴅᴇʟᴇᴛᴇ?")
+    return
 
 
-PURGE_HANDLER = purge_messages, events.NewMessage(pattern="^[!/]purge$")
-DEL_HANDLER = delete_messages, events.NewMessage(pattern="^[!/]del$")
+__PLUGIN__ = "Pᴜʀɢᴇ"
 
-telethn.add_event_handler(*PURGE_HANDLER)
-telethn.add_event_handler(*DEL_HANDLER)
+__alt_name__ = ["purge", "del", "spurge"]
 
-
-__command_list__ = ["del", "purge"]
-__handlers__ = [PURGE_HANDLER, DEL_HANDLER]
-
+__HELP__ = """
+• /purge: ᴅᴇʟᴇᴛᴇs ᴍᴇssᴀɢᴇs ᴜᴘᴛᴏ ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ.
+• /spurge: ᴅᴇʟᴇᴛᴇs ᴍᴇssᴀɢᴇs ᴜᴘᴛᴏ ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ᴡɪᴛʜᴏᴜᴛ ᴀ sᴜᴄᴄᴇss ᴍᴇssᴀɢᴇ.
+• /del: ᴅᴇʟᴇᴛᴇs ᴀ sɪɴɢʟᴇ ᴍᴇssᴀɢᴇ, ᴜsᴇᴅ ᴀs ᴀ ʀᴇᴘʟʏ ᴛᴏ ᴍᴇssᴀɢᴇ.
+"""
 
 __mod_name__ = "𝐏ᴜʀɢᴇ"
 
