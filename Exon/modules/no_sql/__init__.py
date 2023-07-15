@@ -31,7 +31,8 @@ SOFTWARE.
 from motor.motor_asyncio import AsyncIOMotorClient as MongoCli
 from pymongo import MongoClient, collection
 
-from Exon import MONGO_URI as MONGO_DB_URI, DB_NAME
+from Exon import DB_NAME
+from Exon import MONGO_URI as MONGO_DB_URI
 
 mongo = MongoCli(MONGO_DB_URI)
 Asudb = mongo.ExonRobot_
