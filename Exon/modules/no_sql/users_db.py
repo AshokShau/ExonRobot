@@ -90,9 +90,11 @@ def get_user_com_chats(user_id) -> int:
 
 def num_chats() -> int:
     return CHATS_DB.count_documents({})
-    
+
+
 def num_chat_users() -> int:
     return CHAT_MEMBERS_DB.count_documents({})
+
 
 def num_users() -> int:
     return USERS_DB.count_documents({})
