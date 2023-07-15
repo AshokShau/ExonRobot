@@ -51,7 +51,7 @@ lyricsgenius==3.0.1
 jikanpy==4.3.2
 gtts==2.3.1
 search_engine_parser==0.6.8
-googletrans==2.4.0
+googletrans==3.0.0
 gpytranslate==1.5.1
 cloudscraper==1.2.68
 carbonnow
