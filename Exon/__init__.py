@@ -88,6 +88,7 @@ SUPPORT_CHAT = Config.SUPPORT_CHAT
 MONGO_DB = "Exon"  # DON'T EDIT
 MONGO_PORT = "27017"  # DON'T EDIT
 MONGO_URI = Config.MONGO_URI
+DB_NAME = Config.DB_NAME
 BOT_API_URL = "https://api.telegram.org/bot"  # DON'T EDIT
 DB_URL = Config.DATABASE_URL
 INFOPIC = False
