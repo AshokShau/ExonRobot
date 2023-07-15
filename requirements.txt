@@ -1,3 +1,4 @@
+Abg==2.3.2
 aiofiles
 aiohttp>=2.2.5
 httpx[http2]>=0.18.1,<1.0.0
