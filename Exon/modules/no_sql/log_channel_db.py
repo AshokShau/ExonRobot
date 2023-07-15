@@ -29,7 +29,7 @@ SOFTWARE.
 
 from Exon.modules.no_sql import get_collection
 
-LOG_DATA = get_collection("LOG_CHANNELS")
+LOG_DATA = get_collection("log_channels")
 
 CHANNELS = {}
 
