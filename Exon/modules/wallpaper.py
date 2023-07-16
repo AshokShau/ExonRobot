@@ -31,7 +31,7 @@ import random
 from random import randint
 
 import requests
-from pyrogram import enums, filters
+from pyrogram import enums
 from pyrogram.types import Message
 
 from Exon import Abishnoi, arq
@@ -75,7 +75,6 @@ async def wallpaper(_, msg):
     # await msg.reply_document(pic, caption=f"🔎 ᴛɪᴛʟᴇ - {title} \n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {msg.from_user.mention}")
     except Exception as error:
         await msg.reply_text(f"ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ.\n {error}")
-        
 
 
 @Abishnoi.on_cnd("wall")

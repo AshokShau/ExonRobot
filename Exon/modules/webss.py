@@ -32,7 +32,6 @@ from base64 import b64decode
 from inspect import getfullargspec
 from io import BytesIO
 
-from pyrogram import filters
 from pyrogram.types import Message
 
 from Exon import Abishnoi as app

@@ -28,7 +28,6 @@ SOFTWARE.
 #     GITHUB :- Abishnoi69 ""
 
 
-from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from Exon import Abishnoi as abishnoi
@@ -132,6 +131,7 @@ async def nxt(c, m):
         await m.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
     else:
         await style_buttons(c, m, cb=True)
+
 
 @abishnoi.on_cb("style")
 async def style(c, m):

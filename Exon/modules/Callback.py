@@ -30,7 +30,7 @@ SOFTWARE.
 from pyrogram.types import CallbackQuery
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import CallbackQueryHandler
-from Abg.helpers.human_read import get_readable_time
+
 from Exon import BOT_NAME, OWNER_ID, OWNER_USERNAME, SUPPORT_CHAT
 from Exon import Abishnoi as pbot
 from Exon import dispatcher

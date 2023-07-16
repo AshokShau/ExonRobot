@@ -28,7 +28,7 @@ SOFTWARE.
 #     GITHUB :- ABISHNOI69 ""
 
 import httpx
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.types import Message
 
 from Exon import Abishnoi

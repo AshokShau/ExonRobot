@@ -30,11 +30,10 @@ SOFTWARE.
 
 import time
 
-from pyrogram import filters
+from Abg.helpers.human_read import get_readable_time
 from pyrogram.types import Message
 
 from Exon import Abishnoi
-from Abg.helpers.human_read import get_readable_time
 from Exon.modules.no_sql.afk_db import add_afk, is_afk, remove_afk
 
 
