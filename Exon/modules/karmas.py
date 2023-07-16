@@ -127,7 +127,7 @@ async def downvote(_, message):
     )
 
 
-@abishnoi.on_message("karmastat", group_only=True)
+@abishnoi.on_cmd("karmastat", group_only=True)
 @abishnoi.adminsOnly(permissions="can_change_info", is_both=True)
 async def command_karma(_, message):
     chat_id = message.chat.id
