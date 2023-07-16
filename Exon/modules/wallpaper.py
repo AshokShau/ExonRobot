@@ -37,8 +37,8 @@ from pyrogram.types import Message
 from Exon import Abishnoi, arq
 
 
-@Abishnoi.on_message(filters.command(["wallpaper"]))
-async def wall(_, msg):
+@Abishnoi.on_cmd(["wallpaper"])
+async def wallpaper(_, msg):
     if len(msg.command) < 2:
         await msg.reply_text("ʜᴇʏ ʙᴀʙʏ ɢɪᴠᴇ sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ sᴇᴀʀᴄʜ.")
         return
@@ -75,9 +75,10 @@ async def wall(_, msg):
     # await msg.reply_document(pic, caption=f"🔎 ᴛɪᴛʟᴇ - {title} \n🥀 **ʀᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {msg.from_user.mention}")
     except Exception as error:
         await msg.reply_text(f"ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ.\n {error}")
+        
 
 
-@Abishnoi.on_message(filters.command("wall"))
+@Abishnoi.on_cnd("wall")
 async def wall(_, m: Message):
     if len(m.command) < 2:
         return await m.reply_text("ɢɪᴠᴇ ᴍᴇ ᴀ ᴛᴇxᴛ !")
