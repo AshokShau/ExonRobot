@@ -16,7 +16,7 @@ from Exon import Abishnoi as pbot
 ABISHNOIX = "https://te.legra.ph/file/abfc49a1cc4b5629dc8cd.jpg"
 
 
-@pbot.on_message(filters.command("repo"))
+@pbot.on_cmd("repo")
 async def repo(_, message):
     await message.reply_photo(
         photo=ABISHNOIX,
@@ -27,7 +27,6 @@ async def repo(_, message):
 **ʟɪʙʀᴀʀʏ ᴠᴇʀꜱɪᴏɴ :** `{o}`
 **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀꜱɪᴏɴ :** `{s}`
 **ᴘʏʀᴏɢʀᴀᴍ ᴠᴇʀꜱɪᴏɴ :** `{z}`
-** ᴇɴᴊᴏʏ**
 """,
         reply_markup=InlineKeyboardMarkup(
             [
