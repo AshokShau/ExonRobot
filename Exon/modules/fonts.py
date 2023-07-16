@@ -35,7 +35,7 @@ from Exon import Abishnoi as abishnoi
 from Exon.modules.resources.fonts import Fonts
 
 
-@abishnoi.on_message(filters.command(["font", "fonts"]))
+@abishnoi.on_cmd(["font", "fonts"])
 async def style_buttons(c, m, cb=False):
     buttons = [
         [
@@ -84,7 +84,7 @@ async def style_buttons(c, m, cb=False):
         await m.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
 
 
-@abishnoi.on_callback_query(filters.regex("^nxt"))
+@abishnoi.on_cb("nxt")
 async def nxt(c, m):
     if m.data == "nxt":
         buttons = [
@@ -133,8 +133,7 @@ async def nxt(c, m):
     else:
         await style_buttons(c, m, cb=True)
 
-
-@abishnoi.on_callback_query(filters.regex("^style"))
+@abishnoi.on_cb("style")
 async def style(c, m):
     await m.answer()
     cmd, style = m.data.split("+")
