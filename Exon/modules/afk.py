@@ -38,7 +38,7 @@ from Abg.helpers.human_read import get_readable_time
 from Exon.modules.no_sql.afk_db import add_afk, is_afk, remove_afk
 
 
-@Abishnoi.on_cmd((["afk", "brb"])
+@Abishnoi.on_cmd(["afk", "brb"])
 async def active_afk(_, message: Message):
     if message.sender_chat:
         return
