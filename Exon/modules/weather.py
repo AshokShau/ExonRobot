@@ -49,7 +49,7 @@ headers = {
 }
 
 
-@Abishnoi.on_message(filters.command("weather"))
+@Abishnoi.on_cmd("weather")
 async def weather(c: Client, m: Message):
     if len(m.command) == 1:
         return await m.reply_text(
