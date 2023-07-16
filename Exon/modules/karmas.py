@@ -127,7 +127,8 @@ async def downvote(_, message):
     )
 
 
-@abishnoi.on_message(filters.command("karmastat") & filters.group)
+@abishnoi.on_message("karmastat", group_only=True)
+@abishnoi.adminsOnly(permissions="can_change_info", is_both=True)
 async def command_karma(_, message):
     chat_id = message.chat.id
     if not message.reply_to_message:
@@ -179,7 +180,8 @@ async def command_karma(_, message):
             await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
 
 
-@abishnoi.on_message(filters.command("karma") & ~filters.private)
+@abishnoi.on_cmd("karma", group_only=True)
+@abishnoi.adminsOnly(permissions="can_change_info", is_both=True)
 async def captcha_state(_, message):
     usage = "**ᴜsᴀɢᴇ:**\n/karma [ON|OFF]"
     if len(message.command) != 2:
