@@ -77,7 +77,7 @@ async def wallpaper(_, msg):
         await msg.reply_text(f"ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ.\n {error}")
 
 
-@Abishnoi.on_cnd("wall")
+@Abishnoi.on_cmd("wall")
 async def wall(_, m: Message):
     if len(m.command) < 2:
         return await m.reply_text("ɢɪᴠᴇ ᴍᴇ ᴀ ᴛᴇxᴛ !")
