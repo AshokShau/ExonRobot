@@ -31,6 +31,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def get_user_list(__init__, key):
     with open("{}/Exon/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
