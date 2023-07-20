@@ -27,6 +27,9 @@ from telethon.sessions import MemorySession, StringSession
 
 StartTime = time.time()
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_user_list(__init__, key):
     with open("{}/Exon/{}".format(os.getcwd(), __init__), "r") as json_file:
@@ -120,21 +123,6 @@ BACKUP_PASS = 1
 WHITELIST_CHATS = []
 BL_CHATS = []
 SPAMMERS = []
-STRING_SESSION = Config.STRING_SESSION
-
-
-REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
-try:
-    REDIS.ping()
-    LOGGER.info("ᴄᴏɴɴᴇᴄᴛɪɴɢ ᴛᴏ ʀᴇᴅɪs ᴅᴀᴛᴀʙᴀsᴇ")
-except BaseException:
-    raise Exception(
-        "[ᴇxᴏɴ ᴇʀʀᴏʀ]: Your ʀᴇᴅɪs ᴅᴀᴛᴀʙᴀsᴇ ɪs ɴᴏᴛ ᴀʟɪᴠᴇ, ᴘʟᴇᴀsᴇ 𝐂𝐡𝐞𝐜𝐤 ᴀɢᴀɪɴ."
-    )
-finally:
-    REDIS.ping()
-    LOGGER.info("ᴄᴏɴɴᴇᴄᴛɪᴏɴ ᴛᴏ ᴛʜᴇ ʀᴇᴅɪs ᴅᴀᴛᴀʙᴀsᴇ ᴇsᴛᴀʙʟɪsʜᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ!")
-
 
 if not SPAMWATCH_API:
     sw = None
