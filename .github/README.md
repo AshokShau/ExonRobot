@@ -151,17 +151,6 @@ OWNER_ID =  sᴛᴀʀᴛ @Exon_Robot & ᴛʏᴘᴇ /id
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
-<h2 align="center"> 
-   ⇝ 2 ʙʀᴀɴᴄʜ ᴀᴠᴀɪʟᴀʙʟᴇ  ⇜
-</h2>
-
-```
-1. sᴛᴀʙʟᴇ  ʙʀᴀɴᴄʜ : ᴏʟᴅ ᴠᴇʀsɪᴏɴ & sᴛᴀʙʟᴇ
-2. ᴍᴀɪɴ ʙʀᴀɴᴄʜ : ᴏɴ ᴜᴘᴅᴀᴛᴇ
- 
-```
-
-
 ━━━━━━━━━━━━━━━━━━━━
 <h3 align="center">
     ─「 ᴄʀᴇᴅɪᴛs 」─
