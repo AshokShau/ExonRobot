@@ -77,7 +77,7 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
 # VERS
 TOKEN = Config.TOKEN
 OWNER_ID = int(Config.OWNER_ID)
-JOIN_LOGGER = Config.LOG_GROUP_ID
+JOIN_LOGGER = Config.LOGGER_ID
 OWNER_USERNAME = Config.OWNER_USERNAME
 DRAGONS = get_user_list("elevated_users.json", "sudos")  # DON'T EDIT
 DEV_USERS = get_user_list("elevated_users.json", "devs")  # . DON'T EDIT
@@ -219,7 +219,6 @@ print("[INFO]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
 BOT_ID = dispatcher.bot.id
 BOT_NAME = dispatcher.bot.first_name
 BOT_USERNAME = dispatcher.bot.username
-print("[INFO]: .........ᴅᴏɴᴇ")
 
 
 async def eor(msg: Message, **kwargs):
