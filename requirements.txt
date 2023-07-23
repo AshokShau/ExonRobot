@@ -29,6 +29,7 @@ SQLAlchemy==1.4.44
 telethon==1.28.5
 ujson==5.8.0
 pycryptodome==3.18.0
+prettyconf
 base58==2.1.1
 pytimeparse==1.1.8
 SibylSystem==0.0.24
