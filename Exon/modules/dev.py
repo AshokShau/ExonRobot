@@ -217,7 +217,7 @@ def stop_and_restart():
     updater.stop()
     os.execl(sys.executable, sys.executable, *sys.argv)
 
-
+@dev_plus
 def restart(update, context):
     update.message.reply_text("Exiting all Processes and starting a new Instance!")
     Thread(target=stop_and_restart).start()
