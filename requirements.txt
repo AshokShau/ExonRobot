@@ -16,7 +16,7 @@ git+https://github.com/python-telegram-bot/ptbcontrib.git
 gitpython==3.1.31
 markdown2==2.4.10
 multicolorcaptcha==1.2.0
-pillow==9.4.0
+pillow==10.0.1
 psutil==5.9.4
 psycopg2-binary==2.9.7
 pyYAML==6.0.1
