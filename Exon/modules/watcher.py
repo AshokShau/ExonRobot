@@ -33,9 +33,9 @@ import time
 from pyrogram import filters
 from pyrogram.enums import MessageEntityType
 
-from Exon import BOT_USERNAME
+
 from Exon import Abishnoi as app
-from Exon.modules.helper_funcs.readable_time import get_readable_time
+from Abg.helpers.human_read import get_readable_time
 from Exon.modules.no_sql.afk_db import is_afk, remove_afk
 
 chat_watcher_group = 1
@@ -45,13 +45,13 @@ chat_watcher_group = 1
     ~filters.me & ~filters.bot & ~filters.via_bot,
     group=chat_watcher_group,
 )
-async def chat_watcher_func(_, message):
+async def chat_watcher_func(c:app, message):
     if message.sender_chat:
         return
     userid = message.from_user.id
     user_name = message.from_user.first_name
     if message.entities:
-        possible = ["/afk", f"/afk@{BOT_USERNAME}"]
+        possible = ["/afk", f"/afk@{c.me.username}"]
         message_text = message.text or message.caption
         for entity in message.entities:
             if entity.type == MessageEntityType.BOT_COMMAND:
