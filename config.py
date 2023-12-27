@@ -13,10 +13,10 @@ class Config(object):
     ARQ_API_KEY = "PMPTTD-HOMLMF-SRBHNH-RZMWXL-ARQ"
     SPAMWATCH_API = None
     TOKEN = getenv("TOKEN", None)
-    OWNER_ID = int(getenv("OWNER_ID", 5938660179))
-    OWNER_USERNAME = getenv("OWNER_USERNAME", "Abishnoi1M")
-    SUPPORT_CHAT = getenv("SUPPORT_CHAT", "AbishnoiMF")
-    LOGGER_ID = int(getenv("LOGGER_ID", "-1001819078701"))
+    OWNER_ID = int(getenv("OWNER_ID", 5483829443))
+    OWNER_USERNAME = getenv("OWNER_USERNAME", "REDEYE")
+    SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/RedeyeServiceGroup")
+    LOGGER_ID = int(getenv("LOGGER_ID", "-1002025818174"))
     MONGO_URI = getenv(
         "MONGO_DB_URI",
         "mongodb+srv://public:abishnoimf@cluster0.rqk6ihd.mongodb.net/?retryWrites=true&w=majority",
