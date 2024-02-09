@@ -222,7 +222,7 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                 chat = dispatcher.bot.getChat(match[1])
 
                 if is_user_admin(update, update.effective_user.id):
-                    send_settings(match.group(1), update.effective_user.id, False)
+                    send_settings(match[1], update.effective_user.id, False)
                 else:
                     send_settings(match.group(1), update.effective_user.id, True)
 

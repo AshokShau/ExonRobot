@@ -1054,7 +1054,6 @@ def user_button(update: Update, context: CallbackContext):
     query = update.callback_query
     bot = context.bot
     match = re.match(r"user_join_\((.+?)\)", query.data)
-    message = update.effective_message
     join_user = int(match[1])
 
     if join_user == user.id:
@@ -1076,6 +1075,7 @@ def user_button(update: Update, context: CallbackContext):
                 can_add_web_page_previews=True,
             ),
         )
+        message = update.effective_message
         try:
             bot.deleteMessage(chat.id, message.message_id)
         except Exception:
@@ -1178,7 +1178,7 @@ def user_captcha_button(update: Update, context: CallbackContext):
         else:
             try:
                 bot.deleteMessage(chat.id, message.message_id)
-            except:
+            except Exception:
                 pass
             kicked_msg = f"""
             ❌ [{escape_markdown(join_usr_data.first_name)}](tg://user?id={join_user}) failed the captcha and was kicked.

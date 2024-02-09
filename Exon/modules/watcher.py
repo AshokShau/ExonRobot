@@ -152,7 +152,7 @@ async def chat_watcher_func(c:app, message):
     if message.entities:
         entity = message.entities
         j = 0
-        for x in range(len(entity)):
+        for _ in range(len(entity)):
             if (entity[j].type) == MessageEntityType.MENTION:
                 found = re.findall("@([_0-9a-zA-Z]+)", message.text)
                 try:
@@ -235,16 +235,17 @@ async def chat_watcher_func(c:app, message):
                                 )
                             )
                         elif afktype == "photo":
-                            if str(reasonafk) == "None":
-                                send = await message.reply_photo(
+                            send = (
+                                await message.reply_photo(
                                     photo=f"downloads/{user_id}.jpg",
                                     caption=f"**{first_name[:25]}** ɪs ᴀғᴋ sɪɴᴄᴇ {seenago}\n\n",
                                 )
-                            else:
-                                send = await message.reply_photo(
+                                if str(reasonafk) == "None"
+                                else await message.reply_photo(
                                     photo=f"downloads/{user_id}.jpg",
                                     caption=f"**{first_name[:25]}** ɪs ᴀғᴋ sɪɴᴄᴇ {seenago}\n\nʀᴇᴀsᴏɴ: `{reasonafk}`\n\n",
                                 )
+                            )
                         elif afktype == "text":
                             msg += f"**{first_name[:25]}** is ᴀғᴋ sɪɴᴄᴇ {seenago}\n\n"
                         elif afktype == "text_reason":

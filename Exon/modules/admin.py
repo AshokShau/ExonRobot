@@ -829,7 +829,7 @@ async def admins(client, message):
                 text2 += f"👑 ᴏᴡɴᴇʀ\n└ @{owner.username}\n\n👮🏻 ᴀᴅᴍɪɴs\n"
         except Exception:
             text2 += f"👑 ᴏᴡɴᴇʀ\n└ <i>Hidden</i>\n\n👮🏻 ᴀᴅᴍɪɴs\n"
-        if len(adminList) == 0:
+        if not adminList:
             text2 += "└ <i>ᴀᴅᴍɪɴs ᴀʀᴇ ʜɪᴅᴅᴇɴ</i>"
         else:
             while len(adminList) > 1:
@@ -839,7 +839,7 @@ async def admins(client, message):
                 else:
                     text2 += f"├ @{admin.username}\n"
             admin = adminList.pop(0)
-            if admin.username == None:
+            if admin.username is None:
                 text2 += f"└ {admin.mention}\n\n"
             else:
                 text2 += f"└ @{admin.username}\n\n"

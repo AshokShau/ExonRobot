@@ -199,9 +199,9 @@ def getsticker(update: Update, context: CallbackContext):
 
 def kang(update, context):
     msg = update.effective_message
-    user = update.effective_user
     args = context.args
     packnum = 0
+    user = update.effective_user
     packname = f"a{str(user.id)}_by_{context.bot.username}"
     packname_found = 0
     max_stickers = 120
@@ -211,14 +211,7 @@ def kang(update, context):
             stickerset = context.bot.get_sticker_set(packname)
             if len(stickerset.stickers) >= max_stickers:
                 packnum += 1
-                packname = (
-                    "a"
-                    + str(packnum)
-                    + "_"
-                    + str(user.id)
-                    + "_by_"
-                    + context.bot.username
-                )
+                packname = f"a{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
             else:
                 packname_found = 1
         except TelegramError as e:
@@ -243,7 +236,7 @@ def kang(update, context):
             file_id = msg.reply_to_message.photo[-1].file_id
         elif (
             msg.reply_to_message.document
-            and not msg.reply_to_message.document.mime_type == "video/mp4"
+            and msg.reply_to_message.document.mime_type != "video/mp4"
         ):
             file_id = msg.reply_to_message.document.file_id
         elif msg.reply_to_message.animation:
@@ -252,7 +245,7 @@ def kang(update, context):
         else:
             msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
         kang_file = context.bot.get_file(file_id)
-        if not is_animated and not (is_video or is_gif):
+        if not is_animated and not is_video and not is_gif:
             kang_file.download("kangsticker.png")
         elif is_animated:
             kang_file.download("kangsticker.tgs")
@@ -274,7 +267,7 @@ def kang(update, context):
             parse_mode=ParseMode.HTML,
         )
 
-        if not is_animated and not (is_video or is_gif):
+        if not is_animated and not is_video and not is_gif:
             try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
@@ -397,14 +390,7 @@ def kang(update, context):
                     stickerset = context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
                         packnum += 1
-                        packname = (
-                            "animated"
-                            + str(packnum)
-                            + "_"
-                            + str(user.id)
-                            + "_by_"
-                            + context.bot.username
-                        )
+                        packname = f"animated{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
                     else:
                         packname_found = 1
                 except TelegramError as e:
