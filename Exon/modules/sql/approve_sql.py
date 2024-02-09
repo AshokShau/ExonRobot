@@ -44,7 +44,7 @@ class Approvals(BASE):
         self.user_id = user_id
 
     def __repr__(self):
-        return "<Approve %s>" % self.user_id
+        return f"<Approve {self.user_id}>"
 
 
 Approvals.__table__.create(checkfirst=True)
@@ -68,8 +68,9 @@ def is_approved(chat_id, user_id):
 
 def disapprove(chat_id, user_id):
     with APPROVE_INSERTION_LOCK:
-        disapprove_user = SESSION.query(Approvals).get((str(chat_id), user_id))
-        if disapprove_user:
+        if disapprove_user := SESSION.query(Approvals).get(
+            (str(chat_id), user_id)
+        ):
             SESSION.delete(disapprove_user)
             SESSION.commit()
             return True

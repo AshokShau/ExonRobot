@@ -52,7 +52,7 @@ class Notes(BASE):
         self.file = file
 
     def __repr__(self):
-        return "<Note %s>" % self.name
+        return f"<Note {self.name}>"
 
 
 class Buttons(BASE):
@@ -84,8 +84,7 @@ def add_note_to_db(chat_id, note_name, note_data, msgtype, buttons=None, file=No
         buttons = []
 
     with NOTES_INSERTION_LOCK:
-        prev = SESSION.query(Notes).get((str(chat_id), note_name))
-        if prev:
+        if prev := SESSION.query(Notes).get((str(chat_id), note_name)):
             with BUTTONS_INSERTION_LOCK:
                 prev_buttons = (
                     SESSION.query(Buttons)
@@ -125,12 +124,14 @@ def get_note(chat_id, note_name):
 
 def rm_note(chat_id, note_name):
     with NOTES_INSERTION_LOCK:
-        note = (
+        if note := (
             SESSION.query(Notes)
-            .filter(func.lower(Notes.name) == note_name, Notes.chat_id == str(chat_id))
+            .filter(
+                func.lower(Notes.name) == note_name,
+                Notes.chat_id == str(chat_id),
+            )
             .first()
-        )
-        if note:
+        ):
             with BUTTONS_INSERTION_LOCK:
                 buttons = (
                     SESSION.query(Buttons)

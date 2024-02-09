@@ -84,7 +84,7 @@ async def telegrap(event):
                     media_urls = upload_file(downloaded_file_name)
 
                 except exceptions.TelegraphException as exc:
-                    await event.reply("ERROR: " + str(exc))
+                    await event.reply(f"ERROR: {str(exc)}")
                     os.remove(downloaded_file_name)
                 else:
                     end = datetime.now()
@@ -97,9 +97,7 @@ async def telegrap(event):
                             [
                                 types.KeyboardButtonUrl(
                                     "➡ ʙʀᴏᴡsᴇʀ ᴠɪᴇᴡ",
-                                    "https://telegra.ph{}".format(
-                                        media_urls[0], (ms + ms_two)
-                                    ),
+                                    f"https://telegra.ph{media_urls[0]}",
                                 )
                             ]
                         ],
@@ -132,7 +130,7 @@ async def telegrap(event):
             a = await asau.get_me()
             end = datetime.now()
             ms = (end - start).seconds
-            url = "https://telegra.ph/{}".format(response["path"])
+            url = f'https://telegra.ph/{response["path"]}'
             await Client.send_message(
                 event.chat_id,
                 f"ᴅᴏɴᴇ!\n**•ʀᴇϙᴜᴇꜱᴛᴇᴅ ʙʏ:-** [{event.sender.first_name}](tg://user?id={event.sender.id})\n**•ᴜᴘʟᴏᴀᴅ ʙʏ:-** [{a.first_name}](tg://user?id={a.id})\n**•ʟɪɴᴋ:** `{url}`",
@@ -140,7 +138,7 @@ async def telegrap(event):
                     [
                         types.KeyboardButtonUrl(
                             "➡ ʙʀᴏᴡsᴇʀ ᴠɪᴇᴡ ",
-                            "https://telegra.ph/{}".format(response["path"], ms),
+                            f'https://telegra.ph/{response["path"]}',
                         )
                     ]
                 ],

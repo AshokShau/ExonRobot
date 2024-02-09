@@ -46,7 +46,7 @@ class AntiLinkedChannelSettings(BASE):
         self.setting = disabled
 
     def __repr__(self):
-        return "<Antilinked setting {} ({})>".format(self.chat_id, self.setting)
+        return f"<Antilinked setting {self.chat_id} ({self.setting})>"
 
 
 class AntiPinChannelSettings(BASE):
@@ -60,7 +60,7 @@ class AntiPinChannelSettings(BASE):
         self.setting = disabled
 
     def __repr__(self):
-        return "<Antipin setting {} ({})>".format(self.chat_id, self.setting)
+        return f"<Antipin setting {self.chat_id} ({self.setting})>"
 
 
 AntiLinkedChannelSettings.__table__.create(checkfirst=True)
@@ -72,9 +72,7 @@ ANTI_PIN_CHANNEL_SETTING_LOCK = threading.RLock()
 
 def enable(chat_id: int):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id))
-        if not chat:
-            chat = AntiLinkedChannelSettings(chat_id, True)
+        chat = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id)) or AntiLinkedChannelSettings(chat_id, True)
 
         chat.setting = True
         SESSION.add(chat)
@@ -83,9 +81,7 @@ def enable(chat_id: int):
 
 def enable_pin(chat_id: int):
     with ANTI_PIN_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiPinChannelSettings).get(str(chat_id))
-        if not chat:
-            chat = AntiPinChannelSettings(chat_id, True)
+        chat = SESSION.query(AntiPinChannelSettings).get(str(chat_id)) or AntiPinChannelSettings(chat_id, True)
 
         chat.setting = True
         SESSION.add(chat)
@@ -94,9 +90,7 @@ def enable_pin(chat_id: int):
 
 def disable_linked(chat_id: int):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id))
-        if not chat:
-            chat = AntiLinkedChannelSettings(chat_id, False)
+        chat = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id)) or AntiLinkedChannelSettings(chat_id, False)
 
         chat.setting = False
         SESSION.add(chat)
@@ -105,9 +99,7 @@ def disable_linked(chat_id: int):
 
 def disable_pin(chat_id: int):
     with ANTI_PIN_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiPinChannelSettings).get(str(chat_id))
-        if not chat:
-            chat = AntiPinChannelSettings(chat_id, False)
+        chat = SESSION.query(AntiPinChannelSettings).get(str(chat_id)) or AntiPinChannelSettings(chat_id, False)
 
         chat.setting = False
         SESSION.add(chat)
@@ -117,30 +109,26 @@ def disable_pin(chat_id: int):
 def status_linked(chat_id: int) -> bool:
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
         d = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id))
-        if not d:
-            return False
-        return d.setting
+        return d.setting if d else False
 
 
 def status_pin(chat_id: int) -> bool:
     with ANTI_PIN_CHANNEL_SETTING_LOCK:
         d = SESSION.query(AntiPinChannelSettings).get(str(chat_id))
-        if not d:
-            return False
-        return d.setting
+        return d.setting if d else False
 
 
 def migrate_chat(old_chat_id, new_chat_id):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiLinkedChannelSettings).get(str(old_chat_id))
-        if chat:
+        if chat := SESSION.query(AntiLinkedChannelSettings).get(
+            str(old_chat_id)
+        ):
             chat.chat_id = new_chat_id
             SESSION.add(chat)
 
         SESSION.commit()
     with ANTI_PIN_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiPinChannelSettings).get(str(old_chat_id))
-        if chat:
+        if chat := SESSION.query(AntiPinChannelSettings).get(str(old_chat_id)):
             chat.chat_id = new_chat_id
             SESSION.add(chat)
 

@@ -47,11 +47,8 @@ async def authorised(func, subFunc2, client, message, *args, **kwargs):
 
 
 async def unauthorised(message: Message, permission, subFunc2):
+    text = f"ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴛʜᴇ ʀᴇǫᴜɪʀᴇᴅ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ᴘᴇʀғᴏʀᴍ ᴛʜɪs ᴀᴄᴛɪᴏɴ.\n**𝐏𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧:** __{permission}__"
     chatID = message.chat.id
-    text = (
-        "ʏᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴛʜᴇ ʀᴇǫᴜɪʀᴇᴅ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ᴘᴇʀғᴏʀᴍ ᴛʜɪs ᴀᴄᴛɪᴏɴ."
-        + f"\n**𝐏𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧:** __{permission}__"
-    )
     try:
         await message.reply_text(text)
     except ChatWriteForbidden:

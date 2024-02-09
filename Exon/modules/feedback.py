@@ -43,7 +43,7 @@ async def feedback(e):
     quew = e.pattern_match.group(1)
     user_id = e.sender.id
     user_name = e.sender.first_name
-    mention = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
+    mention = f"[{user_name}](tg://user?id={str(user_id)})"
     Exon = (
         "https://telegra.ph/file/753bfe51f0e0314f1f3ff.jpg",
         "https://telegra.ph/file/20bab4a499d6dccd823f1.jpg",
@@ -62,7 +62,6 @@ async def feedback(e):
     NATFEED = ("https://telegra.ph/file/2dd04f407b16bc2cfdf76.jpg",)
     BUTTON = [[Button.url("Go To Support Group", f"https://t.me/{SUPPORT_CHAT}")]]
     TEXT = "ᴛʜᴀɴᴋꜱ ꜰᴏʀ ʏᴏᴜʀ ꜰᴇᴇᴅʙᴀᴄᴋ, ɪ ʜᴏᴘᴇ ʏᴏᴜ ʜᴀᴘᴘʏ ᴡɪᴛʜ ᴏᴜʀ ꜱᴇʀᴠɪᴄᴇ."
-    GIVE = "ɢɪᴠᴇ ꜱᴏᴍᴇ ᴛᴇxᴛ ꜰᴏʀ ꜰᴇᴇᴅʙᴄᴋ ✨"
     logger_text = f"""
 **ɴᴇᴡ ꜰᴇᴇᴅʙᴀᴄᴋ**
 
@@ -72,6 +71,7 @@ async def feedback(e):
 **ꜰᴇᴇᴅʙᴀᴄᴋ:** `{e.text}`
 """
     if e.sender_id != OWNER_ID and not quew:
+        GIVE = "ɢɪᴠᴇ ꜱᴏᴍᴇ ᴛᴇxᴛ ꜰᴏʀ ꜰᴇᴇᴅʙᴄᴋ ✨"
         await e.reply(
             GIVE,
             parse_mode=ParseMode.MARKDOWN,

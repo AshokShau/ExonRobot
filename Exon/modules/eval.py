@@ -144,7 +144,7 @@ def do(func, bot, update):
             else:
                 try:
                     result = f"{repr(ast.literal_eval(body, env))}"
-                except:
+                except Exception:
                     pass
         else:
             result = f"{value}{func_return}"
@@ -204,7 +204,7 @@ async def executor(client, message):
         )
         await message.reply_document(
             document=filename,
-            caption=f"**INPUT:**\n`{cmd[0:980]}`\n\n**OUTPUT:**\n`Attached Document`",
+            caption=f"**INPUT:**\n`{cmd[:980]}`\n\n**OUTPUT:**\n`Attached Document`",
             quote=False,
             reply_markup=keyboard,
         )

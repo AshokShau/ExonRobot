@@ -42,9 +42,6 @@ async def wallpaper(_, msg):
     if len(msg.command) < 2:
         await msg.reply_text("ʜᴇʏ ʙᴀʙʏ ɢɪᴠᴇ sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ sᴇᴀʀᴄʜ.")
         return
-    else:
-        pass
-
     query = (
         msg.text.split(None, 1)[1]
         if len(msg.command) < 3
@@ -53,9 +50,6 @@ async def wallpaper(_, msg):
 
     if not query:
         await msg.reply_text("ʜᴇʏ ʙᴀʙʏ ɢɪᴠᴇ sᴏᴍᴇᴛʜɪɴɢ ᴛᴏ sᴇᴀʀᴄʜ.")
-    else:
-        pass
-
     url = f"https://api.safone.me/wall?query={query}"
     re = requests.get(url).json()
     walls = re.get("results")

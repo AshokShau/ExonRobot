@@ -29,7 +29,7 @@ StartTime = time.time()
 
 
 def get_user_list(__init__, key):
-    with open("{}/Exon/{}".format(os.getcwd(), __init__), "r") as json_file:
+    with open(f"{os.getcwd()}/Exon/{__init__}", "r") as json_file:
         return json.load(json_file)[key]
 
 
@@ -127,7 +127,7 @@ if not SPAMWATCH_API:
 else:
     try:
         sw = spamwatch.Client(SPAMWATCH_API)
-    except:
+    except Exception:
         sw = None
         LOGGER.warning("ᴄᴀɴ'ᴛ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ sᴘᴀᴍᴡᴀᴛᴄʜ!")
 

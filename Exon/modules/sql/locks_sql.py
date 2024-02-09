@@ -105,7 +105,7 @@ class Permissions(BASE):
         self.wav = False
 
     def __repr__(self):
-        return "<Permissions for %s>" % self.chat_id
+        return f"<Permissions for {self.chat_id}>"
 
 
 class Restrictions(BASE):
@@ -125,7 +125,7 @@ class Restrictions(BASE):
         self.preview = False
 
     def __repr__(self):
-        return "<Restrictions for %s>" % self.chat_id
+        return f"<Restrictions for {self.chat_id}>"
 
 
 # For those who faced database error, Just uncomment the
@@ -163,82 +163,76 @@ def init_restrictions(chat_id, reset=False):
 
 def update_lock(chat_id, lock_type, locked):
     with PERM_LOCK:
-        curr_perm = SESSION.query(Permissions).get(str(chat_id))
-        if not curr_perm:
-            curr_perm = init_permissions(chat_id)
+        curr_perm = SESSION.query(Permissions).get(str(chat_id)) or init_permissions(chat_id)
 
-        if lock_type == "audio":
+        if lock_type == "apk":
+            curr_perm.apk = locked
+        elif lock_type == "audio":
             curr_perm.audio = locked
-        elif lock_type == "voice":
-            curr_perm.voice = locked
-        elif lock_type == "contact":
-            curr_perm.contact = locked
-        elif lock_type == "video":
-            curr_perm.video = locked
-        elif lock_type == "document":
-            curr_perm.document = locked
-        elif lock_type == "photo":
-            curr_perm.photo = locked
-        elif lock_type == "sticker":
-            curr_perm.sticker = locked
-        elif lock_type == "gif":
-            curr_perm.gif = locked
-        elif lock_type == "url":
-            curr_perm.url = locked
         elif lock_type == "bots":
             curr_perm.bots = locked
+        elif lock_type == "button":
+            curr_perm.button = locked
+        elif lock_type == "contact":
+            curr_perm.contact = locked
+        elif lock_type in ["doc", "docx"]:
+            curr_perm.doc = locked
+        elif lock_type == "document":
+            curr_perm.document = locked
+        elif lock_type == "egame":
+            curr_perm.egame = locked
+        elif lock_type == "exe":
+            curr_perm.exe = locked
         elif lock_type == "forward":
             curr_perm.forward = locked
         elif lock_type == "game":
             curr_perm.game = locked
-        elif lock_type == "location":
-            curr_perm.location = locked
-        elif lock_type == "rtl":
-            curr_perm.rtl = locked
-        elif lock_type == "button":
-            curr_perm.button = locked
-        elif lock_type == "egame":
-            curr_perm.egame = locked
+        elif lock_type == "gif":
+            curr_perm.gif = locked
         elif lock_type == "inline":
             curr_perm.inline = locked
-        elif lock_type == "apk":
-            curr_perm.apk = locked
-        elif lock_type == "doc":
-            curr_perm.doc = locked
-        elif lock_type == "exe":
-            curr_perm.exe = locked
         elif lock_type == "jpg":
             curr_perm.jpg = locked
+        elif lock_type == "location":
+            curr_perm.location = locked
         elif lock_type == "mp3":
             curr_perm.mp3 = locked
         elif lock_type == "pdf":
             curr_perm.pdf = locked
-        elif lock_type == "txt":
-            curr_perm.txt = locked
-        elif lock_type == "xml":
-            curr_perm.xml = locked
-        elif lock_type == "zip":
-            curr_perm.zip = locked
-        elif lock_type == "docx":
-            curr_perm.doc = locked
+        elif lock_type == "photo":
+            curr_perm.photo = locked
         elif lock_type == "py":
             curr_perm.py = locked
+        elif lock_type == "rtl":
+            curr_perm.rtl = locked
+        elif lock_type == "sticker":
+            curr_perm.sticker = locked
         elif lock_type == "svg":
             curr_perm.svg = locked
         elif lock_type == "targz":
             curr_perm.tar = locked
+        elif lock_type == "txt":
+            curr_perm.txt = locked
+        elif lock_type == "url":
+            curr_perm.url = locked
+        elif lock_type == "video":
+            curr_perm.video = locked
+        elif lock_type == "voice":
+            curr_perm.voice = locked
         elif lock_type == "wav":
             curr_perm.wav = locked
 
+        elif lock_type == "xml":
+            curr_perm.xml = locked
+        elif lock_type == "zip":
+            curr_perm.zip = locked
         SESSION.add(curr_perm)
         SESSION.commit()
 
 
 def update_restriction(chat_id, restr_type, locked):
     with RESTR_LOCK:
-        curr_restr = SESSION.query(Restrictions).get(str(chat_id))
-        if not curr_restr:
-            curr_restr = init_restrictions(chat_id)
+        curr_restr = SESSION.query(Restrictions).get(str(chat_id)) or init_restrictions(chat_id)
 
         if restr_type == "messages":
             curr_restr.messages = locked
@@ -368,13 +362,11 @@ def get_restr(chat_id):
 
 def migrate_chat(old_chat_id, new_chat_id):
     with PERM_LOCK:
-        perms = SESSION.query(Permissions).get(str(old_chat_id))
-        if perms:
+        if perms := SESSION.query(Permissions).get(str(old_chat_id)):
             perms.chat_id = str(new_chat_id)
         SESSION.commit()
 
     with RESTR_LOCK:
-        rest = SESSION.query(Restrictions).get(str(old_chat_id))
-        if rest:
+        if rest := SESSION.query(Restrictions).get(str(old_chat_id)):
             rest.chat_id = str(new_chat_id)
         SESSION.commit()

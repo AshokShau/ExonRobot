@@ -88,9 +88,9 @@ if is_module_loaded(FILENAME):
                     command = fst_word[1:].split("@")
                     command.append(message.bot.username)
 
-                    if not (
-                        command[0].lower() in self.command
-                        and command[1].lower() == message.bot.username.lower()
+                    if (
+                        command[0].lower() not in self.command
+                        or command[1].lower() != message.bot.username.lower()
                     ):
                         return None
                     chat = update.effective_chat
@@ -98,18 +98,14 @@ if is_module_loaded(FILENAME):
                     user_id = chat.id if user.id == 1087968824 else user.id
                     if SpamChecker.check_user(user_id):
                         return None
-                    filter_result = self.filters(update)
-                    if filter_result:
+                    if filter_result := self.filters(update):
                         # disabled, admincmd, user admin
                         if sql.is_command_disabled(chat.id, command[0].lower()):
                             # check if command was disabled
                             is_disabled = command[0] in ADMIN_CMDS and is_user_admin(
                                 chat, user.id
                             )
-                            if not is_disabled:
-                                return None
-                            return args, filter_result
-
+                            return (args, filter_result) if is_disabled else None
                         return args, filter_result
                     return False
 
@@ -130,7 +126,7 @@ if is_module_loaded(FILENAME):
 
             try:
                 args = message.text.split()[1:]
-            except:
+            except Exception:
                 args = []
 
             if super().check_update(update):
@@ -153,13 +149,13 @@ if is_module_loaded(FILENAME):
     @user_admin
     def disable(update: Update, context: CallbackContext):
         args = context.args
-        chat = update.effective_chat
         if len(args) >= 1:
             disable_cmd = args[0]
             if disable_cmd.startswith(CMD_STARTERS):
                 disable_cmd = disable_cmd[1:]
 
             if disable_cmd in set(DISABLE_CMDS + DISABLE_OTHER):
+                chat = update.effective_chat
                 sql.disable_command(chat.id, str(disable_cmd).lower())
                 update.effective_message.reply_text(
                     f"Disabled the use of `{disable_cmd}`",
@@ -175,19 +171,18 @@ if is_module_loaded(FILENAME):
     @user_admin
     def disable_module(update: Update, context: CallbackContext):
         args = context.args
-        chat = update.effective_chat
         if len(args) >= 1:
             disable_module = "Exon.modules." + args[0].rsplit(".", 1)[0]
 
             try:
                 module = importlib.import_module(disable_module)
-            except:
+            except Exception:
                 update.effective_message.reply_text("Does that module even exist?")
                 return
 
             try:
                 command_list = module.__command_list__
-            except:
+            except Exception:
                 update.effective_message.reply_text(
                     "Module does not contain command list!",
                 )
@@ -196,6 +191,7 @@ if is_module_loaded(FILENAME):
             disabled_cmds = []
             failed_disabled_cmds = []
 
+            chat = update.effective_chat
             for disable_cmd in command_list:
                 if disable_cmd.startswith(CMD_STARTERS):
                     disable_cmd = disable_cmd[1:]
@@ -227,12 +223,12 @@ if is_module_loaded(FILENAME):
     @user_admin
     def enable(update: Update, context: CallbackContext):
         args = context.args
-        chat = update.effective_chat
         if len(args) >= 1:
             enable_cmd = args[0]
             if enable_cmd.startswith(CMD_STARTERS):
                 enable_cmd = enable_cmd[1:]
 
+            chat = update.effective_chat
             if sql.enable_command(chat.id, enable_cmd):
                 update.effective_message.reply_text(
                     f"Enabled the use of `{enable_cmd}`",
@@ -248,20 +244,18 @@ if is_module_loaded(FILENAME):
     @user_admin
     def enable_module(update: Update, context: CallbackContext):
         args = context.args
-        chat = update.effective_chat
-
         if len(args) >= 1:
             enable_module = "Exon.modules." + args[0].rsplit(".", 1)[0]
 
             try:
                 module = importlib.import_module(enable_module)
-            except:
+            except Exception:
                 update.effective_message.reply_text("Does that module even exist?")
                 return
 
             try:
                 command_list = module.__command_list__
-            except:
+            except Exception:
                 update.effective_message.reply_text(
                     "Module does not contain command list!",
                 )
@@ -269,6 +263,8 @@ if is_module_loaded(FILENAME):
 
             enabled_cmds = []
             failed_enabled_cmds = []
+
+            chat = update.effective_chat
 
             for enable_cmd in command_list:
                 if enable_cmd.startswith(CMD_STARTERS):
@@ -318,8 +314,8 @@ if is_module_loaded(FILENAME):
         if not disabled:
             return "No commands are disabled!"
 
-        result = "".join(" - `{}`\n".format(escape_markdown(cmd)) for cmd in disabled)
-        return "The following commands are currently restricted:\n{}".format(result)
+        result = "".join(f" - `{escape_markdown(cmd)}`\n" for cmd in disabled)
+        return f"The following commands are currently restricted:\n{result}"
 
     @connection_status
     def commands(update: Update, context: CallbackContext):

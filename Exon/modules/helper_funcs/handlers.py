@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 from pyrate_limiter import (
     BucketFullException,
     Duration,
@@ -35,7 +36,7 @@ from telegram.ext import CommandHandler, Filters, MessageHandler, RegexHandler
 import Exon.modules.sql.blacklistusers_sql as sql
 from Exon import ALLOW_EXCL, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES
 
-CMD_STARTERS = ("/", "!", "-", "?") if ALLOW_EXCL else ("/", "!", "-", "?")
+CMD_STARTERS = ("/", "!", "-", "?")
 
 
 class AntiSpam:
@@ -94,7 +95,7 @@ class CustomCommandHandler(CommandHandler):
 
         try:
             user_id = update.effective_user.id
-        except:
+        except Exception:
             user_id = None
 
         if user_id and sql.is_user_blacklisted(user_id):
@@ -110,15 +111,14 @@ class CustomCommandHandler(CommandHandler):
                 command.append(message.bot.username)
                 if user_id == 1087968824:
                     user_id = update.effective_chat.id
-                if not (
-                    command[0].lower() in self.command
-                    and command[1].lower() == message.bot.username.lower()
+                if (
+                    command[0].lower() not in self.command
+                    or command[1].lower() != message.bot.username.lower()
                 ):
                     return None
                 if SpamChecker.check_user(user_id):
                     return None
-                filter_result = self.filters(update)
-                if filter_result:
+                if filter_result := self.filters(update):
                     return args, filter_result
                 return False
 

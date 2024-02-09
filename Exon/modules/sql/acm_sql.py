@@ -52,8 +52,7 @@ CLEANLINKED_LOCK = threading.RLock()
 
 def getCleanLinked(chat_id):
     try:
-        resultObj = SESSION.query(CleanLinked).get(str(chat_id))
-        if resultObj:
+        if resultObj := SESSION.query(CleanLinked).get(str(chat_id)):
             return resultObj.status
         return False  # default
     finally:
@@ -62,8 +61,7 @@ def getCleanLinked(chat_id):
 
 def setCleanLinked(chat_id, status):
     with CLEANLINKED_LOCK:
-        prevObj = SESSION.query(CleanLinked).get(str(chat_id))
-        if prevObj:
+        if prevObj := SESSION.query(CleanLinked).get(str(chat_id)):
             SESSION.delete(prevObj)
         newObj = CleanLinked(str(chat_id), status)
         SESSION.add(newObj)

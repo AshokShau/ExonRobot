@@ -56,27 +56,21 @@ def set_antilinkedchannel(update: Update, context: CallbackContext):
                 sql.disable_pin(chat.id)
                 sql.enable_pin(chat.id)
                 message.reply_html(
-                    "ᴇɴᴀʙʟᴇᴅ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴅᴇʟᴇᴛɪᴏɴ ᴀɴᴅ ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {}".format(
-                        html.escape(chat.title)
-                    )
+                    f"ᴇɴᴀʙʟᴇᴅ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴅᴇʟᴇᴛɪᴏɴ ᴀɴᴅ ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}"
                 )
             else:
                 sql.enable_linked(chat.id)
-                message.reply_html(
-                    "ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ɪɴ {}".format(html.escape(chat.title))
-                )
+                message.reply_html(f"ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ɪɴ {html.escape(chat.title)}")
         elif s in ["off", "no"]:
             sql.disable_linked(chat.id)
             message.reply_html(
-                "ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ɪɴ {}".format(html.escape(chat.title))
+                f"ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ɪɴ {html.escape(chat.title)}"
             )
         else:
-            message.reply_text("ᴜɴʀᴇᴄᴏɢɴɪᴢᴇᴅ ᴀʀɢᴜᴍᴇɴᴛs {}".format(s))
+            message.reply_text(f"ᴜɴʀᴇᴄᴏɢɴɪᴢᴇᴅ ᴀʀɢᴜᴍᴇɴᴛs {s}")
         return
     message.reply_html(
-        "ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴅᴇʟᴇᴛɪᴏɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ {} ɪɴ {}".format(
-            sql.status_linked(chat.id), html.escape(chat.title)
-        )
+        f"ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴅᴇʟᴇᴛɪᴏɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ {sql.status_linked(chat.id)} ɪɴ {html.escape(chat.title)}"
     )
 
 
@@ -95,10 +89,9 @@ def eliminate_linked_channel_msg(update: Update, _: CallbackContext):
 @bot_admin
 @u_admin
 def antichannelmode(update: Update, context: CallbackContext):
-    args = context.args
     chat = update.effective_chat
     msg = update.effective_message
-    if args:
+    if args := context.args:
         if len(args) != 1:
             msg.reply_text("Invalid arguments!")
             return
@@ -120,10 +113,8 @@ def antichannelmode(update: Update, context: CallbackContext):
         msg.reply_text(
             "Your input was not recognised as one of: yes/no/on/off"
         )  # on or off ffs
-        return
     else:
-        stat = acm_sql.getCleanLinked(str(chat.id))
-        if stat:
+        if stat := acm_sql.getCleanLinked(str(chat.id)):
             msg.reply_text(
                 f"ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴘᴏsᴛ ᴅᴇʟᴇᴛɪᴏɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ *ᴇɴᴀʙʟᴇᴅ* ɪɴ {chat.title}. ᴍᴇssᴀɢᴇs sᴇɴᴛ ғʀᴏᴍ ᴛʜᴇ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ.",
                 parse_mode=ParseMode.MARKDOWN,
@@ -133,17 +124,16 @@ def antichannelmode(update: Update, context: CallbackContext):
             f"ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴘᴏsᴛ ᴅᴇʟᴇᴛɪᴏɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ *ᴅɪsᴀʙʟᴇᴅ* ɪɴ {chat.title}.",
             parse_mode=ParseMode.MARKDOWN,
         )
-        return
+    return
 
 
 def sfachat(update: Update, context: CallbackContext):
-    msg = update.effective_message
     user = update.effective_user
-    chat = update.effective_chat
-    bot = context.bot
     if user and user.id == 136817688:
-        cleanlinked = acm_sql.getCleanLinked(str(chat.id))
-        if cleanlinked:
+        msg = update.effective_message
+        chat = update.effective_chat
+        bot = context.bot
+        if cleanlinked := acm_sql.getCleanLinked(str(chat.id)):
             linked_group_channel = bot.get_chat(chat.id)
             lgc_id = linked_group_channel.linked_chat_id
             if str(update.message.sender_chat.id) == str(lgc_id):
@@ -186,27 +176,19 @@ def set_antipinchannel(update: Update, context: CallbackContext):
                 sql.disable_linked(chat.id)
                 sql.enable_pin(chat.id)
                 message.reply_html(
-                    "ᴅɪsᴀʙʟᴇᴅ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴅᴇʟᴇᴛɪᴏɴ ᴀɴᴅ ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {}".format(
-                        html.escape(chat.title)
-                    )
+                    f"ᴅɪsᴀʙʟᴇᴅ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴅᴇʟᴇᴛɪᴏɴ ᴀɴᴅ ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}"
                 )
             else:
                 sql.enable_pin(chat.id)
-                message.reply_html(
-                    "ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {}".format(html.escape(chat.title))
-                )
+                message.reply_html(f"ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}")
         elif s in ["off", "no"]:
             sql.disable_pin(chat.id)
-            message.reply_html(
-                "ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {}".format(html.escape(chat.title))
-            )
+            message.reply_html(f"ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}")
         else:
-            message.reply_text("ᴜɴʀᴇᴄᴏɢɴɪᴢᴇᴅ ᴀʀɢᴜᴍᴇɴᴛs {}".format(s))
+            message.reply_text(f"ᴜɴʀᴇᴄᴏɢɴɪᴢᴇᴅ ᴀʀɢᴜᴍᴇɴᴛs {s}")
         return
     message.reply_html(
-        "ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴍᴇssᴀɢᴇ ᴜɴᴘɪɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ {} ɪɴ {}".format(
-            sql.status_pin(chat.id), html.escape(chat.title)
-        )
+        f"ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ᴍᴇssᴀɢᴇ ᴜɴᴘɪɴ ɪs ᴄᴜʀʀᴇɴᴛʟʏ {sql.status_pin(chat.id)} ɪɴ {html.escape(chat.title)}"
     )
 
 

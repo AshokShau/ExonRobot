@@ -45,7 +45,7 @@ def paginate(iterable: Iterable, page_size: int) -> Generator[List, None, None]:
             itertools.islice(i1, page_size, None),
             list(itertools.islice(i2, page_size)),
         )
-        if len(page) == 0:
+        if not page:
             break
         yield page
 
@@ -54,7 +54,7 @@ def gs(chat_id: Union[int, str], string: str) -> str:
     try:
         lang = sql.get_chat_lang(chat_id)
         return get_string(lang, string)
-    except:
+    except Exception:
         return "ᴍᴇ ɴᴏᴡ ʙᴜsʏ ᴡʜᴇɴ ғʀᴇᴇ ᴀᴅᴅ ᴛʜɪs "
 
 
@@ -68,15 +68,13 @@ def set_lang(update: Update, _) -> None:
         get_language(sql.get_chat_lang(chat.id))[:-3]
     )
 
-    keyb = []
-    for code, name in get_languages().items():
-        keyb.append(
-            InlineKeyboardButton(
-                text=name,
-                callback_data=f"setLang_{code}",
-            )
+    keyb = [
+        InlineKeyboardButton(
+            text=name,
+            callback_data=f"setLang_{code}",
         )
-
+        for code, name in get_languages().items()
+    ]
     keyb = list(paginate(keyb, 2))
     keyb.append(
         [

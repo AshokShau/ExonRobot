@@ -91,7 +91,7 @@ def check_flood(update, context) -> Optional[str]:
         elif getmode == 4:
             bantime = extract_time(msg, getvalue)
             chat.ban_member(user.id, until_date=bantime)
-            execstrings = "ʙᴀɴɴᴇᴅ ғᴏʀ {}".format(getvalue)
+            execstrings = f"ʙᴀɴɴᴇᴅ ғᴏʀ {getvalue}"
             tag = "TBAN"
         elif getmode == 5:
             mutetime = extract_time(msg, getvalue)
@@ -101,34 +101,21 @@ def check_flood(update, context) -> Optional[str]:
                 until_date=mutetime,
                 permissions=ChatPermissions(can_send_messages=False),
             )
-            execstrings = "ᴍᴜᴛᴇᴅ ғᴏʀ {}".format(getvalue)
+            execstrings = f"ᴍᴜᴛᴇᴅ ғᴏʀ {getvalue}"
             tag = "TMUTE"
         send_message(
             update.effective_message,
-            "ᴡᴀɴɴᴀ sᴘᴀᴍ?! sᴏʀʀʏ ɪᴛ's ɴᴏᴛ ʏᴏᴜʀ ʜᴏᴜsᴇ ᴍᴀɴ!\n{}!".format(execstrings),
+            f"ᴡᴀɴɴᴀ sᴘᴀᴍ?! sᴏʀʀʏ ɪᴛ's ɴᴏᴛ ʏᴏᴜʀ ʜᴏᴜsᴇ ᴍᴀɴ!\n{execstrings}!",
         )
 
-        return (
-            "<b>{}:</b>"
-            "\n#{}"
-            "\n<b>ᴜsᴇʀ:</b> {}"
-            "\ɴғʟᴏᴏᴅᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ.".format(
-                html.escape(chat.title), tag, mention_html(user.id, user.first_name)
-            )
-        )
+        return f"<b>{html.escape(chat.title)}:</b>\n#{tag}\n<b>ᴜsᴇʀ:</b> {mention_html(user.id, user.first_name)}\ɴғʟᴏᴏᴅᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ."
 
     except BadRequest:
         msg.reply_text(
             "I ᴄᴀɴ'ᴛ ʀᴇsᴛʀɪᴄᴛ (ʙᴀɴ) ᴘᴇᴏᴘʟᴇ ʜᴇʀᴇ, ɢɪᴠᴇ ᴍᴇ ᴘᴇʀᴍɪssɪᴏɴs ғɪʀsᴛ! ᴜɴᴛɪʟ ᴛʜᴇɴ, I'ʟʟ ᴅɪsᴀʙʟᴇ ᴀɴᴛɪ-ғʟᴏᴏᴅ."
         )
         sql.set_flood(chat.id, 0)
-        return (
-            "<b>{}:</b>"
-            "\n#𝐀𝐋𝐄𝐑𝐓 !"
-            "\nᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴇɴᴏᴜɢʜ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs sᴏ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ ".format(
-                chat.title
-            )
-        )
+        return f"<b>{chat.title}:</b>\n#𝐀𝐋𝐄𝐑𝐓 !\nᴅᴏɴ'ᴛ ʜᴀᴠᴇ ᴇɴᴏᴜɢʜ ᴘᴇʀᴍɪssɪᴏɴ ᴛᴏ ʀᴇsᴛʀɪᴄᴛ ᴜsᴇʀs sᴏ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ "
 
 
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
@@ -159,9 +146,7 @@ def set_flood(update, context) -> str:
         if val in ("off", "no", "0"):
             sql.set_flood(chat_id, 0)
             if conn:
-                text = message.reply_text(
-                    "ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {}.".format(chat_name)
-                )
+                text = message.reply_text(f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}.")
             else:
                 text = message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
             send_message(update.effective_message, text, parse_mode="markdown")
@@ -171,19 +156,10 @@ def set_flood(update, context) -> str:
             if amount <= 0:
                 sql.set_flood(chat_id, 0)
                 if conn:
-                    text = message.reply_text(
-                        "ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {}.".format(chat_name)
-                    )
+                    text = message.reply_text(f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}.")
                 else:
                     text = message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
-                return (
-                    "<b>{}:</b>"
-                    "\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃"
-                    "\n<b>ᴀᴅᴍɪɴ:</b> {}"
-                    "\nᴅɪsᴀʙʟᴇ ᴀɴᴛɪғʟᴏᴏᴅ.".format(
-                        html.escape(chat_name), mention_html(user.id, user.first_name)
-                    )
-                )
+                return f"<b>{html.escape(chat_name)}:</b>\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\nᴅɪsᴀʙʟᴇ ᴀɴᴛɪғʟᴏᴏᴅ."
 
             if amount < 3:
                 send_message(
@@ -194,25 +170,14 @@ def set_flood(update, context) -> str:
             sql.set_flood(chat_id, amount)
             if conn:
                 text = message.reply_text(
-                    "ᴀɴᴛɪ-ғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ {} ɪɴ ᴄʜᴀᴛ: {}".format(
-                        amount, chat_name
-                    )
+                    f"ᴀɴᴛɪ-ғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ {amount} ɪɴ ᴄʜᴀᴛ: {chat_name}"
                 )
             else:
                 text = message.reply_text(
-                    "sᴜᴄᴄᴇssғᴜʟʟʏ ᴜᴘᴅᴀᴛᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴛᴏ {}!".format(amount)
+                    f"sᴜᴄᴄᴇssғᴜʟʟʏ ᴜᴘᴅᴀᴛᴇᴅ ᴀɴᴛɪ-ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴛᴏ {amount}!"
                 )
             send_message(update.effective_message, text, parse_mode="markdown")
-            return (
-                "<b>{}:</b>"
-                "\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃"
-                "\n<b>ᴀᴅᴍɪɴ:</b> {}"
-                "\nsᴇᴛ ᴀɴᴛɪғʟᴏᴏᴅ ᴛᴏ <code>{}</code>.".format(
-                    html.escape(chat_name),
-                    mention_html(user.id, user.first_name),
-                    amount,
-                )
-            )
+            return f"<b>{html.escape(chat_name)}:</b>\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\nsᴇᴛ ᴀɴᴛɪғʟᴏᴏᴅ ᴛᴏ <code>{amount}</code>."
 
         else:
             message.reply_text("ɪɴᴠᴀʟɪᴅ ᴀʀɢᴜᴍᴇɴᴛ ᴘʟᴇᴀsᴇ ᴜsᴇ ᴀ ɴᴜᴍʙᴇʀ, 'off' ᴏʀ 'no'")
@@ -249,22 +214,16 @@ def flood(update, context):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
         if conn:
-            text = msg.reply_text(
-                "I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ɪɴ {}!".format(chat_name)
-            )
+            text = msg.reply_text(f"I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ɪɴ {chat_name}!")
         else:
             text = msg.reply_text("I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ʜᴇʀᴇ!")
     elif conn:
         text = msg.reply_text(
-            "I'ᴍ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴍᴇᴍʙᴇʀs ᴀғᴛᴇʀ {} ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ᴍᴇssᴀɢᴇs ɪɴ {}.".format(
-                limit, chat_name
-            )
+            f"I'ᴍ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴇsᴛʀɪᴄᴛɪɴɢ ᴍᴇᴍʙᴇʀs ᴀғᴛᴇʀ {limit} ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ᴍᴇssᴀɢᴇs ɪɴ {chat_name}."
         )
     else:
         text = msg.reply_text(
-            "I'm currently restricting members after {} consecutive messages.".format(
-                limit
-            )
+            f"I'm currently restricting members after {limit} consecutive messages."
         )
     send_message(update.effective_message, text, parse_mode="markdown")
 
@@ -310,7 +269,7 @@ def set_flood_mode(update, context):
     ᴇxᴀᴍᴘʟᴇs ᴏғ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ: 4ᴍ = 4 ᴍɪɴᴜᴛᴇs, 3ʜ = 3 ʜᴏᴜʀs, 6ᴅ = 6 ᴅᴀʏs, 5ᴡ = 5 ᴡᴇᴇᴋs."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeflood = "ᴛʙᴀɴ ғᴏʀ {}".format(args[1])
+            settypeflood = f"ᴛʙᴀɴ ғᴏʀ {args[1]}"
             sql.set_flood_strength(chat_id, 4, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
@@ -318,7 +277,7 @@ def set_flood_mode(update, context):
     ᴇxᴀᴍᴘʟᴇs ᴏғ ᴛɪᴍᴇ ᴠᴀʟᴜᴇ: 4ᴍ = 4 ᴍɪɴᴜᴛᴇs, 3ʜ = 3 ʜᴏᴜʀs, 6d = 6 ᴅᴀʏs, 5ᴡ = 5 ᴡᴇᴇᴋs."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeflood = "ᴛᴍᴜᴛᴇ ғᴏʀ {}".format(args[1])
+            settypeflood = f"ᴛᴍᴜᴛᴇ ғᴏʀ {args[1]}"
             sql.set_flood_strength(chat_id, 5, str(args[1]))
         else:
             send_message(
@@ -327,26 +286,14 @@ def set_flood_mode(update, context):
             return
         if conn:
             text = msg.reply_text(
-                "ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {} ɪɴ {}!".format(
-                    settypeflood, chat_name
-                )
+                f"ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood} ɪɴ {chat_name}!"
             )
         else:
             text = msg.reply_text(
-                "ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {}!".format(
-                    settypeflood
-                )
+                f"ᴇxᴄᴇᴇᴅɪɴɢ ᴄᴏɴsᴇᴄᴜᴛɪᴠᴇ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood}!"
             )
         send_message(update.effective_message, text, parse_mode="markdown")
-        return (
-            "<b>{}:</b>\n"
-            "<b>ᴀᴅᴍɪɴ:</b> {}\n"
-            "ʜᴀs ᴄʜᴀɴɢᴇᴅ ᴀɴᴛɪғʟᴏᴏᴅ ᴍᴏᴅᴇ. ᴜsᴇʀ ᴡɪʟʟ {}.".format(
-                settypeflood,
-                html.escape(chat.title),
-                mention_html(user.id, user.first_name),
-            )
-        )
+        return f"<b>{settypeflood}:</b>\n<b>ᴀᴅᴍɪɴ:</b> {html.escape(chat.title)}\nʜᴀs ᴄʜᴀɴɢᴇᴅ ᴀɴᴛɪғʟᴏᴏᴅ ᴍᴏᴅᴇ. ᴜsᴇʀ ᴡɪʟʟ {mention_html(user.id, user.first_name)}."
     getmode, getvalue = sql.get_flood_setting(chat.id)
     if getmode == 1:
         settypeflood = "ʙᴀɴ"
@@ -355,20 +302,16 @@ def set_flood_mode(update, context):
     elif getmode == 3:
         settypeflood = "ᴍᴜᴛᴇ"
     elif getmode == 4:
-        settypeflood = "ᴛʙᴀɴ ғᴏʀ {}".format(getvalue)
+        settypeflood = f"ᴛʙᴀɴ ғᴏʀ {getvalue}"
     elif getmode == 5:
-        settypeflood = "ᴛᴍᴜᴛᴇ ғᴏʀ {}".format(getvalue)
+        settypeflood = f"ᴛᴍᴜᴛᴇ ғᴏʀ {getvalue}"
     if conn:
         text = msg.reply_text(
-            "sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇs ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {} ɪɴ {}.".format(
-                settypeflood, chat_name
-            )
+            f"sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇs ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood} ɪɴ {chat_name}."
         )
     else:
         text = msg.reply_text(
-            "sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇ ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {}.".format(
-                settypeflood
-            )
+            f"sᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴍᴇssᴀɢᴇ ᴛʜᴀɴ ғʟᴏᴏᴅ ʟɪᴍɪᴛ ᴡɪʟʟ ʀᴇsᴜʟᴛ ɪɴ {settypeflood}."
         )
     send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
     return ""
@@ -382,7 +325,7 @@ def __chat_settings__(chat_id, user_id):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
         return "ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴛᴏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ."
-    return "ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ`{}`.".format(limit)
+    return f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ sᴇᴛ ᴛᴏ`{limit}`."
 
 
 __mod_name__ = "𝐀-ғʟᴏᴏᴅ"

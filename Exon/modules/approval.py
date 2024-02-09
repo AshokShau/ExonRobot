@@ -76,14 +76,7 @@ def approve(update, context):
         f"[{member.user['first_name']}](tg://user?id={member.user['id']}) ʜᴀs ʙᴇᴇɴ ᴀᴘᴘʀᴏᴠᴇᴅ ɪɴ {chat_title}! ᴛʜᴇʏ ᴡɪʟʟ ɴᴏᴡ ʙᴇ ɪɢɴᴏʀᴇᴅ ʙʏ ᴀᴜᴛᴏᴍᴀᴛᴇᴅ ᴀᴅᴍɪɴ ᴀᴄᴛɪᴏɴs ʟɪᴋᴇ ʟᴏᴄᴋs, ʙʟᴏᴄᴋʟɪsᴛs, ᴀɴᴅ ᴀɴᴛɪғʟᴏᴏᴅ.",
         parse_mode=ParseMode.MARKDOWN,
     )
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#𝐀𝐏𝐏𝐑𝐎𝐕𝐄𝐃\n"
-        f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>ᴜsᴇʀ:</b> {mention_html(member.user.id, member.user.first_name)}"
-    )
-
-    return log_message
+    return f"<b>{html.escape(chat.title)}:</b>\n#𝐀𝐏𝐏𝐑𝐎𝐕𝐄𝐃\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n<b>ᴜsᴇʀ:</b> {mention_html(member.user.id, member.user.first_name)}"
 
 
 @loggable
@@ -114,14 +107,7 @@ def disapprove(update, context):
     message.reply_text(
         f"{member.user['first_name']} ɪs ɴᴏ ʟᴏɴɢᴇʀ ᴀᴘᴘʀᴏᴠᴇᴅ ɪɴ {chat_title}.",
     )
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#𝐔𝐍𝐀𝐏𝐏𝐑𝐎𝐕𝐄𝐃\n"
-        f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>ᴜsᴇʀ:</b> {mention_html(member.user.id, member.user.first_name)}"
-    )
-
-    return log_message
+    return f"<b>{html.escape(chat.title)}:</b>\n#𝐔𝐍𝐀𝐏𝐏𝐑𝐎𝐕𝐄𝐃\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n<b>ᴜsᴇʀ:</b> {mention_html(member.user.id, member.user.first_name)}"
 
 
 @user_admin

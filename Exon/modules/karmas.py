@@ -172,12 +172,8 @@ async def command_karma(_, message):
     else:
         user_id = message.reply_to_message.from_user.id
         karma = await get_karma(chat_id, await int_to_alpha(user_id))
-        if karma:
-            karma = karma["karma"]
-            await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
-        else:
-            karma = 0
-            await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
+        karma = karma["karma"] if karma else 0
+        await message.reply_text(f"**ᴛᴏᴛᴀʟ ᴘᴏɪɴᴛs**: __{karma}__")
 
 
 @abishnoi.on_cmd("karma", group_only=True)

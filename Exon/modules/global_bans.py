@@ -161,18 +161,13 @@ def gban(update: Update, context: CallbackContext):
             )
             return
 
-        old_reason = gban_db.update_gban_reason(
+        if old_reason := gban_db.update_gban_reason(
             user_id,
             user_chat.username or user_chat.first_name,
             reason,
-        )
-        if old_reason:
+        ):
             message.reply_text(
-                "This user is already gbanned, for the following reason:\n"
-                "<code>{}</code>\n"
-                "I've gone and updated it with your new reason!".format(
-                    html.escape(old_reason),
-                ),
+                f"This user is already gbanned, for the following reason:\n<code>{html.escape(old_reason)}</code>\nI've gone and updated it with your new reason!",
                 parse_mode=ParseMode.HTML,
             )
 
@@ -190,9 +185,9 @@ def gban(update: Update, context: CallbackContext):
     current_time = datetime.utcnow().strftime(datetime_fmt)
 
     if chat.type != "private":
-        chat_origin = "<b>{} ({})</b>\n".format(html.escape(chat.title), chat.id)
+        chat_origin = f"<b>{html.escape(chat.title)} ({chat.id})</b>\n"
     else:
-        chat_origin = "<b>{}</b>\n".format(chat.id)
+        chat_origin = f"<b>{chat.id}</b>\n"
 
     log_message = (
         f"#GBANNED\n"
@@ -260,7 +255,7 @@ def gban(update: Update, context: CallbackContext):
 
     if EVENT_LOGS:
         log.edit_text(
-            log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>",
+            f"{log_message}\n<b>Chats affected:</b> <code>{gbanned_chats}</code>",
             parse_mode=ParseMode.HTML,
         )
     else:
@@ -286,7 +281,7 @@ def gban(update: Update, context: CallbackContext):
             f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
             parse_mode=ParseMode.HTML,
         )
-    except:
+    except Exception:
         pass  # bot probably blocked by user
 
 
@@ -385,7 +380,7 @@ def ungban(update: Update, context: CallbackContext):
 
     if EVENT_LOGS:
         log.edit_text(
-            log_message + f"\n<b>Chats affected:</b> {ungbanned_chats}",
+            f"{log_message}\n<b>Chats affected:</b> {ungbanned_chats}",
             parse_mode=ParseMode.HTML,
         )
     else:
@@ -432,7 +427,7 @@ def check_and_ban(update, user_id, should_message=True):
     else:
         try:
             sw_ban = sw.get_ban(int(user_id))
-        except:
+        except Exception:
             sw_ban = None
 
     if sw_ban:
@@ -517,11 +512,7 @@ def gbanstat(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "Give me some arguments to choose a setting! on/off, yes/no!\n\n"
-            "Your current setting is: {}\n"
-            "When True, any gbans that happen will also happen in your group. "
-            "When False, they won't, leaving you at the possible mercy of "
-            "spammers.".format(gban_db.does_chat_gban(update.effective_chat.id)),
+            f"Give me some arguments to choose a setting! on/off, yes/no!\n\nYour current setting is: {gban_db.does_chat_gban(update.effective_chat.id)}\nWhen True, any gbans that happen will also happen in your group. When False, they won't, leaving you at the possible mercy of spammers."
         )
 
 
@@ -540,8 +531,7 @@ def clear_gbans(bot: Bot, update: Update):
             deleted += 1
             gban_db.ungban_user(id)
     update.message.reply_text(
-        "Done! `{}` deleted accounts were removed "
-        "from the gbanlist.".format(deleted),
+        f"Done! `{deleted}` deleted accounts were removed from the gbanlist.",
         parse_mode=ParseMode.MARKDOWN,
     )
 
@@ -560,8 +550,7 @@ def check_gbans(bot: Bot, update: Update):
             deleted += 1
     if deleted:
         update.message.reply_text(
-            "`{}` deleted accounts found in the gbanlist! "
-            "Run /cleangb to remove them from the database!".format(deleted),
+            f"`{deleted}` deleted accounts found in the gbanlist! Run /cleangb to remove them from the database!",
             parse_mode=ParseMode.MARKDOWN,
         )
     else:

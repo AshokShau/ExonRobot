@@ -152,10 +152,10 @@ def rmemes(update, context):
         return
     res = res.json()
 
-    rpage = res.get(str("subreddit"))  # Subreddit
-    title = res.get(str("title"))  # Post title
-    memeu = res.get(str("url"))  # meme pic url
-    plink = res.get(str("postLink"))
+    rpage = res.get("subreddit")
+    title = res.get("title")
+    memeu = res.get("url")
+    plink = res.get("postLink")
 
     caps = f"× <b>Title</b>: {title}\n"
     caps += f"× <b>Subreddit:</b> <pre>r/{rpage}</pre>"
@@ -207,25 +207,25 @@ def get_bot_ip(update, context):
 def system_status(update, context):
     uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
     status = "<b>======[ SYSTEM INFO ]======</b>\n\n"
-    status += "<b>System uptime:</b> <code>" + str(uptime) + "</code>\n"
+    status += f"<b>System uptime:</b> <code>{str(uptime)}" + "</code>\n"
 
     uname = platform.uname()
-    status += "<b>System:</b> <code>" + str(uname.system) + "</code>\n"
-    status += "<b>Node name:</b> <code>" + str(uname.node) + "</code>\n"
-    status += "<b>Release:</b> <code>" + str(uname.release) + "</code>\n"
-    status += "<b>Version:</b> <code>" + str(uname.version) + "</code>\n"
-    status += "<b>Machine:</b> <code>" + str(uname.machine) + "</code>\n"
-    status += "<b>Processor:</b> <code>" + str(uname.processor) + "</code>\n\n"
+    status += f"<b>System:</b> <code>{str(uname.system)}" + "</code>\n"
+    status += f"<b>Node name:</b> <code>{str(uname.node)}" + "</code>\n"
+    status += f"<b>Release:</b> <code>{str(uname.release)}" + "</code>\n"
+    status += f"<b>Version:</b> <code>{str(uname.version)}" + "</code>\n"
+    status += f"<b>Machine:</b> <code>{str(uname.machine)}" + "</code>\n"
+    status += f"<b>Processor:</b> <code>{str(uname.processor)}" + "</code>\n\n"
 
     mem = virtual_memory()
     cpu = cpu_percent()
     disk = disk_usage("/")
-    status += "<b>CPU usage:</b> <code>" + str(cpu) + " %</code>\n"
-    status += "<b>Ram usage:</b> <code>" + str(mem[2]) + " %</code>\n"
-    status += "<b>Storage used:</b> <code>" + str(disk[3]) + " %</code>\n\n"
-    status += "<b>Python version:</b> <code>" + python_version() + "</code>\n"
-    status += "<b>Library version:</b> <code>" + str(__version__) + "</code>\n"
-    status += "<b>Spamwatch API:</b> <code>" + str(__sw__) + "</code>\n"
+    status += f"<b>CPU usage:</b> <code>{str(cpu)}" + " %</code>\n"
+    status += f"<b>Ram usage:</b> <code>{str(mem[2])}" + " %</code>\n"
+    status += f"<b>Storage used:</b> <code>{str(disk[3])}" + " %</code>\n\n"
+    status += f"<b>Python version:</b> <code>{python_version()}" + "</code>\n"
+    status += f"<b>Library version:</b> <code>{str(__version__)}" + "</code>\n"
+    status += f"<b>Spamwatch API:</b> <code>{str(__sw__)}" + "</code>\n"
     context.bot.sendMessage(update.effective_chat.id, status, parse_mode=ParseMode.HTML)
 
 
@@ -234,7 +234,7 @@ def system_status(update, context):
 def wiki(update, context):
     Shinano = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
-    if len(str(Shinano[1])) == 0:
+    if not str(Shinano[1]):
         update.effective_message.reply_text(
             "Enter the keywords for searching to wikipedia!"
         )

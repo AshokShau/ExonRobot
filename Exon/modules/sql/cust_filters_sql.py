@@ -93,13 +93,13 @@ class CustomFilters(BASE):
         self.file_id = file_id
 
     def __repr__(self):
-        return "<Permissions for %s>" % self.chat_id
+        return f"<Permissions for {self.chat_id}>"
 
     def __eq__(self, other):
-        return bool(
+        return (
             isinstance(other, CustomFilters)
             and self.chat_id == other.chat_id
-            and self.keyword == other.keyword,
+            and self.keyword == other.keyword
         )
 
 
@@ -119,13 +119,13 @@ class NewCustomFilters(BASE):
         self.file_id = file_id
 
     def __repr__(self):
-        return "<Filter for %s>" % self.chat_id
+        return f"<Filter for {self.chat_id}>"
 
     def __eq__(self, other):
-        return bool(
+        return (
             isinstance(other, CustomFilters)
             and self.chat_id == other.chat_id
-            and self.keyword == other.keyword,
+            and self.keyword == other.keyword
         )
 
 
@@ -177,8 +177,7 @@ def add_filter(
         buttons = []
 
     with CUST_FILT_LOCK:
-        prev = SESSION.query(CustomFilters).get((str(chat_id), keyword))
-        if prev:
+        if prev := SESSION.query(CustomFilters).get((str(chat_id), keyword)):
             with BUTTON_LOCK:
                 prev_buttons = (
                     SESSION.query(Buttons)
@@ -220,8 +219,7 @@ def new_add_filter(chat_id, keyword, reply_text, file_type, file_id, buttons):
         buttons = []
 
     with CUST_FILT_LOCK:
-        prev = SESSION.query(CustomFilters).get((str(chat_id), keyword))
-        if prev:
+        if prev := SESSION.query(CustomFilters).get((str(chat_id), keyword)):
             with BUTTON_LOCK:
                 prev_buttons = (
                     SESSION.query(Buttons)
@@ -263,8 +261,7 @@ def new_add_filter(chat_id, keyword, reply_text, file_type, file_id, buttons):
 
 def remove_filter(chat_id, keyword):
     with CUST_FILT_LOCK:
-        filt = SESSION.query(CustomFilters).get((str(chat_id), keyword))
-        if filt:
+        if filt := SESSION.query(CustomFilters).get((str(chat_id), keyword)):
             if keyword in CHAT_FILTERS.get(str(chat_id), []):  # Sanity check
                 CHAT_FILTERS.get(str(chat_id), []).remove(keyword)
 
@@ -382,7 +379,7 @@ def __migrate_filters():
             else:
                 file_type = Types.TEXT
 
-            print(str(x.chat_id), x.keyword, x.reply, file_type.value)
+            print(x.chat_id, x.keyword, x.reply, file_type.value)
             if file_type == Types.TEXT:
                 filt = CustomFilters(
                     str(x.chat_id),
@@ -417,8 +414,7 @@ def migrate_chat(old_chat_id, new_chat_id):
         for filt in chat_filters:
             filt.chat_id = str(new_chat_id)
         SESSION.commit()
-        old_filt = CHAT_FILTERS.get(str(old_chat_id))
-        if old_filt:
+        if old_filt := CHAT_FILTERS.get(str(old_chat_id)):
             CHAT_FILTERS[str(new_chat_id)] = old_filt
             del CHAT_FILTERS[str(old_chat_id)]
 

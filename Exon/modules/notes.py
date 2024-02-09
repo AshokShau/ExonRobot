@@ -139,11 +139,10 @@ def get(update, context, notename, show_none=True, no_format=False):
                 "chatname",
                 "mention",
             ]
-            valid_format = escape_invalid_curly_brackets(
+            if valid_format := escape_invalid_curly_brackets(
                 note.value,
                 VALID_NOTE_FORMATTERS,
-            )
-            if valid_format:
+            ):
                 if not no_format and "%%%" in valid_format:
                     split = valid_format.split("%%%")
                     text = random.choice(split) if all(split) else valid_format
@@ -152,16 +151,20 @@ def get(update, context, notename, show_none=True, no_format=False):
                 text = text.format(
                     first=escape_markdown(message.from_user.first_name),
                     last=escape_markdown(
-                        message.from_user.last_name or message.from_user.first_name,
+                        message.from_user.last_name
+                        or message.from_user.first_name,
                     ),
                     fullname=escape_markdown(
                         " ".join(
-                            [message.from_user.first_name, message.from_user.last_name]
+                            [
+                                message.from_user.first_name,
+                                message.from_user.last_name,
+                            ]
                             if message.from_user.last_name
                             else [message.from_user.first_name],
                         ),
                     ),
-                    username="@" + message.from_user.username
+                    username=f"@{message.from_user.username}"
                     if message.from_user.username
                     else mention_markdown(
                         message.from_user.id,
@@ -439,12 +442,10 @@ def __import_data__(chat_id, data):
 
         if match:
             failures.append(notename)
-            notedata = notedata[match.end() :].strip()
-            if notedata:
+            if notedata := notedata[match.end() :].strip():
                 sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
         elif matchsticker:
-            content = notedata[matchsticker.end() :].strip()
-            if content:
+            if content := notedata[matchsticker.end() :].strip():
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -456,8 +457,7 @@ def __import_data__(chat_id, data):
             parse = notedata[matchbtn.end() :].strip()
             notedata = parse.split("<###button###>")[0]
             buttons = parse.split("<###button###>")[1]
-            buttons = ast.literal_eval(buttons)
-            if buttons:
+            if buttons := ast.literal_eval(buttons):
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -469,8 +469,7 @@ def __import_data__(chat_id, data):
             file = notedata[matchfile.end() :].strip()
             file = file.split("<###TYPESPLIT###>")
             notedata = file[1]
-            content = file[0]
-            if content:
+            if content := file[0]:
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -482,8 +481,7 @@ def __import_data__(chat_id, data):
             photo = notedata[matchphoto.end() :].strip()
             photo = photo.split("<###TYPESPLIT###>")
             notedata = photo[1]
-            content = photo[0]
-            if content:
+            if content := photo[0]:
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -495,8 +493,7 @@ def __import_data__(chat_id, data):
             audio = notedata[matchaudio.end() :].strip()
             audio = audio.split("<###TYPESPLIT###>")
             notedata = audio[1]
-            content = audio[0]
-            if content:
+            if content := audio[0]:
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -508,8 +505,7 @@ def __import_data__(chat_id, data):
             voice = notedata[matchvoice.end() :].strip()
             voice = voice.split("<###TYPESPLIT###>")
             notedata = voice[1]
-            content = voice[0]
-            if content:
+            if content := voice[0]:
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -521,8 +517,7 @@ def __import_data__(chat_id, data):
             video = notedata[matchvideo.end() :].strip()
             video = video.split("<###TYPESPLIT###>")
             notedata = video[1]
-            content = video[0]
-            if content:
+            if content := video[0]:
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -534,8 +529,7 @@ def __import_data__(chat_id, data):
             video_note = notedata[matchvn.end() :].strip()
             video_note = video_note.split("<###TYPESPLIT###>")
             notedata = video_note[1]
-            content = video_note[0]
-            if content:
+            if content := video_note[0]:
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],

@@ -60,8 +60,7 @@ def get_allclearcmd(chat_id):
 
 def get_clearcmd(chat_id, cmd):
     try:
-        clear_cmd = SESSION.query(ClearCmd).get((str(chat_id), cmd))
-        if clear_cmd:
+        if clear_cmd := SESSION.query(ClearCmd).get((str(chat_id), cmd)):
             return clear_cmd
         return False
     finally:
@@ -70,9 +69,7 @@ def get_clearcmd(chat_id, cmd):
 
 def set_clearcmd(chat_id, cmd, time):
     with CLEAR_CMD_LOCK:
-        clear_cmd = SESSION.query(ClearCmd).get((str(chat_id), cmd))
-        if not clear_cmd:
-            clear_cmd = ClearCmd(str(chat_id), cmd, time)
+        clear_cmd = SESSION.query(ClearCmd).get((str(chat_id), cmd)) or ClearCmd(str(chat_id), cmd, time)
 
         clear_cmd.time = time
         SESSION.add(clear_cmd)
@@ -81,8 +78,7 @@ def set_clearcmd(chat_id, cmd, time):
 
 def del_clearcmd(chat_id, cmd):
     with CLEAR_CMD_LOCK:
-        del_cmd = SESSION.query(ClearCmd).get((str(chat_id), cmd))
-        if del_cmd:
+        if del_cmd := SESSION.query(ClearCmd).get((str(chat_id), cmd)):
             SESSION.delete(del_cmd)
             SESSION.commit()
             return True
@@ -93,8 +89,11 @@ def del_clearcmd(chat_id, cmd):
 
 def del_allclearcmd(chat_id):
     with CLEAR_CMD_LOCK:
-        del_cmd = SESSION.query(ClearCmd).filter(ClearCmd.chat_id == str(chat_id)).all()
-        if del_cmd:
+        if (
+            del_cmd := SESSION.query(ClearCmd)
+            .filter(ClearCmd.chat_id == str(chat_id))
+            .all()
+        ):
             for cmd in del_cmd:
                 SESSION.delete(cmd)
                 SESSION.commit()

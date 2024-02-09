@@ -113,8 +113,7 @@ def get_chat_setting(chat_id: int) -> typing.Optional[LogChannelSettings]:
 
 def set_chat_setting(setting: LogChannelSettings):
     with LOGS_INSERTION_LOCK:
-        res: LogChannelSettings = SESSION.query(LogChannelSettings).get(setting.chat_id)
-        if res:
+        if res := SESSION.query(LogChannelSettings).get(setting.chat_id):
             res.log_warn = setting.log_warn
             res.log_action = setting.log_action
             res.log_report = setting.log_report
@@ -127,8 +126,7 @@ def set_chat_setting(setting: LogChannelSettings):
 
 def set_chat_log_channel(chat_id, log_channel):
     with LOGS_INSERTION_LOCK:
-        res = SESSION.query(GroupLogs).get(str(chat_id))
-        if res:
+        if res := SESSION.query(GroupLogs).get(str(chat_id)):
             res.log_channel = log_channel
         else:
             res = GroupLogs(chat_id, log_channel)
@@ -144,8 +142,7 @@ def get_chat_log_channel(chat_id):
 
 def stop_chat_logging(chat_id):
     with LOGS_INSERTION_LOCK:
-        res = SESSION.query(GroupLogs).get(str(chat_id))
-        if res:
+        if res := SESSION.query(GroupLogs).get(str(chat_id)):
             if str(chat_id) in CHANNELS:
                 del CHANNELS[str(chat_id)]
 
@@ -164,8 +161,7 @@ def num_logchannels():
 
 def migrate_chat(old_chat_id, new_chat_id):
     with LOGS_INSERTION_LOCK:
-        chat = SESSION.query(GroupLogs).get(str(old_chat_id))
-        if chat:
+        if chat := SESSION.query(GroupLogs).get(str(old_chat_id)):
             chat.chat_id = str(new_chat_id)
             SESSION.add(chat)
             if str(old_chat_id) in CHANNELS:

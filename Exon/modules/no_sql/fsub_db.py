@@ -33,10 +33,7 @@ fsub = db.force_sub
 
 
 def fs_settings(chat_id: int):
-    _x = fsub.find_one({"chat_id": chat_id})
-    if _x:
-        return _x
-    return None
+    return _x if (_x := fsub.find_one({"chat_id": chat_id})) else None
 
 
 def add_channel(chat_id: int, channel):

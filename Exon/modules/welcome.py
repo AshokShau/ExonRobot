@@ -206,14 +206,11 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
         media_wel = False
 
         if sw != None:
-            sw_ban = sw.get_ban(new_mem.id)
-            if sw_ban:
+            if sw_ban := sw.get_ban(new_mem.id):
                 return
 
         reply = update.message.message_id
-        cleanserv = sql.clean_service(chat.id)
-        # Clean service welcome
-        if cleanserv:
+        if cleanserv := sql.clean_service(chat.id):
             try:
                 dispatcher.bot.delete_message(chat.id, update.message.message_id)
             except BadRequest:
@@ -234,7 +231,6 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 )
                 continue
 
-            # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
                     "ᴡʜᴏᴀ! ᴛʜᴇ ᴅᴇꜱᴛʀᴏʏᴇʀꜱ ᴊᴜꜱᴛ ᴀʀʀɪᴠᴇᴅ!",
@@ -242,7 +238,6 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 )
                 continue
 
-            # Welcome Sudos
             elif new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
                     "ʜᴜʜ! ꜱʜᴀᴅᴏᴡ ꜱʟᴀʏᴇʀ ᴊᴜꜱᴛ ᴊᴏɪɴᴇᴅ! ꜱᴛᴀʏ ᴀʟᴇʀᴛ!",
@@ -250,7 +245,6 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 )
                 continue
 
-            # Welcome Support
             elif new_mem.id in DEMONS:
                 update.effective_message.reply_text(
                     "ʜᴜʜ! ꜱᴏᴍᴇᴏɴᴇ ᴡɪᴛʜ ɢᴜʀᴅɪᴀɴ ᴊᴜꜱᴛ ᴊᴏɪɴᴇᴅ!",
@@ -258,14 +252,12 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 )
                 continue
 
-            # Welcome SARDEGNA_USERS
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
                     "ᴏᴏꜰ! ᴀ ᴠɪʟʟᴀɪɴ ᴜꜱᴇʀ ᴊᴜꜱᴛ ᴊᴏɪɴᴇᴅ!", reply_to_message_id=reply
                 )
                 continue
 
-            # Welcome yourself
             elif new_mem.id == bot.id:
                 update.effective_message.reply_text(
                     f"ᴛʜᴀɴᴋꜱ ꜰᴏʀ ᴀᴅᴅɪɴɢ ᴍᴇ! ᴊᴏɪɴ @{AbishnoiMF} ꜰᴏʀ ꜱᴜᴘᴘᴏʀᴛ.",
@@ -297,7 +289,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     count = chat.get_member_count()
                     mention = mention_markdown(new_mem.id, escape_markdown(first_name))
                     if new_mem.username:
-                        username = "@" + escape_markdown(new_mem.username)
+                        username = f"@{escape_markdown(new_mem.username)}"
                     else:
                         username = mention
 
@@ -546,8 +538,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     )
             else:
                 sent = send(update, res, keyboard, backup_message)
-            prev_welc = sql.get_clean_pref(chat.id)
-            if prev_welc:
+            if prev_welc := sql.get_clean_pref(chat.id):
                 try:
                     bot.delete_message(chat.id, prev_welc)
                 except BadRequest:
@@ -585,9 +576,7 @@ def check_not_bot(
         except TelegramError:
             bot.delete_message(chat_id=chat_id, message_id=message_id)
             bot.send_message(
-                "{} ᴡᴀꜱ ᴋɪᴄᴋᴇᴅ ᴀꜱ ᴛʜᴇʏ ꜰᴀɪʟᴇᴅ ᴛᴏ ᴠᴀʀɪꜰʏ ᴛʜᴇᴍꜱᴇʟᴠᴇꜱ".format(
-                    mention_html(member.id, member.first_name)
-                ),
+                f"{mention_html(member.id, member.first_name)} ᴡᴀꜱ ᴋɪᴄᴋᴇᴅ ᴀꜱ ᴛʜᴇʏ ꜰᴀɪʟᴇᴅ ᴛᴏ ᴠᴀʀɪꜰʏ ᴛʜᴇᴍꜱᴇʟᴠᴇꜱ",
                 chat_id=chat_id,
                 parse_mode=ParseMode.HTML,
             )
@@ -604,9 +593,7 @@ def left_member(update: Update, context: CallbackContext):  # sourcery no-metric
         return
 
     reply = update.message.message_id
-    cleanserv = sql.clean_service(chat.id)
-    # Clean service welcome
-    if cleanserv:
+    if cleanserv := sql.clean_service(chat.id):
         try:
             dispatcher.bot.delete_message(chat.id, update.message.message_id)
         except BadRequest:
@@ -614,12 +601,10 @@ def left_member(update: Update, context: CallbackContext):  # sourcery no-metric
         reply = False
 
     if should_goodbye:
-        left_mem = update.effective_message.left_chat_member
-        if left_mem:
+        if left_mem := update.effective_message.left_chat_member:
             # Thingy for spamwatched users
             if sw:
-                sw_ban = sw.get_ban(left_mem.id)
-                if sw_ban:
+                if sw_ban := sw.get_ban(left_mem.id):
                     return
 
             # Dont say goodbyes to gbanned users
@@ -665,7 +650,7 @@ def left_member(update: Update, context: CallbackContext):  # sourcery no-metric
                 count = chat.get_member_count()
                 mention = mention_markdown(left_mem.id, first_name)
                 if left_mem.username:
-                    username = "@" + escape_markdown(left_mem.username)
+                    username = f"@{escape_markdown(left_mem.username)}"
                 else:
                     username = mention
 
@@ -996,8 +981,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
     user = update.effective_user
 
     if not args:
-        clean_pref = sql.get_clean_pref(chat.id)
-        if clean_pref:
+        if clean_pref := sql.get_clean_pref(chat.id):
             update.effective_message.reply_text(
                 "I should be deleting welcome messages up to two days old."
             )
@@ -1036,8 +1020,7 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
     args = context.args
     chat = update.effective_chat  # type: Optional[Chat]
     if chat.type == chat.PRIVATE:
-        curr = sql.clean_service(chat.id)
-        if curr:
+        if curr := sql.clean_service(chat.id):
             update.effective_message.reply_text(
                 "Welcome clean service is : on", parse_mode=ParseMode.MARKDOWN
             )
@@ -1072,7 +1055,7 @@ def user_button(update: Update, context: CallbackContext):
     bot = context.bot
     match = re.match(r"user_join_\((.+?)\)", query.data)
     message = update.effective_message
-    join_user = int(match.group(1))
+    join_user = int(match[1])
 
     if join_user == user.id:
         sql.set_human_checks(user.id, chat.id)
@@ -1095,7 +1078,7 @@ def user_button(update: Update, context: CallbackContext):
         )
         try:
             bot.deleteMessage(chat.id, message.message_id)
-        except:
+        except Exception:
             pass
         if member_dict["should_welc"]:
             if member_dict["media_wel"]:
@@ -1114,8 +1097,7 @@ def user_button(update: Update, context: CallbackContext):
                     member_dict["backup_message"],
                 )
 
-            prev_welc = sql.get_clean_pref(chat.id)
-            if prev_welc:
+            if prev_welc := sql.get_clean_pref(chat.id):
                 try:
                     bot.delete_message(chat.id, prev_welc)
                 except BadRequest:
@@ -1138,9 +1120,9 @@ def user_captcha_button(update: Update, context: CallbackContext):
     # print(query.data)
     match = re.match(r"user_captchajoin_\(([\d\-]+),(\d+)\)_\((\d{4})\)", query.data)
     message = update.effective_message
-    join_chat = int(match.group(1))
-    join_user = int(match.group(2))
-    captcha_ans = int(match.group(3))
+    join_chat = int(match[1])
+    join_user = int(match[2])
+    captcha_ans = int(match[3])
     join_usr_data = bot.getChat(join_user)
 
     if join_user == user.id:
@@ -1166,7 +1148,7 @@ def user_captcha_button(update: Update, context: CallbackContext):
             )
             try:
                 bot.deleteMessage(chat.id, message.message_id)
-            except:
+            except Exception:
                 pass
             if member_dict["should_welc"]:
                 if member_dict["media_wel"]:
@@ -1185,8 +1167,7 @@ def user_captcha_button(update: Update, context: CallbackContext):
                         member_dict["backup_message"],
                     )
 
-                prev_welc = sql.get_clean_pref(chat.id)
-                if prev_welc:
+                if prev_welc := sql.get_clean_pref(chat.id):
                     try:
                         bot.delete_message(chat.id, prev_welc)
                     except BadRequest:
@@ -1203,8 +1184,7 @@ def user_captcha_button(update: Update, context: CallbackContext):
             ❌ [{escape_markdown(join_usr_data.first_name)}](tg://user?id={join_user}) failed the captcha and was kicked.
             """
             query.answer(text="Wrong answer")
-            res = chat.unban_member(join_user)
-            if res:
+            if res := chat.unban_member(join_user):
                 bot.sendMessage(
                     chat_id=chat.id, text=kicked_msg, parse_mode=ParseMode.MARKDOWN
                 )
@@ -1321,10 +1301,7 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     welcome_pref = sql.get_welc_pref(chat_id)[0]
     goodbye_pref = sql.get_gdbye_pref(chat_id)[0]
-    return (
-        "This chat has it's welcome preference set to `{}`.\n"
-        "It's goodbye preference is `{}`.".format(welcome_pref, goodbye_pref)
-    )
+    return f"This chat has it's welcome preference set to `{welcome_pref}`.\nIt's goodbye preference is `{goodbye_pref}`."
 
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ

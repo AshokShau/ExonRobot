@@ -44,7 +44,7 @@ class LoggerSettings(BASE):
         self.setting = disabled
 
     def __repr__(self):
-        return "<Chat log setting {} ({})>".format(self.chat_id, self.setting)
+        return f"<Chat log setting {self.chat_id} ({self.setting})>"
 
 
 LoggerSettings.__table__.create(checkfirst=True)
@@ -54,9 +54,7 @@ LOG_SETTING_LOCK = threading.RLock()
 
 def enable_chat_log(chat_id):
     with LOG_SETTING_LOCK:
-        chat = SESSION.query(LoggerSettings).get(str(chat_id))
-        if not chat:
-            chat = LoggerSettings(chat_id, True)
+        chat = SESSION.query(LoggerSettings).get(str(chat_id)) or LoggerSettings(chat_id, True)
         chat.setting = True
         SESSION.add(chat)
         SESSION.commit()
@@ -64,9 +62,7 @@ def enable_chat_log(chat_id):
 
 def disable_chat_log(chat_id):
     with LOG_SETTING_LOCK:
-        chat = SESSION.query(LoggerSettings).get(str(chat_id))
-        if not chat:
-            chat = LoggerSettings(chat_id, False)
+        chat = SESSION.query(LoggerSettings).get(str(chat_id)) or LoggerSettings(chat_id, False)
 
         chat.setting = False
         SESSION.add(chat)
@@ -76,15 +72,12 @@ def disable_chat_log(chat_id):
 def does_chat_log(chat_id):
     with LOG_SETTING_LOCK:
         d = SESSION.query(LoggerSettings).get(str(chat_id))
-        if not d:
-            return False
-        return d.setting
+        return d.setting if d else False
 
 
 def migrate_chat(old_chat_id, new_chat_id):
     with LOG_SETTING_LOCK:
-        chat = SESSION.query(LoggerSettings).get(str(old_chat_id))
-        if chat:
+        if chat := SESSION.query(LoggerSettings).get(str(old_chat_id)):
             chat.chat_id = new_chat_id
             SESSION.add(chat)
 

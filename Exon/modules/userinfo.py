@@ -111,7 +111,7 @@ def get_readable_time(seconds: int) -> str:
     for x in range(len(time_list)):
         time_list[x] = str(time_list[x]) + time_suffix_list[x]
     if len(time_list) == 4:
-        ping_time += time_list.pop() + ", "
+        ping_time += f"{time_list.pop()}, "
 
     time_list.reverse()
     ping_time += ":".join(time_list)
@@ -162,9 +162,7 @@ def get_id(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     msg = update.effective_message
-    user_id = extract_user(msg, args)
-
-    if user_id:
+    if user_id := extract_user(msg, args):
         if msg.reply_to_message and msg.reply_to_message.forward_from:
             user1 = message.reply_to_message.from_user
             user2 = message.reply_to_message.forward_from
@@ -182,17 +180,16 @@ def get_id(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.HTML,
             )
 
-    else:
-        if chat.type == "private":
-            msg.reply_text(
-                f"⟃ ʏᴏᴜʀ ɪᴅ ɪꜱ <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
-            )
+    elif chat.type == "private":
+        msg.reply_text(
+            f"⟃ ʏᴏᴜʀ ɪᴅ ɪꜱ <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
+        )
 
-        else:
-            msg.reply_text(
-                f"⟃ <b>ᴜꜱᴇʀ:</b> {mention_html(msg.from_user.id, msg.from_user.first_name)}\n⟃ <b>ꜰʀᴏᴍ ᴜꜱᴇʀ ɪᴅ:</b> <code>{update.effective_message.from_user.id}</code>\n⟃ <b>ᴛʜɪꜱ ɢʀᴏᴜᴘ ɪᴅ:</b> <code>{chat.id}</code>",
-                parse_mode=ParseMode.HTML,
-            )
+    else:
+        msg.reply_text(
+            f"⟃ <b>ᴜꜱᴇʀ:</b> {mention_html(msg.from_user.id, msg.from_user.first_name)}\n⟃ <b>ꜰʀᴏᴍ ᴜꜱᴇʀ ɪᴅ:</b> <code>{update.effective_message.from_user.id}</code>\n⟃ <b>ᴛʜɪꜱ ɢʀᴏᴜᴘ ɪᴅ:</b> <code>{chat.id}</code>",
+            parse_mode=ParseMode.HTML,
+        )
 
 
 @Exon.on(
@@ -210,7 +207,7 @@ async def group_info(event) -> None:
             filter=ChannelParticipantsAdmins,
         )
         ch_full = await event.client(GetFullChannelRequest(channel=entity))
-    except:
+    except Exception:
         await event.reply(
             "Can't for some reason, maybe it is a private one or that I am banned there.",
         )
@@ -311,12 +308,11 @@ def info(update: Update, context: CallbackContext):
         text += f"\n\n<b>ʜᴇᴀʟᴛʜ:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
     try:
-        spamwtc = sw.get_ban(int(user.id))
-        if spamwtc:
+        if spamwtc := sw.get_ban(int(user.id)):
             text += "\n\n<b>ᴛʜɪs ᴘᴇʀsᴏɴ ɪs sᴘᴀᴍᴡᴀᴛᴄʜᴇᴅ!</b>"
             text += f"\nʀᴇᴀꜱᴏɴ: <pre>{spamwtc.reason}</pre>"
             text += "\nᴀᴘᴘᴇᴀʟ ᴀᴛ @AbishnoiMF"
-    except:
+    except Exception:
         pass  # don't crash if api is down somehow...
 
     disaster_level_present = False
@@ -430,9 +426,7 @@ def about_me(update: Update, context: CallbackContext):
     user_id = extract_user(message, args)
 
     user = bot.get_chat(user_id) if user_id else message.from_user
-    info = sql.get_user_me_info(user.id)
-
-    if info:
+    if info := sql.get_user_me_info(user.id):
         update.effective_message.reply_text(
             f"*{user.first_name}*:\n{escape_markdown(info)}",
             parse_mode=ParseMode.MARKDOWN,
@@ -475,10 +469,7 @@ def set_about_me(update: Update, context: CallbackContext):
                 message.reply_text("Information updated!")
         else:
             message.reply_text(
-                "The info needs to be under {} characters! You have {}.".format(
-                    MAX_MESSAGE_LENGTH // 4,
-                    len(info[1]),
-                ),
+                f"The info needs to be under {MAX_MESSAGE_LENGTH // 4} characters! You have {len(info[1])}."
             )
 
 
@@ -491,23 +482,23 @@ def stats(update, context):
     uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
     botuptime = get_readable_time((time.time() - StartTime))
     status = "*╒═══「 ꜱʏꜱᴛᴇᴍ ꜱᴛᴀᴛɪᴄꜱ: 」*\n\n"
-    status += "*× ꜱʏꜱᴛᴇᴍ ꜱᴛᴀʀᴛ ᴛɪᴍᴇ:* " + str(uptime) + "\n"
+    status += f"*× ꜱʏꜱᴛᴇᴍ ꜱᴛᴀʀᴛ ᴛɪᴍᴇ:* {str(uptime)}" + "\n"
     uname = platform.uname()
-    status += "*× ꜱʏꜱᴛᴇᴍ:* " + str(uname.system) + "\n"
-    status += "*× ɴᴏᴅᴇ ɴᴀᴍᴇ:* " + escape_markdown(str(uname.node)) + "\n"
-    status += "*× ʀᴇʟᴇᴀꜱᴇ:* " + escape_markdown(str(uname.release)) + "\n"
-    status += "*× ᴍᴀᴄʜɪɴᴇ:* " + escape_markdown(str(uname.machine)) + "\n"
+    status += f"*× ꜱʏꜱᴛᴇᴍ:* {str(uname.system)}" + "\n"
+    status += f"*× ɴᴏᴅᴇ ɴᴀᴍᴇ:* {escape_markdown(str(uname.node))}" + "\n"
+    status += f"*× ʀᴇʟᴇᴀꜱᴇ:* {escape_markdown(str(uname.release))}" + "\n"
+    status += f"*× ᴍᴀᴄʜɪɴᴇ:* {escape_markdown(str(uname.machine))}" + "\n"
 
     mem = virtual_memory()
     cpu = cpu_percent()
     disk = disk_usage("/")
-    status += "*× ᴄᴘᴜ:* " + str(cpu) + " %\n"
-    status += "*× ʀᴀᴍ:* " + str(mem[2]) + " %\n"
-    status += "*× ꜱᴛᴏʀᴀɢᴇ:* " + str(disk[3]) + " %\n\n"
-    status += "*× ᴘʏᴛʜᴏɴ ᴠᴇʀꜱɪᴏɴ:* " + python_version() + "\n"
-    status += "*× ᴘʏᴛʜᴏɴ-ᴛᴇʟᴇɢʀᴀᴍ-ʙᴏᴛ:* " + str(ptbver) + "\n"
-    status += "*× ᴜᴘᴛɪᴍᴇ:* " + str(botuptime) + "\n"
-    status += "*× ᴅʙ ꜱɪᴢᴇ:* " + str(db_size) + "\n"
+    status += f"*× ᴄᴘᴜ:* {str(cpu)}" + " %\n"
+    status += f"*× ʀᴀᴍ:* {str(mem[2])}" + " %\n"
+    status += f"*× ꜱᴛᴏʀᴀɢᴇ:* {str(disk[3])}" + " %\n\n"
+    status += f"*× ᴘʏᴛʜᴏɴ ᴠᴇʀꜱɪᴏɴ:* {python_version()}" + "\n"
+    status += f"*× ᴘʏᴛʜᴏɴ-ᴛᴇʟᴇɢʀᴀᴍ-ʙᴏᴛ:* {str(ptbver)}" + "\n"
+    status += f"*× ᴜᴘᴛɪᴍᴇ:* {str(botuptime)}" + "\n"
+    status += f"*× ᴅʙ ꜱɪᴢᴇ:* {str(db_size)}" + "\n"
     kb = [[InlineKeyboardButton("Ping", callback_data="pingCB")]]
     # repo = git.Repo(search_parent_directories=True)
     # sha = repo.head.object.hexsha
@@ -548,7 +539,7 @@ def pingCallback(update: Update, context: CallbackContext):
     requests.get("https://api.telegram.org")
     end_time = time.time()
     ping_time = round((end_time - start_time) * 1000, 3)
-    query.answer("ᴘᴏɴɢ 🌺! {}ms".format(ping_time))
+    query.answer(f"ᴘᴏɴɢ 🌺! {ping_time}ms")
 
 
 @Exoncmd(command="bio")
@@ -558,11 +549,9 @@ def about_bio(update: Update, context: CallbackContext):
 
     user_id = extract_user(message, args)
     user = bot.get_chat(user_id) if user_id else message.from_user
-    info = sql.get_user_bio(user.id)
-
-    if info:
+    if info := sql.get_user_bio(user.id):
         update.effective_message.reply_text(
-            "*{}*:\n{}".format(user.first_name, escape_markdown(info)),
+            f"*{user.first_name}*:\n{escape_markdown(info)}",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
         )
@@ -601,14 +590,10 @@ def about_bio(update: Update, context: CallbackContext):
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
-                message.reply_text(
-                    "ᴜᴘᴅᴀᴛᴇᴅ {}'ꜱ ʙɪᴏ!".format(repl_message.from_user.first_name)
-                )
+                message.reply_text(f"ᴜᴘᴅᴀᴛᴇᴅ {repl_message.from_user.first_name}'ꜱ ʙɪᴏ!")
             else:
                 message.reply_text(
-                    "ᴀ ʙɪᴏ ɴᴇᴇᴅꜱ ᴛᴏ ʙᴇ ᴜɴᴅᴇʀ {} ᴄʜᴀʀᴇᴄᴛᴇʀ! ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ ꜱᴇᴛ {}.".format(
-                        MAX_MESSAGE_LENGTH // 4, len(bio[1])
-                    )
+                    f"ᴀ ʙɪᴏ ɴᴇᴇᴅꜱ ᴛᴏ ʙᴇ ᴜɴᴅᴇʀ {MAX_MESSAGE_LENGTH // 4} ᴄʜᴀʀᴇᴄᴛᴇʀ! ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ ꜱᴇᴛ {len(bio[1])}."
                 )
     else:
         message.reply_text("ʀᴇᴘʟʏ ᴛᴏ ꜱᴏᴍᴇᴏɴᴇ'ꜱ ᴍᴇꜱꜱᴀɢᴇ ᴛᴏ ꜱᴇᴛ ᴛʜᴇɪʀ ʙɪᴏ!")
@@ -649,15 +634,10 @@ def set_about_bio(update: Update, context: CallbackContext):
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
-                message.reply_text(
-                    "Updated {}'s bio!".format(repl_message.from_user.first_name),
-                )
+                message.reply_text(f"Updated {repl_message.from_user.first_name}'s bio!")
             else:
                 message.reply_text(
-                    "ʙɪᴏ ɴᴇᴇᴅꜱ ᴛᴏ ᴜɴᴅᴇʀ {} ᴄʜᴀʀᴇᴄᴛᴇʀ! ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ ꜱᴇᴛ {}.".format(
-                        MAX_MESSAGE_LENGTH // 4,
-                        len(bio[1]),
-                    ),
+                    f"ʙɪᴏ ɴᴇᴇᴅꜱ ᴛᴏ ᴜɴᴅᴇʀ {MAX_MESSAGE_LENGTH // 4} ᴄʜᴀʀᴇᴄᴛᴇʀ! ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ ꜱᴇᴛ {len(bio[1])}."
                 )
     else:
         message.reply_text("ʀᴇᴘʟʏ ᴛᴏ ꜱᴏᴍᴇᴏɴᴇ ᴛᴏ ꜱᴇᴛ ᴛʜᴇɪʀ ʙɪᴏ!")

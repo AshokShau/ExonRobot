@@ -85,9 +85,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
             [
                 EqInlineKeyboardButton(
                     x.__mod_name__,
-                    callback_data="{}_module({})".format(
-                        prefix, x.__mod_name__.replace(" ", "_").lower()
-                    ),
+                    callback_data=f'{prefix}_module({x.__mod_name__.replace(" ", "_").lower()})',
                 )
                 for x in module_dict.values()
             ]
@@ -97,9 +95,7 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
             [
                 EqInlineKeyboardButton(
                     x.__mod_name__,
-                    callback_data="{}_module({},{})".format(
-                        prefix, chat, x.__mod_name__.replace(" ", "_").lower()
-                    ),
+                    callback_data=f'{prefix}_module({chat},{x.__mod_name__.replace(" ", "_").lower()})',
                 )
                 for x in module_dict.values()
             ]
@@ -127,19 +123,19 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
 
     # can only have a certain amount of buttons side by side
     if len(pairs) > COLUMN_SIZE:
-        pairs = pairs[modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)] + [
+        pairs = pairs[
+            modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)
+        ] + [
             (
                 EqInlineKeyboardButton(
-                    "☜",
-                    callback_data="{}_prev({})".format(prefix, modulo_page),
+                    "☜", callback_data=f"{prefix}_prev({modulo_page})"
                 ),
                 EqInlineKeyboardButton(
                     "ɢᴏ ʜᴏᴍᴇ",
                     callback_data="start_back",
                 ),
                 EqInlineKeyboardButton(
-                    "☞",
-                    callback_data="{}_next({})".format(prefix, modulo_page),
+                    "☞", callback_data=f"{prefix}_next({modulo_page})"
                 ),
             )
         ]
@@ -198,9 +194,9 @@ def build_keyboard(buttons):
 
 def revert_buttons(buttons):
     return "".join(
-        "\n[{}](buttonurl://{}:same)".format(btn.name, btn.url)
+        f"\n[{btn.name}](buttonurl://{btn.url}:same)"
         if btn.same_line
-        else "\n[{}](buttonurl://{})".format(btn.name, btn.url)
+        else f"\n[{btn.name}](buttonurl://{btn.url})"
         for btn in buttons
     )
 
@@ -209,7 +205,7 @@ def build_keyboard_parser(bot, chat_id, buttons):
     keyb = []
     for btn in buttons:
         if btn.url == "{rules}":
-            btn.url = "http://t.me/{}?start={}".format(bot.username, chat_id)
+            btn.url = f"http://t.me/{bot.username}?start={chat_id}"
         if btn.same_line and keyb:
             keyb[-1].append(InlineKeyboardButton(btn.name, url=btn.url))
         else:
@@ -226,7 +222,7 @@ def delete(delmsg, timer):
     sleep(timer)
     try:
         delmsg.delete()
-    except:
+    except Exception:
         return
 
 

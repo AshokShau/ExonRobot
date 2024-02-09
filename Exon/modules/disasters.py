@@ -48,9 +48,7 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
     if not user_id:
         return "That...is a chat! baka ka omae?"
 
-    if user_id == bot.id:
-        return "This does not work that way."
-    return None
+    return "This does not work that way." if user_id == bot.id else None
 
 
 @dev_plus
@@ -64,8 +62,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     user_member = bot.getChat(user_id)
     rt = ""
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -93,10 +90,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt
-        + "\nSuccessfully set Disaster level of {} to Shadow Slayer!".format(
-            user_member.first_name,
-        ),
+        f"{rt}\nSuccessfully set Disaster level of {user_member.first_name} to Shadow Slayer!"
     )
 
     log_message = (
@@ -106,7 +100,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     )
 
     if chat.type != "private":
-        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
     return log_message
 
@@ -125,8 +119,7 @@ def addsupport(
     user_member = bot.getChat(user_id)
     rt = ""
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -154,7 +147,7 @@ def addsupport(
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\n{user_member.first_name} was added as a Guardian!",
+        f"{rt}\n{user_member.first_name} was added as a Guardian!"
     )
 
     log_message = (
@@ -164,7 +157,7 @@ def addsupport(
     )
 
     if chat.type != "private":
-        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
     return log_message
 
@@ -180,8 +173,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
     user_member = bot.getChat(user_id)
     rt = ""
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -209,7 +201,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Villain!",
+        f"{rt}\nSuccessfully promoted {user_member.first_name} to a Villain!"
     )
 
     log_message = (
@@ -219,7 +211,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
     )
 
     if chat.type != "private":
-        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
     return log_message
 
@@ -235,8 +227,7 @@ def addtiger(update: Update, context: CallbackContext) -> str:
     user_member = bot.getChat(user_id)
     rt = ""
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -269,7 +260,7 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Light Shooters!",
+        f"{rt}\nSuccessfully promoted {user_member.first_name} to a Light Shooters!"
     )
 
     log_message = (
@@ -279,7 +270,7 @@ def addtiger(update: Update, context: CallbackContext) -> str:
     )
 
     if chat.type != "private":
-        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
     return log_message
 
@@ -294,8 +285,7 @@ def removesudo(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -317,7 +307,7 @@ def removesudo(update: Update, context: CallbackContext) -> str:
         )
 
         if chat.type != "private":
-            log_message = "<b>{}:</b>\n".format(html.escape(chat.title)) + log_message
+            log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
         return log_message
     message.reply_text("This user is not a Shadow Slayer!")
@@ -334,8 +324,7 @@ def removesupport(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -357,7 +346,7 @@ def removesupport(update: Update, context: CallbackContext) -> str:
         )
 
         if chat.type != "private":
-            log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+            log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
         return log_message
     message.reply_text("This user is not a Guardian!")
@@ -374,8 +363,7 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -397,7 +385,7 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
         )
 
         if chat.type != "private":
-            log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+            log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
         return log_message
     message.reply_text("This user is not a Villain!")
@@ -414,8 +402,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
-    reply = check_user_id(user_id, bot)
-    if reply:
+    if reply := check_user_id(user_id, bot):
         message.reply_text(reply)
         return ""
 
@@ -437,7 +424,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
         )
 
         if chat.type != "private":
-            log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+            log_message = f"<b>{html.escape(chat.title)}:</b>\n{log_message}"
 
         return log_message
     message.reply_text("This user is not a Light Shooters!")

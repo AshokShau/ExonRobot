@@ -91,7 +91,7 @@ class Quotly:
 
     async def _format_quote(self, event, reply=None, sender=None, type_="private"):
         async def telegraph(file_):
-            file = file_ + ".png"
+            file = f"{file_}.png"
             Image.open(file_).save(file, "PNG")
             files = {"file": open(file, "rb").read()}
             uri = (
@@ -169,17 +169,10 @@ class Quotly:
 
         return message
 
-    async def create_quotly(
-        self,
-        event,
-        url="https://qoute-api-akashpattnaik.koyeb.app/generate",
-        reply={},
-        bg=None,
-        sender=None,
-        OQAPI=True,
-        file_name="quote.webp",
-    ):
+    async def create_quotly(self, event, url="https://qoute-api-akashpattnaik.koyeb.app/generate", reply=None, bg=None, sender=None, OQAPI=True, file_name="quote.webp"):
         """Create quotely's quote."""
+        if reply is None:
+            reply = {}
         if not isinstance(event, list):
             event = [event]
         if OQAPI:
@@ -243,10 +236,10 @@ async def async_searcher(
 ):
     try:
         import aiohttp
-    except ImportError:
+    except ImportError as e:
         raise DependencyMissingError(
             "'aiohttp' is not installed!\nthis function requires aiohttp to be installed."
-        )
+        ) from e
     async with aiohttp.ClientSession(headers=headers) as client:
         if post:
             data = await client.post(
@@ -258,9 +251,7 @@ async def async_searcher(
             return await data.json()
         if re_content:
             return await data.read()
-        if real:
-            return data
-        return await data.text()
+        return data if real else await data.text()
 
 
 def _unquote_text(text):

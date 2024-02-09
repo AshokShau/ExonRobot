@@ -52,8 +52,7 @@ def blackliststicker(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     bot, args = context.bot, context.args
-    conn = connected(bot, update, chat, user.id, need_admin=False)
-    if conn:
+    if conn := connected(bot, update, chat, user.id, need_admin=False):
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -62,29 +61,28 @@ def blackliststicker(update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         chat_name = chat.title
 
-    sticker_list = "<b>ʟɪsᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴ {}:</b>\n".format(
-        chat_name,
-    )
+    sticker_list = f"<b>ʟɪsᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴ {chat_name}:</b>\n"
 
     all_stickerlist = sql.get_chat_stickers(chat_id)
 
     if len(args) > 0 and args[0].lower() == "copy":
         for trigger in all_stickerlist:
-            sticker_list += "<code>{}</code>\n".format(html.escape(trigger))
+            sticker_list += f"<code>{html.escape(trigger)}</code>\n"
     elif len(args) == 0:
         for trigger in all_stickerlist:
-            sticker_list += " - <code>{}</code>\n".format(html.escape(trigger))
+            sticker_list += f" - <code>{html.escape(trigger)}</code>\n"
 
     split_text = split_message(sticker_list)
     for text in split_text:
-        if sticker_list == "<b>ʟɪsᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴ {}:</b>\n".format(
-            chat_name,
-        ).format(html.escape(chat_name)):
+        if (
+            sticker_list
+            == f"<b>ʟɪsᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴ {chat_name}:</b>\n".format(
+                html.escape(chat_name)
+            )
+        ):
             send_message(
                 update.effective_message,
-                "ᴛʜᴇʀᴇ ᴀʀᴇ ɴᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs ɪɴ <b>{}</b>!".format(
-                    html.escape(chat_name),
-                ),
+                f"ᴛʜᴇʀᴇ ᴀʀᴇ ɴᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs ɪɴ <b>{html.escape(chat_name)}</b>!",
                 parse_mode=ParseMode.HTML,
             )
             return
@@ -99,8 +97,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
     user = update.effective_user  # type: Optional[User]
     words = msg.text.split(None, 1)
     bot = context.bot
-    conn = connected(bot, update, chat, user.id)
-    if conn:
+    if conn := connected(bot, update, chat, user.id):
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -124,7 +121,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
             except BadRequest:
                 send_message(
                     update.effective_message,
-                    "sᴛɪᴄᴋᴇʀ `{}` ᴄᴀɴ ɴᴏᴛ ʙᴇ ғᴏᴜɴᴅ!".format(trigger),
+                    f"sᴛɪᴄᴋᴇʀ `{trigger}` ᴄᴀɴ ɴᴏᴛ ʙᴇ ғᴏᴜɴᴅ!",
                     parse_mode="markdown",
                 )
 
@@ -134,19 +131,13 @@ def add_blackliststicker(update: Update, context: CallbackContext):
         if len(to_blacklist) == 1:
             send_message(
                 update.effective_message,
-                "sᴛɪᴄᴋᴇʀ <code>{}</code> ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs ɪɴ <b>{}</b>!".format(
-                    html.escape(to_blacklist[0]),
-                    html.escape(chat_name),
-                ),
+                f"sᴛɪᴄᴋᴇʀ <code>{html.escape(to_blacklist[0])}</code> ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs ɪɴ <b>{html.escape(chat_name)}</b>!",
                 parse_mode=ParseMode.HTML,
             )
         else:
             send_message(
                 update.effective_message,
-                "<code>{}</code> sᴛɪᴄᴋᴇʀs ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ɪɴ <b>{}</b>!".format(
-                    added,
-                    html.escape(chat_name),
-                ),
+                f"<code>{added}</code> sᴛɪᴄᴋᴇʀs ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ɪɴ <b>{html.escape(chat_name)}</b>!",
                 parse_mode=ParseMode.HTML,
             )
     elif msg.reply_to_message:
@@ -162,7 +153,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
         except BadRequest:
             send_message(
                 update.effective_message,
-                "sᴛɪᴄᴋᴇʀ `{}` ᴄᴀɴ ɴᴏᴛ ʙᴇ ғᴏᴜɴᴅ!".format(trigger),
+                f"sᴛɪᴄᴋᴇʀ `{trigger}` ᴄᴀɴ ɴᴏᴛ ʙᴇ ғᴏᴜɴᴅ!",
                 parse_mode="markdown",
             )
 
@@ -171,10 +162,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
 
         send_message(
             update.effective_message,
-            "sᴛɪᴄᴋᴇʀ <code>{}</code> ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs ɪɴ <b>{}</b>!".format(
-                trigger,
-                html.escape(chat_name),
-            ),
+            f"sᴛɪᴄᴋᴇʀ <code>{trigger}</code> ᴀᴅᴅᴇᴅ ᴛᴏ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs ɪɴ <b>{html.escape(chat_name)}</b>!",
             parse_mode=ParseMode.HTML,
         )
     else:
@@ -192,8 +180,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
     user = update.effective_user  # type: Optional[User]
     words = msg.text.split(None, 1)
     bot = context.bot
-    conn = connected(bot, update, chat, user.id)
-    if conn:
+    if conn := connected(bot, update, chat, user.id):
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -218,10 +205,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
             if successful:
                 send_message(
                     update.effective_message,
-                    "sᴛɪᴄᴋᴇʀ <code>{}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ ɪɴ <b>{}</b>!".format(
-                        html.escape(to_unblacklist[0]),
-                        html.escape(chat_name),
-                    ),
+                    f"sᴛɪᴄᴋᴇʀ <code>{html.escape(to_unblacklist[0])}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ ɪɴ <b>{html.escape(chat_name)}</b>!",
                     parse_mode=ParseMode.HTML,
                 )
             else:
@@ -233,10 +217,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
         elif successful == len(to_unblacklist):
             send_message(
                 update.effective_message,
-                "sᴛɪᴄᴋᴇʀ <code>{}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ ɪɴ <b>{}</b>!".format(
-                    successful,
-                    html.escape(chat_name),
-                ),
+                f"sᴛɪᴄᴋᴇʀ <code>{successful}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ ɪɴ <b>{html.escape(chat_name)}</b>!",
                 parse_mode=ParseMode.HTML,
             )
 
@@ -250,10 +231,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
         else:
             send_message(
                 update.effective_message,
-                "sᴛɪᴄᴋᴇʀ <code>{}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ. {} ᴅɪᴅ ɴᴏᴛ ᴇxɪsᴛ, sᴏ it's ɴᴏᴛ ᴅᴇʟᴇᴛᴇᴅ.".format(
-                    successful,
-                    len(to_unblacklist) - successful,
-                ),
+                f"sᴛɪᴄᴋᴇʀ <code>{successful}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ. {len(to_unblacklist) - successful} ᴅɪᴅ ɴᴏᴛ ᴇxɪsᴛ, sᴏ it's ɴᴏᴛ ᴅᴇʟᴇᴛᴇᴅ.",
                 parse_mode=ParseMode.HTML,
             )
     elif msg.reply_to_message:
@@ -261,21 +239,16 @@ def unblackliststicker(update: Update, context: CallbackContext):
         if trigger is None:
             send_message(update.effective_message, "sᴛɪᴄᴋᴇʀ ɪs ɪɴᴠᴀʟɪᴅ!")
             return
-        success = sql.rm_from_stickers(chat_id, trigger.lower())
-
-        if success:
+        if success := sql.rm_from_stickers(chat_id, trigger.lower()):
             send_message(
                 update.effective_message,
-                "sᴛɪᴄᴋᴇʀ <code>{}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ ɪɴ <b>{}</b>!".format(
-                    trigger,
-                    chat_name,
-                ),
+                f"sᴛɪᴄᴋᴇʀ <code>{trigger}</code> ᴅᴇʟᴇᴛᴇᴅ ғʀᴏᴍ ʙʟᴀᴄᴋʟɪsᴛ ɪɴ <b>{chat_name}</b>!",
                 parse_mode=ParseMode.HTML,
             )
         else:
             send_message(
                 update.effective_message,
-                "{} ɴᴏᴛ ғᴏᴜɴᴅ ᴏɴ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs...!".format(trigger),
+                f"{trigger} ɴᴏᴛ ғᴏᴜɴᴅ ᴏɴ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs...!",
             )
     else:
         send_message(
@@ -332,7 +305,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
                                               ᴇxᴀᴍᴘʟᴇs of time values: 4m = 4 ᴍɪɴᴜᴛᴇ, 3h = 3 ʜᴏᴜʀs, 6d = 6 ᴅᴀʏs, 5w = 5 ᴡᴇᴇᴋs."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeblacklist = "ᴛᴇᴍᴘᴏʀᴀʀʏ ʙᴀɴɴᴇᴅ ғᴏʀ {}".format(args[1])
+            settypeblacklist = f"ᴛᴇᴍᴘᴏʀᴀʀʏ ʙᴀɴɴᴇᴅ ғᴏʀ {args[1]}"
             sql.set_blacklist_strength(chat_id, 6, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
@@ -340,7 +313,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
                                               ᴇxᴀᴍᴘʟᴇs ᴏғ ᴛɪᴍᴇ ᴠᴀʟᴜᴇs: 4ᴍ = 4 ᴍɪɴᴜᴛᴇ, 3h = 3 ʜᴏᴜʀs, 6d = 6 ᴅᴀʏs, 5w = 5 ᴡᴇᴇᴋs."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeblacklist = "ᴛᴇᴍᴘᴏʀᴀʀʏ ᴍᴜᴛᴇᴅ ғᴏʀ {}".format(args[1])
+            settypeblacklist = f"ᴛᴇᴍᴘᴏʀᴀʀʏ ᴍᴜᴛᴇᴅ ғᴏʀ {args[1]}"
             sql.set_blacklist_strength(chat_id, 7, str(args[1]))
         else:
             send_message(
@@ -349,24 +322,11 @@ def blacklist_mode(update: Update, context: CallbackContext):
             )
             return
         if conn:
-            text = "ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ᴄʜᴀɴɢᴇᴅ, ᴜsᴇʀs ᴡɪʟʟ ʙᴇ `{}` ᴀᴛ *{}*!".format(
-                settypeblacklist,
-                chat_name,
-            )
+            text = f"ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ᴄʜᴀɴɢᴇᴅ, ᴜsᴇʀs ᴡɪʟʟ ʙᴇ `{settypeblacklist}` ᴀᴛ *{chat_name}*!"
         else:
-            text = "ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ᴄʜᴀɴɢᴇᴅ, ᴜsᴇʀs ᴡɪʟʟ ʙᴇ `{}`!".format(
-                settypeblacklist,
-            )
+            text = f"ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ᴄʜᴀɴɢᴇᴅ, ᴜsᴇʀs ᴡɪʟʟ ʙᴇ `{settypeblacklist}`!"
         send_message(update.effective_message, text, parse_mode="markdown")
-        return (
-            "<b>{}:</b>\n"
-            "<b>ᴀᴅᴍɪɴ:</b> {}\n"
-            "ᴄʜᴀɴɢᴇᴅ sᴛɪᴄᴋᴇʀ ʙʟᴀᴄᴋʟɪsᴛ ᴍᴏᴅᴇ. ᴜsᴇʀs ᴡɪʟʟ ʙᴇ {}.".format(
-                html.escape(chat.title),
-                mention_html(user.id, html.escape(user.first_name)),
-                settypeblacklist,
-            )
-        )
+        return f"<b>{html.escape(chat.title)}:</b>\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\nᴄʜᴀɴɢᴇᴅ sᴛɪᴄᴋᴇʀ ʙʟᴀᴄᴋʟɪsᴛ ᴍᴏᴅᴇ. ᴜsᴇʀs ᴡɪʟʟ ʙᴇ {settypeblacklist}."
     getmode, getvalue = sql.get_blacklist_setting(chat.id)
     if getmode == 0:
         settypeblacklist = "ɴᴏᴛ ᴀᴄᴛɪᴠᴇ"
@@ -381,18 +341,13 @@ def blacklist_mode(update: Update, context: CallbackContext):
     elif getmode == 5:
         settypeblacklist = "ʙᴀɴ"
     elif getmode == 6:
-        settypeblacklist = "ᴛᴇᴍᴘᴏʀᴀʀɪʟʏ ʙᴀɴɴᴇᴅ ғᴏʀ {}".format(getvalue)
+        settypeblacklist = f"ᴛᴇᴍᴘᴏʀᴀʀɪʟʏ ʙᴀɴɴᴇᴅ ғᴏʀ {getvalue}"
     elif getmode == 7:
-        settypeblacklist = "ᴛᴇᴍᴘᴏʀᴀʀɪʟʏ ᴍᴜᴛᴇᴅ ғᴏʀ {}".format(getvalue)
+        settypeblacklist = f"ᴛᴇᴍᴘᴏʀᴀʀɪʟʏ ᴍᴜᴛᴇᴅ ғᴏʀ {getvalue}"
     if conn:
-        text = "ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ sᴇᴛ ᴛᴏ *{}* ɪɴ *{}*.".format(
-            settypeblacklist,
-            chat_name,
-        )
+        text = f"ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ sᴇᴛ ᴛᴏ *{settypeblacklist}* ɪɴ *{chat_name}*."
     else:
-        text = "ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ sᴇᴛ ᴛᴏ *{}*.".format(
-            settypeblacklist,
-        )
+        text = f"ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀ ᴍᴏᴅᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ sᴇᴛ ᴛᴏ *{settypeblacklist}*."
     send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
     return ""
 
@@ -426,12 +381,9 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     warn(
                         update.effective_user,
                         chat,
-                        "ᴜsɪɴɢ sᴛɪᴄᴋᴇʀ '{}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs".format(
-                            trigger,
-                        ),
+                        f"ᴜsɪɴɢ sᴛɪᴄᴋᴇʀ '{trigger}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs",
                         message,
                         update.effective_user,
-                        # conn=False,
                     )
                     return
                 elif getmode == 3:
@@ -443,23 +395,16 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     )
                     bot.sendMessage(
                         chat.id,
-                        "{} ᴍᴜᴛᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs".format(
-                            mention_markdown(user.id, user.first_name),
-                            trigger,
-                        ),
+                        f"{mention_markdown(user.id, user.first_name)} ᴍᴜᴛᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{trigger}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs",
                         parse_mode="markdown",
                     )
                     return
                 elif getmode == 4:
                     message.delete()
-                    res = chat.unban_member(update.effective_user.id)
-                    if res:
+                    if res := chat.unban_member(update.effective_user.id):
                         bot.sendMessage(
                             chat.id,
-                            "{} ᴋɪᴄᴋᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs".format(
-                                mention_markdown(user.id, user.first_name),
-                                trigger,
-                            ),
+                            f"{mention_markdown(user.id, user.first_name)} ᴋɪᴄᴋᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{trigger}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs",
                             parse_mode="markdown",
                         )
                     return
@@ -468,10 +413,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     chat.ban_member(user.id)
                     bot.sendMessage(
                         chat.id,
-                        "{} ʙᴀɴɴᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs".format(
-                            mention_markdown(user.id, user.first_name),
-                            trigger,
-                        ),
+                        f"{mention_markdown(user.id, user.first_name)} ʙᴀɴɴᴇᴅ ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{trigger}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs",
                         parse_mode="markdown",
                     )
                     return
@@ -481,11 +423,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     chat.ban_member(user.id, until_date=bantime)
                     bot.sendMessage(
                         chat.id,
-                        "{} ʙᴀɴɴᴇᴅ ғᴏʀ {} ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs".format(
-                            mention_markdown(user.id, user.first_name),
-                            value,
-                            trigger,
-                        ),
+                        f"{mention_markdown(user.id, user.first_name)} ʙᴀɴɴᴇᴅ ғᴏʀ {value} ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{trigger}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs",
                         parse_mode="markdown",
                     )
                     return
@@ -500,11 +438,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     )
                     bot.sendMessage(
                         chat.id,
-                        "{} ᴍᴜᴛᴇᴅ ғᴏʀ {} ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs".format(
-                            mention_markdown(user.id, user.first_name),
-                            value,
-                            trigger,
-                        ),
+                        f"{mention_markdown(user.id, user.first_name)} ᴍᴜᴛᴇᴅ ғᴏʀ {value} ʙᴇᴄᴀᴜsᴇ ᴜsɪɴɢ '{trigger}' ᴡʜɪᴄʜ ɪɴ ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs",
                         parse_mode="markdown",
                     )
                     return
@@ -527,14 +461,11 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     blacklisted = sql.num_stickers_chat_filters(chat_id)
-    return "ᴛʜᴇʀᴇ ᴀʀᴇ `{} `ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs.".format(blacklisted)
+    return f"ᴛʜᴇʀᴇ ᴀʀᴇ `{blacklisted} `ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs."
 
 
 def __stats__():
-    return "⍟ {} ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs, ᴀᴄʀᴏss {} ᴄʜᴀᴛs.".format(
-        sql.num_stickers_filters(),
-        sql.num_stickers_filter_chats(),
-    )
+    return f"⍟ {sql.num_stickers_filters()} ʙʟᴀᴄᴋʟɪsᴛ sᴛɪᴄᴋᴇʀs, ᴀᴄʀᴏss {sql.num_stickers_filter_chats()} ᴄʜᴀᴛs."
 
 
 __mod_name__ = "𝐒-ʙʟɪsᴛ"

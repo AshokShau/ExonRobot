@@ -152,14 +152,9 @@ def chats(update: Update, context: CallbackContext):
             curr_chat = context.bot.getChat(chat.chat_id)
             curr_chat.get_member(context.bot.id)
             chat_members = curr_chat.get_member_count(context.bot.id)
-            chatfile += "{}. {} | {} | {}\n".format(
-                P,
-                chat.chat_name,
-                chat.chat_id,
-                chat_members,
-            )
+            chatfile += f"{P}. {chat.chat_name} | {chat.chat_id} | {chat_members}\n"
             P += 1
-        except:
+        except Exception:
             pass
 
     with BytesIO(str.encode(chatfile)) as output:

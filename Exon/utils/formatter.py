@@ -38,7 +38,7 @@ def get_readable_time(seconds: int) -> str:
     for i in range(len(time_list)):
         time_list[i] = str(time_list[i]) + time_suffix_list[i]
     if len(time_list) == 4:
-        ping_time += time_list.pop() + ", "
+        ping_time += f"{time_list.pop()}, "
     time_list.reverse()
     ping_time += ":".join(time_list)
     return ping_time
@@ -46,7 +46,7 @@ def get_readable_time(seconds: int) -> str:
 
 # Convert seconds to mm:ss @AbishnoiMF
 async def convert_seconds_to_minutes(seconds: int):
-    seconds = int(seconds)
+    seconds = seconds
     seconds %= 24 * 3600
     seconds %= 3600
     minutes = seconds // 60

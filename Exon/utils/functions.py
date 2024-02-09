@@ -62,8 +62,7 @@ async def restart(m: Message):
 
 async def download_url(url: str):
     loop = get_running_loop()
-    file = await loop.run_in_executor(None, download, url)
-    return file
+    return await loop.run_in_executor(None, download, url)
 
 
 def generate_captcha():
@@ -138,8 +137,7 @@ async def get_http_status_code(url: str) -> int:
 
 async def make_carbon(code):
     carbon = Carbon(code=code)
-    image = await carbon.save(str(randint(1000, 10000)))
-    return image
+    return await carbon.save(str(randint(1000, 10000)))
 
 
 async def transfer_sh(file):
@@ -183,7 +181,7 @@ def get_urls_from_text(text: str) -> bool:
                 [.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(
                 \([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\
                 ()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))""".strip()
-    return [x[0] for x in findall(regex, str(text))]
+    return [x[0] for x in findall(regex, text)]
 
 
 async def time_converter(message: Message, time_value: str) -> int:
@@ -228,9 +226,7 @@ async def extract_userid(message, text: str):
     entity = entities[1]
     if entity.type == "mention":
         return (await app.get_users(text)).id
-    if entity.type == "text_mention":
-        return entity.user.id
-    return None
+    return entity.user.id if entity.type == "text_mention" else None
 
 
 async def extract_user_and_reason(message):
@@ -243,10 +239,7 @@ async def extract_user_and_reason(message):
         # if reply to a message and no reason is given
         if not reply.from_user:
             return None, None
-        if len(args) < 2:
-            reason = None
-        else:
-            reason = text.split(None, 1)[1]
+        reason = None if len(args) < 2 else text.split(None, 1)[1]
         return reply.from_user.id, reason
 
     # if not reply to a message and no reason is given
@@ -311,11 +304,8 @@ def extract_text_and_keyb(ikb, text: str, row_width: int = 2):
     keyboard = {}
     try:
         text = text.strip()
-        if text.startswith("`"):
-            text = text[1:]
-        if text.endswith("`"):
-            text = text[:-1]
-
+        text = text.removeprefix("`")
+        text = text.removesuffix("`")
         text, keyb = text.split("~")
 
         keyb = findall(r"\[.+\,.+\]", keyb)
@@ -338,7 +328,4 @@ async def get_user_id_and_usernames(client) -> dict:
         users = client.storage.conn.execute(
             'SELECT * FROM peers WHERE type in ("user", "bot") AND username NOT null'
         ).fetchall()
-    users_ = {}
-    for user in users:
-        users_[user[0]] = user[3]
-    return users_
+    return {user[0]: user[3] for user in users}

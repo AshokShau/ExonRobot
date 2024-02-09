@@ -90,9 +90,7 @@ def mute(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
 
     user_id, reason = extract_user_and_text(message, args)
-    reply = check_user(user_id, bot, update)
-
-    if reply:
+    if reply := check_user(user_id, bot, update):
         message.reply_text(reply)
         return ""
 
@@ -123,9 +121,11 @@ def mute(update: Update, context: CallbackContext) -> str:
                 [
                     InlineKeyboardButton(
                         text="⚠️ Unmute",
-                        callback_data="unmute_({})".format(member.user.id),
+                        callback_data=f"unmute_({member.user.id})",
                     ),
-                    InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
+                    InlineKeyboardButton(
+                        text="❌ Delete", callback_data="close2"
+                    ),
                 ]
             ]
         )
@@ -225,9 +225,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
 
     user_id, reason = extract_user_and_text(message, args)
-    reply = check_user(user_id, bot, update)
-
-    if reply:
+    if reply := check_user(user_id, bot, update):
         message.reply_text(reply)
         return ""
 
@@ -275,9 +273,11 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                     [
                         InlineKeyboardButton(
                             text="⚠️ Unmute",
-                            callback_data="unmute_({})".format(member.user.id),
+                            callback_data=f"unmute_({member.user.id})",
                         ),
-                        InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
+                        InlineKeyboardButton(
+                            text="❌ Delete", callback_data="close2"
+                        ),
                     ]
                 ]
             )
@@ -318,9 +318,8 @@ def button(update: Update, context: CallbackContext) -> str:
     query: Optional[CallbackQuery] = update.callback_query
     user: Optional[User] = update.effective_user
     bot: Optional[Bot] = context.bot
-    match = re.match(r"unmute_\((.+?)\)", query.data)
-    if match:
-        user_id = match.group(1)
+    if match := re.match(r"unmute_\((.+?)\)", query.data):
+        user_id = match[1]
         chat: Optional[Chat] = update.effective_chat
         member = chat.get_member(user_id)
         chat_permissions = ChatPermissions(
@@ -333,8 +332,9 @@ def button(update: Update, context: CallbackContext) -> str:
             can_send_other_messages=True,
             can_add_web_page_previews=True,
         )
-        unmuted = bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
-        if unmuted:
+        if unmuted := bot.restrict_chat_member(
+            chat.id, int(user_id), chat_permissions
+        ):
             update.effective_message.edit_text(
                 f"Yep! User {mention_html(member.user.id, member.user.first_name)} can start talking again in {chat.title}!",
                 parse_mode=ParseMode.HTML,

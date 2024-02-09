@@ -52,19 +52,17 @@ def chat_join_req(upd: Update, ctx: CallbackContext):
         [
             [
                 InlineKeyboardButton(
-                    "ᴀᴘᴘʀᴏᴠᴇ", callback_data="cb_approve={}".format(user.id)
+                    "ᴀᴘᴘʀᴏᴠᴇ", callback_data=f"cb_approve={user.id}"
                 ),
                 InlineKeyboardButton(
-                    "ᴅᴇᴄʟɪɴᴇ", callback_data="cb_decline={}".format(user.id)
+                    "ᴅᴇᴄʟɪɴᴇ", callback_data=f"cb_decline={user.id}"
                 ),
             ]
         ]
     )
     bot.send_message(
         chat.id,
-        "{} ᴡᴀɴᴛs ᴛᴏ ᴊᴏɪɴ {}".format(
-            mention_html(user.id, user.first_name), chat.title or "this chat"
-        ),
+        f'{mention_html(user.id, user.first_name)} ᴡᴀɴᴛs ᴛᴏ ᴊᴏɪɴ {chat.title or "this chat"}',
         reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
@@ -81,21 +79,14 @@ def approve_joinreq(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     match = re.match(r"cb_approve=(.+)", query.data)
 
-    user_id = match.group(1)
+    user_id = match[1]
     try:
         bot.approve_chat_join_request(chat.id, user_id)
         update.effective_message.edit_text(
             f"ᴊᴏɪɴ ʀᴇǫᴜᴇsᴛ ᴀᴘᴘʀᴏᴠᴇᴅ ʙʏ {mention_html(user.id, user.first_name)}.",
             parse_mode="HTML",
         )
-        logmsg = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#𝐉𝐎𝐈𝐍_𝐑𝐄𝐐𝐔𝐄𝐒𝐓\n"
-            f"ᴀᴘᴘʀᴏᴠᴇᴅ\n"
-            f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-            f"<b>ᴜsᴇʀ:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
-        )
-        return logmsg
+        return f"<b>{html.escape(chat.title)}:</b>\n#𝐉𝐎𝐈𝐍_𝐑𝐄𝐐𝐔𝐄𝐒𝐓\nᴀᴘᴘʀᴏᴠᴇᴅ\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\n<b>ᴜsᴇʀ:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
     except Exception as e:
         update.effective_message.edit_text(str(e))
 
@@ -111,21 +102,14 @@ def decline_joinreq(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     match = re.match(r"cb_decline=(.+)", query.data)
 
-    user_id = match.group(1)
+    user_id = match[1]
     try:
         bot.decline_chat_join_request(chat.id, user_id)
         update.effective_message.edit_text(
             f"ᴊᴏɪɴ ʀᴇǫᴜᴇsᴛ ᴅᴇᴄʟɪɴᴇᴅ ʙʏ {mention_html(user.id, user.first_name)}.",
             parse_mode="HTML",
         )
-        logmsg = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#𝐉𝐎𝐈𝐍_𝐑𝐄𝐐𝐔𝐄𝐒𝐓\n"
-            f"ᴅᴇᴄʟɪɴᴇᴅ\n"
-            f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-            f"<b>ᴜsᴇʀ:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
-        )
-        return logmsg
+        return f"<b>{html.escape(chat.title)}:</b>\n#𝐉𝐎𝐈𝐍_𝐑𝐄𝐐𝐔𝐄𝐒𝐓\nᴅᴇᴄʟɪɴᴇᴅ\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\n<b>ᴜsᴇʀ:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
     except Exception as e:
         update.effective_message.edit_text(str(e))
 

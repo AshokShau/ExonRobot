@@ -49,7 +49,7 @@ from Exon.modules.log_channel import loggable
 def get_time(time: str) -> int:
     try:
         return timeparse(time)
-    except:
+    except Exception:
         return 0
 
 
@@ -57,7 +57,7 @@ def get_readable_time(time: int) -> str:
     t = f"{timedelta(seconds=time)}".split(":")
     if time == 86400:
         return "1 day"
-    return "{} ʜᴏᴜʀ(s)".format(t[0]) if time >= 3600 else "{} ᴍɪɴᴜᴛᴇs".format(t[1])
+    return f"{t[0]} ʜᴏᴜʀ(s)" if time >= 3600 else f"{t[1]} ᴍɪɴᴜᴛᴇs"
 
 
 @Exoncmd(command="raid", pass_args=True)
@@ -82,9 +82,11 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                 [
                     InlineKeyboardButton(
                         "ᴅɪsᴀʙʟᴇ ʀᴀɪᴅ",
-                        callback_data="disable_raid={}={}".format(chat.id, time),
+                        callback_data=f"disable_raid={chat.id}={time}",
                     ),
-                    InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=1"),
+                    InlineKeyboardButton(
+                        "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=1"
+                    ),
                 ]
             ]
         else:
@@ -93,9 +95,11 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                 [
                     InlineKeyboardButton(
                         "ᴇɴᴀʙʟᴇ ʀᴀɪᴅ",
-                        callback_data="enable_raid={}={}".format(chat.id, time),
+                        callback_data=f"enable_raid={chat.id}={time}",
                     ),
-                    InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"),
+                    InlineKeyboardButton(
+                        "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"
+                    ),
                 ]
             ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -106,18 +110,10 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
             sql.setDefenseStatus(chat.id, False, time, acttime)
             text = "ʀᴀɪᴅ ᴍᴏᴅᴇ ʜᴀs ʙᴇᴇɴ <code>ᴅɪsᴀʙʟᴇᴅ</code>, ᴍᴇᴍʙᴇʀs ᴛʜᴀᴛ ᴊᴏɪɴ ᴡɪʟʟ ɴᴏ ʟᴏɴɢᴇʀ ʙᴇ ᴋɪᴄᴋᴇᴅ."
             msg.reply_text(text, parse_mode=ParseMode.HTML)
-            logmsg = (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"#𝐑𝐀𝐈𝐃\n"
-                f"ᴅɪsᴀʙʟᴇᴅ\n"
-                f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
-            )
-            return logmsg
-
+            return f"<b>{html.escape(chat.title)}:</b>\n#𝐑𝐀𝐈𝐃\nᴅɪsᴀʙʟᴇᴅ\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
     else:
         args_time = args[0].lower()
-        time = get_time(args_time)
-        if time:
+        if time := get_time(args_time):
             readable_time = get_readable_time(time)
             if time >= 300 and time < 86400:
                 text = f"ʀᴀɪᴅ ᴍᴏᴅᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ <code>ᴅɪsᴀʙʟᴇᴅ</code>\nᴡᴏᴜʟᴅ ʏᴏᴜ ʟɪᴋᴇ ᴛᴏ <code>ᴇɴᴀʙʟᴇ</code> ʀᴀɪᴅ ғᴏʀ {readable_time}?"
@@ -125,9 +121,11 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                     [
                         InlineKeyboardButton(
                             "ᴇɴᴀʙʟᴇ ʀᴀɪᴅ",
-                            callback_data="enable_raid={}={}".format(chat.id, time),
+                            callback_data=f"enable_raid={chat.id}={time}",
                         ),
-                        InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"),
+                        InlineKeyboardButton(
+                            "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"
+                        ),
                     ]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
@@ -202,13 +200,7 @@ def disable_raid_cb(update: Update, _: CallbackContext) -> Optional[str]:
         "ʀᴀɪᴅ ᴍᴏᴅᴇ ʜᴀs ʙᴇᴇɴ <code>Disabled</code>, ᴊᴏɪɴɪɢ ᴍᴇᴍʙᴇʀs ᴡɪʟʟ ɴᴏ ʟᴏɴɢᴇʀ ʙᴇ ᴋɪᴄᴋᴇᴅ.",
         parse_mode=ParseMode.HTML,
     )
-    logmsg = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#𝐑𝐀𝐈𝐃\n"
-        f"ᴅɪsᴀʙʟᴇᴅ\n"
-        f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
-    )
-    return logmsg
+    return f"<b>{html.escape(chat.title)}:</b>\n#𝐑𝐀𝐈𝐃\nᴅɪsᴀʙʟᴇᴅ\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
 
 
 @Exoncallback(pattern="cancel_raid=")
@@ -241,20 +233,13 @@ def raidtime(update: Update, context: CallbackContext) -> Optional[str]:
         )
         return
     args_time = args[0].lower()
-    time = get_time(args_time)
-    if time:
+    if time := get_time(args_time):
         readable_time = get_readable_time(time)
         if time >= 300 and time < 86400:
             text = f"ʀᴀɪᴅ ᴍᴏᴅᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ sᴇᴛ ᴛᴏ {readable_time}\nᴡʜᴇɴ ᴛᴏɢɢʟᴇᴅ, ᴛʜᴇ ʀᴀɪᴅ ᴍᴏᴅᴇ ᴡɪʟʟ ʟᴀsᴛ ғᴏʀ {readable_time} ᴛʜᴇɴ ᴛᴜʀɴ ᴏғғ ᴀᴜᴛᴏᴍᴀᴛɪᴄᴀʟʟʏ"
             msg.reply_text(text, parse_mode=ParseMode.HTML)
             sql.setDefenseStatus(chat.id, what, time, acttime)
-            logmsg = (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"#𝐑𝐀𝐈𝐃\n"
-                f"sᴇᴛ ʀᴀɪᴅ ᴍᴏᴅᴇ ᴛɪᴍᴇ ᴛᴏ {readable_time}\n"
-                f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
-            )
-            return logmsg
+            return f"<b>{html.escape(chat.title)}:</b>\n#𝐑𝐀𝐈𝐃\nsᴇᴛ ʀᴀɪᴅ ᴍᴏᴅᴇ ᴛɪᴍᴇ ᴛᴏ {readable_time}\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
         else:
             msg.reply_text(
                 "ʏᴏᴜ ᴄᴀɴ ᴏɴʟʏ sᴇᴛ ᴛɪᴍᴇ ʙᴇᴛᴡᴇᴇɴ 5 ᴍɪɴᴜᴛᴇs ᴀɴᴅ 1 ᴅᴀʏ",
@@ -285,20 +270,13 @@ def raidtime(update: Update, context: CallbackContext) -> Optional[str]:
         )
         return
     args_time = args[0].lower()
-    time = get_time(args_time)
-    if time:
+    if time := get_time(args_time):
         readable_time = get_readable_time(time)
         if time >= 300 and time < 86400:
             text = f"ʀᴀɪᴅ ᴀᴄᴛᴏɪɴ ᴛɪᴍᴇ ɪs ᴄᴜʀʀᴇɴᴛʟʏ sᴇᴛ ᴛᴏ {get_readable_time(time)}\nᴡʜᴇɴ ᴛᴏɢɢʟᴇᴅ, ᴛʜᴇ ᴍᴇᴍʙᴇʀs ᴛʜᴀᴛ ᴊᴏɪɴ ᴡɪʟʟ ʙᴇ ᴛᴇᴍᴘ ʙᴀɴɴᴇᴅ ғᴏʀ {readable_time}"
             msg.reply_text(text, parse_mode=ParseMode.HTML)
             sql.setDefenseStatus(chat.id, what, t, time)
-            logmsg = (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"#𝐑𝐀𝐈𝐃\n"
-                f"sᴇᴛ ʀᴀɪᴅ ᴍᴏᴅᴇ ᴀᴄᴛɪᴏɴ ᴛɪᴍᴇ ᴛᴏ {readable_time}\n"
-                f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
-            )
-            return logmsg
+            return f"<b>{html.escape(chat.title)}:</b>\n#𝐑𝐀𝐈𝐃\nsᴇᴛ ʀᴀɪᴅ ᴍᴏᴅᴇ ᴀᴄᴛɪᴏɴ ᴛɪᴍᴇ ᴛᴏ {readable_time}\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\n"
         else:
             msg.reply_text(
                 "ʏᴏᴜ ᴄᴀɴ ᴏɴʟʏ sᴇᴛ ᴛɪᴍᴇ ʙᴇᴛᴡᴇᴇɴ 5 ᴍɪɴᴜᴛᴇs ᴀɴᴅ 1 ᴅᴀʏ",

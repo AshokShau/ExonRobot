@@ -62,7 +62,7 @@ def leave_cb(update: Update, context: CallbackContext):
         return
 
     match = re.match(r"leavechat_cb_\((.+?)\)", callback.data)
-    chat = int(match.group(1))
+    chat = int(match[1])
     bot.leave_chat(chat_id=chat)
     callback.answer(text="Left the chat from this group.")
 
@@ -71,7 +71,7 @@ def leave_cb(update: Update, context: CallbackContext):
 def allow_groups(update: Update, context: CallbackContext):
     args = context.args
     if not args:
-        state = "Lockdown is " + "on" if not Exon.ALLOW_CHATS else "off"
+        state = "off" if Exon.ALLOW_CHATS else "Lockdown is " + "on"
         update.effective_message.reply_text(f"Current state: {state}")
         return
     if args[0].lower() in ["off", "no"]:
@@ -141,7 +141,7 @@ def pip_install(update: Update, context: CallbackContext):
         message.reply_text("Enter a package name.")
         return
     if len(args) >= 1:
-        cmd = "py -m pip install {}".format(" ".join(args))
+        cmd = f'py -m pip install {" ".join(args)}'
         process = subprocess.Popen(
             cmd.split(" "),
             stdout=subprocess.PIPE,
@@ -150,8 +150,7 @@ def pip_install(update: Update, context: CallbackContext):
         stdout, stderr = process.communicate()
         reply = ""
         stderr = stderr.decode()
-        stdout = stdout.decode()
-        if stdout:
+        if stdout := stdout.decode():
             reply += f"*Stdout*\n`{stdout}`\n"
         if stderr:
             reply += f"*Stderr*\n`{stderr}`\n"
@@ -161,11 +160,10 @@ def pip_install(update: Update, context: CallbackContext):
 
 @dev_plus
 def leave(update: Update, context: CallbackContext):
-    bot = context.bot
-    args = context.args
-    if args:
+    if args := context.args:
         chat_id = str(args[0])
         leave_msg = " ".join(args[1:])
+        bot = context.bot
         try:
             context.bot.send_message(chat_id, leave_msg)
             bot.leave_chat(int(chat_id))
@@ -178,15 +176,13 @@ def leave(update: Update, context: CallbackContext):
         Exon_leave_bt = [
             [
                 InlineKeyboardButton(
-                    text="Yes", callback_data="leavechat_cb_({})".format(chat.id)
+                    text="Yes", callback_data=f"leavechat_cb_({chat.id})"
                 ),
                 InlineKeyboardButton(text="No", callback_data="close2"),
             ]
         ]
         update.effective_message.reply_text(
-            "I'm going to leave {}, press the button below to confirm".format(
-                chat.title
-            ),
+            f"I'm going to leave {chat.title}, press the button below to confirm",
             reply_markup=InlineKeyboardMarkup(Exon_leave_bt),
         )
 

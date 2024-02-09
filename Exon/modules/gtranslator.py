@@ -54,10 +54,7 @@ def translate(update: Update, context: CallbackContext) -> None:
     if not reply_msg:
         message.reply_text("Reply to a message to translate it!")
         return
-    if reply_msg.caption:
-        to_translate = reply_msg.caption
-    else:
-        to_translate = reply_msg.text
+    to_translate = reply_msg.caption or reply_msg.text
     try:
         args = message.text.split()[1].lower()
         if "//" in args:
@@ -138,8 +135,7 @@ def spellcheck(update, _):
         for change in changes:
             start = change.get("From")
             end = change.get("To") + 1
-            suggestions = change.get("Suggestions")
-            if suggestions:
+            if suggestions := change.get("Suggestions"):
                 sugg_str = suggestions[0].get("Text")  # should look at this list more
                 curr_string += msg.text[prev_end:start] + sugg_str
                 prev_end = end

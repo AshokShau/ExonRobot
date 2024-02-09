@@ -96,13 +96,11 @@ def list_handlers(update, context):
     all_handlers = sql.get_chat_triggers(chat_id)
 
     if not all_handlers:
-        send_message(
-            update.effective_message, "No filters saved in {}!".format(chat_name)
-        )
+        send_message(update.effective_message, f"No filters saved in {chat_name}!")
         return
 
     for keyword in all_handlers:
-        entry = " × `{}`\n".format(escape_markdown(keyword))
+        entry = f" × `{escape_markdown(keyword)}`\n"
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
             send_message(
                 update.effective_message,
@@ -137,11 +135,7 @@ def filters(update, context):
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "local filters"
-        else:
-            chat_name = chat.title
-
+        chat_name = "local filters" if chat.type == "private" else chat.title
     if not msg.reply_to_message and len(args) < 2:
         send_message(
             update.effective_message,
@@ -240,7 +234,7 @@ def filters(update, context):
     if add is True:
         send_message(
             update.effective_message,
-            "Saved filter '{}' in *{}*!".format(keyword, chat_name),
+            f"Saved filter '{keyword}' in *{chat_name}*!",
             parse_mode=telegram.ParseMode.MARKDOWN,
         )
     raise DispatcherHandlerStop
@@ -260,11 +254,7 @@ def stop_filter(update, context):
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "Local filters"
-        else:
-            chat_name = chat.title
-
+        chat_name = "Local filters" if chat.type == "private" else chat.title
     if len(args) < 2:
         send_message(update.effective_message, "What should i stop?")
         return
@@ -280,7 +270,7 @@ def stop_filter(update, context):
             sql.remove_filter(chat_id, args[1])
             send_message(
                 update.effective_message,
-                "Okay, I'll stop replying to that filter in *{}*.".format(chat_name),
+                f"Okay, I'll stop replying to that filter in *{chat_name}*.",
                 parse_mode=telegram.ParseMode.MARKDOWN,
             )
             raise DispatcherHandlerStop
@@ -325,10 +315,7 @@ def reply_filter(update, context):
                 if filt.reply_text:
                     if "%%%" in filt.reply_text:
                         split = filt.reply_text.split("%%%")
-                        if all(split):
-                            text = random.choice(split)
-                        else:
-                            text = filt.reply_text
+                        text = random.choice(split) if all(split) else filt.reply_text
                     else:
                         text = filt.reply_text
                     if text.startswith("~!") and text.endswith("!~"):
@@ -350,12 +337,11 @@ def reply_filter(update, context):
                                     "Message couldn't be sent, Is the sticker id valid?",
                                 )
                                 return
-                            LOGGER.exception("Error in filters: " + excp.message)
+                            LOGGER.exception(f"Error in filters: {excp.message}")
                             return
-                    valid_format = escape_invalid_curly_brackets(
+                    if valid_format := escape_invalid_curly_brackets(
                         text, VALID_WELCOME_FORMATTERS
-                    )
-                    if valid_format:
+                    ):
                         filtext = valid_format.format(
                             first=escape(message.from_user.first_name),
                             last=escape(
@@ -370,13 +356,15 @@ def reply_filter(update, context):
                                 if message.from_user.last_name
                                 else [escape(message.from_user.first_name)]
                             ),
-                            username="@" + escape(message.from_user.username)
+                            username=f"@{escape(message.from_user.username)}"
                             if message.from_user.username
                             else mention_html(
-                                message.from_user.id, message.from_user.first_name
+                                message.from_user.id,
+                                message.from_user.first_name,
                             ),
                             mention=mention_html(
-                                message.from_user.id, message.from_user.first_name
+                                message.from_user.id,
+                                message.from_user.first_name,
                             ),
                             chatname=escape(message.chat.title)
                             if message.chat.type != "private"
@@ -410,7 +398,7 @@ def reply_filter(update, context):
                                     reply_markup=keyboard,
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception("Error in filters: " + excp.message)
+                                LOGGER.exception(f"Error in filters: {excp.message}")
                                 send_message(
                                     update.effective_message,
                                     get_exception(excp, filt, chat),
@@ -422,26 +410,23 @@ def reply_filter(update, context):
                                     get_exception(excp, filt, chat),
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception(
-                                    "Failed to send message: " + excp.message
-                                )
+                                LOGGER.exception(f"Failed to send message: {excp.message}")
+                elif ENUM_FUNC_MAP[filt.file_type] == dispatcher.bot.send_sticker:
+                    ENUM_FUNC_MAP[filt.file_type](
+                        chat.id,
+                        filt.file_id,
+                        reply_to_message_id=message.message_id,
+                        reply_markup=keyboard,
+                    )
                 else:
-                    if ENUM_FUNC_MAP[filt.file_type] == dispatcher.bot.send_sticker:
-                        ENUM_FUNC_MAP[filt.file_type](
-                            chat.id,
-                            filt.file_id,
-                            reply_to_message_id=message.message_id,
-                            reply_markup=keyboard,
-                        )
-                    else:
-                        ENUM_FUNC_MAP[filt.file_type](
-                            chat.id,
-                            filt.file_id,
-                            caption=markdown_to_html(filtext),
-                            reply_to_message_id=message.message_id,
-                            parse_mode=ParseMode.HTML,
-                            reply_markup=keyboard,
-                        )
+                    ENUM_FUNC_MAP[filt.file_type](
+                        chat.id,
+                        filt.file_id,
+                        caption=markdown_to_html(filtext),
+                        reply_to_message_id=message.message_id,
+                        parse_mode=ParseMode.HTML,
+                        reply_markup=keyboard,
+                    )
                 break
             if filt.is_sticker:
                 message.reply_sticker(filt.reply)
@@ -477,7 +462,7 @@ def reply_filter(update, context):
                                 "Telegram doesn't support buttons such as tg://, Please try again",
                             )
                         except BadRequest as excp:
-                            LOGGER.exception("Error in filters: " + excp.message)
+                            LOGGER.exception(f"Error in filters: {excp.message}")
                     elif excp.message == "Reply message not found":
                         try:
                             context.bot.send_message(
@@ -488,7 +473,7 @@ def reply_filter(update, context):
                                 reply_markup=keyboard,
                             )
                         except BadRequest as excp:
-                            LOGGER.exception("Error in filters: " + excp.message)
+                            LOGGER.exception(f"Error in filters: {excp.message}")
                     else:
                         try:
                             send_message(
@@ -496,7 +481,7 @@ def reply_filter(update, context):
                                 "This message couldn't be sent because incorrectly formatted.",
                             )
                         except BadRequest as excp:
-                            LOGGER.exception("Error in filters: " + excp.message)
+                            LOGGER.exception(f"Error in filters: {excp.message}")
                         LOGGER.warning(
                             "Message %s could not be parsed", str(filt.reply)
                         )
@@ -511,7 +496,7 @@ def reply_filter(update, context):
                 try:
                     send_message(update.effective_message, filt.reply)
                 except BadRequest as excp:
-                    LOGGER.exception("Error in filters: " + excp.message)
+                    LOGGER.exception(f"Error in filters: {excp.message}")
             break
 
 
@@ -604,7 +589,7 @@ def addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons):
 
 
 def __stats__():
-    return "× {} filters, across {} chats.".format(sql.num_filters(), sql.num_chats())
+    return f"× {sql.num_filters()} filters, across {sql.num_chats()} chats."
 
 
 def __import_data__(chat_id, data):
@@ -620,7 +605,7 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     cust_filters = sql.get_chat_triggers(chat_id)
-    return "There are `{}` custom filters here.".format(len(cust_filters))
+    return f"There are `{len(cust_filters)}` custom filters here."
 
 
 __mod_name__ = "𝐅ɪʟᴛᴇʀs"

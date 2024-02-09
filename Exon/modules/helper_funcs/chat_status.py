@@ -103,9 +103,7 @@ def is_user_admin(update: Update, user_id: int, member: ChatMember = None) -> bo
             admin_list = [x.user.id for x in chat_admins]
             ADMIN_CACHE[chat.id] = admin_list
 
-            if user_id in admin_list:
-                return True
-            return False
+            return user_id in admin_list
 
 
 def is_user_mod(update: Update, user_id: int, member: ChatMember = None) -> bool:
@@ -133,9 +131,7 @@ def is_user_mod(update: Update, user_id: int, member: ChatMember = None) -> bool
             admin_list = [x.user.id for x in chat_admins]
             ADMIN_CACHE[chat.id] = admin_list
 
-            if user_id in admin_list:
-                return True
-            return False
+            return user_id in admin_list
 
 
 def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool:
@@ -214,7 +210,7 @@ def dev_plus(func):
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
         else:
             update.effective_message.reply_text(
@@ -239,7 +235,7 @@ def sudo_plus(func):
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
         else:
             update.effective_message.reply_text(
@@ -263,7 +259,7 @@ def stats_plus(func):
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
         else:
             update.effective_message.reply_text(
@@ -285,7 +281,7 @@ def support_plus(func):
         if DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
 
     return is_support_plus_func
@@ -323,7 +319,7 @@ def user_admin(func):
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
         else:
             update.effective_message.reply_text(
@@ -336,8 +332,8 @@ def user_admin(func):
 def user_admin_no_reply(func):
     @wraps(func)
     def is_not_admin_no_reply(
-        update: Update, context: CallbackContext, *args, **kwargs
-    ):
+            update: Update, context: CallbackContext, *args, **kwargs
+        ):
         context.bot
         user = update.effective_user
         update.effective_chat
@@ -349,7 +345,7 @@ def user_admin_no_reply(func):
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
 
     return is_not_admin_no_reply
@@ -483,8 +479,9 @@ def user_can_ban(func):
         member = update.effective_chat.get_member(user)
 
         if (
-            not (member.can_restrict_members or member.status == "creator")
-            and not user in DEV_USERS
+            not member.can_restrict_members
+            and member.status != "creator"
+            and user not in DEV_USERS
         ):
             update.effective_message.reply_text(
                 "Sorry son, but you're not worthy to wield the banhammer."
@@ -555,8 +552,8 @@ def user_admin_no_reply(func):
 def user_can_restrict_no_reply(func):
     @wraps(func)
     def u_can_restrict_noreply(
-        update: Update, context: CallbackContext, *args, **kwargs
-    ):
+            update: Update, context: CallbackContext, *args, **kwargs
+        ):
         context.bot
         user = update.effective_user
         chat = update.effective_chat
@@ -579,7 +576,7 @@ def user_can_restrict_no_reply(func):
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()
-            except:
+            except Exception:
                 pass
 
     return u_can_restrict_noreply

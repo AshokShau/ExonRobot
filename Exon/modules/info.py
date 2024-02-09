@@ -51,7 +51,7 @@ async def get_user_info(user, already=False):
         "ID": user_id,
         "DC": dc_id,
         "Name": [first_name],
-        "Username": [("@" + username) if username else None],
+        "Username": [f"@{username}" if username else None],
         "Mention": [mention],
         "Sudo": is_sudo,
     }
@@ -78,7 +78,7 @@ async def get_chat_info(chat, already=False):
         "DC": dc_id,
         "Type": type_,
         "Name": [title],
-        "Username": [("@" + username) if username else None],
+        "Username": [f"@{username}" if username else None],
         "Mention": [link],
         "Members": members,
         "Scam": is_scam,
@@ -93,9 +93,9 @@ async def get_chat_info(chat, already=False):
 async def info_func(_, message: Message):
     if message.reply_to_message:
         user = message.reply_to_message.from_user.id
-    elif not message.reply_to_message and len(message.command) == 1:
+    elif len(message.command) == 1:
         user = message.from_user.id
-    elif not message.reply_to_message and len(message.command) != 1:
+    else:
         user = message.text.split(None, 1)[1]
 
     m = await message.reply_text("Processing...")

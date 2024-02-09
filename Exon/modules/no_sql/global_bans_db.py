@@ -109,8 +109,7 @@ def __load_gban_stat_list() -> None:
 
 
 def migrate_chat(old_chat_id, new_chat_id) -> None:
-    old = GBAN_SETTINGS.find_one_and_delete({"_id": old_chat_id})
-    if old:
+    if old := GBAN_SETTINGS.find_one_and_delete({"_id": old_chat_id}):
         setting = old["setting"]
     else:
         setting = True

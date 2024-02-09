@@ -51,7 +51,7 @@ class FloodControl(BASE):
         self.chat_id = str(chat_id)  # ensure string
 
     def __repr__(self):
-        return "<flood control for %s>" % self.chat_id
+        return f"<flood control for {self.chat_id}>"
 
 
 class FloodSettings(BASE):
@@ -66,7 +66,7 @@ class FloodSettings(BASE):
         self.value = value
 
     def __repr__(self):
-        return "<{} will executing {} for flood.>".format(self.chat_id, self.flood_type)
+        return f"<{self.chat_id} will executing {self.flood_type} for flood.>"
 
 
 FloodControl.__table__.create(checkfirst=True)
@@ -80,9 +80,7 @@ CHAT_FLOOD = {}
 
 def set_flood(chat_id, amount):
     with INSERTION_FLOOD_LOCK:
-        flood = SESSION.query(FloodControl).get(str(chat_id))
-        if not flood:
-            flood = FloodControl(str(chat_id))
+        flood = SESSION.query(FloodControl).get(str(chat_id)) or FloodControl(str(chat_id))
 
         flood.user_id = None
         flood.limit = amount
@@ -94,25 +92,25 @@ def set_flood(chat_id, amount):
 
 
 def update_flood(chat_id: str, user_id) -> bool:
-    if str(chat_id) not in CHAT_FLOOD:
+    if chat_id not in CHAT_FLOOD:
         return
 
-    curr_user_id, count, limit = CHAT_FLOOD.get(str(chat_id), DEF_OBJ)
+    curr_user_id, count, limit = CHAT_FLOOD.get(chat_id, DEF_OBJ)
 
     if limit == 0:  # no antiflood
         return False
 
     if user_id != curr_user_id or user_id is None:  # other user
-        CHAT_FLOOD[str(chat_id)] = (user_id, DEF_COUNT, limit)
+        CHAT_FLOOD[chat_id] = (user_id, DEF_COUNT, limit)
         return False
 
     count += 1
     if count > limit:  # too many msgs, kick
-        CHAT_FLOOD[str(chat_id)] = (None, DEF_COUNT, limit)
+        CHAT_FLOOD[chat_id] = (None, DEF_COUNT, limit)
         return True
 
     # default -> update
-    CHAT_FLOOD[str(chat_id)] = (user_id, count, limit)
+    CHAT_FLOOD[chat_id] = (user_id, count, limit)
     return False
 
 
@@ -128,13 +126,11 @@ def set_flood_strength(chat_id, flood_type, value):
     # 4 = tban
     # 5 = tmute
     with INSERTION_FLOOD_SETTINGS_LOCK:
-        curr_setting = SESSION.query(FloodSettings).get(str(chat_id))
-        if not curr_setting:
-            curr_setting = FloodSettings(
-                chat_id,
-                flood_type=int(flood_type),
-                value=value,
-            )
+        curr_setting = SESSION.query(FloodSettings).get(str(chat_id)) or FloodSettings(
+                        chat_id,
+                        flood_type=int(flood_type),
+                        value=value,
+                    )
 
         curr_setting.flood_type = int(flood_type)
         curr_setting.value = str(value)
@@ -145,8 +141,7 @@ def set_flood_strength(chat_id, flood_type, value):
 
 def get_flood_setting(chat_id):
     try:
-        setting = SESSION.query(FloodSettings).get(str(chat_id))
-        if setting:
+        if setting := SESSION.query(FloodSettings).get(str(chat_id)):
             return setting.flood_type, setting.value
         return 1, "0"
 
@@ -156,8 +151,7 @@ def get_flood_setting(chat_id):
 
 def migrate_chat(old_chat_id, new_chat_id):
     with INSERTION_FLOOD_LOCK:
-        flood = SESSION.query(FloodControl).get(str(old_chat_id))
-        if flood:
+        if flood := SESSION.query(FloodControl).get(str(old_chat_id)):
             CHAT_FLOOD[str(new_chat_id)] = CHAT_FLOOD.get(str(old_chat_id), DEF_OBJ)
             flood.chat_id = str(new_chat_id)
             SESSION.commit()

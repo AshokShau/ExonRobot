@@ -208,16 +208,13 @@ def report(update: Update, context: CallbackContext) -> str:
                 except Unauthorized:
                     pass
                 except BadRequest as excp:  # TODO: cleanup exceptions
-                    LOGGER.exception("ᴇxᴄᴇᴘᴛɪᴏɴ ᴡʜɪʟᴇ ʀᴇᴘᴏʀᴛɪɴɢ ᴜꜱᴇʀ\n{}".format(excp))
+                    LOGGER.exception(f"ᴇxᴄᴇᴘᴛɪᴏɴ ᴡʜɪʟᴇ ʀᴇᴘᴏʀᴛɪɴɢ ᴜꜱᴇʀ\n{excp}")
 
         message.reply_to_message.reply_text(
             f"{mention_html(user.id, user.first_name)} ʀᴇᴘᴏʀᴛᴇᴅ ᴛʜᴇ ᴍᴇꜱꜱᴀɢᴇ ᴛᴏ ᴛʜᴇ ᴀᴅᴍɪɴꜱ.",
             parse_mode=ParseMode.HTML,
         )
-        if not logsql.get_chat_setting(chat.id).log_report:
-            return ""
-        return msg
-
+        return msg if logsql.get_chat_setting(chat.id).log_report else ""
     return ""
 
 

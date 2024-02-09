@@ -68,7 +68,7 @@ async def locks_dfunc(_, message):
         return await lol.edit("ᴇxᴘᴇᴄᴛᴇᴅ ᴏɴ ᴏʀ ᴏғғ 👀")
     parameter = message.text.strip().split(None, 1)[1].lower()
 
-    if parameter == "on" or parameter == "ON":
+    if parameter in ["on", "ON"]:
         if not message.from_user:
             return
         if not message.from_user.username:
@@ -77,15 +77,13 @@ async def locks_dfunc(_, message):
             )
         uname = str(message.from_user.username)
         uname = uname.lower()
-        isittrue = tagdb.find_one({f"teg": uname})
-        if not isittrue:
-            tagdb.insert_one({f"teg": uname})
-            return await lol.edit(
-                f"ᴛᴀɢ ᴀʟᴇʀᴛꜱ ᴇɴᴀʙʟᴇᴅ.\nWhen ꜱᴏᴍᴇᴏɴᴇ ᴛᴀɢꜱ ʏᴏᴜ ᴀꜱ @{uname} ʏᴏᴜ ᴡɪʟʟ ʙᴇ ɴᴏᴛɪғɪᴇᴅ"
-            )
-        else:
+        if isittrue := tagdb.find_one({"teg": uname}):
             return await lol.edit("ᴛᴀɢ ᴀʟᴇʀᴛꜱ ᴀʟʀᴇᴀᴅʏ ᴇɴᴀʙʟᴇᴅ ғᴏʀ ʏᴏᴜ")
-    if parameter == "off" or parameter == "OFF":
+        tagdb.insert_one({"teg": uname})
+        return await lol.edit(
+            f"ᴛᴀɢ ᴀʟᴇʀᴛꜱ ᴇɴᴀʙʟᴇᴅ.\nWhen ꜱᴏᴍᴇᴏɴᴇ ᴛᴀɢꜱ ʏᴏᴜ ᴀꜱ @{uname} ʏᴏᴜ ᴡɪʟʟ ʙᴇ ɴᴏᴛɪғɪᴇᴅ"
+        )
+    if parameter in ["off", "OFF"]:
         if not message.from_user:
             return
         if not message.from_user.username:
@@ -94,12 +92,10 @@ async def locks_dfunc(_, message):
             )
         uname = message.from_user.username
         uname = uname.lower()
-        isittrue = tagdb.find_one({f"teg": uname})
-        if isittrue:
-            tagdb.delete_one({f"teg": uname})
-            return await lol.edit("ᴛᴀɢ ᴀʟᴇʀᴛꜱ ʀᴇᴍᴏᴠᴇᴅ")
-        else:
+        if not (isittrue := tagdb.find_one({"teg": uname})):
             return await lol.edit("ᴛᴀɢ ᴀʟᴇʀᴛꜱ ᴀʟʀᴇᴀᴅʏ ᴅɪꜱᴀʙʟᴇᴅ ғᴏʀ ʏᴏᴜ")
+        tagdb.delete_one({"teg": uname})
+        return await lol.edit("ᴛᴀɢ ᴀʟᴇʀᴛꜱ ʀᴇᴍᴏᴠᴇᴅ")
     else:
         await lol.edit("ᴇxᴘᴇᴄᴛᴇᴅ ᴏɴ ᴏʀ ᴏғғ 👀")
 
@@ -129,7 +125,8 @@ async def mentioned_alert(client, message):
                 zone = c["zone"]
                 reason = c["reason"]
                 present = dateparser.parse(
-                    f"now", settings={"TIMEZONE": f"{zone}", "DATE_ORDER": "YMD"}
+                    "now",
+                    settings={"TIMEZONE": f"{zone}", "DATE_ORDER": "YMD"},
                 )
                 ttime = dateparser.parse(f"{time}", settings={"TIMEZONE": f"{zone}"})
                 # print(ttime)
@@ -153,7 +150,7 @@ async def mentioned_alert(client, message):
                         )
 
                         message.continue_propagation()
-                    except:
+                    except Exception:
                         alarms.delete_one(
                             {
                                 "chat": chat,
@@ -165,7 +162,6 @@ async def mentioned_alert(client, message):
                         )
                         return message.continue_propagation()
                     break
-                    return message.continue_propagation()
                 continue
             chats = shedule.find({})
             for c in chats:
@@ -176,7 +172,8 @@ async def mentioned_alert(client, message):
                 zone = c["zone"]
                 reason = c["reason"]
                 present = dateparser.parse(
-                    f"now", settings={"TIMEZONE": f"{zone}", "DATE_ORDER": "YMD"}
+                    "now",
+                    settings={"TIMEZONE": f"{zone}", "DATE_ORDER": "YMD"},
                 )
                 ttime = dateparser.parse(f"{time}", settings={"TIMEZONE": f"{zone}"})
                 # print(ttime)alarms
@@ -196,7 +193,7 @@ async def mentioned_alert(client, message):
                         )
                         await client.send_message(chat, f"{reason}")
                         message.continue_propagation()
-                    except:
+                    except Exception:
                         shedule.delete_one(
                             {
                                 "chat": chat,
@@ -208,7 +205,6 @@ async def mentioned_alert(client, message):
                         )
                         return message.continue_propagation()
                     break
-                    return message.continue_propagation()
                 continue
             chats = nightmod.find({})
 
@@ -259,8 +255,7 @@ async def mentioned_alert(client, message):
                         )
                         message.continue_propagation()
                         break
-                        return message.continue_propagation()
-                except:
+                except Exception:
                     print("Chat open error in nightbot")
                     return message.continue_propagation()
                 continue
@@ -304,23 +299,20 @@ async def mentioned_alert(client, message):
                         )
                         message.continue_propagation()
                         break
-                        return message.continue_propagation()
-                except:
+                except Exception:
                     print("Chat close err")
                     return message.continue_propagation()
                 continue
             return message.continue_propagation()
         # print(text)
-        if tagdb.find_one({f"teg": text}):
-            pass
-        else:
+        if not tagdb.find_one({"teg": text}):
             return message.continue_propagation()
         # print("Im inn")
         try:
             chat_name = message.chat.title
             message.chat.id
             tagged_msg_link = message.link
-        except:
+        except Exception:
             return message.continue_propagation()
         user_ = message.from_user.mention or f"@{message.from_user.username}"
 
@@ -337,10 +329,10 @@ async def mentioned_alert(client, message):
                 disable_web_page_preview=True,
             )
 
-        except:
+        except Exception:
             return message.continue_propagation()
         message.continue_propagation()
-    except:
+    except Exception:
         return message.continue_propagation()
 
 
@@ -372,7 +364,7 @@ async def mentionall(event):
     elif event.is_reply:
         mode = "text_on_reply"
         msg = await event.get_reply_message()
-        if msg == None:
+        if msg is None:
             return await event.respond(
                 "__I ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ғᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇғᴏʀᴇ I'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)__"
             )
@@ -385,7 +377,7 @@ async def mentionall(event):
     usrnum = 0
     usrtxt = ""
     async for usr in abishnoi.iter_participants(chat_id):
-        if not chat_id in spam_chats:
+        if chat_id not in spam_chats:
             break
         usrnum += 1
         usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}), "
@@ -400,13 +392,13 @@ async def mentionall(event):
             usrtxt = ""
     try:
         spam_chats.remove(chat_id)
-    except:
+    except Exception:
         pass
 
 
 @abishnoi.on(events.NewMessage(pattern="^/cancel$"))
 async def cancel_spam(event):
-    if not event.chat_id in spam_chats:
+    if event.chat_id not in spam_chats:
         return await event.respond("__ᴛʜᴇʀᴇ ɪs ɴᴏ ᴘʀᴏᴄᴄᴇss ᴏɴ ɢᴏɪɴɢ...__")
     is_admin = False
     try:
@@ -421,12 +413,11 @@ async def cancel_spam(event):
     if not is_admin:
         return await event.respond("__ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴇxᴇᴄᴜᴛᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ!__")
 
-    else:
-        try:
-            spam_chats.remove(event.chat_id)
-        except:
-            pass
-        return await event.respond("__sᴛᴏᴘᴘᴇᴅ ᴍᴇɴᴛɪᴏɴ.__")
+    try:
+        spam_chats.remove(event.chat_id)
+    except Exception:
+        pass
+    return await event.respond("__sᴛᴏᴘᴘᴇᴅ ᴍᴇɴᴛɪᴏɴ.__")
 
 
 __mod_name__ = "𝐓ᴀɢ-Aʟʟ"

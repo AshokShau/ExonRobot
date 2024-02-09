@@ -12,11 +12,11 @@ class Language:
     def get_string(self, lang: str, string: str) -> str:
         try:
             return self.languages[lang][string]
-        except KeyError:
+        except KeyError as e:
             # a keyerror happened, the english file must have it
             en_string = self.languages["en"].get(string)
             if en_string is None:
-                raise StringNotFound(f"String: ({string}) not found.")
+                raise StringNotFound(f"String: ({string}) not found.") from e
             return en_string
 
     def reload_strings(self) -> None:
@@ -24,13 +24,14 @@ class Language:
             if filename.endswith(".yaml"):
                 language_name = filename[:-5]
                 self.languages[language_name] = yaml.safe_load(
-                    open(r"./Exon/langs/" + filename, encoding="utf8")
+                    open(f"./Exon/langs/{filename}", encoding="utf8")
                 )
 
     def get_languages(self) -> Dict:
-        to_return: Dict = {}
-        for language in self.languages:
-            to_return[language] = self.languages[language]["language"]
+        to_return: Dict = {
+            language: self.languages[language]["language"]
+            for language in self.languages
+        }
         return to_return
 
     def get_language(self, language: str) -> str:

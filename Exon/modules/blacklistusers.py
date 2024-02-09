@@ -110,13 +110,7 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
     if sql.is_user_blacklisted(user_id):
         sql.unblacklist_user(user_id)
         message.reply_text("*notices user*")
-        log_message = (
-            f"#𝐔𝐍𝐁𝐋𝐀𝐂𝐊𝐋𝐈𝐒𝐓\n"
-            f"<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-            f"<b>ᴜsᴇʀ:</b> {mention_html(target_user.id, html.escape(target_user.first_name))}"
-        )
-
-        return log_message
+        return f"#𝐔𝐍𝐁𝐋𝐀𝐂𝐊𝐋𝐈𝐒𝐓\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, html.escape(user.first_name))}\n<b>ᴜsᴇʀ:</b> {mention_html(target_user.id, html.escape(target_user.first_name))}"
     message.reply_text("I ᴀᴍ ɴᴏᴛ ɪɢɴᴏʀɪɴɢ ᴛʜᴇᴍ ᴀᴛ ᴀʟʟ ᴛʜᴏᴜɢʜ!")
     return ""
 
@@ -127,17 +121,16 @@ def bl_users(update: Update, context: CallbackContext):
     bot = context.bot
     for each_user in sql.BLACKLIST_USERS:
         user = bot.get_chat(each_user)
-        reason = sql.get_reason(each_user)
-
-        if reason:
+        if reason := sql.get_reason(each_user):
             users.append(
                 f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}",
             )
         else:
             users.append(f"• {mention_html(user.id, html.escape(user.first_name))}")
 
-    message = "<b>ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴜsᴇʀs</b>\n"
-    message += "\n".join(users) if users else "ɴᴏɴᴇ ɪs ʙᴇɪɴɢ ɪɢɴᴏʀᴇᴅ ᴀs ᴏғ ʏᴇᴛ."
+    message = "<b>ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴜsᴇʀs</b>\n" + (
+        "\n".join(users) if users else "ɴᴏɴᴇ ɪs ʙᴇɪɴɢ ɪɢɴᴏʀᴇᴅ ᴀs ᴏғ ʏᴇᴛ."
+    )
     update.effective_message.reply_text(message, parse_mode=ParseMode.HTML)
 
 
@@ -153,8 +146,7 @@ def __user_info__(user_id):
         return ""
     if is_blacklisted:
         text = text.format("Yes")
-        reason = sql.get_reason(user_id)
-        if reason:
+        if reason := sql.get_reason(user_id):
             text += f"\nʀᴇᴀsᴏɴ: <code>{reason}</code>"
     else:
         text = text.format("No")

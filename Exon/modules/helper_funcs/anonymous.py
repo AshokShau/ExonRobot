@@ -130,8 +130,7 @@ def anon_callback_handler1(upd: Update, _: CallbackContext):
         or mem.status == "creator"
         or mem.user.id in DEV_USERS
     ):
-        cb = anon_callbacks.pop((chat_id, message_id), None)
-        if cb:
+        if cb := anon_callbacks.pop((chat_id, message_id), None):
             message_id = anon_callback_messages.pop((chat_id, message_id), None)
             if message_id is not None:
                 dispatcher.bot.delete_message(chat_id, message_id)
@@ -149,7 +148,7 @@ def resolve_user(user, message_id, chat):
             return dispatcher.bot.edit_message_text(
                 chat.id,
                 message_id,
-                "You're now identified as: {}".format(user.first_name),
+                f"You're now identified as: {user.first_name}",
             )
         except BaseException as e:
             return dispatcher.bot.edit_message_text(chat.id, message_id, f"Error: {e}")

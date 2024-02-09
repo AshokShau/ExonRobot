@@ -84,7 +84,7 @@ def error_callback(update: Update, context: CallbackContext):
             pretty_errors.output_stderr = sys.stderr
             pretty_error = stringio.getvalue()
             stringio.close()
-        except:
+        except Exception:
             pretty_error = "Failed to create pretty error."
         tb_list = traceback.format_exception(
             None,
@@ -92,24 +92,7 @@ def error_callback(update: Update, context: CallbackContext):
             context.error.__traceback__,
         )
         tb = "".join(tb_list)
-        pretty_message = (
-            "{}\n"
-            "-------------------------------------------------------------------------------\n"
-            "An exception was raised while handling an update\n"
-            "User: {}\n"
-            "Chat: {} {}\n"
-            "Callback data: {}\n"
-            "Message: {}\n\n"
-            "Full Traceback: {}"
-        ).format(
-            pretty_error,
-            update.effective_user.id,
-            update.effective_chat.title if update.effective_chat else "",
-            update.effective_chat.id if update.effective_chat else "",
-            update.callback_query.data if update.callback_query else "None",
-            update.effective_message.text if update.effective_message else "No message",
-            tb,
-        )
+        pretty_message = f'{pretty_error}\n-------------------------------------------------------------------------------\nAn exception was raised while handling an update\nUser: {update.effective_user.id}\nChat: {update.effective_chat.title if update.effective_chat else ""} {update.effective_chat.id if update.effective_chat else ""}\nCallback data: {update.callback_query.data if update.callback_query else "None"}\nMessage: {update.effective_message.text if update.effective_message else "No message"}\n\nFull Traceback: {tb}'
         extension = "txt"
         url = "https://spaceb.in/api/v1/documents/"
         try:
