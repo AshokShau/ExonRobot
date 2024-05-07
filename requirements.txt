@@ -41,7 +41,7 @@ redis==5.0.2
 telegraph==2.2.0
 motor
 pymongo[srv]==4.6.3
-odmantic==0.9.2
+odmantic==1.0.2
 opencv-python-headless==4.9.0.80
 pykeyboard==0.1.5
 wget==3.2
