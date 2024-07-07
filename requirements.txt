@@ -31,7 +31,7 @@ pycryptodome==3.20.0
 prettyconf
 base58==2.1.1
 pytimeparse==1.1.8
-SibylSystem==0.0.24
+SibylSystem==0.0.25
 TgCrypto
 pyrofork==2.3.31
 python-arq==6.0.7
