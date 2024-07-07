@@ -33,7 +33,7 @@ base58==2.1.1
 pytimeparse==1.1.8
 SibylSystem==0.0.24
 TgCrypto
-pyrofork==2.3.31
+pyrofork==2.3.32
 python-arq==6.0.7
 python-dotenv==1.0.1
 ffmpeg-python==0.2.0
