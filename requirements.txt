@@ -37,7 +37,7 @@ pyrofork==2.3.31
 python-arq==6.0.7
 python-dotenv==1.0.1
 ffmpeg-python==0.2.0
-redis==5.0.2
+redis==5.0.8
 telegraph==2.2.0
 motor
 pymongo[srv]==4.7.2
