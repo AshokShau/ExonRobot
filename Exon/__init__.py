@@ -13,6 +13,7 @@ from traceback import format_exc
 import spamwatch
 import telegram.ext as tg
 from Python_ARQ import ARQ
+from Abg import patch  # types : ignore
 from aiohttp import ClientSession
 from pyrogram import Client
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
