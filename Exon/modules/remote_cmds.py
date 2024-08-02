@@ -149,8 +149,8 @@ def rban(update: Update, context: CallbackContext):
         return
 
     if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
+            not is_bot_admin(chat, bot.id)
+            or not chat.get_member(bot.id).can_restrict_members
     ):
         message.reply_text(
             "I can't restrict people there! Make sure I'm admin and can ban users.",
@@ -230,8 +230,8 @@ def runban(update: Update, context: CallbackContext):
         return
 
     if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
+            not is_bot_admin(chat, bot.id)
+            or not chat.get_member(bot.id).can_restrict_members
     ):
         message.reply_text(
             "I can't unrestrict people there! Make sure I'm admin and can unban users.",
@@ -313,8 +313,8 @@ def rkick(update: Update, context: CallbackContext):
         return
 
     if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
+            not is_bot_admin(chat, bot.id)
+            or not chat.get_member(bot.id).can_restrict_members
     ):
         message.reply_text(
             "I can't restrict people there! Make sure I'm admin and can punch users.",
@@ -394,8 +394,8 @@ def rmute(update: Update, context: CallbackContext):
         return
 
     if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
+            not is_bot_admin(chat, bot.id)
+            or not chat.get_member(bot.id).can_restrict_members
     ):
         message.reply_text(
             "I can't restrict people there! Make sure I'm admin and can mute users.",
@@ -479,8 +479,8 @@ def runmute(update: Update, context: CallbackContext):
         return
 
     if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
+            not is_bot_admin(chat, bot.id)
+            or not chat.get_member(bot.id).can_restrict_members
     ):
         message.reply_text(
             "I can't unrestrict people there! Make sure I'm admin and can unban users.",
@@ -496,10 +496,10 @@ def runmute(update: Update, context: CallbackContext):
         raise
 
     if is_user_in_chat(chat, user_id) and (
-        member.can_send_messages
-        and member.can_send_media_messages
-        and member.can_send_other_messages
-        and member.can_add_web_page_previews
+            member.can_send_messages
+            and member.can_send_media_messages
+            and member.can_send_other_messages
+            and member.can_add_web_page_previews
     ):
         message.reply_text("This user already has the right to speak in that chat.")
         return
@@ -570,6 +570,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "rcmds_help")
-
 
 # """

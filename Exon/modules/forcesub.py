@@ -129,9 +129,9 @@ async def fsub_n(e):
     if not e.from_id:
         return
     if (
-        await is_admin(e.chat_id, e.sender_id)
-        or e.sender_id in DEVS
-        or e.sender_id == OWNER_ID
+            await is_admin(e.chat_id, e.sender_id)
+            or e.sender_id in DEVS
+            or e.sender_id == OWNER_ID
     ):
         return
     channel = (db.fs_settings(e.chat_id)).get("channel")
@@ -180,6 +180,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "fsub_help")
-
 
 # """

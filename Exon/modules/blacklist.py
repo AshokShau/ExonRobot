@@ -92,8 +92,8 @@ def blacklist(update, context):
     split_text = split_message(filter_list)
     for text in split_text:
         if (
-            filter_list
-            == f"ᴄᴜʀʀᴇɴᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs ɪɴ <b>{html.escape(chat_name)}</b>:\n"
+                filter_list
+                == f"ᴄᴜʀʀᴇɴᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs ɪɴ <b>{html.escape(chat_name)}</b>:\n"
         ):
             send_message(
                 update.effective_message,
@@ -451,7 +451,6 @@ BLACKLIST_HANDLER = DisableAbleCommandHandler(
     ["blacklist", "blocklist"], blacklist, pass_args=True, admin_ok=True, run_async=True
 )
 
-
 ADD_BLACKLIST_HANDLER = CommandHandler(
     ["addblacklist", "addblocklist"], add_blacklist, run_async=True
 )
@@ -482,7 +481,6 @@ __handlers__ = [
     BLACKLISTMODE_HANDLER,
     (BLACKLIST_DEL_HANDLER, BLACKLIST_GROUP),
 ]
-
 
 # """
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
@@ -545,6 +543,5 @@ def get_help(chat):
             ),
         ],
     ]
-
 
 # """

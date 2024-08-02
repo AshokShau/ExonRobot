@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
 from typing import List, Optional, Union
 
 from telegram.ext import (
@@ -43,15 +42,15 @@ class ExonTelegramHandler:
         self._dispatcher = n
 
     def command(
-        self,
-        command: str,
-        filters: Optional[MessageFilter] = None,
-        admin_ok: bool = False,
-        pass_args: bool = False,
-        pass_chat_data: bool = False,
-        run_async: bool = True,
-        can_disable: bool = True,
-        group: Optional[Union[int, str]] = 40,
+            self,
+            command: str,
+            filters: Optional[MessageFilter] = None,
+            admin_ok: bool = False,
+            pass_args: bool = False,
+            pass_chat_data: bool = False,
+            run_async: bool = True,
+            can_disable: bool = True,
+            group: Optional[Union[int, str]] = 40,
     ):
         def _command(func):
             try:
@@ -114,12 +113,12 @@ class ExonTelegramHandler:
         return _command
 
     def message(
-        self,
-        pattern: Optional[str] = None,
-        can_disable: bool = True,
-        run_async: bool = True,
-        group: Optional[Union[int, str]] = 60,
-        friendly=None,
+            self,
+            pattern: Optional[str] = None,
+            can_disable: bool = True,
+            run_async: bool = True,
+            group: Optional[Union[int, str]] = 60,
+            friendly=None,
     ):
         def _message(func):
             try:
@@ -171,12 +170,12 @@ class ExonTelegramHandler:
         return _callbackquery
 
     def inlinequery(
-        self,
-        pattern: Optional[str] = None,
-        run_async: bool = True,
-        pass_user_data: bool = True,
-        pass_chat_data: bool = True,
-        chat_types: List[str] = None,
+            self,
+            pattern: Optional[str] = None,
+            run_async: bool = True,
+            pass_user_data: bool = True,
+            pass_chat_data: bool = True,
+            chat_types: List[str] = None,
     ):
         def _inlinequery(func):
             self._dispatcher.add_handler(

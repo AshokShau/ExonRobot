@@ -70,7 +70,7 @@ USER_LOCK = threading.RLock()
 def chat_should_report(chat_id: Union[str, int]) -> bool:
     try:
         if chat_setting := SESSION.query(ReportingChatSettings).get(
-            str(chat_id)
+                str(chat_id)
         ):
             return chat_setting.should_report
         return False

@@ -75,10 +75,10 @@ def blackliststicker(update: Update, context: CallbackContext):
     split_text = split_message(sticker_list)
     for text in split_text:
         if (
-            sticker_list
-            == f"<b>ʟɪsᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴ {chat_name}:</b>\n".format(
-                html.escape(chat_name)
-            )
+                sticker_list
+                == f"<b>ʟɪsᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ sᴛɪᴄᴋᴇʀs ᴄᴜʀʀᴇɴᴛʟʏ ɪɴ {chat_name}:</b>\n".format(
+            html.escape(chat_name)
+        )
         ):
             send_message(
                 update.effective_message,

@@ -148,8 +148,8 @@ def connect_chat(update, context):
 
             if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
                 if connection_status := sql.connect(
-                    update.effective_message.from_user.id,
-                    connect_chat,
+                        update.effective_message.from_user.id,
+                        connect_chat,
                 ):
                     conn_chat = dispatcher.bot.getChat(
                         connected(context.bot, update, chat, user.id, need_admin=False),
@@ -184,7 +184,7 @@ def connect_chat(update, context):
             else:
                 buttons = []
             if conn := connected(
-                context.bot, update, chat, user.id, need_admin=False
+                    context.bot, update, chat, user.id, need_admin=False
             ):
                 connectedchat = dispatcher.bot.getChat(conn)
                 text = f"You are currently connected to *{connectedchat.title}* (`{conn}`)"
@@ -237,8 +237,8 @@ def connect_chat(update, context):
         isallow = sql.allow_connect_to_chat(chat.id)
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
             if connection_status := sql.connect(
-                update.effective_message.from_user.id,
-                chat.id,
+                    update.effective_message.from_user.id,
+                    chat.id,
             ):
                 chat_name = dispatcher.bot.getChat(chat.id).title
                 send_message(
@@ -267,7 +267,7 @@ def connect_chat(update, context):
 def disconnect_chat(update, context):
     if update.effective_chat.type == "private":
         if disconnection_status := sql.disconnect(
-            update.effective_message.from_user.id
+                update.effective_message.from_user.id
         ):
             sql.disconnected_chat = send_message(
                 update.effective_message,
@@ -293,17 +293,17 @@ def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
         isallow = sql.allow_connect_to_chat(conn_id)
 
         if (
-            (isadmin)
-            or (isallow and ismember)
-            or (user.id in DRAGONS)
-            or (user.id in DEV_USERS)
+                (isadmin)
+                or (isallow and ismember)
+                or (user.id in DRAGONS)
+                or (user.id in DEV_USERS)
         ):
             if need_admin is not True:
                 return conn_id
             if (
-                getstatusadmin.status in ("administrator", "creator")
-                or user_id in DRAGONS
-                or user.id in DEV_USERS
+                    getstatusadmin.status in ("administrator", "creator")
+                    or user_id in DRAGONS
+                    or user.id in DEV_USERS
             ):
                 return conn_id
             send_message(
@@ -370,7 +370,7 @@ def connect_button(update, context):
 
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
             if connection_status := sql.connect(
-                query.from_user.id, target_chat
+                    query.from_user.id, target_chat
             ):
                 conn_chat = dispatcher.bot.getChat(
                     connected(context.bot, update, chat, user.id, need_admin=False),
@@ -409,7 +409,6 @@ def connect_button(update, context):
 
 __mod_name__ = "𝐂ᴏɴɴᴇᴄᴛ"
 
-
 CONNECT_CHAT_HANDLER = CommandHandler(
     "connect", connect_chat, pass_args=True, run_async=True
 )
@@ -432,7 +431,6 @@ dispatcher.add_handler(ALLOW_CONNECTIONS_HANDLER)
 dispatcher.add_handler(HELP_CONNECT_CHAT_HANDLER)
 dispatcher.add_handler(CONNECT_BTN_HANDLER)
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -442,6 +440,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "connections_help")
-
 
 # """

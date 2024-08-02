@@ -30,8 +30,8 @@ SOFTWARE.
 from pyrogram import filters
 from pyrogram.types import Message
 
-from Exon import DEV_USERS
 from Exon import Abishnoi as app
+from Exon import DEV_USERS
 from Exon.utils.sections import section
 
 
@@ -142,7 +142,6 @@ async def chat_info_func(_, message: Message):
 
 __mod_name__ = "𝐂ɪɴғᴏ"
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -152,6 +151,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "cinfo_help")
-
 
 # """

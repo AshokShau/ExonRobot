@@ -43,7 +43,6 @@ except PyMongoError:
     exiter(1)
 main_db = client[DB_NAME]
 
-
 AsuXdb = main_db
 
 

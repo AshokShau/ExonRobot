@@ -124,32 +124,32 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     # can only have a certain amount of buttons side by side
     if len(pairs) > COLUMN_SIZE:
         pairs = pairs[
-            modulo_page * COLUMN_SIZE : COLUMN_SIZE * (modulo_page + 1)
-        ] + [
-            (
-                EqInlineKeyboardButton(
-                    "☜", callback_data=f"{prefix}_prev({modulo_page})"
-                ),
-                EqInlineKeyboardButton(
-                    "ɢᴏ ʜᴏᴍᴇ",
-                    callback_data="start_back",
-                ),
-                EqInlineKeyboardButton(
-                    "☞", callback_data=f"{prefix}_next({modulo_page})"
-                ),
-            )
-        ]
+                modulo_page * COLUMN_SIZE: COLUMN_SIZE * (modulo_page + 1)
+                ] + [
+                    (
+                        EqInlineKeyboardButton(
+                            "☜", callback_data=f"{prefix}_prev({modulo_page})"
+                        ),
+                        EqInlineKeyboardButton(
+                            "ɢᴏ ʜᴏᴍᴇ",
+                            callback_data="start_back",
+                        ),
+                        EqInlineKeyboardButton(
+                            "☞", callback_data=f"{prefix}_next({modulo_page})"
+                        ),
+                    )
+                ]
 
     return pairs
 
 
 def article(
-    title: str = "",
-    description: str = "",
-    message_text: str = "",
-    thumb_url: str = None,
-    reply_markup: InlineKeyboardMarkup = None,
-    disable_web_page_preview: bool = False,
+        title: str = "",
+        description: str = "",
+        message_text: str = "",
+        thumb_url: str = None,
+        reply_markup: InlineKeyboardMarkup = None,
+        disable_web_page_preview: bool = False,
 ) -> InlineQueryResultArticle:
     return InlineQueryResultArticle(
         id=uuid4(),
@@ -165,7 +165,7 @@ def article(
 
 
 def send_to_list(
-    bot: Bot, send_to: list, message: str, markdown=False, html=False
+        bot: Bot, send_to: list, message: str, markdown=False, html=False
 ) -> None:
     if html and markdown:
         raise Exception("Can only send with either markdown or HTML!")
@@ -234,8 +234,8 @@ def upload_text(data: str) -> typing.Optional[str]:
     )
     compress = zlib.compressobj(wbits=-15)
     paste_blob = (
-        compress.compress(json.dumps({"paste": data}, separators=(",", ":")).encode())
-        + compress.flush()
+            compress.compress(json.dumps({"paste": data}, separators=(",", ":")).encode())
+            + compress.flush()
     )
     cipher = AES.new(key, AES.MODE_GCM)
     paste_meta = [

@@ -204,9 +204,9 @@ def callback_button(update, context):
         reply = f"Cleaned up {invalid_chat_count} chats and {invalid_gban_count} gbanned users from db."
         bot.sendMessage(chat_id, reply)
     elif (
-        query_type == "db_cleanup"
-        or query_type == "db_leave_chat"
-        and query.from_user.id not in DEV_USERS
+            query_type == "db_cleanup"
+            or query_type == "db_leave_chat"
+            and query.from_user.id not in DEV_USERS
     ):
         query.answer("You are not allowed to use this.")
 
@@ -243,6 +243,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "dbclean_help")
-
 
 # """

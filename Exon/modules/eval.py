@@ -44,8 +44,8 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
-from Exon import DEV_USERS, LOGGER
 from Exon import Abishnoi as app
+from Exon import DEV_USERS, LOGGER
 from Exon import dispatcher
 from Exon.modules.helper_funcs.chat_status import dev_plus
 
@@ -118,8 +118,8 @@ def do(func, bot, update):
     env = namespace_of(update.message.chat_id, update, bot)
     os.chdir(os.getcwd())
     with open(
-        os.path.join(os.getcwd(), "Exon/modules/helper_funcs/temp.txt"),
-        "w",
+            os.path.join(os.getcwd(), "Exon/modules/helper_funcs/temp.txt"),
+            "w",
     ) as temp:
         temp.write(body)
     stdout = io.StringIO()
@@ -197,7 +197,7 @@ async def executor(client, message):
                 [
                     InlineKeyboardButton(
                         text="⏳",
-                        callback_data=f"runtime {t2-t1} Seconds",
+                        callback_data=f"runtime {t2 - t1} Seconds",
                     )
                 ]
             ]
@@ -217,7 +217,7 @@ async def executor(client, message):
                 [
                     InlineKeyboardButton(
                         text="⏳",
-                        callback_data=f"runtime {round(t2-t1, 3)} Seconds",
+                        callback_data=f"runtime {round(t2 - t1, 3)} Seconds",
                     )
                 ]
             ]

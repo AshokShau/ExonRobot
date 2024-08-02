@@ -37,7 +37,6 @@ timeout = httpx.Timeout(40, pool=None)
 
 http = httpx.AsyncClient(http2=True, timeout=timeout)
 
-
 # Api key used in weather.com's mobile app.
 weather_apikey = "8de2d8b3a93542c9a2d8b3a935a2c909"
 

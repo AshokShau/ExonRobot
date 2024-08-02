@@ -78,7 +78,7 @@ from Exon.modules.log_channel import gloggable, loggable
 @user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
 @loggable
 def ban(
-    update: Update, context: CallbackContext
+        update: Update, context: CallbackContext
 ) -> Optional[str]:  # sourcery no-metrics
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -89,8 +89,8 @@ def ban(
     reason = ""
     if message.reply_to_message and message.reply_to_message.sender_chat:
         if r := bot.ban_chat_sender_chat(
-            chat_id=chat.id,
-            sender_chat_id=message.reply_to_message.sender_chat.id,
+                chat_id=chat.id,
+                sender_chat_id=message.reply_to_message.sender_chat.id,
         ):
             message.reply_text(
                 f"Finally! Channel {html.escape(message.reply_to_message.sender_chat.title)} was banned successfully from {html.escape(chat.title)}\n\n💡 He can only write with his profile but not through other channels.",
@@ -470,8 +470,8 @@ def unban(update: Update, context: CallbackContext) -> Optional[str]:
     bot, args = context.bot, context.args
     if message.reply_to_message and message.reply_to_message.sender_chat:
         if r := bot.unban_chat_sender_chat(
-            chat_id=chat.id,
-            sender_chat_id=message.reply_to_message.sender_chat.id,
+                chat_id=chat.id,
+                sender_chat_id=message.reply_to_message.sender_chat.id,
         ):
             message.reply_text(
                 f"Finally! Channel {html.escape(message.reply_to_message.sender_chat.title)} was unbanned successfully from {html.escape(chat.title)}\n\n💡 Now this users can send the messages with they channel again",
@@ -599,7 +599,6 @@ def snipe(update: Update, context: CallbackContext):
 
 
 __mod_name__ = "𝐁ᴀɴs"
-
 
 BAN_HANDLER = CommandHandler(["ban", "sban", "dban"], ban, run_async=True)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, run_async=True)

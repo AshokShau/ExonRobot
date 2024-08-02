@@ -307,7 +307,6 @@ file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
 
-
 ECHO_HANDLER = DisableAbleCommandHandler(
     "echo", echo, filters=Filters.chat_type.groups, run_async=True
 )
@@ -341,7 +340,6 @@ __handlers__ = [
     SYS_STATUS_HANDLER,
 ]
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -351,6 +349,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "misc_help")
-
 
 # """

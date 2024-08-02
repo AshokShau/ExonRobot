@@ -37,12 +37,10 @@ from telegram.ext import CommandHandler
 
 # from Exon.modules.sql import warns_sql as warnssql
 import Exon.modules.sql.blacklist_sql as blacklistsql
-
 # from Exon.modules.sql import cust_filters_sql as filtersql
 # import Exon.modules.sql.welcome_sql as welcsql
 import Exon.modules.sql.locks_sql as locksql
 import Exon.modules.sql.notes_sql as sql
-
 # from Exon.modules.rules import get_rules
 import Exon.modules.sql.rules_sql as rulessql
 from Exon import JOIN_LOGGER, LOGGER, OWNER_ID, SUPPORT_CHAT, dispatcher
@@ -364,7 +362,6 @@ EXPORT_HANDLER = CommandHandler(
 dispatcher.add_handler(IMPORT_HANDLER)
 dispatcher.add_handler(EXPORT_HANDLER)
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 # """
 from Exon.modules.language import gs
@@ -372,6 +369,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "backup_help")
-
 
 # """

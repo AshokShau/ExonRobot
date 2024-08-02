@@ -70,7 +70,7 @@ async def lastname(steal):
                 )
                 return
             if response.text.startswith("No records") or r.text.startswith(
-                "No records"
+                    "No records"
             ):
                 await puki.edit(
                     "```I Can't Find This User's Information, This User Has Never Changed His Name Before.```"

@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
 import functools
 from enum import Enum
 
@@ -90,9 +89,9 @@ def user_admin(permission: AdminPerms):
                 chat_id = message.chat.id
                 mem = context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
                 if (
-                    getattr(mem, permission.value) is True
-                    or mem.status == "creator"
-                    or user_id in DRAGONS
+                        getattr(mem, permission.value) is True
+                        or mem.status == "creator"
+                        or user_id in DRAGONS
                 ):
                     return func(update, context, *args, **kwargs)
                 else:
@@ -126,9 +125,9 @@ def anon_callback_handler1(upd: Update, _: CallbackContext):
             chat_id, "You lack the permissions required for this command"
         )
     elif (
-        getattr(mem, perm) is True
-        or mem.status == "creator"
-        or mem.user.id in DEV_USERS
+            getattr(mem, perm) is True
+            or mem.status == "creator"
+            or mem.user.id in DEV_USERS
     ):
         if cb := anon_callbacks.pop((chat_id, message_id), None):
             message_id = anon_callback_messages.pop((chat_id, message_id), None)

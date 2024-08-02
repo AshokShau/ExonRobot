@@ -31,14 +31,14 @@ import os
 import textwrap
 import urllib.request as urllib
 from html import escape
+from io import BytesIO
 from urllib.parse import quote as urlquote
 
 import cv2
 import ffmpeg
-from io import BytesIO
+from PIL import Image, ImageDraw, ImageFont
 from bs4 import BeautifulSoup
 from cloudscraper import CloudScraper
-from PIL import Image, ImageDraw, ImageFont
 from telegram import (
     Bot,
     InlineKeyboardButton,
@@ -56,6 +56,7 @@ from Exon.events import register as asux
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
+
 def sticker_count(bot: Bot, pname: str) -> int:
     resp = bot._request.post(
         f"{bot.base_url}/getStickerSet",
@@ -64,6 +65,7 @@ def sticker_count(bot: Bot, pname: str) -> int:
         },
     )
     return len(resp["stickers"])
+
 
 def convert_gif(input):
     """ғᴜɴᴄᴛɪᴏɴ ᴛᴏ ᴄᴏɴᴠᴇʀᴛ ᴍᴘ4 ᴛᴏ ᴡᴇʙᴍ(ᴠᴘ9)!(ᴀʙɪsʜɴᴏɪ)"""
@@ -94,7 +96,7 @@ def convert_gif(input):
             converted_name,
             vcodec="libvpx-vp9",
             **{
-                #'vf': 'scale=512:-1',
+                # 'vf': 'scale=512:-1',
                 "crf": "30"
             },
         )
@@ -198,7 +200,7 @@ def getsticker(update: Update, context: CallbackContext):
         sticker_data = bot.get_file(file_id).download(out=BytesIO())
         sticker_data.seek(0)
         filename = "animated_sticker.tgs.hmm_" if is_anim else "sticker.png"
-        
+
         bot.send_document(
             update.effective_chat.id,
             document=sticker_data,
@@ -248,8 +250,8 @@ def kang(update, context):
         elif msg.reply_to_message.photo:
             file_id = msg.reply_to_message.photo[-1].file_id
         elif (
-            msg.reply_to_message.document
-            and msg.reply_to_message.document.mime_type != "video/mp4"
+                msg.reply_to_message.document
+                and msg.reply_to_message.document.mime_type != "video/mp4"
         ):
             file_id = msg.reply_to_message.document.file_id
         elif msg.reply_to_message.animation:
@@ -331,8 +333,8 @@ def kang(update, context):
 
             except TelegramError as e:
                 if (
-                    e.message
-                    == "Internal Server Error: sticker set not found (500)"
+                        e.message
+                        == "Internal Server Error: sticker set not found (500)"
                 ):
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -432,8 +434,8 @@ def kang(update, context):
                 )
             except TelegramError as e:
                 if (
-                    e.message
-                    == "Internal Server Error: sticker set not found (500)"
+                        e.message
+                        == "Internal Server Error: sticker set not found (500)"
                 ):
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -475,12 +477,12 @@ def kang(update, context):
                     if sticker_count(context.bot, packname) >= max_stickers:
                         packnum += 1
                         packname = (
-                            "video"
-                            + str(packnum)
-                            + "_"
-                            + str(user.id)
-                            + "_by_"
-                            + context.bot.username
+                                "video"
+                                + str(packnum)
+                                + "_"
+                                + str(user.id)
+                                + "_by_"
+                                + context.bot.username
                         )
                     else:
                         packname_found = 1
@@ -511,8 +513,8 @@ def kang(update, context):
                 )
             except TelegramError as e:
                 if (
-                    e.message
-                    == "Internal Server Error: sticker set not found (500)"
+                        e.message
+                        == "Internal Server Error: sticker set not found (500)"
                 ):
                     edited_keyboard = InlineKeyboardMarkup(
                         [
@@ -602,8 +604,8 @@ def kang(update, context):
             return
         except TelegramError as e:
             if (
-                e.message
-                == "Internal Server Error: sticker set not found (500)"
+                    e.message
+                    == "Internal Server Error: sticker set not found (500)"
             ):
                 msg.reply_text(
                     f"<b>ʏᴏᴜʀ sᴛɪᴄᴋᴇʀ ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ!</b>"
@@ -687,16 +689,16 @@ def kang(update, context):
 
 
 def makepack_internal(
-    update,
-    context,
-    msg,
-    user,
-    emoji,
-    packname,
-    packnum,
-    png_sticker=None,
-    tgs_sticker=None,
-    webm_sticker=None,
+        update,
+        context,
+        msg,
+        user,
+        emoji,
+        packname,
+        packnum,
+        png_sticker=None,
+        tgs_sticker=None,
+        webm_sticker=None,
 ):
     name = user.first_name
     name = name[:50]
@@ -1002,7 +1004,6 @@ async def drawText(image_path, text):
 
 
 __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀ"
-
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 

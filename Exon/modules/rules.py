@@ -172,7 +172,6 @@ def __chat_settings__(chat_id, user_id):
 
 __mod_name__ = "𝐑ᴜʟᴇs"
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -182,6 +181,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "rules_help")
-
 
 # """

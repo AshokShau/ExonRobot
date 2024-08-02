@@ -195,7 +195,6 @@ def __migrate__(old_chat_id, new_chat_id):
 
 __mod_name__ = "𝐆-ᴄᴀsᴛ"
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -205,6 +204,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "gcast_help")
-
 
 # """

@@ -162,9 +162,9 @@ def gban(update: Update, context: CallbackContext):
             return
 
         if old_reason := gban_db.update_gban_reason(
-            user_id,
-            user_chat.username or user_chat.first_name,
-            reason,
+                user_id,
+                user_chat.username or user_chat.first_name,
+                reason,
         ):
             message.reply_text(
                 f"This user is already gbanned, for the following reason:\n<code>{html.escape(old_reason)}</code>\nI've gone and updated it with your new reason!",

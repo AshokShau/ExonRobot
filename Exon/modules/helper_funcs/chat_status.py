@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
 from functools import wraps
 from threading import RLock
 from time import perf_counter
@@ -79,15 +78,15 @@ def is_user_admin(update: Update, user_id: int, member: ChatMember = None) -> bo
     chat = update.effective_chat
     msg = update.effective_message
     if (
-        chat.type == "private"
-        or user_id in DEMONS
-        or user_id in DEV_USERS
-        or chat.all_members_are_administrators
-        or (
+            chat.type == "private"
+            or user_id in DEMONS
+            or user_id in DEV_USERS
+            or chat.all_members_are_administrators
+            or (
             msg.reply_to_message
             and msg.reply_to_message.sender_chat is not None
             and msg.reply_to_message.sender_chat.type != "channel"
-        )
+    )
     ):
         return True
 
@@ -110,12 +109,12 @@ def is_user_mod(update: Update, user_id: int, member: ChatMember = None) -> bool
     chat = update.effective_chat
     msg = update.effective_message
     if (
-        chat.type == "private"
-        or user_id in MOD_USERS
-        or user_id in DEMONS
-        or user_id in DEV_USERS
-        or chat.all_members_are_administrators
-        or (msg.sender_chat is not None and msg.sender_chat.type != "channel")
+            chat.type == "private"
+            or user_id in MOD_USERS
+            or user_id in DEMONS
+            or user_id in DEV_USERS
+            or chat.all_members_are_administrators
+            or (msg.sender_chat is not None and msg.sender_chat.type != "channel")
     ):  # Count telegram and Group Anonymous as admin
         return True
 
@@ -149,22 +148,22 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
 
 
 def is_user_ban_protected(
-    update: Update, user_id: int, member: ChatMember = None
+        update: Update, user_id: int, member: ChatMember = None
 ) -> bool:
     chat = update.effective_chat
     msg = update.effective_message
     if (
-        chat.type == "private"
-        or user_id in DEMONS
-        or user_id in DEV_USERS
-        or user_id in DRAGONS
-        or user_id in TIGERS
-        or chat.all_members_are_administrators
-        or (
+            chat.type == "private"
+            or user_id in DEMONS
+            or user_id in DEV_USERS
+            or user_id in DRAGONS
+            or user_id in TIGERS
+            or chat.all_members_are_administrators
+            or (
             msg.reply_to_message
             and msg.reply_to_message.sender_chat is not None
             and msg.reply_to_message.sender_chat.type != "channel"
-        )
+    )
     ):
         return True
 
@@ -176,13 +175,13 @@ def is_user_ban_protected(
 
 def is_user_ban_protectedd(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (
-        chat.type == "private"
-        or user_id in DRAGONS
-        or user_id in DEV_USERS
-        or user_id in WOLVES
-        or user_id in TIGERS
-        or chat.all_members_are_administrators
-        or user_id in {777000, 1087968824}
+            chat.type == "private"
+            or user_id in DRAGONS
+            or user_id in DEV_USERS
+            or user_id in WOLVES
+            or user_id in TIGERS
+            or chat.all_members_are_administrators
+            or user_id in {777000, 1087968824}
     ):  # Count telegram and Group Anonymous as admin
         return True
 
@@ -290,7 +289,7 @@ def support_plus(func):
 def whitelist_plus(func):
     @wraps(func)
     def is_whitelist_plus_func(
-        update: Update, context: CallbackContext, *args, **kwargs
+            update: Update, context: CallbackContext, *args, **kwargs
     ):
         context.bot
         user = update.effective_user
@@ -333,7 +332,7 @@ def user_admin_no_reply(func):
     @wraps(func)
     def is_not_admin_no_reply(
             update: Update, context: CallbackContext, *args, **kwargs
-        ):
+    ):
         context.bot
         user = update.effective_user
         update.effective_chat
@@ -479,9 +478,9 @@ def user_can_ban(func):
         member = update.effective_chat.get_member(user)
 
         if (
-            not member.can_restrict_members
-            and member.status != "creator"
-            and user not in DEV_USERS
+                not member.can_restrict_members
+                and member.status != "creator"
+                and user not in DEV_USERS
         ):
             update.effective_message.reply_text(
                 "Sorry son, but you're not worthy to wield the banhammer."
@@ -526,7 +525,7 @@ def connection_status(func):
 def user_admin_no_reply(func):
     @wraps(func)
     def is_not_admin_no_reply(
-        update: Update, context: CallbackContext, *args, **kwargs
+            update: Update, context: CallbackContext, *args, **kwargs
     ):
         # bot = context.bot
         user = update.effective_user
@@ -553,7 +552,7 @@ def user_can_restrict_no_reply(func):
     @wraps(func)
     def u_can_restrict_noreply(
             update: Update, context: CallbackContext, *args, **kwargs
-        ):
+    ):
         context.bot
         user = update.effective_user
         chat = update.effective_chat
@@ -562,9 +561,9 @@ def user_can_restrict_no_reply(func):
 
         if user:
             if (
-                member.can_restrict_members
-                or member.status == "creator"
-                or user.id in DRAGONS
+                    member.can_restrict_members
+                    or member.status == "creator"
+                    or user.id in DRAGONS
             ):
                 return func(update, context, *args, **kwargs)
             elif member.status == "administrator":

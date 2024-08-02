@@ -108,8 +108,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
 @sudo_plus
 @gloggable
 def addsupport(
-    update: Update,
-    context: CallbackContext,
+        update: Update,
+        context: CallbackContext,
 ) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -554,7 +554,6 @@ SUDOLIST_HANDLER = CommandHandler(
 )
 DEVLIST_HANDLER = CommandHandler(["devlist", "sakuraunion"], devlist, run_async=True)
 
-
 dispatcher.add_handler(SUDO_HANDLER)
 dispatcher.add_handler(SUPPORT_HANDLER)
 dispatcher.add_handler(TIGER_HANDLER)
@@ -569,9 +568,7 @@ dispatcher.add_handler(SUPPORTLIST_HANDLER)
 dispatcher.add_handler(SUDOLIST_HANDLER)
 dispatcher.add_handler(DEVLIST_HANDLER)
 
-
 __mod_name__ = "𝐎ᴡɴᴇʀ"
-
 
 __handlers__ = [
     SUDO_HANDLER,
@@ -598,6 +595,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "owner_help")
-
 
 # """

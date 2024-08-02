@@ -227,7 +227,6 @@ dispatcher.add_handler(UNAPPROVEALL_BTN)
 
 __mod_name__ = "𝐀ᴘᴘʀᴏᴠᴀʟ"
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 # """
 from Exon.modules.language import gs

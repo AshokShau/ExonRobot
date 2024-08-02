@@ -70,9 +70,9 @@ class WarnFilters(BASE):
 
     def __eq__(self, other):
         return (
-            isinstance(other, WarnFilters)
-            and self.chat_id == other.chat_id
-            and self.keyword == other.keyword
+                isinstance(other, WarnFilters)
+                and self.chat_id == other.chat_id
+                and self.keyword == other.keyword
         )
 
 
@@ -173,7 +173,7 @@ def add_warn_filter(chat_id, keyword, reply):
 def remove_warn_filter(chat_id, keyword):
     with WARN_FILTER_INSERTION_LOCK:
         if warn_filt := SESSION.query(WarnFilters).get(
-            (str(chat_id), keyword)
+                (str(chat_id), keyword)
         ):
             if keyword in WARN_FILTERS.get(str(chat_id), []):  # sanity check
                 WARN_FILTERS.get(str(chat_id), []).remove(keyword)

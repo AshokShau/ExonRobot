@@ -96,7 +96,6 @@ __command_list__ = ["debug"]
 
 __handlers__ = [DEBUG_HANDLER]
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -106,6 +105,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "debug_help")
-
 
 # """

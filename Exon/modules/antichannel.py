@@ -206,7 +206,6 @@ def eliminate_linked_channel_msg(update: Update, _: CallbackContext):
 
 __mod_name__ = "𝐀-ᴄʜᴀɴɴᴇʟ"
 
-
 CLEANLINKED_HANDLER = CommandHandler(
     ["acm", "antichannel", "antichannelmode"],
     antichannelmode,
@@ -214,7 +213,6 @@ CLEANLINKED_HANDLER = CommandHandler(
     run_async=True,
 )
 SFA_HANDLER = MessageHandler(Filters.all, sfachat, allow_edit=True, run_async=True)
-
 
 dispatcher.add_handler(SFA_HANDLER, group=69)
 dispatcher.add_handler(CLEANLINKED_HANDLER)
@@ -228,9 +226,7 @@ __handlers__ = [
     SFA_HANDLER,
 ]
 
-
 __mod_name__ = "𝐀-ᴄʜᴀɴɴᴇʟ"
-
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
@@ -240,6 +236,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "achannel_help")
-
 
 # """

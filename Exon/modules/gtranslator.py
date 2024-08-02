@@ -161,7 +161,6 @@ dispatcher.add_handler(
     DisableAbleCommandHandler("splcheck", spellcheck, run_async=True)
 )
 
-
 __command_list__ = ["tr", "tl", "lang", "languages", "splcheck", "tts"]
 
 __mod_name__ = "𝐓ʀᴀɴsʟᴀᴛᴏʀ"
@@ -175,6 +174,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "gtranslate_help")
-
 
 # """

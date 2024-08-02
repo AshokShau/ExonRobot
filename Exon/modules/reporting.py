@@ -11,7 +11,6 @@ from Exon.modules.helper_funcs.chat_status import user_not_admin
 from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd, Exonmsg
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql import reporting_sql as sql
-
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 REPORT_GROUP = 12
@@ -171,7 +170,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                len(message.text.split()) > 1
+                                    len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
                     if not chat.username:
@@ -185,7 +184,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                len(message.text.split()) > 1
+                                    len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
@@ -201,7 +200,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                len(message.text.split()) > 1
+                                    len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
@@ -280,7 +279,6 @@ def buttons(update: Update, context: CallbackContext):
 
 __mod_name__ = "𝐑ᴇᴘᴏʀᴛ"
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -290,6 +288,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "reports_help")
-
 
 # """

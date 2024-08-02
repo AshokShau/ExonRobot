@@ -83,7 +83,7 @@ async def can_promote_users(message):
     )
     p = result.participant
     return isinstance(p, types.ChannelParticipantCreator) or (
-        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
+            isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
 
 
@@ -96,7 +96,7 @@ async def can_ban_users(message):
     )
     p = result.participant
     return isinstance(p, types.ChannelParticipantCreator) or (
-        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
+            isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
 
 
@@ -616,9 +616,9 @@ def pin(update: Update, context: CallbackContext) -> str:
     if prev_message and is_group:
         is_silent = (
             (
-                args[0].lower() != "notify"
-                or args[0].lower() == "loud"
-                or args[0].lower() == "violent"
+                    args[0].lower() != "notify"
+                    or args[0].lower() == "loud"
+                    or args[0].lower() == "violent"
             )
             if len(args) >= 1
             else True
@@ -668,9 +668,9 @@ def unpin(update: Update, context: CallbackContext):
     unpinner = chat.get_member(user.id)
 
     if (
-        not unpinner.can_pin_messages
-        and unpinner.status != "creator"
-        and user.id not in DRAGONS
+            not unpinner.can_pin_messages
+            and unpinner.status != "creator"
+            and user.id not in DRAGONS
     ):
         message.reply_text("ʏᴏᴜ ᴅᴏɴ ʜᴀᴠᴇ ᴛʜᴇ ɴᴇᴄᴇssᴀʀʏ ʀɪɢʜᴛs ᴛᴏ ᴅᴏ ᴛʜᴀᴛ!")
         return
@@ -810,7 +810,7 @@ async def admins(client, message):
         adminList = []
         ownerList = []
         async for admin in Abishnoi.get_chat_members(
-            message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
+                message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS
         ):
             if admin.privileges.is_anonymous == False:
                 if admin.user.is_bot == True:
@@ -854,7 +854,7 @@ async def bots(client, message):
     try:
         botList = []
         async for bot in Abishnoi.get_chat_members(
-            message.chat.id, filter=enums.ChatMembersFilter.BOTS
+                message.chat.id, filter=enums.ChatMembersFilter.BOTS
         ):
             botList.append(bot.user)
         lenBotList = len(botList)
@@ -897,17 +897,17 @@ def button(update: Update, context: CallbackContext) -> str:
             can_manage_voice_chats=bot_member.can_manage_voice_chats,
         )
         if demoted := bot.promoteChatMember(
-            chat.id,
-            user_id,
-            can_change_info=False,
-            can_post_messages=False,
-            can_edit_messages=False,
-            can_delete_messages=False,
-            can_invite_users=False,
-            can_restrict_members=False,
-            can_pin_messages=False,
-            can_promote_members=False,
-            can_manage_voice_chats=False,
+                chat.id,
+                user_id,
+                can_change_info=False,
+                can_post_messages=False,
+                can_edit_messages=False,
+                can_delete_messages=False,
+                can_invite_users=False,
+                can_restrict_members=False,
+                can_pin_messages=False,
+                can_promote_members=False,
+                can_manage_voice_chats=False,
         ):
             update.effective_message.edit_text(
                 f"ʏᴇᴘ! {mention_html(user_member.user.id, user_member.user.first_name)} has been demoted in {chat.title}!"
@@ -1009,7 +1009,6 @@ __handlers__ = [
     ADMIN_REFRESH_HANDLER,
 ]
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 # """
@@ -1018,6 +1017,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "admin_help")
-
 
 # """

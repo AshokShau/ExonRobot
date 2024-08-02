@@ -57,13 +57,13 @@ class LogChannelSettings(BASE):
     log_report = Column(Boolean, default=True)
 
     def __init__(
-        self,
-        chat_id: int,
-        log_join: bool,
-        log_leave: bool,
-        log_warn: bool,
-        log_action: bool,
-        log_report: bool,
+            self,
+            chat_id: int,
+            log_join: bool,
+            log_leave: bool,
+            log_warn: bool,
+            log_action: bool,
+            log_report: bool,
     ):
         self.chat_id = chat_id
         self.log_warn = log_warn

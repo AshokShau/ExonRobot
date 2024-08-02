@@ -97,11 +97,11 @@ def time_formatter(milliseconds: int) -> str:
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     tmp = (
-        (f"{str(days)} day(s), " if days else "")
-        + (f"{str(hours)} hour(s), " if hours else "")
-        + (f"{str(minutes)} minute(s), " if minutes else "")
-        + (f"{str(seconds)} second(s), " if seconds else "")
-        + (f"{str(milliseconds)} millisecond(s), " if milliseconds else "")
+            (f"{str(days)} day(s), " if days else "")
+            + (f"{str(hours)} hour(s), " if hours else "")
+            + (f"{str(minutes)} minute(s), " if minutes else "")
+            + (f"{str(seconds)} second(s), " if seconds else "")
+            + (f"{str(milliseconds)} millisecond(s), " if milliseconds else "")
     )
     return tmp[:-2]
 
@@ -115,7 +115,7 @@ async def delete_or_pass(message):
 def humanbytes(size):
     if not size:
         return ""
-    power = 2**10
+    power = 2 ** 10
     raised_to_pow = 0
     dict_power_n = {0: "", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
     while size > power:
@@ -234,11 +234,11 @@ async def convert_to_image(message, client) -> [None, str]:
     """Convert Most Media Formats To Raw Image"""
     final_path = None
     if not (
-        message.reply_to_message.photo
-        or message.reply_to_message.sticker
-        or message.reply_to_message.media
-        or message.reply_to_message.animation
-        or message.reply_to_message.audio
+            message.reply_to_message.photo
+            or message.reply_to_message.sticker
+            or message.reply_to_message.media
+            or message.reply_to_message.animation
+            or message.reply_to_message.audio
     ):
         return None
     if message.reply_to_message.photo:
@@ -421,7 +421,7 @@ def get_url(message_1: Message) -> Union[str, None]:
                     offset, length = entity.offset, entity.length
                     break
 
-    return None if offset in (None,) else text[offset : offset + length]
+    return None if offset in (None,) else text[offset: offset + length]
 
 
 async def fetch(url):

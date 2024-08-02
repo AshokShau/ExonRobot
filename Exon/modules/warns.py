@@ -71,7 +71,6 @@ from Exon.modules.helper_funcs.string_handling import split_quotes
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql import warns_sql as sql
 from Exon.modules.sql.approve_sql import is_approved
-
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 WARN_HANDLER_GROUP = 9
@@ -80,7 +79,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>ᴄᴜʀʀᴇɴᴛ ᴡᴀʀɴɪɴɢ ꜰɪʟ�
 
 # Not async
 def warn(
-    user: User, update: Update, reason: str, message: Message, warner: User = None
+        user: User, update: Update, reason: str, message: Message, warner: User = None
 ) -> Optional[str]:  # sourcery no-metrics
     chat = update.effective_chat
     if is_user_admin(update, user.id):
@@ -229,8 +228,8 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 
     if user_id:
         if (
-            message.reply_to_message
-            and message.reply_to_message.from_user.id == user_id
+                message.reply_to_message
+                and message.reply_to_message.from_user.id == user_id
         ):
             return warn(
                 message.reply_to_message.from_user,
@@ -566,7 +565,6 @@ dispatcher.add_handler(WARN_LIMIT_HANDLER)
 dispatcher.add_handler(WARN_STRENGTH_HANDLER)
 dispatcher.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)
 
-
 __mod_name__ = "𝐖ᴀʀɴs"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
@@ -578,6 +576,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "warns_help")
-
 
 # """

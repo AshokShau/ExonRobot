@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
 import base64
 import json
 import socket
@@ -43,7 +42,6 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
     "content-type": "application/json",
 }
-
 
 BASE = "https://batbin.me/"
 
@@ -83,8 +81,8 @@ def upload_text(data: str) -> typing.Optional[str]:
     )
     compress = zlib.compressobj(wbits=-15)
     paste_blob = (
-        compress.compress(json.dumps({"paste": data}, separators=(",", ":")).encode())
-        + compress.flush()
+            compress.compress(json.dumps({"paste": data}, separators=(",", ":")).encode())
+            + compress.flush()
     )
     cipher = AES.new(key, AES.MODE_GCM)
     paste_meta = [

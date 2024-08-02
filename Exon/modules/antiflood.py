@@ -43,7 +43,6 @@ from Exon.modules.helper_funcs.string_handling import extract_time
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql import antiflood_sql as sql
 from Exon.modules.sql.approve_sql import is_approved
-
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 FLOOD_GROUP = 3

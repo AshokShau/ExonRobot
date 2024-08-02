@@ -329,8 +329,8 @@ def reply_filter(update, context):
                             return
                         except BadRequest as excp:
                             if (
-                                excp.message
-                                == "Wrong remote file identifier specified: wrong padding in the string"
+                                    excp.message
+                                    == "Wrong remote file identifier specified: wrong padding in the string"
                             ):
                                 context.bot.send_message(
                                     chat.id,
@@ -340,7 +340,7 @@ def reply_filter(update, context):
                             LOGGER.exception(f"Error in filters: {excp.message}")
                             return
                     if valid_format := escape_invalid_curly_brackets(
-                        text, VALID_WELCOME_FORMATTERS
+                            text, VALID_WELCOME_FORMATTERS
                     ):
                         filtext = valid_format.format(
                             first=escape(message.from_user.first_name),
@@ -641,7 +641,6 @@ __handlers__ = [
     (CUST_FILTER_HANDLER, HANDLER_GROUP, RMALLFILTER_HANDLER),
 ]
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -651,6 +650,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "cust_filters_help")
-
 
 # """

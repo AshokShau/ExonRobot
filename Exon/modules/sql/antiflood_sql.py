@@ -127,10 +127,10 @@ def set_flood_strength(chat_id, flood_type, value):
     # 5 = tmute
     with INSERTION_FLOOD_SETTINGS_LOCK:
         curr_setting = SESSION.query(FloodSettings).get(str(chat_id)) or FloodSettings(
-                        chat_id,
-                        flood_type=int(flood_type),
-                        value=value,
-                    )
+            chat_id,
+            flood_type=int(flood_type),
+            value=value,
+        )
 
         curr_setting.flood_type = int(flood_type)
         curr_setting.value = str(value)

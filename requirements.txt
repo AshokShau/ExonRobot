@@ -1,6 +1,6 @@
 Abg==2.3.8
 aiofiles
-aiohttp>=2.2.5
+aiohttp>=3.9.2
 httpx[http2]>=0.18.1,<1.0.0
 alphabet_detector==0.0.7
 beautifulsoup4==4.11.1
@@ -32,8 +32,8 @@ prettyconf
 base58==2.1.1
 pytimeparse==1.1.8
 SibylSystem==0.0.24
-TgCrypto
-pyrofork==2.3.31
+tgcrypto-pyrofork
+pyrofork
 python-arq==6.0.7
 python-dotenv==1.0.1
 ffmpeg-python==0.2.0
@@ -42,8 +42,8 @@ telegraph==2.2.0
 motor
 pymongo[srv]==4.7.2
 odmantic==0.9.2
-opencv-python-headless==4.9.0.80
-pykeyboard==0.1.5
+opencv-python-headless==4.10.0.82
+pykeyboard
 wget==3.2
 wikipedia==1.4.0
 bing_image_downloader==1.1.2

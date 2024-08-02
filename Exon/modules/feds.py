@@ -362,13 +362,13 @@ def user_join_fed(update: Update, context: CallbackContext):
         elif not msg.reply_to_message and not args:
             user = msg.from_user
         elif not msg.reply_to_message and (
-            not args
-            or (
-                len(args) >= 1
-                and not args[0].startswith("@")
-                and not args[0].isdigit()
-                and not msg.parse_entities([MessageEntity.TEXT_MENTION])
-            )
+                not args
+                or (
+                        len(args) >= 1
+                        and not args[0].startswith("@")
+                        and not args[0].isdigit()
+                        and not msg.parse_entities([MessageEntity.TEXT_MENTION])
+                )
         ):
             msg.reply_text("I cannot extract user from this message")
             return
@@ -426,13 +426,13 @@ def user_demote_fed(update: Update, context: CallbackContext):
             user = msg.from_user
 
         elif not msg.reply_to_message and (
-            not args
-            or (
-                len(args) >= 1
-                and not args[0].startswith("@")
-                and not args[0].isdigit()
-                and not msg.parse_entities([MessageEntity.TEXT_MENTION])
-            )
+                not args
+                or (
+                        len(args) >= 1
+                        and not args[0].startswith("@")
+                        and not args[0].isdigit()
+                        and not msg.parse_entities([MessageEntity.TEXT_MENTION])
+                )
         ):
             msg.reply_text("I cannot extract user from this message")
             return
@@ -1619,8 +1619,8 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     multi_import_username.append(import_username)
                     multi_import_reason.append(import_reason)
                     success += 1
-                                    # t = ThreadWithReturnValue(target=sql.fban_user, args=(fed_id, str(import_userid), import_firstname, import_lastname, import_username, import_reason,))
-                                    # t.start()
+                    # t = ThreadWithReturnValue(target=sql.fban_user, args=(fed_id, str(import_userid), import_firstname, import_lastname, import_username, import_reason,))
+                    # t.start()
                 sql.multi_fban_user(
                     multi_fed_id,
                     multi_import_userid,

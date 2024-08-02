@@ -161,7 +161,8 @@ DEFAULT_WELCOME_MESSAGES = [
     "Guess who survived his time in Hell, {first}.",  # jojo
     "How many loaves of bread have you eaten in your lifetime?",  # jojo
     "What did you say? Depending on your answer, I may have to kick your ass!",  # jojo
-    "Oh? You're approaching me? Instead of running away, you come right to me? Even though your grandfather, Joseph, told you the secret of The World, like an exam student scrambling to finish the problems on an exam until the last moments before the chime?",  # jojo
+    "Oh? You're approaching me? Instead of running away, you come right to me? Even though your grandfather, Joseph, told you the secret of The World, like an exam student scrambling to finish the problems on an exam until the last moments before the chime?",
+    # jojo
     "Rerorerorerorerorero.",  # jojo
     "{first} just warped into the group!",
     "I..it's..it's just {first}.",
@@ -180,9 +181,12 @@ DEFAULT_WELCOME_MESSAGES = [
     "In the jungle, you must wait...until the dice read five or eight.",  # Jumanji stuff
     "Dr.{first} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
     "{first}, this will not be an easy mission - monkeys slow the expedition.",  # End of Jumanji stuff
-    "Remember, remember, the Fifth of November, the Gunpowder Treason and Plot. I know of no reason why the Gunpowder Treason should ever be forgot.",  # V for Vendetta
-    "The only verdict is vengeance; a vendetta, held as a votive not in vain, for the value and veracity of such shall one day vindicate the vigilant and the virtuous.",  # V for Vendetta
-    "Behind {first} there is more than just flesh. Beneath this user there is an idea... and ideas are bulletproof.",  # V for Vendetta
+    "Remember, remember, the Fifth of November, the Gunpowder Treason and Plot. I know of no reason why the Gunpowder Treason should ever be forgot.",
+    # V for Vendetta
+    "The only verdict is vengeance; a vendetta, held as a votive not in vain, for the value and veracity of such shall one day vindicate the vigilant and the virtuous.",
+    # V for Vendetta
+    "Behind {first} there is more than just flesh. Beneath this user there is an idea... and ideas are bulletproof.",
+    # V for Vendetta
     "Love your rage, not your cage.",  # V for Vendetta
     "Get your stinking paws off me, you damned dirty ape!",  # Planet of the apes
     "Elementary, my dear {first}.",
@@ -252,6 +256,8 @@ DEFAULT_GOODBYE_MESSAGES = [
     "Go outside",
     "Always your head in the clouds",
 ]
+
+
 # Line 111 to 152 are references from https://bindingofisaac.fandom.com/wiki/Fortune_Telling_Machine
 
 
@@ -491,11 +497,11 @@ def set_gdbye_preference(chat_id, should_goodbye):
 
 
 def set_custom_welcome(
-    chat_id,
-    custom_content,
-    custom_welcome,
-    welcome_type,
-    buttons=None,
+        chat_id,
+        custom_content,
+        custom_welcome,
+        welcome_type,
+        buttons=None,
 ):
     if buttons is None:
         buttons = []
@@ -610,7 +616,7 @@ def get_gdbye_buttons(chat_id):
 def clean_service(chat_id: Union[str, int]) -> bool:
     try:
         if chat_setting := SESSION.query(CleanServiceSetting).get(
-            str(chat_id)
+                str(chat_id)
         ):
             return chat_setting.clean_service
         return False

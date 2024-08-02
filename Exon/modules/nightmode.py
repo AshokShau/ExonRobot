@@ -90,7 +90,7 @@ async def can_change_info(message):
     )
     p = result.participant
     return isinstance(p, types.ChannelParticipantCreator) or (
-        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
+            isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
 
 
@@ -184,9 +184,7 @@ scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
 scheduler.add_job(job_open, trigger="cron", hour=5, minute=59)
 scheduler.start()
 
-
 __mod_name__ = "𝐍-ᴍᴏᴅᴇ"
-
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
@@ -197,6 +195,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "nmode_help")
-
 
 # """

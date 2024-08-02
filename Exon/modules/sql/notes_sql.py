@@ -125,12 +125,12 @@ def get_note(chat_id, note_name):
 def rm_note(chat_id, note_name):
     with NOTES_INSERTION_LOCK:
         if note := (
-            SESSION.query(Notes)
-            .filter(
-                func.lower(Notes.name) == note_name,
-                Notes.chat_id == str(chat_id),
-            )
-            .first()
+                SESSION.query(Notes)
+                        .filter(
+                    func.lower(Notes.name) == note_name,
+                    Notes.chat_id == str(chat_id),
+                )
+                        .first()
         ):
             with BUTTONS_INSERTION_LOCK:
                 buttons = (

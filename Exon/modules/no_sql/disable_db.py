@@ -47,7 +47,7 @@ def disable_command(chat_id, disable) -> bool:
 
 def enable_command(chat_id, enable) -> bool:
     if data := DISABLED_COMMANDS.find_one(
-        {"chat_id": chat_id, "command": enable}
+            {"chat_id": chat_id, "command": enable}
     ):
         if enable in DISABLED.get(str(chat_id)):  # sanity check
             DISABLED.setdefault(str(chat_id), set()).remove(enable)

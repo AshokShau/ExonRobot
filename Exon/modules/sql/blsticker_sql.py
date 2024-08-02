@@ -48,9 +48,9 @@ class StickersFilters(BASE):
 
     def __eq__(self, other):
         return (
-            isinstance(other, StickersFilters)
-            and self.chat_id == other.chat_id
-            and self.trigger == other.trigger
+                isinstance(other, StickersFilters)
+                and self.chat_id == other.chat_id
+                and self.trigger == other.trigger
         )
 
 
@@ -94,7 +94,7 @@ def add_to_stickers(chat_id, trigger):
 def rm_from_stickers(chat_id, trigger):
     with STICKERS_FILTER_INSERTION_LOCK:
         if stickers_filt := SESSION.query(StickersFilters).get(
-            (str(chat_id), trigger)
+                (str(chat_id), trigger)
         ):
             if trigger in CHAT_STICKERS.get(str(chat_id), set()):  # sanity check
                 CHAT_STICKERS.get(str(chat_id), set()).remove(trigger)
@@ -148,10 +148,10 @@ def set_blacklist_strength(chat_id, blacklist_type, value):
     # 7 = tmute
     with STICKSET_FILTER_INSERTION_LOCK:
         curr_setting = SESSION.query(StickerSettings).get(str(chat_id)) or StickerSettings(
-                        chat_id,
-                        blacklist_type=int(blacklist_type),
-                        value=value,
-                    )
+            chat_id,
+            blacklist_type=int(blacklist_type),
+            value=value,
+        )
 
         curr_setting.blacklist_type = int(blacklist_type)
         curr_setting.value = str(value)

@@ -198,7 +198,6 @@ async def active_afk(_, message: Message):
 
 __mod_name__ = "𝐀ғᴋ"
 
-
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 # """
@@ -207,6 +206,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "afk_help")
-
 
 # """

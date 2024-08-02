@@ -210,7 +210,7 @@ def disable_raid_cb(update: Update, context: CallbackContext):
     args = update.callback_query.data.split("=")
     what = args[0]
     update.effective_message.edit_text(
-        f"ᴀᴄᴛɪᴏɴ ᴄᴀɴᴄᴇʟʟᴇᴅ, ʀᴀɪᴅ ᴍᴏᴅᴇ ᴡɪʟʟ sᴛᴀʏ <code>{'Enabled' if what ==1 else 'Disabled'}</code>.",
+        f"ᴀᴄᴛɪᴏɴ ᴄᴀɴᴄᴇʟʟᴇᴅ, ʀᴀɪᴅ ᴍᴏᴅᴇ ᴡɪʟʟ sᴛᴀʏ <code>{'Enabled' if what == 1 else 'Disabled'}</code>.",
         parse_mode=ParseMode.HTML,
     )
 

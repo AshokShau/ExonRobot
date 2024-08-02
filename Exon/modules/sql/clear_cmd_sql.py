@@ -90,9 +90,9 @@ def del_clearcmd(chat_id, cmd):
 def del_allclearcmd(chat_id):
     with CLEAR_CMD_LOCK:
         if (
-            del_cmd := SESSION.query(ClearCmd)
-            .filter(ClearCmd.chat_id == str(chat_id))
-            .all()
+                del_cmd := SESSION.query(ClearCmd)
+                        .filter(ClearCmd.chat_id == str(chat_id))
+                        .all()
         ):
             for cmd in del_cmd:
                 SESSION.delete(cmd)

@@ -75,7 +75,7 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
         fst_word = message.text.strip().split(None, 1)[0]
 
         if len(fst_word) > 1 and any(
-            fst_word.startswith(start) for start in CMD_STARTERS
+                fst_word.startswith(start) for start in CMD_STARTERS
         ):
             command = fst_word[1:].split("@")
             chat = update.effective_chat
@@ -261,6 +261,7 @@ __handlers__ = [
     LIST_CLEAN_BLUE_TEXT_HANDLER,
     (CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP),
 ]
+
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 
@@ -270,6 +271,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "cleaner_help")
-
 
 # """

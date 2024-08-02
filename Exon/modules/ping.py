@@ -31,7 +31,6 @@ from typing import List
 
 import requests
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.ext import CallbackContext
 
@@ -155,7 +154,6 @@ dispatcher.add_handler(PINGALL_HANDLER)
 __command_list__ = ["ping", "pingall"]
 __handlers__ = [PING_HANDLER, PINGALL_HANDLER]
 
-
 __mod_name__ = "𝐏ɪɴɢ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
@@ -167,6 +165,5 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "ping_help")
-
 
 # """

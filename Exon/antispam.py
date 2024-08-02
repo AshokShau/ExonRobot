@@ -11,7 +11,8 @@ def antispam_restrict_user(user_id, time):
     # print(GLOBAL_USER_DATA)
     if user_id in NoResUser:
         return True
-    if GLOBAL_USER_DATA.get(user_id) and GLOBAL_USER_DATA.get(user_id).get("AntiSpamHard") and GLOBAL_USER_DATA.get(user_id).get("AntiSpamHard").get("restrict"):
+    if GLOBAL_USER_DATA.get(user_id) and GLOBAL_USER_DATA.get(user_id).get("AntiSpamHard") and GLOBAL_USER_DATA.get(
+            user_id).get("AntiSpamHard").get("restrict"):
         return True
     try:
         number = GLOBAL_USER_DATA["AntiSpam"][user_id]["value"]
@@ -125,7 +126,7 @@ def antispam_cek_user(user_id, time):
                         "level": level,
                     }
                 }
-                                    # print(GLOBAL_USER_DATA["AntiSpamHard"])
+                # print(GLOBAL_USER_DATA["AntiSpamHard"])
         return value
     except KeyError:
         return {

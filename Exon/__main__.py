@@ -21,12 +21,11 @@ from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tver
 
 import Exon.modules.no_sql.users_db as sql
+from Exon import Abishnoi as pbot
 from Exon import BOT_USERNAME
 from Exon import LOGGER as log
 from Exon import OWNER_ID, OWNER_USERNAME, SUPPORT_CHAT, TOKEN
-from Exon import Abishnoi as pbot
 from Exon import StartTime, dispatcher, telethn, updater
-
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Exon.modules import ALL_MODULES
@@ -38,7 +37,6 @@ from Exon.modules.language import gs
 PM_START_TEX = """
 ʜᴇʟʟᴏ `{}`, ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ \nᴡᴀɪᴛ ᴀ ᴍᴏᴍᴇɴᴛ ʙʀᴏ . . . 
 """
-
 
 buttons = [
     [
@@ -58,7 +56,6 @@ buttons = [
     ],
 ]
 
-
 IMPORTED = {}
 MIGRATEABLE = []
 HELPABLE = {}
@@ -66,7 +63,6 @@ STATS = []
 USER_INFO = []
 DATA_IMPORT = []
 DATA_EXPORT = []
-
 
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
@@ -144,7 +140,7 @@ def test(update: Update, context: CallbackContext):
 
 @Exoncallback(pattern=r"start_back")
 @Exoncmd(command="start", pass_args=True)
-def start(update: Update, context: CallbackContext):    # sourcery no-metrics
+def start(update: Update, context: CallbackContext):  # sourcery no-metrics
     """#TODO
 
     Params:
@@ -374,7 +370,7 @@ def help_button(update: Update, context: CallbackContext):
 
         # ensure no spinny white circle
         context.bot.answer_callback_query(query.id)
-            # query.message.delete()
+        # query.message.delete()
 
     except BadRequest:
         pass

@@ -34,7 +34,6 @@ from asyncio import sleep
 from json.decoder import JSONDecodeError
 from random import choice
 
-from PIL import Image
 from telethon.errors import MessageDeleteForbiddenError, MessageNotModifiedError
 from telethon.tl import types
 from telethon.tl.custom import Message
@@ -95,12 +94,12 @@ class Quotly:
             Image.open(file_).save(file, "PNG")
             files = {"file": open(file, "rb").read()}
             uri = (
-                "https://telegra.ph"
-                + (
-                    await async_searcher(
-                        "https://telegra.ph/upload", post=True, data=files, re_json=True
-                    )
-                )[0]["src"]
+                    "https://telegra.ph"
+                    + (
+                        await async_searcher(
+                            "https://telegra.ph/upload", post=True, data=files, re_json=True
+                        )
+                    )[0]["src"]
             )
             os.remove(file)
             os.remove(file_)
@@ -151,7 +150,7 @@ class Quotly:
             "from": {
                 "id": id_,
                 "first_name": (name or (sender.first_name if sender else None))
-                or "Deleted Account",
+                              or "Deleted Account",
                 "last_name": last_name,
                 "username": sender.username if sender else None,
                 "language_code": "en",
@@ -169,7 +168,8 @@ class Quotly:
 
         return message
 
-    async def create_quotly(self, event, url="https://qoute-api-akashpattnaik.koyeb.app/generate", reply=None, bg=None, sender=None, OQAPI=True, file_name="quote.webp"):
+    async def create_quotly(self, event, url="https://qoute-api-akashpattnaik.koyeb.app/generate", reply=None, bg=None,
+                            sender=None, OQAPI=True, file_name="quote.webp"):
         """Create quotely's quote."""
         if reply is None:
             reply = {}
@@ -221,18 +221,18 @@ except ImportError:
 
 
 async def async_searcher(
-    url: str,
-    post: bool = None,
-    headers: dict = None,
-    params: dict = None,
-    json: dict = None,
-    data: dict = None,
-    ssl=None,
-    re_json: bool = False,
-    re_content: bool = False,
-    real: bool = False,
-    *args,
-    **kwargs,
+        url: str,
+        post: bool = None,
+        headers: dict = None,
+        params: dict = None,
+        json: dict = None,
+        data: dict = None,
+        ssl=None,
+        re_json: bool = False,
+        re_content: bool = False,
+        real: bool = False,
+        *args,
+        **kwargs,
 ):
     try:
         import aiohttp
@@ -358,7 +358,7 @@ async def quott_(event):
     if match:
         spli_ = match.split(maxsplit=1)
         if (spli_[0] in ["r", "reply"]) or (
-            spli_[0].isdigit() and int(spli_[0]) in range(1, 21)
+                spli_[0].isdigit() and int(spli_[0]) in range(1, 21)
         ):
             if spli_[0].isdigit():
                 if not event.client._bot:

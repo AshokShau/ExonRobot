@@ -121,7 +121,7 @@ def status_pin(chat_id: int) -> bool:
 def migrate_chat(old_chat_id, new_chat_id):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
         if chat := SESSION.query(AntiLinkedChannelSettings).get(
-            str(old_chat_id)
+                str(old_chat_id)
         ):
             chat.chat_id = new_chat_id
             SESSION.add(chat)

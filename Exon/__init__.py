@@ -6,23 +6,21 @@ import sys
 import time
 from functools import wraps
 from inspect import getfullargspec
-from os import environ, mkdir, path
+from os import environ
 from sys import exit as sysexit
 from traceback import format_exc
 
 import spamwatch
 import telegram.ext as tg
-from Abg import patch  # types : ignore
+from Python_ARQ import ARQ
 from aiohttp import ClientSession
 from pyrogram import Client
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
 from pyrogram.types import Message
-from Python_ARQ import ARQ
-from redis import StrictRedis
 from telegram import Chat
 from telegraph import Telegraph
 from telethon import TelegramClient
-from telethon.sessions import MemorySession, StringSession
+from telethon.sessions import MemorySession
 
 StartTime = time.time()
 
@@ -57,14 +55,12 @@ except Exception as ef:
     LOGGER.error(format_exc())
     sysexit(1)
 
-
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     LOGGER.error(
         "ʏᴏᴜ ᴍᴜsᴛ ʜᴀᴠᴇ ᴀ ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ ᴏғ ᴀᴛ ʟᴇᴀsᴛ 3.6! ᴍᴜʟᴛɪᴘʟᴇ ғᴇᴀᴛᴜʀᴇs ᴅᴇᴘᴇɴᴅ ᴏɴ ᴛʜɪs. ʙᴏᴛ ǫᴜɪᴛᴛɪɴɢ ʙʏᴇ.",
     )
     sys.exit(1)
-
 
 # VERS
 TOKEN = Config.TOKEN
@@ -148,7 +144,6 @@ telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 session_name = TOKEN.split(":")[0]
 
-
 Abishnoi = Client(
     session_name,
     api_id=API_ID,
@@ -157,9 +152,7 @@ Abishnoi = Client(
     in_memory=True,
 )
 
-
 ubot = None
-
 
 # AioHttp Session
 aiohttpsession = ClientSession()
@@ -204,7 +197,6 @@ WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
-
 # ʙᴏᴛ ɪɴғᴏ
 print("[INFO]: ɢᴇᴛᴛɪɴɢ ʙᴏᴛ ɪɴғᴏ...")
 BOT_ID = dispatcher.bot.id
@@ -231,7 +223,6 @@ from Exon.modules.helper_funcs.handlers import CustomCommandHandler
 
 if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
     tg.CommandHandler = CustomCommandHandler
-
 
 try:
     from Exon.antispam import antispam_cek_user, antispam_restrict_user, detect_user

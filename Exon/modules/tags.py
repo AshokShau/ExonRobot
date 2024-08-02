@@ -28,8 +28,6 @@ SOFTWARE.
 #     GITHUB :- Abishnoi69 ""
 
 
-import asyncio
-
 from telethon import events
 from telethon.errors import UserNotParticipantError
 from telethon.tl.functions.channels import GetParticipantRequest
@@ -38,7 +36,6 @@ from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator
 from Exon import telethn as abishnoi
 
 spam_chats = []
-
 
 import asyncio
 from datetime import timedelta
@@ -350,7 +347,7 @@ async def mentionall(event):
         is_admin = False
     else:
         if isinstance(
-            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+                partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
         ):
             is_admin = True
     if not is_admin:
@@ -407,7 +404,7 @@ async def cancel_spam(event):
         is_admin = False
     else:
         if isinstance(
-            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+                partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
         ):
             is_admin = True
     if not is_admin:
