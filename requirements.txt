@@ -1,4 +1,4 @@
-Abg==2.3.9
+abg==2.3.9
 aiofiles
 aiohttp>=3.9.2
 httpx[http2]>=0.18.1,<1.0.0
@@ -36,7 +36,6 @@ tgcrypto-pyrofork
 pyrofork
 python-arq==6.0.7
 python-dotenv==1.0.1
-ffmpeg-python==0.2.0
 redis==5.0.8
 telegraph==2.2.0
 motor
