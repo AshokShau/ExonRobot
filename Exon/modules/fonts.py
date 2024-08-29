@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABISHNOI69
+Copyright (c) 2022 AshokShau
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ SOFTWARE.
 # ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
 # TG :- @Abishno1Mi
 #     TG  :- Abishnoi_bots
-#     GITHUB :- Abishnoi69 ""
+#     GITHUB :- AshokShau ""
 
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup

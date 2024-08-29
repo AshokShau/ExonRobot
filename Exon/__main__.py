@@ -148,7 +148,6 @@ def start(update: Update, context: CallbackContext):  # sourcery no-metrics
         context: CallbackContext -
     """
     chat = update.effective_chat
-    update.effective_user
     uptime = get_readable_time((time.time() - StartTime))
     args = context.args
     usr = update.effective_user
