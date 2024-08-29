@@ -8,4 +8,4 @@ updates:
     timezone: "Asia/Jakarta"
   labels:
     - "dependencies"
-  open-pull-requests-limit: 6
+  open-pull-requests-limit: 10
