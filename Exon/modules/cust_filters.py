@@ -329,8 +329,8 @@ def reply_filter(update, context):
                             return
                         except BadRequest as excp:
                             if (
-                                    excp.message
-                                    == "Wrong remote file identifier specified: wrong padding in the string"
+                                excp.message
+                                == "Wrong remote file identifier specified: wrong padding in the string"
                             ):
                                 context.bot.send_message(
                                     chat.id,
@@ -340,7 +340,7 @@ def reply_filter(update, context):
                             LOGGER.exception(f"Error in filters: {excp.message}")
                             return
                     if valid_format := escape_invalid_curly_brackets(
-                            text, VALID_WELCOME_FORMATTERS
+                        text, VALID_WELCOME_FORMATTERS
                     ):
                         filtext = valid_format.format(
                             first=escape(message.from_user.first_name),
@@ -356,19 +356,23 @@ def reply_filter(update, context):
                                 if message.from_user.last_name
                                 else [escape(message.from_user.first_name)]
                             ),
-                            username=f"@{escape(message.from_user.username)}"
-                            if message.from_user.username
-                            else mention_html(
-                                message.from_user.id,
-                                message.from_user.first_name,
+                            username=(
+                                f"@{escape(message.from_user.username)}"
+                                if message.from_user.username
+                                else mention_html(
+                                    message.from_user.id,
+                                    message.from_user.first_name,
+                                )
                             ),
                             mention=mention_html(
                                 message.from_user.id,
                                 message.from_user.first_name,
                             ),
-                            chatname=escape(message.chat.title)
-                            if message.chat.type != "private"
-                            else escape(message.from_user.first_name),
+                            chatname=(
+                                escape(message.chat.title)
+                                if message.chat.type != "private"
+                                else escape(message.from_user.first_name)
+                            ),
                             id=message.from_user.id,
                         )
                     else:
@@ -410,7 +414,9 @@ def reply_filter(update, context):
                                     get_exception(excp, filt, chat),
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception(f"Failed to send message: {excp.message}")
+                                LOGGER.exception(
+                                    f"Failed to send message: {excp.message}"
+                                )
                 elif ENUM_FUNC_MAP[filt.file_type] == dispatcher.bot.send_sticker:
                     ENUM_FUNC_MAP[filt.file_type](
                         chat.id,
@@ -650,5 +656,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "cust_filters_help")
+
 
 # """

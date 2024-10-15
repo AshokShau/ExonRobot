@@ -497,17 +497,19 @@ def set_gdbye_preference(chat_id, should_goodbye):
 
 
 def set_custom_welcome(
-        chat_id,
-        custom_content,
-        custom_welcome,
-        welcome_type,
-        buttons=None,
+    chat_id,
+    custom_content,
+    custom_welcome,
+    welcome_type,
+    buttons=None,
 ):
     if buttons is None:
         buttons = []
 
     with INSERTION_LOCK:
-        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(str(chat_id), True)
+        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(
+            str(chat_id), True
+        )
 
         if custom_welcome or custom_content:
             welcome_settings.custom_content = custom_content
@@ -551,7 +553,9 @@ def set_custom_gdbye(chat_id, custom_goodbye, goodbye_type, buttons=None):
         buttons = []
 
     with INSERTION_LOCK:
-        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(str(chat_id), True)
+        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(
+            str(chat_id), True
+        )
 
         if custom_goodbye:
             welcome_settings.custom_leave = custom_goodbye
@@ -615,9 +619,7 @@ def get_gdbye_buttons(chat_id):
 
 def clean_service(chat_id: Union[str, int]) -> bool:
     try:
-        if chat_setting := SESSION.query(CleanServiceSetting).get(
-                str(chat_id)
-        ):
+        if chat_setting := SESSION.query(CleanServiceSetting).get(str(chat_id)):
             return chat_setting.clean_service
         return False
     finally:
@@ -626,7 +628,9 @@ def clean_service(chat_id: Union[str, int]) -> bool:
 
 def set_clean_service(chat_id: Union[int, str], setting: bool):
     with CS_LOCK:
-        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id)) or CleanServiceSetting(chat_id)
+        chat_setting = SESSION.query(CleanServiceSetting).get(
+            str(chat_id)
+        ) or CleanServiceSetting(chat_id)
 
         chat_setting.clean_service = setting
         SESSION.add(chat_setting)

@@ -26,6 +26,7 @@ from Exon import BOT_USERNAME
 from Exon import LOGGER as log
 from Exon import OWNER_ID, OWNER_USERNAME, SUPPORT_CHAT, TOKEN
 from Exon import StartTime, dispatcher, telethn, updater
+
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Exon.modules import ALL_MODULES
@@ -50,9 +51,7 @@ buttons = [
     ],
     [
         InlineKeyboardButton(text="🏡 ᴀʙᴏᴜᴛ 🏡", callback_data="ABG_"),
-        InlineKeyboardButton(
-            text="🥀 ᴅᴇᴠᴇʟᴏᴘᴇʀ 🥀", url=f"tg://user?id={OWNER_ID}"
-        ),
+        InlineKeyboardButton(text="🥀 ᴅᴇᴠᴇʟᴏᴘᴇʀ 🥀", url=f"tg://user?id={OWNER_ID}"),
     ],
 ]
 

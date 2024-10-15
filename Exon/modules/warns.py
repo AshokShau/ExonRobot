@@ -79,7 +79,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>ᴄᴜʀʀᴇɴᴛ ᴡᴀʀɴɪɴɢ ꜰɪʟ�
 
 # Not async
 def warn(
-        user: User, update: Update, reason: str, message: Message, warner: User = None
+    user: User, update: Update, reason: str, message: Message, warner: User = None
 ) -> Optional[str]:  # sourcery no-metrics
     chat = update.effective_chat
     if is_user_admin(update, user.id):
@@ -228,8 +228,8 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 
     if user_id:
         if (
-                message.reply_to_message
-                and message.reply_to_message.from_user.id == user_id
+            message.reply_to_message
+            and message.reply_to_message.from_user.id == user_id
         ):
             return warn(
                 message.reply_to_message.from_user,
@@ -576,5 +576,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "warns_help")
+
 
 # """

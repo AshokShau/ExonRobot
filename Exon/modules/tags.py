@@ -347,7 +347,7 @@ async def mentionall(event):
         is_admin = False
     else:
         if isinstance(
-                partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
         ):
             is_admin = True
     if not is_admin:
@@ -404,7 +404,7 @@ async def cancel_spam(event):
         is_admin = False
     else:
         if isinstance(
-                partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
         ):
             is_admin = True
     if not is_admin:

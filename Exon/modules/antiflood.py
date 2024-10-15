@@ -145,7 +145,9 @@ def set_flood(update, context) -> str:
         if val in ("off", "no", "0"):
             sql.set_flood(chat_id, 0)
             if conn:
-                text = message.reply_text(f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}.")
+                text = message.reply_text(
+                    f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}."
+                )
             else:
                 text = message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
             send_message(update.effective_message, text, parse_mode="markdown")
@@ -155,7 +157,9 @@ def set_flood(update, context) -> str:
             if amount <= 0:
                 sql.set_flood(chat_id, 0)
                 if conn:
-                    text = message.reply_text(f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}.")
+                    text = message.reply_text(
+                        f"ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ ɪɴ {chat_name}."
+                    )
                 else:
                     text = message.reply_text("ᴀɴᴛɪғʟᴏᴏᴅ ʜᴀs ʙᴇᴇɴ ᴅɪsᴀʙʟᴇᴅ.")
                 return f"<b>{html.escape(chat_name)}:</b>\n#𝐒𝐄𝐓𝐅𝐋𝐎𝐎𝐃\n<b>ᴀᴅᴍɪɴ:</b> {mention_html(user.id, user.first_name)}\nᴅɪsᴀʙʟᴇ ᴀɴᴛɪғʟᴏᴏᴅ."
@@ -213,7 +217,9 @@ def flood(update, context):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
         if conn:
-            text = msg.reply_text(f"I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ɪɴ {chat_name}!")
+            text = msg.reply_text(
+                f"I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ɪɴ {chat_name}!"
+            )
         else:
             text = msg.reply_text("I'ᴍ ɴᴏᴛ ᴇɴғᴏʀᴄɪɴɢ ᴀɴʏ ғʟᴏᴏᴅ ᴄᴏɴᴛʀᴏʟ ʜᴇʀᴇ!")
     elif conn:

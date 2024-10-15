@@ -108,8 +108,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
 @sudo_plus
 @gloggable
 def addsupport(
-        update: Update,
-        context: CallbackContext,
+    update: Update,
+    context: CallbackContext,
 ) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -595,5 +595,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "owner_help")
+
 
 # """

@@ -72,7 +72,9 @@ ANTI_PIN_CHANNEL_SETTING_LOCK = threading.RLock()
 
 def enable(chat_id: int):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id)) or AntiLinkedChannelSettings(chat_id, True)
+        chat = SESSION.query(AntiLinkedChannelSettings).get(
+            str(chat_id)
+        ) or AntiLinkedChannelSettings(chat_id, True)
 
         chat.setting = True
         SESSION.add(chat)
@@ -81,7 +83,9 @@ def enable(chat_id: int):
 
 def enable_pin(chat_id: int):
     with ANTI_PIN_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiPinChannelSettings).get(str(chat_id)) or AntiPinChannelSettings(chat_id, True)
+        chat = SESSION.query(AntiPinChannelSettings).get(
+            str(chat_id)
+        ) or AntiPinChannelSettings(chat_id, True)
 
         chat.setting = True
         SESSION.add(chat)
@@ -90,7 +94,9 @@ def enable_pin(chat_id: int):
 
 def disable_linked(chat_id: int):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiLinkedChannelSettings).get(str(chat_id)) or AntiLinkedChannelSettings(chat_id, False)
+        chat = SESSION.query(AntiLinkedChannelSettings).get(
+            str(chat_id)
+        ) or AntiLinkedChannelSettings(chat_id, False)
 
         chat.setting = False
         SESSION.add(chat)
@@ -99,7 +105,9 @@ def disable_linked(chat_id: int):
 
 def disable_pin(chat_id: int):
     with ANTI_PIN_CHANNEL_SETTING_LOCK:
-        chat = SESSION.query(AntiPinChannelSettings).get(str(chat_id)) or AntiPinChannelSettings(chat_id, False)
+        chat = SESSION.query(AntiPinChannelSettings).get(
+            str(chat_id)
+        ) or AntiPinChannelSettings(chat_id, False)
 
         chat.setting = False
         SESSION.add(chat)
@@ -120,9 +128,7 @@ def status_pin(chat_id: int) -> bool:
 
 def migrate_chat(old_chat_id, new_chat_id):
     with ANTI_LINKED_CHANNEL_SETTING_LOCK:
-        if chat := SESSION.query(AntiLinkedChannelSettings).get(
-                str(old_chat_id)
-        ):
+        if chat := SESSION.query(AntiLinkedChannelSettings).get(str(old_chat_id)):
             chat.chat_id = new_chat_id
             SESSION.add(chat)
 

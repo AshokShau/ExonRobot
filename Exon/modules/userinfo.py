@@ -258,13 +258,13 @@ def info(update: Update, context: CallbackContext):
         user = message.from_user
 
     elif not message.reply_to_message and (
-            not args
-            or (
-                    len(args) >= 1
-                    and not args[0].startswith("@")
-                    and not args[0].isdigit()
-                    and not message.parse_entities([MessageEntity.TEXT_MENTION])
-            )
+        not args
+        or (
+            len(args) >= 1
+            and not args[0].startswith("@")
+            and not args[0].isdigit()
+            and not message.parse_entities([MessageEntity.TEXT_MENTION])
+        )
     ):
         message.reply_text("ɪ ᴄᴀɴ'ᴛ ᴇxᴛʀᴀᴄᴛ ᴀ ᴜꜱᴇʀ ꜰʀᴏᴍ ᴛʜɪꜱ.")
         return
@@ -517,14 +517,14 @@ def stats(update, context):
     except BaseException:
         update.effective_message.reply_text(
             (
+                (
                     (
-                            (
-                                    "\n*Bot statistics*:\n"
-                                    + "\n".join(mod.__stats__() for mod in STATS)
-                            )
-                            + "\n\n⍙ [ɢɪᴛʜᴜʙ](https://github.com/Abishnoi69/ExonRobot) | ⍚ \n\n"
+                        "\n*Bot statistics*:\n"
+                        + "\n".join(mod.__stats__() for mod in STATS)
                     )
-                    + "╘══「 by [ᴅʏɴᴀᴍɪᴄ](github.com/Abishnoi69) 」\n"
+                    + "\n\n⍙ [ɢɪᴛʜᴜʙ](https://github.com/Abishnoi69/ExonRobot) | ⍚ \n\n"
+                )
+                + "╘══「 by [ᴅʏɴᴀᴍɪᴄ](github.com/Abishnoi69) 」\n"
             ),
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(kb),
@@ -576,9 +576,9 @@ def about_bio(update: Update, context: CallbackContext):
         sender_id = update.effective_user.id
 
         if (
-                user_id == bot.id
-                and sender_id not in SUDO_USERS
-                and sender_id not in DEV_USERS
+            user_id == bot.id
+            and sender_id not in SUDO_USERS
+            and sender_id not in DEV_USERS
         ):
             message.reply_text(
                 "Erm... yeah, I only trust sudo users or developers to set my bio."
@@ -590,7 +590,9 @@ def about_bio(update: Update, context: CallbackContext):
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
-                message.reply_text(f"ᴜᴘᴅᴀᴛᴇᴅ {repl_message.from_user.first_name}'ꜱ ʙɪᴏ!")
+                message.reply_text(
+                    f"ᴜᴘᴅᴀᴛᴇᴅ {repl_message.from_user.first_name}'ꜱ ʙɪᴏ!"
+                )
             else:
                 message.reply_text(
                     f"ᴀ ʙɪᴏ ɴᴇᴇᴅꜱ ᴛᴏ ʙᴇ ᴜɴᴅᴇʀ {MAX_MESSAGE_LENGTH // 4} ᴄʜᴀʀᴇᴄᴛᴇʀ! ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ ꜱᴇᴛ {len(bio[1])}."
@@ -634,7 +636,9 @@ def set_about_bio(update: Update, context: CallbackContext):
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
-                message.reply_text(f"Updated {repl_message.from_user.first_name}'s bio!")
+                message.reply_text(
+                    f"Updated {repl_message.from_user.first_name}'s bio!"
+                )
             else:
                 message.reply_text(
                     f"ʙɪᴏ ɴᴇᴇᴅꜱ ᴛᴏ ᴜɴᴅᴇʀ {MAX_MESSAGE_LENGTH // 4} ᴄʜᴀʀᴇᴄᴛᴇʀ! ʏᴏᴜ ᴛʀɪᴇᴅ ᴛᴏ ꜱᴇᴛ {len(bio[1])}."
@@ -666,5 +670,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "userinfo_help")
+
 
 # """

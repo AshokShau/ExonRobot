@@ -40,11 +40,11 @@ class DownloadJob:
     """
 
     def __init__(
-            self,
-            session: aiohttp.ClientSession,
-            file_url: str,
-            save_path: Optional[str] = None,
-            chunk_size: Optional[int] = 1024,
+        self,
+        session: aiohttp.ClientSession,
+        file_url: str,
+        save_path: Optional[str] = None,
+        chunk_size: Optional[int] = 1024,
     ):
         self.file_url = file_url
         self._session = session
@@ -118,17 +118,17 @@ class Handler:
     """
 
     def __init__(
-            self,
-            loop: Optional[asyncio.BaseEventLoop] = None,
-            session: Optional[aiohttp.ClientSession] = None,
-            chunk_size: Optional[int] = 1024,
+        self,
+        loop: Optional[asyncio.BaseEventLoop] = None,
+        session: Optional[aiohttp.ClientSession] = None,
+        chunk_size: Optional[int] = 1024,
     ):
         self._loop = loop or asyncio.get_event_loop()
         self._session = session or aiohttp.ClientSession(loop=self._loop)
         self._chunk_size = chunk_size
 
     def _job_factory(
-            self, file_url: str, save_path: Optional[str] = None
+        self, file_url: str, save_path: Optional[str] = None
     ) -> DownloadJob:
         """
         Shortcut for creating a download job. It adds the session and the chunk size.

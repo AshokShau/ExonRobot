@@ -37,10 +37,12 @@ from telegram.ext import CommandHandler
 
 # from Exon.modules.sql import warns_sql as warnssql
 import Exon.modules.sql.blacklist_sql as blacklistsql
+
 # from Exon.modules.sql import cust_filters_sql as filtersql
 # import Exon.modules.sql.welcome_sql as welcsql
 import Exon.modules.sql.locks_sql as locksql
 import Exon.modules.sql.notes_sql as sql
+
 # from Exon.modules.rules import get_rules
 import Exon.modules.sql.rules_sql as rulessql
 from Exon import JOIN_LOGGER, LOGGER, OWNER_ID, SUPPORT_CHAT, dispatcher
@@ -195,20 +197,32 @@ def export_data(update, context):
                     buttonlist.append((f"{btn.name}", f"{btn.url}", True))
                 else:
                     buttonlist.append((f"{btn.name}", f"{btn.url}", False))
-            isicat += f"###button###: {note.value}<###button###>{buttonlist}<###splitter###>"
+            isicat += (
+                f"###button###: {note.value}<###button###>{buttonlist}<###splitter###>"
+            )
             buttonlist.clear()
         elif note.msgtype == 2:
             isicat += f"###sticker###:{note.file}<###splitter###>"
         elif note.msgtype == 3:
-            isicat += f"###file###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            isicat += (
+                f"###file###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            )
         elif note.msgtype == 4:
-            isicat += f"###photo###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            isicat += (
+                f"###photo###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            )
         elif note.msgtype == 5:
-            isicat += f"###audio###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            isicat += (
+                f"###audio###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            )
         elif note.msgtype == 6:
-            isicat += f"###voice###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            isicat += (
+                f"###voice###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            )
         elif note.msgtype == 7:
-            isicat += f"###video###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            isicat += (
+                f"###video###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
+            )
         elif note.msgtype == 8:
             isicat += f"###video_note###:{note.file}<###TYPESPLIT###>{note.value}<###splitter###>"
         else:
@@ -369,5 +383,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "backup_help")
+
 
 # """

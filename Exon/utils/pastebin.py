@@ -61,9 +61,7 @@ def _netcat(host, port, content):
 
 async def paste(content):
     loop = get_running_loop()
-    return await loop.run_in_executor(
-        None, partial(_netcat, "ezup.dev", 9999, content)
-    )
+    return await loop.run_in_executor(None, partial(_netcat, "ezup.dev", 9999, content))
 
 
 async def hpaste(content: str):
@@ -81,8 +79,8 @@ def upload_text(data: str) -> typing.Optional[str]:
     )
     compress = zlib.compressobj(wbits=-15)
     paste_blob = (
-            compress.compress(json.dumps({"paste": data}, separators=(",", ":")).encode())
-            + compress.flush()
+        compress.compress(json.dumps({"paste": data}, separators=(",", ":")).encode())
+        + compress.flush()
     )
     cipher = AES.new(key, AES.MODE_GCM)
     paste_meta = [

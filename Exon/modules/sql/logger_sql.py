@@ -54,7 +54,9 @@ LOG_SETTING_LOCK = threading.RLock()
 
 def enable_chat_log(chat_id):
     with LOG_SETTING_LOCK:
-        chat = SESSION.query(LoggerSettings).get(str(chat_id)) or LoggerSettings(chat_id, True)
+        chat = SESSION.query(LoggerSettings).get(str(chat_id)) or LoggerSettings(
+            chat_id, True
+        )
         chat.setting = True
         SESSION.add(chat)
         SESSION.commit()
@@ -62,7 +64,9 @@ def enable_chat_log(chat_id):
 
 def disable_chat_log(chat_id):
     with LOG_SETTING_LOCK:
-        chat = SESSION.query(LoggerSettings).get(str(chat_id)) or LoggerSettings(chat_id, False)
+        chat = SESSION.query(LoggerSettings).get(str(chat_id)) or LoggerSettings(
+            chat_id, False
+        )
 
         chat.setting = False
         SESSION.add(chat)

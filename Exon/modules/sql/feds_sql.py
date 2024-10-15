@@ -173,7 +173,7 @@ def get_user_admin_fed_name(user_id):
         FEDERATION_BYFEDID[f]["fname"]
         for f in FEDERATION_BYFEDID
         if int(user_id)
-           in ast.literal_eval(
+        in ast.literal_eval(
             ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["members"]
         )
     ]
@@ -184,7 +184,7 @@ def get_user_owner_fed_name(user_id):
         FEDERATION_BYFEDID[f]["fname"]
         for f in FEDERATION_BYFEDID
         if int(user_id)
-           == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
+        == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
     ]
 
 
@@ -193,7 +193,7 @@ def get_user_admin_fed_full(user_id):
         {"fed_id": f, "fed": FEDERATION_BYFEDID[f]}
         for f in FEDERATION_BYFEDID
         if int(user_id)
-           in ast.literal_eval(
+        in ast.literal_eval(
             ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["members"]
         )
     ]
@@ -204,7 +204,7 @@ def get_user_owner_fed_full(user_id):
         {"fed_id": f, "fed": FEDERATION_BYFEDID[f]}
         for f in FEDERATION_BYFEDID
         if int(user_id)
-           == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
+        == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
     ]
 
 
@@ -523,12 +523,12 @@ def fban_user(fed_id, user_id, first_name, last_name, user_name, reason, time):
 
 
 def multi_fban_user(
-        multi_fed_id,
-        multi_user_id,
-        multi_first_name,
-        multi_last_name,
-        multi_user_name,
-        multi_reason,
+    multi_fed_id,
+    multi_user_id,
+    multi_first_name,
+    multi_last_name,
+    multi_user_name,
+    multi_reason,
 ):
     counter = 0
     time = 0
@@ -645,7 +645,9 @@ def user_feds_report(user_id: int) -> bool:
 
 def set_feds_setting(user_id: int, setting: bool):
     with FEDS_SETTINGS_LOCK:
-        user_setting = SESSION.query(FedsUserSettings).get(user_id) or FedsUserSettings(user_id)
+        user_setting = SESSION.query(FedsUserSettings).get(user_id) or FedsUserSettings(
+            user_id
+        )
 
         user_setting.should_report = setting
         FEDERATION_NOTIFICATION[str(user_id)] = setting
@@ -865,9 +867,7 @@ def __load_feds_subscriber():
             try:
                 MYFEDS_SUBSCRIBER[x.fed_subs] += [x.fed_id]
             except KeyError:
-                if getsubs := SESSION.query(FedSubs).get(
-                        (x.fed_id, x.fed_subs)
-                ):
+                if getsubs := SESSION.query(FedSubs).get((x.fed_id, x.fed_subs)):
                     SESSION.delete(getsubs)
                     SESSION.commit()
 

@@ -92,8 +92,8 @@ def blacklist(update, context):
     split_text = split_message(filter_list)
     for text in split_text:
         if (
-                filter_list
-                == f"ᴄᴜʀʀᴇɴᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs ɪɴ <b>{html.escape(chat_name)}</b>:\n"
+            filter_list
+            == f"ᴄᴜʀʀᴇɴᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs ɪɴ <b>{html.escape(chat_name)}</b>:\n"
         ):
             send_message(
                 update.effective_message,
@@ -543,5 +543,6 @@ def get_help(chat):
             ),
         ],
     ]
+
 
 # """

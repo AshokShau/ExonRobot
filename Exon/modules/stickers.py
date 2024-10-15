@@ -250,8 +250,8 @@ def kang(update, context):
         elif msg.reply_to_message.photo:
             file_id = msg.reply_to_message.photo[-1].file_id
         elif (
-                msg.reply_to_message.document
-                and msg.reply_to_message.document.mime_type != "video/mp4"
+            msg.reply_to_message.document
+            and msg.reply_to_message.document.mime_type != "video/mp4"
         ):
             file_id = msg.reply_to_message.document.file_id
         elif msg.reply_to_message.animation:
@@ -332,10 +332,7 @@ def kang(update, context):
                 return
 
             except TelegramError as e:
-                if (
-                        e.message
-                        == "Internal Server Error: sticker set not found (500)"
-                ):
+                if e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
                             [
@@ -433,10 +430,7 @@ def kang(update, context):
                     parse_mode=ParseMode.HTML,
                 )
             except TelegramError as e:
-                if (
-                        e.message
-                        == "Internal Server Error: sticker set not found (500)"
-                ):
+                if e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
                             [
@@ -477,12 +471,12 @@ def kang(update, context):
                     if sticker_count(context.bot, packname) >= max_stickers:
                         packnum += 1
                         packname = (
-                                "video"
-                                + str(packnum)
-                                + "_"
-                                + str(user.id)
-                                + "_by_"
-                                + context.bot.username
+                            "video"
+                            + str(packnum)
+                            + "_"
+                            + str(user.id)
+                            + "_by_"
+                            + context.bot.username
                         )
                     else:
                         packname_found = 1
@@ -512,10 +506,7 @@ def kang(update, context):
                     parse_mode=ParseMode.HTML,
                 )
             except TelegramError as e:
-                if (
-                        e.message
-                        == "Internal Server Error: sticker set not found (500)"
-                ):
+                if e.message == "Internal Server Error: sticker set not found (500)":
                     edited_keyboard = InlineKeyboardMarkup(
                         [
                             [
@@ -603,10 +594,7 @@ def kang(update, context):
             print(e)
             return
         except TelegramError as e:
-            if (
-                    e.message
-                    == "Internal Server Error: sticker set not found (500)"
-            ):
+            if e.message == "Internal Server Error: sticker set not found (500)":
                 msg.reply_text(
                     f"<b>ʏᴏᴜʀ sᴛɪᴄᴋᴇʀ ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ!</b>"
                     f"\nᴇᴍᴏᴊɪ ɪs ➼ : {sticker_emoji}",
@@ -689,16 +677,16 @@ def kang(update, context):
 
 
 def makepack_internal(
-        update,
-        context,
-        msg,
-        user,
-        emoji,
-        packname,
-        packnum,
-        png_sticker=None,
-        tgs_sticker=None,
-        webm_sticker=None,
+    update,
+    context,
+    msg,
+    user,
+    emoji,
+    packname,
+    packnum,
+    png_sticker=None,
+    tgs_sticker=None,
+    webm_sticker=None,
 ):
     name = user.first_name
     name = name[:50]
@@ -708,7 +696,9 @@ def makepack_internal(
     try:
         extra_version = f" {str(packnum)}" if packnum > 0 else ""
         if png_sticker:
-            sticker_pack_name = f"{name}'s sticker pack (@{context.bot.username}){extra_version}"
+            sticker_pack_name = (
+                f"{name}'s sticker pack (@{context.bot.username}){extra_version}"
+            )
             success = context.bot.create_new_sticker_set(
                 user.id,
                 packname,
@@ -717,7 +707,9 @@ def makepack_internal(
                 emojis=emoji,
             )
         if tgs_sticker:
-            sticker_pack_name = f"{name}'s animated pack (@{context.bot.username}){extra_version}"
+            sticker_pack_name = (
+                f"{name}'s animated pack (@{context.bot.username}){extra_version}"
+            )
             success = context.bot.create_new_sticker_set(
                 user.id,
                 packname,
