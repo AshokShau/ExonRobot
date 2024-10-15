@@ -12,16 +12,23 @@ from traceback import format_exc
 
 import spamwatch
 import telegram.ext as tg
-from Python_ARQ import ARQ
 from Abg import patch  # types : ignore
 from aiohttp import ClientSession
 from pyrogram import Client
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
 from pyrogram.types import Message
+from Python_ARQ import ARQ
 from telegram import Chat
 from telegraph import Telegraph
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
+
+from Exon.modules.helper_funcs.handlers import (
+    CustomCommandHandler,
+    CustomMessageHandler,
+    CustomRegexHandler,
+)
+from Exon.modules.sql import SESSION
 
 StartTime = time.time()
 
@@ -124,8 +131,6 @@ else:
         sw = None
         LOGGER.warning("ᴄᴀɴ'ᴛ ᴄᴏɴɴᴇᴄᴛ ᴛᴏ sᴘᴀᴍᴡᴀᴛᴄʜ!")
 
-from Exon.modules.sql import SESSION
-
 telegraph = Telegraph()
 telegraph.create_account(short_name="Exon")
 
@@ -215,12 +220,8 @@ async def eor(msg: Message, **kwargs):
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
 
-from Exon.modules.helper_funcs.handlers import CustomMessageHandler, CustomRegexHandler
-
 tg.RegexHandler = CustomRegexHandler
 tg.MessageHandler = CustomMessageHandler
-
-from Exon.modules.helper_funcs.handlers import CustomCommandHandler
 
 if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
     tg.CommandHandler = CustomCommandHandler

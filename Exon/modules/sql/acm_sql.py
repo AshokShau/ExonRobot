@@ -27,7 +27,6 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-
 import threading
 
 from sqlalchemy import Boolean, Column, String

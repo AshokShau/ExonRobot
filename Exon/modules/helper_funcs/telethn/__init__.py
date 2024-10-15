@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABISHNOI69 
+Copyright (c) 2022 ABISHNOI69
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,5 +27,5 @@ from Exon import DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES
 IMMUNE_USERS = DRAGONS + WOLVES + DEMONS + TIGERS + DEV_USERS
 
 IMMUNE_USERS = (
-        list(DRAGONS) + list(WOLVES) + list(DEMONS) + list(TIGERS) + list(DEV_USERS)
+    list(DRAGONS) + list(WOLVES) + list(DEMONS) + list(TIGERS) + list(DEV_USERS)
 )

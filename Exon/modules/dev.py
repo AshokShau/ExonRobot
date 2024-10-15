@@ -52,6 +52,7 @@ from Exon import DEV_USERS, OWNER_ID, dispatcher, telethn, updater
 from Exon.modules.helper_funcs.alternate import typing_action
 from Exon.modules.helper_funcs.chat_status import dev_plus
 from Exon.modules.helper_funcs.filters import CustomFilters
+from Exon.modules.language import gs
 
 
 def leave_cb(update: Update, context: CallbackContext):
@@ -202,8 +203,8 @@ def gitpull(update, context):
     )
 
     sent_msg_text = (
-            sent_msg.text
-            + "\n\nChanges pulled... I guess..\nContinue to restart with /reboot "
+        sent_msg.text
+        + "\n\nChanges pulled... I guess..\nContinue to restart with /reboot "
     )
     sent_msg.edit_text(sent_msg_text)
 
@@ -251,10 +252,10 @@ __handlers__ = [
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "devs_help")
+
 
 # """

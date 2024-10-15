@@ -43,6 +43,7 @@ from telegram.ext import CallbackContext
 from Exon import dispatcher
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.alternate import send_action, typing_action
+from Exon.modules.language import gs
 
 trans = SyncTranslator()
 
@@ -167,12 +168,11 @@ __mod_name__ = "𝐓ʀᴀɴsʟᴀᴛᴏʀ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "gtranslate_help")
+
 
 # """

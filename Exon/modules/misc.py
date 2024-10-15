@@ -57,6 +57,7 @@ from Exon.modules.helper_funcs.alternate import send_action, typing_action
 from Exon.modules.helper_funcs.chat_status import user_admin
 from Exon.modules.helper_funcs.decorators import Exoncmd
 from Exon.modules.helper_funcs.filters import CustomFilters
+from Exon.modules.language import gs
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -342,12 +343,11 @@ __handlers__ = [
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "misc_help")
+
 
 # """

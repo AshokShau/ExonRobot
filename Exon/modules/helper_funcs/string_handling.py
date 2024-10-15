@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABISHNOI69 
+Copyright (c) 2022 ABISHNOI69
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ from typing import Dict, List
 import bleach
 import emoji
 import markdown2
+
 # from emoji import unicode_codes
 from telegram import MessageEntity
 from telegram.utils.helpers import escape_markdown
@@ -51,7 +52,6 @@ MATCH_MD = re.compile(
 LINK_REGEX = re.compile(r"(?<!\\)\[.+?\]\((.*?)\)")
 BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")
 # _EMOJI_REGEXP = None
-
 """
 def get_emoji_regexp():
     global _EMOJI_REGEXP
@@ -73,7 +73,7 @@ def _selective_escape(to_parse: str) -> str:
         if match.group("esc"):
             ent_start = match.start()
             to_parse = (
-                    to_parse[: ent_start + offset] + "\\" + to_parse[ent_start + offset:]
+                to_parse[: ent_start + offset] + "\\" + to_parse[ent_start + offset :]
             )
             offset += 1
     return to_parse
@@ -91,7 +91,7 @@ def _calc_emoji_offset(to_calc) -> int:
 
 
 def markdown_parser(
-        txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0
+    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0
 ) -> str:
     """
     Parse a string, escaping all invalid markdown entities.
@@ -130,14 +130,12 @@ def markdown_parser(
         # URL handling -> do not escape if in [](), escape otherwise.
         if ent.type == "url":
             if any(
-                    match.start(1) <= start and end <= match.end(1)
-                    for match in LINK_REGEX.finditer(txt)
+                match.start(1) <= start and end <= match.end(1)
+                for match in LINK_REGEX.finditer(txt)
             ):
                 continue
             # TODO: investigate possible offset bug when lots of emoji are present
-            res += _selective_escape(txt[prev:start] or "") + escape_markdown(
-                ent_text
-            )
+            res += _selective_escape(txt[prev:start] or "") + escape_markdown(ent_text)
 
         elif ent.type == "code":
             res += f"{_selective_escape(txt[prev:start])}`{ent_text}`"
@@ -154,9 +152,9 @@ def markdown_parser(
 
 
 def button_markdown_parser(
-        txt: str,
-        entities: Dict[MessageEntity, str] = None,
-        offset: int = 0,
+    txt: str,
+    entities: Dict[MessageEntity, str] = None,
+    offset: int = 0,
 ) -> (str, List):
     markdown_note = markdown_parser(txt, entities, offset)
     prev = 0
@@ -174,7 +172,7 @@ def button_markdown_parser(
         if n_escapes % 2 == 0:
             # create a thruple with button label, url, and newline status
             buttons.append((match.group(2), match.group(3), bool(match.group(4))))
-            note_data += markdown_note[prev: match.start(1)]
+            note_data += markdown_note[prev : match.start(1)]
             prev = match.end(1)
         # if odd, escaped -> move along
         else:
@@ -201,7 +199,7 @@ def escape_invalid_curly_brackets(text: str, valids: List[str]) -> str:
                     success = True
                     break
             if success:
-                new_text += text[idx: idx + len(v) + 2]
+                new_text += text[idx : idx + len(v) + 2]
                 idx += len(v) + 2
                 continue
             new_text += "{{"
@@ -233,7 +231,7 @@ def split_quotes(text: str) -> List:
         if text[counter] == "\\":
             counter += 1
         elif text[counter] == text[0] or (
-                text[0] == SMART_OPEN and text[counter] == SMART_CLOSE
+            text[0] == SMART_OPEN and text[counter] == SMART_CLOSE
         ):
             break
         counter += 1
@@ -243,7 +241,7 @@ def split_quotes(text: str) -> List:
     # 1 to avoid starting quote, and counter is exclusive so avoids ending
     key = remove_escapes(text[1:counter].strip())
     # index will be in range, or `else` would have been executed and returned
-    rest = text[counter + 1:].strip()
+    rest = text[counter + 1 :].strip()
     if not key:
         key = text[0] + text[0]
     return list(filter(None, [key, rest]))

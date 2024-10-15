@@ -68,6 +68,7 @@ from Exon.modules.helper_funcs.extraction import (
     extract_user_fban,
 )
 from Exon.modules.helper_funcs.string_handling import markdown_parser
+from Exon.modules.language import gs
 
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo and AyraHikari too
 # Federation by MrYacha 2018-2019
@@ -195,11 +196,7 @@ def del_fed(update: Update, context: CallbackContext):
                         callback_data=f"rmfed_{fed_id}",
                     )
                 ],
-                [
-                    InlineKeyboardButton(
-                        text="Cancel", callback_data="rmfed_cancel"
-                    )
-                ],
+                [InlineKeyboardButton(text="Cancel", callback_data="rmfed_cancel")],
             ]
         ),
     )
@@ -362,13 +359,13 @@ def user_join_fed(update: Update, context: CallbackContext):
         elif not msg.reply_to_message and not args:
             user = msg.from_user
         elif not msg.reply_to_message and (
-                not args
-                or (
-                        len(args) >= 1
-                        and not args[0].startswith("@")
-                        and not args[0].isdigit()
-                        and not msg.parse_entities([MessageEntity.TEXT_MENTION])
-                )
+            not args
+            or (
+                len(args) >= 1
+                and not args[0].startswith("@")
+                and not args[0].isdigit()
+                and not msg.parse_entities([MessageEntity.TEXT_MENTION])
+            )
         ):
             msg.reply_text("I cannot extract user from this message")
             return
@@ -426,13 +423,13 @@ def user_demote_fed(update: Update, context: CallbackContext):
             user = msg.from_user
 
         elif not msg.reply_to_message and (
-                not args
-                or (
-                        len(args) >= 1
-                        and not args[0].startswith("@")
-                        and not args[0].isdigit()
-                        and not msg.parse_entities([MessageEntity.TEXT_MENTION])
-                )
+            not args
+            or (
+                len(args) >= 1
+                and not args[0].startswith("@")
+                and not args[0].isdigit()
+                and not msg.parse_entities([MessageEntity.TEXT_MENTION])
+            )
         ):
             msg.reply_text("I cannot extract user from this message")
             return
@@ -710,13 +707,13 @@ def fed_ban(update: Update, context: CallbackContext):
             try:
                 # Do not spam all fed chats
                 """
-				bot.send_message(chat, "<b>FedBan reason updated</b>" \
-							 "\n<b>Federation:</b> {}" \
-							 "\n<b>Federation Admin:</b> {}" \
-							 "\n<b>User:</b> {}" \
-							 "\n<b>User ID:</b> <code>{}</code>" \
-							 "\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
-				"""
+                                bot.send_message(chat, "<b>FedBan reason updated</b>" \
+                                                         "\n<b>Federation:</b> {}" \
+                                                         "\n<b>Federation Admin:</b> {}" \
+                                                         "\n<b>User:</b> {}" \
+                                                         "\n<b>User ID:</b> <code>{}</code>" \
+                                                         "\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
+                                """
                 bot.ban_chat_member(fedschat, fban_user_id)
             except BadRequest as excp:
                 if excp.message in FBAN_ERRORS:
@@ -766,7 +763,9 @@ def fed_ban(update: Update, context: CallbackContext):
                         elif excp.message == "User_id_invalid":
                             break
                         else:
-                            LOGGER.warning(f"Unable to fban on {fedschat} because: {excp.message}")
+                            LOGGER.warning(
+                                f"Unable to fban on {fedschat} because: {excp.message}"
+                            )
                     except TelegramError:
                         pass
         # send_message(update.effective_message, "Fedban Reason has been updated.")
@@ -824,13 +823,13 @@ def fed_ban(update: Update, context: CallbackContext):
         try:
             # Do not spamming all fed chats
             """
-			bot.send_message(chat, "<b>FedBan reason updated</b>" \
-							"\n<b>Federation:</b> {}" \
-							"\n<b>Federation Admin:</b> {}" \
-							"\n<b>User:</b> {}" \
-							"\n<b>User ID:</b> <code>{}</code>" \
-							"\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
-			"""
+                        bot.send_message(chat, "<b>FedBan reason updated</b>" \
+                                                        "\n<b>Federation:</b> {}" \
+                                                        "\n<b>Federation Admin:</b> {}" \
+                                                        "\n<b>User:</b> {}" \
+                                                        "\n<b>User ID:</b> <code>{}</code>" \
+                                                        "\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
+                        """
             bot.ban_chat_member(fedschat, fban_user_id)
         except BadRequest as excp:
             if excp.message in FBAN_ERRORS:
@@ -874,7 +873,9 @@ def fed_ban(update: Update, context: CallbackContext):
                         elif excp.message == "User_id_invalid":
                             break
                         else:
-                            LOGGER.warning(f"Unable to fban on {fedschat} because: {excp.message}")
+                            LOGGER.warning(
+                                f"Unable to fban on {fedschat} because: {excp.message}"
+                            )
                     except TelegramError:
                         pass
     # if chats_in_fed == 0:
@@ -1031,7 +1032,9 @@ def unfban(update: Update, context: CallbackContext):
                     elif excp.message == "User_id_invalid":
                         break
                     else:
-                        LOGGER.warning(f"Unable to fban on {fedschat} because: {excp.message}")
+                        LOGGER.warning(
+                            f"Unable to fban on {fedschat} because: {excp.message}"
+                        )
                 except TelegramError:
                     pass
 
@@ -1421,7 +1424,9 @@ def fed_chats(update: Update, context: CallbackContext):
             chat_name = dispatcher.bot.getChat(chats).title
         except Unauthorized:
             sql.chat_leave_fed(chats)
-            LOGGER.info(f'Chat {chats} has leave fed {info["fname"]} because I was kicked')
+            LOGGER.info(
+                f'Chat {chats} has leave fed {info["fname"]} because I was kicked'
+            )
             continue
         text += f" • {chat_name} (<code>{chats}</code>)\n"
 
@@ -1578,7 +1583,11 @@ def fed_import_bans(update: Update, context: CallbackContext):
             multi_import_username = []
             multi_import_reason = []
             file_info.download(f"fban_{msg.reply_to_message.document.file_id}.csv")
-            with open(f"fban_{msg.reply_to_message.document.file_id}.csv", "r", encoding="utf8") as csvFile:
+            with open(
+                f"fban_{msg.reply_to_message.document.file_id}.csv",
+                "r",
+                encoding="utf8",
+            ) as csvFile:
                 reader = csv.reader(csvFile)
                 for data in reader:
                     try:
@@ -2132,8 +2141,6 @@ def fed_user_help(update: Update, context: CallbackContext):
 
 
 __mod_name__ = "𝐅ᴇᴅs "
-
-from Exon.modules.language import gs
 
 
 def fed_owner_help(update: Update, context: CallbackContext):

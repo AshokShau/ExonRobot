@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABIAHNOI69 
+Copyright (c) 2022 ABIAHNOI69
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,9 @@ def keyboard(buttons_list, row_width: int = 2):
     buttons = InlineKeyboard(row_width=row_width)
     data = [
         (
-            Ikb(text=str(i[0]), url=str(i[1])) if is_url(i[1]) else Ikb(text=str(i[0]), callback_data=str(i[1]))
+            Ikb(text=str(i[0]), url=str(i[1]))
+            if is_url(i[1])
+            else Ikb(text=str(i[0]), callback_data=str(i[1]))
         )
         for i in buttons_list
     ]

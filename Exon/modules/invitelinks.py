@@ -51,12 +51,8 @@ def chat_join_req(upd: Update, ctx: CallbackContext):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(
-                    "ᴀᴘᴘʀᴏᴠᴇ", callback_data=f"cb_approve={user.id}"
-                ),
-                InlineKeyboardButton(
-                    "ᴅᴇᴄʟɪɴᴇ", callback_data=f"cb_decline={user.id}"
-                ),
+                InlineKeyboardButton("ᴀᴘᴘʀᴏᴠᴇ", callback_data=f"cb_approve={user.id}"),
+                InlineKeyboardButton("ᴅᴇᴄʟɪɴᴇ", callback_data=f"cb_decline={user.id}"),
             ]
         ]
     )

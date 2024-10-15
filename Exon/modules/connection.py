@@ -27,7 +27,6 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-
 import re
 import time
 
@@ -39,6 +38,7 @@ import Exon.modules.sql.connection_sql as sql
 from Exon import DEV_USERS, DRAGONS, dispatcher
 from Exon.modules.helper_funcs import chat_status
 from Exon.modules.helper_funcs.alternate import send_message, typing_action
+from Exon.modules.language import gs
 
 user_admin = chat_status.user_admin
 
@@ -148,8 +148,8 @@ def connect_chat(update, context):
 
             if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
                 if connection_status := sql.connect(
-                        update.effective_message.from_user.id,
-                        connect_chat,
+                    update.effective_message.from_user.id,
+                    connect_chat,
                 ):
                     conn_chat = dispatcher.bot.getChat(
                         connected(context.bot, update, chat, user.id, need_admin=False),
@@ -183,11 +183,11 @@ def connect_chat(update, context):
                 ]
             else:
                 buttons = []
-            if conn := connected(
-                    context.bot, update, chat, user.id, need_admin=False
-            ):
+            if conn := connected(context.bot, update, chat, user.id, need_admin=False):
                 connectedchat = dispatcher.bot.getChat(conn)
-                text = f"You are currently connected to *{connectedchat.title}* (`{conn}`)"
+                text = (
+                    f"You are currently connected to *{connectedchat.title}* (`{conn}`)"
+                )
                 buttons.append(
                     InlineKeyboardButton(
                         text="🔌 Disconnect",
@@ -237,8 +237,8 @@ def connect_chat(update, context):
         isallow = sql.allow_connect_to_chat(chat.id)
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
             if connection_status := sql.connect(
-                    update.effective_message.from_user.id,
-                    chat.id,
+                update.effective_message.from_user.id,
+                chat.id,
             ):
                 chat_name = dispatcher.bot.getChat(chat.id).title
                 send_message(
@@ -267,7 +267,7 @@ def connect_chat(update, context):
 def disconnect_chat(update, context):
     if update.effective_chat.type == "private":
         if disconnection_status := sql.disconnect(
-                update.effective_message.from_user.id
+            update.effective_message.from_user.id
         ):
             sql.disconnected_chat = send_message(
                 update.effective_message,
@@ -293,17 +293,17 @@ def connected(bot: Bot, update: Update, chat, user_id, need_admin=True):
         isallow = sql.allow_connect_to_chat(conn_id)
 
         if (
-                (isadmin)
-                or (isallow and ismember)
-                or (user.id in DRAGONS)
-                or (user.id in DEV_USERS)
+            (isadmin)
+            or (isallow and ismember)
+            or (user.id in DRAGONS)
+            or (user.id in DEV_USERS)
         ):
             if need_admin is not True:
                 return conn_id
             if (
-                    getstatusadmin.status in ("administrator", "creator")
-                    or user_id in DRAGONS
-                    or user.id in DEV_USERS
+                getstatusadmin.status in ("administrator", "creator")
+                or user_id in DRAGONS
+                or user.id in DEV_USERS
             ):
                 return conn_id
             send_message(
@@ -369,9 +369,7 @@ def connect_button(update, context):
         isallow = sql.allow_connect_to_chat(target_chat)
 
         if (isadmin) or (isallow and ismember) or (user.id in DRAGONS):
-            if connection_status := sql.connect(
-                    query.from_user.id, target_chat
-            ):
+            if connection_status := sql.connect(query.from_user.id, target_chat):
                 conn_chat = dispatcher.bot.getChat(
                     connected(context.bot, update, chat, user.id, need_admin=False),
                 )
@@ -433,12 +431,11 @@ dispatcher.add_handler(CONNECT_BTN_HANDLER)
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "connections_help")
+
 
 # """

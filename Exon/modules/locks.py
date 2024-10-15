@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import ast
 import html
 
@@ -46,6 +42,12 @@ from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
 from Exon.modules.helper_funcs.chat_status import user_not_admin
 from Exon.modules.helper_funcs.decorators import Exoncmd as natsunagicmd
 from Exon.modules.helper_funcs.decorators import Exonmsg as natsunagimsg
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql.approve_sql import is_approved
 
@@ -59,7 +61,7 @@ LOCK_TYPES = {
     "contact": Filters.contact,
     "photo": Filters.photo,
     "url": Filters.entity(MessageEntity.URL)
-           | Filters.caption_entity(MessageEntity.URL),
+    | Filters.caption_entity(MessageEntity.URL),
     "bots": Filters.status_update.new_chat_members,
     "forward": Filters.forwarded & ~Filters.is_automatic_forward,
     "game": Filters.game,
@@ -137,7 +139,7 @@ REST_GROUP = -12
 
 # NOT ASYNC
 def restr_members(
-        bot, chat_id, members, messages=False, media=False, other=False, previews=False
+    bot, chat_id, members, messages=False, media=False, other=False, previews=False
 ):
     for mem in members:
         try:
@@ -155,7 +157,7 @@ def restr_members(
 
 # NOT ASYNC
 def unrestr_members(
-        bot, chat_id, members, messages=True, media=True, other=True, previews=True
+    bot, chat_id, members, messages=True, media=True, other=True, previews=True
 ):
     for mem in members:
         try:
@@ -191,14 +193,14 @@ def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metric
     user = update.effective_user
 
     if (
-            can_delete(chat, context.bot.id)
-            or update.effective_message.chat.type == "private"
+        can_delete(chat, context.bot.id)
+        or update.effective_message.chat.type == "private"
     ):
         if len(args) >= 1:
             ltype = args[0].lower()
             if ltype in LOCK_TYPES:
                 if conn := connected(
-                        context.bot, update, chat, user.id, need_admin=True
+                    context.bot, update, chat, user.id, need_admin=True
                 ):
                     chat = dispatcher.bot.getChat(conn)
                     # chat_id = conn
@@ -222,7 +224,7 @@ def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metric
 
             if ltype in LOCK_CHAT_RESTRICTION:
                 if conn := connected(
-                        context.bot, update, chat, user.id, need_admin=True
+                    context.bot, update, chat, user.id, need_admin=True
                 ):
                     chat = dispatcher.bot.getChat(conn)
                     chat_id = conn
@@ -280,9 +282,7 @@ def unlock(update: Update, context: CallbackContext) -> str:  # sourcery no-metr
     if len(args) >= 1:
         ltype = args[0].lower()
         if ltype in LOCK_TYPES:
-            if conn := connected(
-                    context.bot, update, chat, user.id, need_admin=True
-            ):
+            if conn := connected(context.bot, update, chat, user.id, need_admin=True):
                 chat = context.bot.getChat(conn)
                 # chat_id = conn
                 chat_name = chat.title
@@ -303,9 +303,7 @@ def unlock(update: Update, context: CallbackContext) -> str:  # sourcery no-metr
             return f"<b>{html.escape(chat.title)}:</b>\n#UNLOCK\n<b>Admin:</b> {mention_html(user.id, user.first_name)}\nUnlocked <code>{ltype}</code>."
 
         if ltype in UNLOCK_CHAT_RESTRICTION:
-            if conn := connected(
-                    context.bot, update, chat, user.id, need_admin=True
-            ):
+            if conn := connected(context.bot, update, chat, user.id, need_admin=True):
                 chat = dispatcher.bot.getChat(conn)
                 chat_id = conn
                 chat_name = chat.title
@@ -377,10 +375,10 @@ def del_lockables(update, context):  # sourcery no-metrics
             continue
         if lockable == "button":
             if (
-                    sql.is_locked(chat.id, lockable)
-                    and can_delete(chat, context.bot.id)
-                    and message.reply_markup
-                    and message.reply_markup.inline_keyboard
+                sql.is_locked(chat.id, lockable)
+                and can_delete(chat, context.bot.id)
+                and message.reply_markup
+                and message.reply_markup.inline_keyboard
             ):
                 try:
                     message.delete()
@@ -391,10 +389,10 @@ def del_lockables(update, context):  # sourcery no-metrics
             continue
         if lockable == "inline":
             if (
-                    sql.is_locked(chat.id, lockable)
-                    and can_delete(chat, context.bot.id)
-                    and message
-                    and message.via_bot
+                sql.is_locked(chat.id, lockable)
+                and can_delete(chat, context.bot.id)
+                and message
+                and message.via_bot
             ):
                 try:
                     message.delete()
@@ -404,9 +402,9 @@ def del_lockables(update, context):  # sourcery no-metrics
                 break
             continue
         if (
-                filter(update)
-                and sql.is_locked(chat.id, lockable)
-                and can_delete(chat, context.bot.id)
+            filter(update)
+            and sql.is_locked(chat.id, lockable)
+            and can_delete(chat, context.bot.id)
         ):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
@@ -567,12 +565,11 @@ __mod_name__ = "𝐋ᴏᴄᴋs"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "locks_help")
+
 
 # """

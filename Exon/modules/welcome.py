@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import html
 import random
 import re
@@ -33,6 +29,7 @@ import time
 from functools import partial
 from io import BytesIO
 
+from multicolorcaptcha import CaptchaGenerator
 from telegram import (
     ChatPermissions,
     InlineKeyboardButton,
@@ -60,6 +57,12 @@ from Exon.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets,
     markdown_parser,
 )
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.log_channel import loggable
 from Exon.modules.no_sql.global_bans_db import is_user_gbanned
 
@@ -89,8 +92,6 @@ VERIFIED_USER_WAITLIST = {}
 CAPTCHA_ANS_DICT = {}
 WELCOME_GROUP = 19
 
-from multicolorcaptcha import CaptchaGenerator
-
 
 # do not async
 def send(update, message, keyboard, backup_message):
@@ -116,8 +117,8 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + "\nNote: the current message has an invalid url in one of its buttons. Please update."
+                        backup_message
+                        + "\nNote: the current message has an invalid url in one of its buttons. Please update."
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -138,9 +139,9 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + "\nNote: the current message has buttons which use url protocols that are unsupported by "
-                              "telegram. Please update. "
+                        backup_message
+                        + "\nNote: the current message has buttons which use url protocols that are unsupported by "
+                        "telegram. Please update. "
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -151,8 +152,8 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + "\nNote: the current message has some bad urls. Please update."
+                        backup_message
+                        + "\nNote: the current message has some bad urls. Please update."
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -166,8 +167,8 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + "\nNote: An error occured when sending the custom message. Please update."
+                        backup_message
+                        + "\nNote: An error occured when sending the custom message. Please update."
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -273,7 +274,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     media_wel = True
 
                 first_name = (
-                        new_mem.first_name or "PersonWithNoName"
+                    new_mem.first_name or "PersonWithNoName"
                 )  # edge case of empty name - occurs for some bugs.
 
                 if cust_welcome:
@@ -327,8 +328,8 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
         # User exceptions from welcomemutes
         if (
-                is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
-                or human_checks
+            is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
+            or human_checks
         ):
             should_mute = False
         # Join welcome: soft mute
@@ -493,7 +494,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 message = msg.reply_photo(
                     fileobj,
                     caption=f"Welcome [{escape_markdown(new_mem.first_name)}](tg://user?id={user.id}). Click the correct button to get unmuted!\n"
-                            f"You got 120 seconds for this.",
+                    f"You got 120 seconds for this.",
                     reply_markup=InlineKeyboardMarkup(btn),
                     parse_mode=ParseMode.MARKDOWN,
                     reply_to_message_id=reply,
@@ -556,7 +557,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
 
 def check_not_bot(
-        member: User, chat_id: int, message_id: int, context: CallbackContext
+    member: User, chat_id: int, message_id: int, context: CallbackContext
 ):
     bot = context.bot
     member_dict = VERIFIED_USER_WAITLIST.pop((chat_id, member.id))
@@ -636,7 +637,7 @@ def left_member(update: Update, context: CallbackContext):  # sourcery no-metric
                 return
 
             first_name = (
-                    left_mem.first_name or "PersonWithNoName"
+                left_mem.first_name or "PersonWithNoName"
             )  # edge case of empty name - occurs for some bugs.
             if cust_goodbye:
                 if cust_goodbye == sql.DEFAULT_GOODBYE:
@@ -1305,7 +1306,6 @@ def __chat_settings__(chat_id, user_id):
 
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
-from Exon.modules.language import gs
 
 
 def wlc_m_help(update: Update, context: CallbackContext):

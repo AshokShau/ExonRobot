@@ -37,8 +37,6 @@ from Exon.modules.helper_funcs import formatter
 
 
 # sᴛᴀᴛs ᴍᴏᴅᴜʟᴇ
-
-
 async def bot_sys_stats():
     bot_uptime = int(time.time() - StartTime)
     cpu = psutil.cpu_percent()

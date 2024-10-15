@@ -37,6 +37,7 @@ from Exon import dispatcher
 from Exon.modules.helper_funcs.anonymous import AdminPerms, user_admin
 from Exon.modules.helper_funcs.decorators import Exoncmd
 from Exon.modules.helper_funcs.string_handling import markdown_parser
+from Exon.modules.language import gs
 
 
 @Exoncmd(command="rules", filters=Filters.chat_type.groups)
@@ -174,12 +175,11 @@ __mod_name__ = "𝐑ᴜʟᴇs"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "rules_help")
+
 
 # """

@@ -47,6 +47,7 @@ from Exon.__main__ import (
 )
 from Exon.modules.helper_funcs.chat_status import dev_plus, sudo_plus
 from Exon.modules.helper_funcs.decorators import Exoncmd
+from Exon.modules.language import gs
 
 
 @Exoncmd(command="load")
@@ -212,12 +213,11 @@ __mod_name__ = "𝐌ᴏᴅᴜʟᴇs"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "modules_help")
+
 
 # """

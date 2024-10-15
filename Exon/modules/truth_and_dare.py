@@ -27,11 +27,11 @@ SOFTWARE.
 #      :- Abishnoi_bots
 #     GITHUB :- AshokShau ""
 
-
 import requests
 
 from Exon import SUPPORT_CHAT
 from Exon.events import register as abishnoi
+from Exon.modules.language import gs
 
 
 @abishnoi(pattern="[/!]dare")
@@ -55,8 +55,6 @@ async def _(asux):
 
 
 __mod_name__ = "𝐓ʀᴜᴛʜ-Dᴀʀᴇ"
-
-from Exon.modules.language import gs
 
 
 def get_help(chat):

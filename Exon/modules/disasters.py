@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import html
 import json
 import os
@@ -38,6 +34,12 @@ from telegram.utils.helpers import mention_html
 from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher
 from Exon.modules.helper_funcs.chat_status import dev_plus, sudo_plus, whitelist_plus
 from Exon.modules.helper_funcs.extraction import extract_user
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.log_channel import gloggable
 
 ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "Exon/elevated_users.json")
@@ -108,8 +110,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
 @sudo_plus
 @gloggable
 def addsupport(
-        update: Update,
-        context: CallbackContext,
+    update: Update,
+    context: CallbackContext,
 ) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -588,12 +590,11 @@ __handlers__ = [
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "owner_help")
+
 
 # """

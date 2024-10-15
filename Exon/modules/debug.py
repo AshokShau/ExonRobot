@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import datetime
 import os
 
@@ -35,6 +31,12 @@ from telethon import events
 
 from Exon import dispatcher, telethn
 from Exon.modules.helper_funcs.chat_status import dev_plus
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 
 DEBUG_MODE = False
 
@@ -98,12 +100,11 @@ __handlers__ = [DEBUG_HANDLER]
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "debug_help")
+
 
 # """

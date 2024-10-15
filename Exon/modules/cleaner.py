@@ -40,6 +40,7 @@ from Exon.modules.helper_funcs.chat_status import (
     dev_plus,
     user_admin,
 )
+from Exon.modules.language import gs
 from Exon.modules.sql import cleaner_sql as sql
 
 CMD_STARTERS = ("/", "!") if ALLOW_EXCL else "/"
@@ -75,7 +76,7 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
         fst_word = message.text.strip().split(None, 1)[0]
 
         if len(fst_word) > 1 and any(
-                fst_word.startswith(start) for start in CMD_STARTERS
+            fst_word.startswith(start) for start in CMD_STARTERS
         ):
             command = fst_word[1:].split("@")
             chat = update.effective_chat
@@ -142,7 +143,9 @@ def remove_bluetext_ignore(update: Update, context: CallbackContext):
     if len(args) >= 1:
         val = args[0].lower()
         if removed := sql.chat_unignore_command(chat.id, val):
-            reply = f"<b>{args[0]}</b> has been removed from bluetext cleaner ignore list."
+            reply = (
+                f"<b>{args[0]}</b> has been removed from bluetext cleaner ignore list."
+            )
         else:
             reply = "Command isn't ignored currently."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
@@ -264,12 +267,11 @@ __handlers__ = [
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "cleaner_help")
+
 
 # """

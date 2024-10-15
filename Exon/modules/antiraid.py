@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- ABISHNOI69 ""
 import html
 from datetime import timedelta
 from typing import Optional
@@ -43,6 +39,12 @@ from Exon.modules.helper_funcs.anonymous import resolve_user as res_user
 from Exon.modules.helper_funcs.anonymous import user_admin as u_admin
 from Exon.modules.helper_funcs.chat_status import connection_status, user_admin_no_reply
 from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- ABISHNOI69 ""
+from Exon.modules.language import gs
 from Exon.modules.log_channel import loggable
 
 
@@ -84,9 +86,7 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                         "ᴅɪsᴀʙʟᴇ ʀᴀɪᴅ",
                         callback_data=f"disable_raid={chat.id}={time}",
                     ),
-                    InlineKeyboardButton(
-                        "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=1"
-                    ),
+                    InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=1"),
                 ]
             ]
         else:
@@ -97,9 +97,7 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                         "ᴇɴᴀʙʟᴇ ʀᴀɪᴅ",
                         callback_data=f"enable_raid={chat.id}={time}",
                     ),
-                    InlineKeyboardButton(
-                        "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"
-                    ),
+                    InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"),
                 ]
             ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -123,9 +121,7 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                             "ᴇɴᴀʙʟᴇ ʀᴀɪᴅ",
                             callback_data=f"enable_raid={chat.id}={time}",
                         ),
-                        InlineKeyboardButton(
-                            "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"
-                        ),
+                        InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"),
                     ]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
@@ -291,7 +287,6 @@ def raidtime(update: Update, context: CallbackContext) -> Optional[str]:
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):

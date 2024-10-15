@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import time
 from typing import List
 
@@ -38,6 +34,12 @@ from Exon import Abishnoi as Exon
 from Exon import StartTime, dispatcher
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import sudo_plus
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.stats import bot_sys_stats as nagisa
 
 sites_list = {
@@ -158,12 +160,11 @@ __mod_name__ = "𝐏ɪɴɢ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "ping_help")
+
 
 # """
