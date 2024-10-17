@@ -110,7 +110,7 @@ def error_callback(update: Update, context: CallbackContext):
                 ERROR_LOGS,
                 open("error.txt", "rb"),
                 caption=f"#{context.error.identifier}\n<b>ʏᴏᴜʀ ᴄᴜᴛᴇ ᴇxᴏɴ ʜᴀᴠᴇ ᴀɴ ᴇʀʀᴏʀ ғᴏʀ ʏᴏᴜ:"
-                        f"</b>\n<code>{e}</code>",
+                f"</b>\n<code>{e}</code>",
                 parse_mode="html",
             )
             return
@@ -119,7 +119,7 @@ def error_callback(update: Update, context: CallbackContext):
         context.bot.send_message(
             ERROR_LOGS,
             text=f"#{context.error.identifier}\n<b>Your Cute Exon Nagisa Have An Error For You:"
-                 f"</b>\n<code>{e}</code>",
+            f"</b>\n<code>{e}</code>",
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton("sᴇxʏ ᴇxᴏɴ ᴇʀʀᴏʀ ʟᴏɢs", url=url)]],
             ),

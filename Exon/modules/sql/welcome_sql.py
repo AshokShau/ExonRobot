@@ -94,8 +94,10 @@ DEFAULT_WELCOME_MESSAGES = [
     "I'm looking for Garo, oh wait nvm it's {first}.",  # One Punch man s2
     "Welcome {first}, leaving is not an option!",
     "Run Forest! ..I mean...{first}.",
-    "{first} do 100 push-ups, 100 sit-ups, 100 squats, and 10km running EVERY SINGLE DAY!!!",  # One Punch ma
-    "Huh?\nDid someone with a disaster level just join?\nOh wait, it's just {first}.",  # One Punch ma
+    # One Punch ma
+    "{first} do 100 push-ups, 100 sit-ups, 100 squats, and 10km running EVERY SINGLE DAY!!!",
+    # One Punch ma
+    "Huh?\nDid someone with a disaster level just join?\nOh wait, it's just {first}.",
     "Hey, {first}, ever heard the King Engine?",  # One Punch ma
     "Hey, {first}, empty your pockets.",
     "Hey, {first}!, are you strong?",
@@ -120,7 +122,8 @@ DEFAULT_WELCOME_MESSAGES = [
     "Everyone stop what you’re doing, We are now in the presence of {first}.",
     "Hey {first}, do you wanna know how I got these scars?",
     "Welcome {first}, drop your weapons and proceed to the spy scanner.",
-    "Stay safe {first}, Keep 3 meters social distances between your messages.",  # Corona memes lmao
+    # Corona memes lmao
+    "Stay safe {first}, Keep 3 meters social distances between your messages.",
     "Hey {first}, Do you know I once One-punched a meteorite?",
     "You’re here now {first}, Resistance is futile",
     "{first} just arrived, the force is strong with this one.",
@@ -173,14 +176,16 @@ DEFAULT_WELCOME_MESSAGES = [
     "Kaizoku ou ni...nvm wrong anime.",  # op
     "{first} just joined! Gear.....second!",  # Op
     "Omae wa mou....shindeiru",
-    "Hey {first}, the leaf village lotus blooms twice!",  # Naruto stuff begins from here
+    # Naruto stuff begins from here
+    "Hey {first}, the leaf village lotus blooms twice!",
     "{first} Joined! Omote renge!",
     "{first}! I, Madara! declare you the strongest",
     "{first}, this time I'll lend you my power. ",  # Kyuubi to naruto
     "{first}, welcome to the hidden leaf village!",  # Naruto thingies end here
     "In the jungle, you must wait...until the dice read five or eight.",  # Jumanji stuff
     "Dr.{first} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
-    "{first}, this will not be an easy mission - monkeys slow the expedition.",  # End of Jumanji stuff
+    # End of Jumanji stuff
+    "{first}, this will not be an easy mission - monkeys slow the expedition.",
     "Remember, remember, the Fifth of November, the Gunpowder Treason and Plot. I know of no reason why the Gunpowder Treason should ever be forgot.",
     # V for Vendetta
     "The only verdict is vengeance; a vendetta, held as a votive not in vain, for the value and veracity of such shall one day vindicate the vigilant and the virtuous.",
@@ -256,7 +261,6 @@ DEFAULT_GOODBYE_MESSAGES = [
     "Go outside",
     "Always your head in the clouds",
 ]
-
 
 # Line 111 to 152 are references from https://bindingofisaac.fandom.com/wiki/Fortune_Telling_Machine
 
@@ -497,17 +501,19 @@ def set_gdbye_preference(chat_id, should_goodbye):
 
 
 def set_custom_welcome(
-        chat_id,
-        custom_content,
-        custom_welcome,
-        welcome_type,
-        buttons=None,
+    chat_id,
+    custom_content,
+    custom_welcome,
+    welcome_type,
+    buttons=None,
 ):
     if buttons is None:
         buttons = []
 
     with INSERTION_LOCK:
-        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(str(chat_id), True)
+        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(
+            str(chat_id), True
+        )
 
         if custom_welcome or custom_content:
             welcome_settings.custom_content = custom_content
@@ -551,7 +557,9 @@ def set_custom_gdbye(chat_id, custom_goodbye, goodbye_type, buttons=None):
         buttons = []
 
     with INSERTION_LOCK:
-        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(str(chat_id), True)
+        welcome_settings = SESSION.query(Welcome).get(str(chat_id)) or Welcome(
+            str(chat_id), True
+        )
 
         if custom_goodbye:
             welcome_settings.custom_leave = custom_goodbye
@@ -615,9 +623,7 @@ def get_gdbye_buttons(chat_id):
 
 def clean_service(chat_id: Union[str, int]) -> bool:
     try:
-        if chat_setting := SESSION.query(CleanServiceSetting).get(
-                str(chat_id)
-        ):
+        if chat_setting := SESSION.query(CleanServiceSetting).get(str(chat_id)):
             return chat_setting.clean_service
         return False
     finally:
@@ -626,7 +632,9 @@ def clean_service(chat_id: Union[str, int]) -> bool:
 
 def set_clean_service(chat_id: Union[int, str], setting: bool):
     with CS_LOCK:
-        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id)) or CleanServiceSetting(chat_id)
+        chat_setting = SESSION.query(CleanServiceSetting).get(
+            str(chat_id)
+        ) or CleanServiceSetting(chat_id)
 
         chat_setting.clean_service = setting
         SESSION.add(chat_setting)

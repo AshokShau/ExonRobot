@@ -27,7 +27,6 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-
 import html
 import re
 
@@ -52,6 +51,7 @@ from Exon.modules.helper_funcs.decorators import Exoncallback as akboss
 from Exon.modules.helper_funcs.extraction import extract_text
 from Exon.modules.helper_funcs.misc import split_message
 from Exon.modules.helper_funcs.string_handling import extract_time
+from Exon.modules.language import gs
 from Exon.modules.log_channel import loggable
 from Exon.modules.sql.approve_sql import is_approved
 from Exon.modules.warns import warn
@@ -92,8 +92,8 @@ def blacklist(update, context):
     split_text = split_message(filter_list)
     for text in split_text:
         if (
-                filter_list
-                == f"ᴄᴜʀʀᴇɴᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs ɪɴ <b>{html.escape(chat_name)}</b>:\n"
+            filter_list
+            == f"ᴄᴜʀʀᴇɴᴛ ʙʟᴀᴄᴋʟɪsᴛᴇᴅ ᴡᴏʀᴅs ɪɴ <b>{html.escape(chat_name)}</b>:\n"
         ):
             send_message(
                 update.effective_message,
@@ -485,8 +485,6 @@ __handlers__ = [
 # """
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-from Exon.modules.language import gs
-
 
 def blacklist_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
@@ -543,5 +541,6 @@ def get_help(chat):
             ),
         ],
     ]
+
 
 # """

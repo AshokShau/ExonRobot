@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABIAHNOI69 
+Copyright (c) 2022 ABIAHNOI69
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ from .tools import humanbytes, time_formatter
 
 
 async def progress(
-        current, total, gdrive, start, prog_type, file_name=None, is_cancelled=False
+    current, total, gdrive, start, prog_type, file_name=None, is_cancelled=False
 ):
     now = time.time()
     diff = now - start

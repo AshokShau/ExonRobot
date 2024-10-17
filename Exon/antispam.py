@@ -11,8 +11,11 @@ def antispam_restrict_user(user_id, time):
     # print(GLOBAL_USER_DATA)
     if user_id in NoResUser:
         return True
-    if GLOBAL_USER_DATA.get(user_id) and GLOBAL_USER_DATA.get(user_id).get("AntiSpamHard") and GLOBAL_USER_DATA.get(
-            user_id).get("AntiSpamHard").get("restrict"):
+    if (
+        GLOBAL_USER_DATA.get(user_id)
+        and GLOBAL_USER_DATA.get(user_id).get("AntiSpamHard")
+        and GLOBAL_USER_DATA.get(user_id).get("AntiSpamHard").get("restrict")
+    ):
         return True
     try:
         number = GLOBAL_USER_DATA["AntiSpam"][user_id]["value"]
@@ -71,9 +74,7 @@ def antispam_cek_user(user_id, time):
                 try:
                     number = GLOBAL_USER_DATA["AntiSpamHard"][user_id]["value"]
                     status = GLOBAL_USER_DATA["AntiSpamHard"][user_id]["status"]
-                    restime = GLOBAL_USER_DATA["AntiSpamHard"][user_id][
-                        "restrict"
-                    ]
+                    restime = GLOBAL_USER_DATA["AntiSpamHard"][user_id]["restrict"]
                     level = GLOBAL_USER_DATA["AntiSpamHard"][user_id]["level"]
                 except Exception:
                     number = 0
@@ -105,13 +106,9 @@ def antispam_cek_user(user_id, time):
                             user_id: {
                                 "status": status,
                                 "user": user_id,
-                                "value": GLOBAL_USER_DATA["AntiSpam"][user_id][
-                                    "value"
-                                ],
+                                "value": GLOBAL_USER_DATA["AntiSpam"][user_id]["value"],
                                 "restrict": restrict_time,
-                                "level": GLOBAL_USER_DATA["AntiSpam"][user_id][
-                                    "level"
-                                ],
+                                "level": GLOBAL_USER_DATA["AntiSpam"][user_id]["level"],
                             }
                         }
                     else:

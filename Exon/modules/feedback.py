@@ -34,6 +34,7 @@ from telethon import Button
 
 from Exon import OWNER_ID, SUPPORT_CHAT
 from Exon import telethn as tbot
+
 from ..events import register
 
 
@@ -71,12 +72,14 @@ async def feedback(e):
 """
     if e.sender_id != OWNER_ID and not quew:
         GIVE = "ɢɪᴠᴇ ꜱᴏᴍᴇ ᴛᴇxᴛ ꜰᴏʀ ꜰᴇᴇᴅʙᴄᴋ ✨"
-        await e.reply(
-            GIVE,
-            parse_mode=ParseMode.MARKDOWN,
-            buttons=BUTTON,
-            file=random.choice(NATFEED),
-        ),
+        (
+            await e.reply(
+                GIVE,
+                parse_mode=ParseMode.MARKDOWN,
+                buttons=BUTTON,
+                file=random.choice(NATFEED),
+            ),
+        )
         return
 
     await tbot.send_message(

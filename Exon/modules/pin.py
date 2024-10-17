@@ -1,10 +1,12 @@
 from re import compile
+from threading import RLock
 
 from pyrogram import filters
 from pyrogram.errors import ChatAdminRequired, RightForbidden, RPCError
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from Exon import Abishnoi
+from Exon.modules.language import gs
 from Exon.modules.no_sql import AsuXdb as db
 from Exon.utils.pluginhelp import member_permissions
 
@@ -29,7 +31,7 @@ async def parse_button(text: str):
         if n_escapes % 2 == 0:
             # create a thruple with button label, url, and newline status
             buttons.pgramend((match.group(2), match.group(3), bool(match.group(4))))
-            note_data += markdown_note[prev: match.start(1)]
+            note_data += markdown_note[prev : match.start(1)]
             prev = match.end(1)
         # if odd, escaped -> move along
         else:
@@ -149,8 +151,6 @@ async def unpinall_message(_, m: Message):
         await m.reply_text(e)
         return
 
-
-from threading import RLock
 
 INSERTION_LOCK = RLock()
 
@@ -391,12 +391,11 @@ __mod_name__ = "𝐏ɪɴs"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "pins_help")
+
 
 # """

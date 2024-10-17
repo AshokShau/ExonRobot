@@ -27,7 +27,6 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-
 import threading
 
 from sqlalchemy import Boolean, Column, Integer, String, UnicodeText, distinct, func
@@ -61,20 +60,20 @@ class CustomFilters(BASE):
     file_id = Column(UnicodeText, default=None)
 
     def __init__(
-            self,
-            chat_id,
-            keyword,
-            reply,
-            is_sticker=False,
-            is_document=False,
-            is_image=False,
-            is_audio=False,
-            is_voice=False,
-            is_video=False,
-            has_buttons=False,
-            reply_text=None,
-            file_type=1,
-            file_id=None,
+        self,
+        chat_id,
+        keyword,
+        reply,
+        is_sticker=False,
+        is_document=False,
+        is_image=False,
+        is_audio=False,
+        is_voice=False,
+        is_video=False,
+        has_buttons=False,
+        reply_text=None,
+        file_type=1,
+        file_id=None,
     ):
         self.chat_id = str(chat_id)  # ensure string
         self.keyword = keyword
@@ -97,9 +96,9 @@ class CustomFilters(BASE):
 
     def __eq__(self, other):
         return (
-                isinstance(other, CustomFilters)
-                and self.chat_id == other.chat_id
-                and self.keyword == other.keyword
+            isinstance(other, CustomFilters)
+            and self.chat_id == other.chat_id
+            and self.keyword == other.keyword
         )
 
 
@@ -123,9 +122,9 @@ class NewCustomFilters(BASE):
 
     def __eq__(self, other):
         return (
-                isinstance(other, CustomFilters)
-                and self.chat_id == other.chat_id
-                and self.keyword == other.keyword
+            isinstance(other, CustomFilters)
+            and self.chat_id == other.chat_id
+            and self.keyword == other.keyword
         )
 
 
@@ -162,16 +161,16 @@ def get_all_filters():
 
 
 def add_filter(
-        chat_id,
-        keyword,
-        reply,
-        is_sticker=False,
-        is_document=False,
-        is_image=False,
-        is_audio=False,
-        is_voice=False,
-        is_video=False,
-        buttons=None,
+    chat_id,
+    keyword,
+    reply,
+    is_sticker=False,
+    is_document=False,
+    is_image=False,
+    is_audio=False,
+    is_voice=False,
+    is_video=False,
+    buttons=None,
 ):
     if buttons is None:
         buttons = []

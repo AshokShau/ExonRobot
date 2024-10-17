@@ -27,12 +27,12 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- AshokShau ""
 
-
 from pyrogram.enums import ChatType
 from pyrogram.errors import MessageDeleteForbidden, RPCError
 from pyrogram.types import Message
 
 from Exon import LOGGER, Abishnoi
+from Exon.modules.language import gs
 
 
 @Abishnoi.on_cmd("purge")
@@ -47,7 +47,7 @@ async def purge(c: Abishnoi, m: Message):
 
         def divide_chunks(l: list, n: int = 100):
             for i in range(0, len(l), n):
-                yield l[i: i + n]
+                yield l[i : i + n]
 
         # Dielete messages in chunks of 100 messages
         m_list = list(divide_chunks(message_ids))
@@ -88,7 +88,7 @@ async def spurge(c: Abishnoi, m: Message):
 
         def divide_chunks(l: list, n: int = 100):
             for i in range(0, len(l), n):
-                yield l[i: i + n]
+                yield l[i : i + n]
 
         # Dielete messages in chunks of 100 messages
         m_list = list(divide_chunks(message_ids))
@@ -141,12 +141,11 @@ __mod_name__ = "𝐏ᴜʀɢᴇ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "purge_help")
+
 
 # """

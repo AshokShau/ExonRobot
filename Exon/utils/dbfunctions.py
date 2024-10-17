@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABIAHNOI69 
+Copyright (c) 2022 ABIAHNOI69
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ from Exon.modules.no_sql import db
 # (SHOULD FIX IT WITH SOMETHING LIKE TOGGLEDB), MOST OF THE CODE IS BAD AF
 # AND NEEDS TO BE REWRITTEN, BUT I WON'T, AS IT WILL TAKE
 # TOO MUCH TIME AND WILL BE BAD FOR ALREADY STORED DATA
-
 
 notesdb = db.notes
 filtersdb = db.filters

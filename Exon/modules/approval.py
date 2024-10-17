@@ -39,6 +39,7 @@ from Exon import DRAGONS, dispatcher
 from Exon.modules.disable import DisableAbleCommandHandler
 from Exon.modules.helper_funcs.chat_status import user_admin
 from Exon.modules.helper_funcs.extraction import extract_user
+from Exon.modules.language import gs
 from Exon.modules.log_channel import loggable
 
 
@@ -229,7 +230,6 @@ __mod_name__ = "𝐀ᴘᴘʀᴏᴠᴀʟ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
@@ -237,7 +237,6 @@ def get_help(chat):
 
 
 # """
-
 
 __command_list__ = ["approve", "unapprove", "approved", "approval"]
 __handlers__ = [APPROVE, DISAPPROVE, APPROVED, APPROVAL]

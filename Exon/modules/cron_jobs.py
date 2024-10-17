@@ -27,7 +27,6 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- AshokShau ""
 
-
 import datetime
 import os
 import shutil
@@ -39,6 +38,7 @@ from telegram.ext.filters import Filters
 from telegram.update import Update
 
 from Exon import BACKUP_PASS, DB_URL, DEV_USERS, LOGGER, OWNER_ID, dispatcher
+from Exon import updater as u
 from Exon.modules.helper_funcs.decorators import Exoncmd
 
 
@@ -129,8 +129,6 @@ def term(cmd, info):
         LOGGER.error(f"error while running {info}")
         LOGGER.info(f"{stderr}")
 
-
-from Exon import updater as u
 
 # run the backup daily at 1:00
 twhen = datetime.datetime.strptime("01:00", "%H:%M").time()

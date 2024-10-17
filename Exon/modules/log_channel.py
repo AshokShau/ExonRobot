@@ -34,6 +34,9 @@ from telegram.ext import CallbackContext
 
 from Exon.modules.helper_funcs.decorators import Exoncallback, Exoncmd
 from Exon.modules.helper_funcs.misc import is_module_loaded
+from Exon.modules.language import gs
+from Exon.modules.sql import log_channel_sql as sql
+
 from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 FILENAME = __name__.rsplit(".", 1)[-1]
@@ -49,15 +52,14 @@ if is_module_loaded(FILENAME):
     from Exon.modules.helper_funcs.chat_status import user_admin as u_admin
     from Exon.modules.sql import log_channel_sql as sql
 
-
     def loggable(func):
         @wraps(func)
         def log_action(
-                update: Update,
-                context: CallbackContext,
-                job_queue: JobQueue = None,
-                *args,
-                **kwargs,
+            update: Update,
+            context: CallbackContext,
+            job_queue: JobQueue = None,
+            *args,
+            **kwargs,
         ):
             if not job_queue:
                 result = func(update, context, *args, **kwargs)
@@ -79,7 +81,8 @@ if is_module_loaded(FILENAME):
                             cid = str(chat.id).replace("-100", "")
                             result += f'\n<b>Link:</b> <a href="https://t.me/c/{cid}/{message.message_id}">click here</a>'
                 except AttributeError:
-                    result += "\n<b>Link:</b> No link for manual actions."  # or just without the whole line
+                    # or just without the whole line
+                    result += "\n<b>Link:</b> No link for manual actions."
                 log_chat = sql.get_chat_log_channel(chat.id)
                 if log_chat:
                     send_log(context, log_chat, chat.id, result)
@@ -87,7 +90,6 @@ if is_module_loaded(FILENAME):
             return result
 
         return log_action
-
 
     def gloggable(func):
         @wraps(func)
@@ -112,9 +114,8 @@ if is_module_loaded(FILENAME):
 
         return glog_action
 
-
     def send_log(
-            context: CallbackContext, log_chat_id: str, orig_chat_id: str, result: str
+        context: CallbackContext, log_chat_id: str, orig_chat_id: str, result: str
     ):
         bot = context.bot
         try:
@@ -142,7 +143,6 @@ if is_module_loaded(FILENAME):
                     + "\n\nFormatting has been disabled due to an unexpected error.",
                 )
 
-
     @Exoncmd(command="logchannel")
     @u_admin
     def logging(update: Update, context: CallbackContext):
@@ -160,7 +160,6 @@ if is_module_loaded(FILENAME):
 
         else:
             message.reply_text("No log channel has been set for this group!")
-
 
     @Exoncmd(command="setlog")
     @user_admin(AdminPerms.CAN_CHANGE_INFO)
@@ -204,7 +203,6 @@ if is_module_loaded(FILENAME):
                 " - forward the /setlog to the group\n",
             )
 
-
     @Exoncmd(command="unsetlog")
     @user_admin(AdminPerms.CAN_CHANGE_INFO)
     def unsetlog(update: Update, context: CallbackContext):
@@ -222,14 +220,11 @@ if is_module_loaded(FILENAME):
         else:
             message.reply_text("No log channel has been set yet!")
 
-
     def __stats__():
         return f"× {sql.num_logchannels()} log channels set."
 
-
     def __migrate__(old_chat_id, new_chat_id):
         sql.migrate_chat(old_chat_id, new_chat_id)
-
 
     def __chat_settings__(chat_id, user_id):
         if log_channel := sql.get_chat_log_channel(chat_id):
@@ -237,14 +232,12 @@ if is_module_loaded(FILENAME):
             return f"This group has all it's logs sent to: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
         return "No log channel is set for this group!"
 
-
     __mod_name__ = "𝐋ᴏɢɢᴇʀ"
 
 else:
     # run anyway if module not loaded
     def loggable(func):
         return func
-
 
     def gloggable(func):
         return func
@@ -274,9 +267,6 @@ def log_settings(update: Update, _: CallbackContext):
     )
     msg = update.effective_message
     msg.reply_text("Toggle channel log settings", reply_markup=btn)
-
-
-from Exon.modules.sql import log_channel_sql as sql
 
 
 @Exoncallback(pattern=r"log_tog_.*")
@@ -322,8 +312,6 @@ def log_setting_callback(update: Update, context: CallbackContext):
 __mod_name__ = "𝐋ᴏɢs "
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
-
-from Exon.modules.language import gs
 
 
 def get_help(chat):

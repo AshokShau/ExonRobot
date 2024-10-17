@@ -163,7 +163,9 @@ def init_restrictions(chat_id, reset=False):
 
 def update_lock(chat_id, lock_type, locked):
     with PERM_LOCK:
-        curr_perm = SESSION.query(Permissions).get(str(chat_id)) or init_permissions(chat_id)
+        curr_perm = SESSION.query(Permissions).get(str(chat_id)) or init_permissions(
+            chat_id
+        )
 
         if lock_type == "apk":
             curr_perm.apk = locked
@@ -232,7 +234,9 @@ def update_lock(chat_id, lock_type, locked):
 
 def update_restriction(chat_id, restr_type, locked):
     with RESTR_LOCK:
-        curr_restr = SESSION.query(Restrictions).get(str(chat_id)) or init_restrictions(chat_id)
+        curr_restr = SESSION.query(Restrictions).get(str(chat_id)) or init_restrictions(
+            chat_id
+        )
 
         if restr_type == "messages":
             curr_restr.messages = locked
@@ -339,10 +343,10 @@ def is_restr_locked(chat_id, lock_type):
         return curr_restr.preview
     if lock_type == "all":
         return (
-                curr_restr.messages
-                and curr_restr.media
-                and curr_restr.other
-                and curr_restr.preview
+            curr_restr.messages
+            and curr_restr.media
+            and curr_restr.other
+            and curr_restr.preview
         )
 
 

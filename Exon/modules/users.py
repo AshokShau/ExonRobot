@@ -38,6 +38,7 @@ import Exon.modules.no_sql.users_db as user_db
 from Exon import DEV_USERS, LOGGER, OWNER_ID, dispatcher
 from Exon.modules.helper_funcs.chat_status import dev_plus, sudo_plus
 from Exon.modules.helper_funcs.decorators import Exoncmd, Exonmsg
+from Exon.modules.language import gs
 from Exon.modules.no_sql.users_db import get_all_users
 
 USERS_GROUP = 4
@@ -197,12 +198,11 @@ __mod_name__ = "𝐆-ᴄᴀsᴛ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "gcast_help")
+
 
 # """

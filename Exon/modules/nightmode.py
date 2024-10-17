@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from telegram import ParseMode
 from telethon import *
@@ -33,6 +29,12 @@ from telethon.tl.types import ChatBannedRights
 
 from Exon import LOGGER, OWNER_ID, telethn
 from Exon.events import register
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.sql.night_mode_sql import (
     add_nightmode,
     get_all_chat_id,
@@ -90,7 +92,7 @@ async def can_change_info(message):
     )
     p = result.participant
     return isinstance(p, types.ChannelParticipantCreator) or (
-            isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
+        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
 
 
@@ -188,12 +190,11 @@ __mod_name__ = "𝐍-ᴍᴏᴅᴇ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "nmode_help")
+
 
 # """

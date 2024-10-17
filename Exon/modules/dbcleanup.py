@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- ABISHNOI69 ""
 from time import sleep
 
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -34,6 +30,12 @@ from telegram.ext import CallbackQueryHandler, CommandHandler
 
 from Exon import DEV_USERS, dispatcher
 from Exon.modules.helper_funcs.filters import CustomFilters
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- ABISHNOI69 ""
+from Exon.modules.language import gs
 from Exon.modules.no_sql import global_bans_db as gban_db
 from Exon.modules.no_sql import users_db as user_db
 
@@ -204,9 +206,9 @@ def callback_button(update, context):
         reply = f"Cleaned up {invalid_chat_count} chats and {invalid_gban_count} gbanned users from db."
         bot.sendMessage(chat_id, reply)
     elif (
-            query_type == "db_cleanup"
-            or query_type == "db_leave_chat"
-            and query.from_user.id not in DEV_USERS
+        query_type == "db_cleanup"
+        or query_type == "db_leave_chat"
+        and query.from_user.id not in DEV_USERS
     ):
         query.answer("You are not allowed to use this.")
 
@@ -236,12 +238,11 @@ __handlers__ = [DB_CLEANUP_HANDLER, LEAVE_MUTED_CHATS_HANDLER, BUTTON_HANDLER]
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "dbclean_help")
+
 
 # """

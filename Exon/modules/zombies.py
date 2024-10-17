@@ -6,6 +6,7 @@ from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChannelParticipantsAdmins, ChatBannedRights
 
 from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, telethn
+from Exon.modules.language import gs
 
 # =================== CONSTANT ===================
 
@@ -39,7 +40,7 @@ OFFICERS = [OWNER_ID] + DEV_USERS + DRAGONS + DEMONS
 async def is_administrator(user_id: int, message):
     admin = False
     async for user in telethn.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins
+        message.chat_id, filter=ChannelParticipantsAdmins
     ):
         if user_id == user.id or user_id in OFFICERS:
             admin = True
@@ -63,6 +64,7 @@ async def zombies(event):
         if del_u > 0:
             del_status = f"ꜰᴏᴜɴᴅ **{del_u}** ᴢᴏᴍʙɪᴇꜱ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ.\
             \nᴄʟᴇᴀɴ ᴛʜᴇᴍ ʙʏ ᴜꜱɪɴɢ - `/zombies clean`"
+
         await find_zombies.edit(del_status)
         return
 
@@ -113,12 +115,11 @@ __mod_name__ = "𝐙ᴏᴍʙɪᴇs"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "zombies_help")
+
 
 # """

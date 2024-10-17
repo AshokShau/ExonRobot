@@ -27,7 +27,6 @@ SOFTWARE.
 #     UPDATE   :- Abishnoi_bots
 #     GITHUB :- ABISHNOI69 ""
 
-
 import threading
 
 from sqlalchemy import Column, Integer, String, UnicodeText
@@ -80,7 +79,9 @@ CHAT_FLOOD = {}
 
 def set_flood(chat_id, amount):
     with INSERTION_FLOOD_LOCK:
-        flood = SESSION.query(FloodControl).get(str(chat_id)) or FloodControl(str(chat_id))
+        flood = SESSION.query(FloodControl).get(str(chat_id)) or FloodControl(
+            str(chat_id)
+        )
 
         flood.user_id = None
         flood.limit = amount

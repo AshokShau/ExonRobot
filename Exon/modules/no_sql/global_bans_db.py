@@ -26,8 +26,8 @@ SOFTWARE.
 # TG :- @Abishnoi
 #     TG  :- Abishnoi_bots
 #     GITHUB :- Abishnoi69 ""
-
 """ɢʟᴏʙᴀʟ ʙᴀɴs ᴅᴀᴛᴀʙᴀsᴇ"""
+
 
 from Exon.modules.no_sql import get_collection
 

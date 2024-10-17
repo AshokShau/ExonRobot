@@ -70,9 +70,9 @@ class WarnFilters(BASE):
 
     def __eq__(self, other):
         return (
-                isinstance(other, WarnFilters)
-                and self.chat_id == other.chat_id
-                and self.keyword == other.keyword
+            isinstance(other, WarnFilters)
+            and self.chat_id == other.chat_id
+            and self.keyword == other.keyword
         )
 
 
@@ -104,7 +104,9 @@ WARN_FILTERS = {}
 
 def warn_user(user_id, chat_id, reason=None):
     with WARN_INSERTION_LOCK:
-        warned_user = SESSION.query(Warns).get((user_id, str(chat_id))) or Warns(user_id, str(chat_id))
+        warned_user = SESSION.query(Warns).get((user_id, str(chat_id))) or Warns(
+            user_id, str(chat_id)
+        )
 
         warned_user.num_warns += 1
         if reason:
@@ -172,9 +174,7 @@ def add_warn_filter(chat_id, keyword, reply):
 
 def remove_warn_filter(chat_id, keyword):
     with WARN_FILTER_INSERTION_LOCK:
-        if warn_filt := SESSION.query(WarnFilters).get(
-                (str(chat_id), keyword)
-        ):
+        if warn_filt := SESSION.query(WarnFilters).get((str(chat_id), keyword)):
             if keyword in WARN_FILTERS.get(str(chat_id), []):  # sanity check
                 WARN_FILTERS.get(str(chat_id), []).remove(keyword)
 
@@ -207,7 +207,9 @@ def get_warn_filter(chat_id, keyword):
 
 def set_warn_limit(chat_id, warn_limit):
     with WARN_SETTINGS_LOCK:
-        curr_setting = SESSION.query(WarnSettings).get(str(chat_id)) or WarnSettings(chat_id, warn_limit=warn_limit)
+        curr_setting = SESSION.query(WarnSettings).get(str(chat_id)) or WarnSettings(
+            chat_id, warn_limit=warn_limit
+        )
 
         curr_setting.warn_limit = warn_limit
 
@@ -217,7 +219,9 @@ def set_warn_limit(chat_id, warn_limit):
 
 def set_warn_strength(chat_id, soft_warn):
     with WARN_SETTINGS_LOCK:
-        curr_setting = SESSION.query(WarnSettings).get(str(chat_id)) or WarnSettings(chat_id, soft_warn=soft_warn)
+        curr_setting = SESSION.query(WarnSettings).get(str(chat_id)) or WarnSettings(
+            chat_id, soft_warn=soft_warn
+        )
 
         curr_setting.soft_warn = soft_warn
 

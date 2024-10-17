@@ -57,6 +57,7 @@ from Exon.modules.helper_funcs.handlers import MessageHandlerChecker
 from Exon.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from Exon.modules.helper_funcs.msg_types import get_note_type
 from Exon.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
+from Exon.modules.language import gs
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")
@@ -140,8 +141,8 @@ def get(update, context, notename, show_none=True, no_format=False):
                 "mention",
             ]
             if valid_format := escape_invalid_curly_brackets(
-                    note.value,
-                    VALID_NOTE_FORMATTERS,
+                note.value,
+                VALID_NOTE_FORMATTERS,
             ):
                 if not no_format and "%%%" in valid_format:
                     split = valid_format.split("%%%")
@@ -151,33 +152,38 @@ def get(update, context, notename, show_none=True, no_format=False):
                 text = text.format(
                     first=escape_markdown(message.from_user.first_name),
                     last=escape_markdown(
-                        message.from_user.last_name
-                        or message.from_user.first_name,
+                        message.from_user.last_name or message.from_user.first_name,
                     ),
                     fullname=escape_markdown(
                         " ".join(
-                            [
-                                message.from_user.first_name,
-                                message.from_user.last_name,
-                            ]
-                            if message.from_user.last_name
-                            else [message.from_user.first_name],
+                            (
+                                [
+                                    message.from_user.first_name,
+                                    message.from_user.last_name,
+                                ]
+                                if message.from_user.last_name
+                                else [message.from_user.first_name]
+                            ),
                         ),
                     ),
-                    username=f"@{message.from_user.username}"
-                    if message.from_user.username
-                    else mention_markdown(
-                        message.from_user.id,
-                        message.from_user.first_name,
+                    username=(
+                        f"@{message.from_user.username}"
+                        if message.from_user.username
+                        else mention_markdown(
+                            message.from_user.id,
+                            message.from_user.first_name,
+                        )
                     ),
                     mention=mention_markdown(
                         message.from_user.id,
                         message.from_user.first_name,
                     ),
                     chatname=escape_markdown(
-                        message.chat.title
-                        if message.chat.type != "private"
-                        else message.from_user.first_name,
+                        (
+                            message.chat.title
+                            if message.chat.type != "private"
+                            else message.from_user.first_name
+                        ),
                     ),
                     id=message.from_user.id,
                 )
@@ -442,10 +448,10 @@ def __import_data__(chat_id, data):
 
         if match:
             failures.append(notename)
-            if notedata := notedata[match.end():].strip():
+            if notedata := notedata[match.end() :].strip():
                 sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
         elif matchsticker:
-            if content := notedata[matchsticker.end():].strip():
+            if content := notedata[matchsticker.end() :].strip():
                 sql.add_note_to_db(
                     chat_id,
                     notename[1:],
@@ -454,7 +460,7 @@ def __import_data__(chat_id, data):
                     file=content,
                 )
         elif matchbtn:
-            parse = notedata[matchbtn.end():].strip()
+            parse = notedata[matchbtn.end() :].strip()
             notedata = parse.split("<###button###>")[0]
             buttons = parse.split("<###button###>")[1]
             if buttons := ast.literal_eval(buttons):
@@ -466,7 +472,7 @@ def __import_data__(chat_id, data):
                     buttons=buttons,
                 )
         elif matchfile:
-            file = notedata[matchfile.end():].strip()
+            file = notedata[matchfile.end() :].strip()
             file = file.split("<###TYPESPLIT###>")
             notedata = file[1]
             if content := file[0]:
@@ -478,7 +484,7 @@ def __import_data__(chat_id, data):
                     file=content,
                 )
         elif matchphoto:
-            photo = notedata[matchphoto.end():].strip()
+            photo = notedata[matchphoto.end() :].strip()
             photo = photo.split("<###TYPESPLIT###>")
             notedata = photo[1]
             if content := photo[0]:
@@ -490,7 +496,7 @@ def __import_data__(chat_id, data):
                     file=content,
                 )
         elif matchaudio:
-            audio = notedata[matchaudio.end():].strip()
+            audio = notedata[matchaudio.end() :].strip()
             audio = audio.split("<###TYPESPLIT###>")
             notedata = audio[1]
             if content := audio[0]:
@@ -502,7 +508,7 @@ def __import_data__(chat_id, data):
                     file=content,
                 )
         elif matchvoice:
-            voice = notedata[matchvoice.end():].strip()
+            voice = notedata[matchvoice.end() :].strip()
             voice = voice.split("<###TYPESPLIT###>")
             notedata = voice[1]
             if content := voice[0]:
@@ -514,7 +520,7 @@ def __import_data__(chat_id, data):
                     file=content,
                 )
         elif matchvideo:
-            video = notedata[matchvideo.end():].strip()
+            video = notedata[matchvideo.end() :].strip()
             video = video.split("<###TYPESPLIT###>")
             notedata = video[1]
             if content := video[0]:
@@ -526,7 +532,7 @@ def __import_data__(chat_id, data):
                     file=content,
                 )
         elif matchvn:
-            video_note = notedata[matchvn.end():].strip()
+            video_note = notedata[matchvn.end() :].strip()
             video_note = video_note.split("<###TYPESPLIT###>")
             notedata = video_note[1]
             if content := video_note[0]:
@@ -548,8 +554,8 @@ def __import_data__(chat_id, data):
                 document=output,
                 filename="failed_imports.txt",
                 caption="These files/photos failed to import due to originating "
-                        "from another bot. This is a telegram API restriction, and can't "
-                        "be avoided. Sorry for the inconvenience!",
+                "from another bot. This is a telegram API restriction, and can't "
+                "be avoided. Sorry for the inconvenience!",
             )
 
 
@@ -594,12 +600,11 @@ dispatcher.add_handler(CLEARALL_BTN)
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "notes_help")
+
 
 # """

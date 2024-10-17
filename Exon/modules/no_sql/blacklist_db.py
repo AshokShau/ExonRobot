@@ -49,9 +49,7 @@ def add_to_blacklist(chat_id, trigger):
 
 
 def rm_from_blacklist(chat_id, trigger) -> bool:
-    if data := BL.find_one_and_delete(
-            {"chat_id": chat_id, "trigger": trigger}
-    ):
+    if data := BL.find_one_and_delete({"chat_id": chat_id, "trigger": trigger}):
         if trigger in CHAT_BLACKLISTS.get(str(chat_id), set()):
             CHAT_BLACKLISTS.get(str(chat_id), set()).remove(trigger)
         return True

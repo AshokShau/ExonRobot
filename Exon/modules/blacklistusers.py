@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import html
 
 from telegram import ParseMode, Update
@@ -37,6 +33,12 @@ import Exon.modules.sql.blacklistusers_sql as sql
 from Exon import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher
 from Exon.modules.helper_funcs.chat_status import dev_plus
 from Exon.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.log_channel import gloggable
 
 BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + DRAGONS + WOLVES + DEMONS
@@ -167,10 +169,10 @@ __handlers__ = [BL_HANDLER, UNBL_HANDLER, BLUSERS_HANDLER]
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "buser_help")
+
 
 # """

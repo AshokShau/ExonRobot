@@ -38,6 +38,7 @@ from Exon import OWNER_ID
 from Exon import telethn as Rani
 from Exon.events import Asuinline
 from Exon.events import register as Asubot
+from Exon.modules.language import gs
 from Exon.modules.no_sql import fsub_db as db
 
 
@@ -129,9 +130,9 @@ async def fsub_n(e):
     if not e.from_id:
         return
     if (
-            await is_admin(e.chat_id, e.sender_id)
-            or e.sender_id in DEVS
-            or e.sender_id == OWNER_ID
+        await is_admin(e.chat_id, e.sender_id)
+        or e.sender_id in DEVS
+        or e.sender_id == OWNER_ID
     ):
         return
     channel = (db.fs_settings(e.chat_id)).get("channel")
@@ -140,9 +141,10 @@ async def fsub_n(e):
     except ChatAdminRequiredError:
         return
     if not check:
-        buttons = [Button.url("ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", f"t.me/{channel}")], [
-            Button.inline("ᴜɴᴍᴜᴛᴇ ᴍᴇ", data=f"fs_{str(e.sender_id)}")
-        ]
+        buttons = (
+            [Button.url("ᴊᴏɪɴ ᴄʜᴀɴɴᴇʟ", f"t.me/{channel}")],
+            [Button.inline("ᴜɴᴍᴜᴛᴇ ᴍᴇ", data=f"fs_{str(e.sender_id)}")],
+        )
         txt = f'<b><a href="tg://user?id={e.sender_id}">{e.sender.first_name}</a></b>, ʏᴏᴜ ʜᴀᴠᴇ <b>ɴᴏᴛ sᴜʙsᴄʀɪʙᴇᴅ</b> ᴛᴏ ᴏᴜʀ <b><a href="t.me/{channel}">ᴄʜᴀɴɴᴇʟ</a></b> ʏᴇᴛ❗.ᴘʟᴇᴀsᴇ <b><a href="t.me/{channel}">ᴊᴏɪɴ</a></b> ᴀɴᴅ <b>ᴘʀᴇss ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ</b> ᴛᴏ ᴜɴᴍᴜᴛᴇ ʏᴏᴜʀsᴇʟғ.'
         await e.reply(txt, buttons=buttons, parse_mode="html", link_preview=False)
         await e.client.edit_permissions(e.chat_id, e.sender_id, send_messages=False)
@@ -175,10 +177,10 @@ __mod_name__ = "𝐅-sᴜʙ"
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "fsub_help")
+
 
 # """

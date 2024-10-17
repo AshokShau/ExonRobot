@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2022 ABISHNOI69 
+Copyright (c) 2022 ABISHNOI69
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,7 @@ def extract_user(message: Message, args: List[str]) -> Optional[int]:
 
 
 def extract_user_and_text(
-        message: Message, args: List[str]
+    message: Message, args: List[str]
 ) -> Tuple[Optional[int], Optional[str]]:
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
@@ -63,7 +63,7 @@ def extract_user_and_text(
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]
         user_id = ent.user.id
-        text = message.text[ent.offset + ent.length:]
+        text = message.text[ent.offset + ent.length :]
 
     elif len(args) >= 1 and args[0][0] == "@":
         user = args[0]
@@ -109,14 +109,14 @@ def extract_user_and_text(
 
 def extract_text(message) -> str:
     return (
-            message.text
-            or message.caption
-            or (message.sticker.emoji if message.sticker else None)
+        message.text
+        or message.caption
+        or (message.sticker.emoji if message.sticker else None)
     )
 
 
 def extract_unt_fedban(
-        message: Message, args: List[str]
+    message: Message, args: List[str]
 ) -> Tuple[Optional[int], Optional[str]]:
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
@@ -134,7 +134,7 @@ def extract_unt_fedban(
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]
         user_id = ent.user.id
-        text = message.text[ent.offset + ent.length:]
+        text = message.text[ent.offset + ent.length :]
 
     elif len(args) >= 1 and args[0][0] == "@":
         user = args[0]
@@ -165,8 +165,8 @@ def extract_unt_fedban(
         message.bot.get_chat(user_id)
     except BadRequest as excp:
         if (
-                excp.message in ("User_id_invalid", "Chat not found")
-                and not str(user_id).isdigit()
+            excp.message in ("User_id_invalid", "Chat not found")
+            and not str(user_id).isdigit()
         ):
             message.reply_text(
                 "I don't seem to have interacted with this user before - please forward a message from "

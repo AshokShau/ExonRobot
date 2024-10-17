@@ -22,10 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
-# TG :- @AshokShau
-#     UPDATE   :- Abishnoi_bots
-#     GITHUB :- AshokShau ""
 import html
 import time
 from datetime import datetime
@@ -59,6 +55,12 @@ from Exon.modules.helper_funcs.chat_status import (
 from Exon.modules.helper_funcs.decorators import Exonmsg
 from Exon.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from Exon.modules.helper_funcs.misc import send_to_list
+
+# ""DEAR PRO PEOPLE,  DON'T REMOVE & CHANGE THIS LINE
+# TG :- @AshokShau
+#     UPDATE   :- Abishnoi_bots
+#     GITHUB :- AshokShau ""
+from Exon.modules.language import gs
 from Exon.modules.no_sql.users_db import get_user_com_chats
 
 GBAN_ENFORCE_GROUP = 6
@@ -162,9 +164,9 @@ def gban(update: Update, context: CallbackContext):
             return
 
         if old_reason := gban_db.update_gban_reason(
-                user_id,
-                user_chat.username or user_chat.first_name,
-                reason,
+            user_id,
+            user_chat.username or user_chat.first_name,
+            reason,
         ):
             message.reply_text(
                 f"This user is already gbanned, for the following reason:\n<code>{html.escape(old_reason)}</code>\nI've gone and updated it with your new reason!",
@@ -616,9 +618,7 @@ __mod_name__ = "𝐀-sᴘᴀᴍ"
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
@@ -626,7 +626,6 @@ def get_help(chat):
 
 
 # """
-
 
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 

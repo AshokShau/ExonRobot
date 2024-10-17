@@ -27,7 +27,6 @@ SOFTWARE.
 #     TG  :- Abishnoi_bots
 #     GITHUB :- Abishnoi69 ""
 
-
 from Exon.modules.no_sql import get_collection
 
 DISABLED_COMMANDS = get_collection("DISABLED_COMMANDS")
@@ -46,9 +45,7 @@ def disable_command(chat_id, disable) -> bool:
 
 
 def enable_command(chat_id, enable) -> bool:
-    if data := DISABLED_COMMANDS.find_one(
-            {"chat_id": chat_id, "command": enable}
-    ):
+    if data := DISABLED_COMMANDS.find_one({"chat_id": chat_id, "command": enable}):
         if enable in DISABLED.get(str(chat_id)):  # sanity check
             DISABLED.setdefault(str(chat_id), set()).remove(enable)
 

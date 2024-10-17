@@ -57,6 +57,7 @@ from Exon.modules.helper_funcs.chat_status import (
 )
 from Exon.modules.helper_funcs.extraction import extract_user_and_text
 from Exon.modules.helper_funcs.string_handling import extract_time
+from Exon.modules.language import gs
 from Exon.modules.log_channel import loggable
 
 
@@ -123,9 +124,7 @@ def mute(update: Update, context: CallbackContext) -> str:
                         text="⚠️ Unmute",
                         callback_data=f"unmute_({member.user.id})",
                     ),
-                    InlineKeyboardButton(
-                        text="❌ Delete", callback_data="close2"
-                    ),
+                    InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                 ]
             ]
         )
@@ -172,10 +171,10 @@ def unmute(update: Update, context: CallbackContext) -> str:
         )
 
     elif (
-            member.can_send_messages
-            and member.can_send_media_messages
-            and member.can_send_other_messages
-            and member.can_add_web_page_previews
+        member.can_send_messages
+        and member.can_send_media_messages
+        and member.can_send_other_messages
+        and member.can_add_web_page_previews
     ):
         message.reply_text("This user already has the right to speak.")
     else:
@@ -275,9 +274,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                             text="⚠️ Unmute",
                             callback_data=f"unmute_({member.user.id})",
                         ),
-                        InlineKeyboardButton(
-                            text="❌ Delete", callback_data="close2"
-                        ),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                     ]
                 ]
             )
@@ -332,9 +329,7 @@ def button(update: Update, context: CallbackContext) -> str:
             can_send_other_messages=True,
             can_add_web_page_previews=True,
         )
-        if unmuted := bot.restrict_chat_member(
-                chat.id, int(user_id), chat_permissions
-        ):
+        if unmuted := bot.restrict_chat_member(chat.id, int(user_id), chat_permissions):
             update.effective_message.edit_text(
                 f"Yep! User {mention_html(member.user.id, member.user.first_name)} can start talking again in {chat.title}!",
                 parse_mode=ParseMode.HTML,
@@ -368,12 +363,11 @@ __handlers__ = [MUTE_HANDLER, UNMUTE_HANDLER, TEMPMUTE_HANDLER]
 
 # ғᴏʀ ʜᴇʟᴘ ᴍᴇɴᴜ
 
-
 # """
-from Exon.modules.language import gs
 
 
 def get_help(chat):
     return gs(chat, "muting_help")
+
 
 # """
