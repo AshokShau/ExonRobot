@@ -1,30 +1,31 @@
 from typing import Optional, List, Union
-from motor.motor_asyncio import AsyncIOMotorCollection
+
 from pymongo.errors import PyMongoError
+
 from . import mongo
 from .. import LOGGER
+
 
 class Users:
     collection_name = "users"
 
-    def __init__(self, user_id: int, collection: Optional[AsyncIOMotorCollection] = None) -> None:
+    def __init__(self, user_id: int) -> None:
         """
         Initialize the Users class with a specific MongoDB collection.
         """
-        self.collection = collection or mongo.db[self.collection_name]
+        self.collection = mongo.db[self.collection_name]
         self.user_id = user_id or 0
 
     @classmethod
-    async def get_user_info(cls, user: Union[int, str], collection: Optional[AsyncIOMotorCollection] = None) -> \
+    async def get_user_info(cls, user: Union[int, str]) -> \
     Optional[dict]:
         """
         Retrieve user information based on user ID or username.
 
         :param user: Either the user ID (int) or username (str).
-        :param collection: Optional specific collection to query.
         :return: User document if found, otherwise None.
         """
-        collection = collection or mongo.db[cls.collection_name]
+        collection = mongo.db[cls.collection_name]
 
         # Prepare the query based on user type
         if isinstance(user, int):

@@ -1,18 +1,19 @@
 from typing import Optional, List
-from motor.motor_asyncio import AsyncIOMotorCollection
+
 from pymongo.errors import PyMongoError
 
 from . import mongo
 from .. import LOGGER
 
+
 class Chats:
     collection_name = "chats"
 
-    def __init__(self, chat_id: int, collection: Optional[AsyncIOMotorCollection] = None) -> None:
+    def __init__(self, chat_id: int) -> None:
         """
         Initialize the Chats class with a specific MongoDB collection.
         """
-        self.collection = collection or mongo.db[self.collection_name]
+        self.collection = mongo.db[self.collection_name]
         self.chat_id = chat_id
 
     async def get_chat(self) -> Optional[dict]:

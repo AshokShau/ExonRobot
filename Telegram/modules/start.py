@@ -163,7 +163,7 @@ async def modules(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     q = cast(CallbackQuery, update.callback_query)
     help_cmd_keys = sorted(
         k
-        for j in [HELP_COMMANDS[i]["alt_cmds"] for i in list(HELP_COMMANDS.keys())]
+        for j in [HELP_COMMANDS[i]["alt_cmd"] for i in list(HELP_COMMANDS.keys())]
         for k in j
     )
 
@@ -220,3 +220,43 @@ async def commands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             return await query.message.delete()
         else:
             raise exc
+
+
+@Cb(pattern="^start_")
+async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = cast(CallbackQuery, update.callback_query)
+    if query.data == "start_back":
+        await query.answer(text="Home menu")
+        try:
+            await query.message.edit_caption(
+                caption=PM_START_TEXT.format(
+                    html.escape(update.effective_user.first_name),
+                    context.bot.first_name,
+                ),
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                text="Aᴅᴅ ᴍᴇ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ",
+                                url=f"https://t.me/{context.bot.username}?startgroup=new",
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="Hᴇʟᴘ & Cᴏᴍᴍᴀɴᴅs",
+                                callback_data="commands",
+                            )
+                        ],
+                    ]
+                ),
+            )
+        except BadRequest as exc:
+            if exc.message not in [
+                "Message is not modified",
+                "Message to edit not found",
+                "Can't access the chat",
+                "Chat not found",
+            ]:
+                raise exc
+    else:
+        return None

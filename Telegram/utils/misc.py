@@ -65,8 +65,26 @@ def ikb(rows=None, back=None):
     if rows is None:
         rows = []
     lines = []
-    for row in rows:
-        line = [btn(*button) for button in row]
+    try:
+        for row in rows:
+            line = []
+            for button in row:
+                btn_text = button.split(".")[1].capitalize()
+                button = btn(btn_text, button)
+                line.append(button)
+            lines.append(line)
+    except AttributeError:
+        for row in rows:
+            line = []
+            for button in row:
+                button = btn(*button)
+                line.append(button)
+            lines.append(line)
+    except TypeError:
+        line = []
+        for button in rows:
+            button = btn(*button)
+            line.append(button)
         lines.append(line)
 
     if back:
