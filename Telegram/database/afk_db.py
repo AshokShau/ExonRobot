@@ -4,7 +4,7 @@ from . import mongo
 from .. import LOGGER
 
 class AfkDB:
-    collection_name = "afk"
+    collection_name = "Afk"
 
     def __init__(self, user_id: int) -> None:
         self.collection = mongo.db[self.collection_name]

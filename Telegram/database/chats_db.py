@@ -7,7 +7,7 @@ from .. import LOGGER
 
 
 class Chats:
-    collection_name = "chats"
+    collection_name = "Chats"
 
     def __init__(self, chat_id: int) -> None:
         """

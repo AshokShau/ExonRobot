@@ -1,8 +1,8 @@
-ptbmod[all]~=0.3
+ptbmod~=0.3
 pytz~=2024.2
 motor~=3.6.0
 meval~=2.5
 
-python-telegram-bot~=21.6
+python-telegram-bot[job-queue, callback-data]~=21.6
 pymongo~=4.9.2
 python-dotenv~=1.0.1
