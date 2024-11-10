@@ -2,8 +2,8 @@ from typing import Optional
 
 from pymongo.errors import PyMongoError
 
-from . import mongo
 from .. import LOGGER
+from . import mongo
 
 
 class Chats:
@@ -43,15 +43,21 @@ class Chats:
             result = await self.collection.update_one(
                 {"_id": self.chat_id},
                 {"$set": {"title": title, "username": username}},
-                upsert=True
+                upsert=True,
             )
             if result.matched_count > 0:
-                LOGGER.info(f"Chat {self.chat_id} updated successfully with title '{title}' and username '{username}'.")
+                LOGGER.info(
+                    f"Chat {self.chat_id} updated successfully with title '{title}' and username '{username}'."
+                )
             else:
-                LOGGER.info(f"Chat {self.chat_id} created with title '{title}' and username '{username}'.")
+                LOGGER.info(
+                    f"Chat {self.chat_id} created with title '{title}' and username '{username}'."
+                )
             return True
         except PyMongoError as e:
-            LOGGER.error(f"Error updating or inserting chat with ID {self.chat_id}: {e}")
+            LOGGER.error(
+                f"Error updating or inserting chat with ID {self.chat_id}: {e}"
+            )
             return False
 
     async def remove_chat(self) -> bool:

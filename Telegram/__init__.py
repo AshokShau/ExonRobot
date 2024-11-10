@@ -27,7 +27,6 @@ LOGGER = logging.getLogger(__name__)
 HELP_COMMANDS = {}
 bot_data = "bot_data.pickle"
 
-
 defaults = Defaults(
     allow_sending_without_reply=True,
     parse_mode=ParseMode.HTML,
@@ -35,6 +34,7 @@ defaults = Defaults(
     block=False,
     tzinfo=pytz.timezone(config.TIME_ZONE),
 )
+
 
 async def post_init(app: Application) -> None:
     """
@@ -55,6 +55,7 @@ async def post_shutdown(_: Application) -> None:
     if os.path.exists(bot_data):
         os.remove(bot_data)
     await mongo.close()
+
 
 application = (
     ApplicationBuilder()

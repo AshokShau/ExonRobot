@@ -23,8 +23,9 @@ from Telegram import LOGGER, Cmd
 @Cmd(command="logs")
 @Admins(no_reply=True, only_devs=True)
 async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#   todo: implement this, logs file: Telegram/logs.txt
+    #   todo: implement this, logs file: Telegram/logs.txt
     pass
+
 
 @Cmd(command=["restart", "update"])
 @Admins(no_reply=True, only_devs=True)
@@ -64,8 +65,9 @@ async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Mess
     except Exception as e:
         return await msg.edit_text(f"Failed to restart the bot due to\n{e}")
 
+
 def format_exception(
-        exp: BaseException, tb: Optional[List[traceback.FrameSummary]] = None
+    exp: BaseException, tb: Optional[List[traceback.FrameSummary]] = None
 ) -> str:
     """Formats an exception traceback as a string."""
     if tb is None:
@@ -126,7 +128,9 @@ async def eval_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             return "", await meval(code, globals(), **eval_vars)
         except Exception as e:
             tb = traceback.extract_tb(e.__traceback__)
-            first_snip_idx = next((i for i, frame in enumerate(tb) if frame.filename == "<string>"), -1)
+            first_snip_idx = next(
+                (i for i, frame in enumerate(tb) if frame.filename == "<string>"), -1
+            )
             if first_snip_idx == -1:
                 raise e
             stripped_tb = tb[first_snip_idx:]

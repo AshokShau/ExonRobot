@@ -1,7 +1,10 @@
 from typing import Optional
+
 from pymongo.errors import PyMongoError
-from . import mongo
+
 from .. import LOGGER
+from . import mongo
+
 
 class AfkDB:
     collection_name = "Afk"
@@ -27,10 +30,10 @@ class AfkDB:
                         "reason": reason,
                         "time": time,
                         "media_type": media_type,
-                        "media": media
+                        "media": media,
                     }
                 },
-                upsert=True
+                upsert=True,
             )
             LOGGER.info(f"Afk for user {self.user_id} added or updated successfully.")
             return True
@@ -44,7 +47,9 @@ class AfkDB:
             if result.deleted_count > 0:
                 LOGGER.info(f"Afk for user {self.user_id} removed successfully.")
                 return True
-            LOGGER.warning(f"Afk for user {self.user_id} delete found no matching documents.")
+            LOGGER.warning(
+                f"Afk for user {self.user_id} delete found no matching documents."
+            )
             return False
         except PyMongoError as e:
             LOGGER.error(f"Error deleting afk for user {self.user_id}: {e}")

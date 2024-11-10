@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 
 from Telegram import Cmd
 from Telegram.database.antiRaid_db import AntiRaidDB
-from Telegram.utils.formatters import tl_time, create_time
+from Telegram.utils.formatters import create_time, tl_time
 
 
 # Remove existing job by name
@@ -18,12 +18,14 @@ def remove_job_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
         job.schedule_removal()
     return True
 
+
 # Anti-raid mode timeout function
 async def raid_timeout(context: ContextTypes.DEFAULT_TYPE):
     await AntiRaidDB(context.job.chat_id).set_anti_raid(False)
     await context.bot.send_message(
         chat_id=context.job.chat_id, text="Anti-Raid mode has been disabled. Timeout!"
     )
+
 
 @Cmd(command=["autoEndRaid", "endRaid"])
 @Admins(permissions="can_restrict_members", is_both=True)
@@ -46,7 +48,10 @@ async def raid_raidTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     if not raid_time:
         await m.reply_text("No raid timeout is set.")
     else:
-        await m.reply_text(f"Anti-Raid mode will be disabled after {tl_time(raid_time)}")
+        await m.reply_text(
+            f"Anti-Raid mode will be disabled after {tl_time(raid_time)}"
+        )
+
 
 @Cmd(command=["raidBanTime", "raidMuteTime"])
 @Admins(permissions="can_restrict_members", is_both=True)
@@ -72,6 +77,7 @@ async def raid_banTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         await m.reply_text("No raid ban time is set.")
     else:
         await m.reply_text(f"Current raid ban time is {tl_time(ban_time)}.")
+
 
 @Cmd(command=["raidMode", "antiRaidMode"])
 @Admins(permissions="can_restrict_members", is_both=True)

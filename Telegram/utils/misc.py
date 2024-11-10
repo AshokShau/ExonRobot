@@ -10,6 +10,7 @@ async def try_to_delete(message: Message) -> bool:
     except Forbidden:
         return False
 
+
 ParseWords: list[str] = [
     "first",
     "last",

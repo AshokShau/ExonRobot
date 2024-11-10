@@ -4,7 +4,7 @@ from ptbmod import verifyAnonymousAdmin
 from telegram import Update
 from telegram.ext import CallbackQueryHandler
 
-from Telegram import HELP_COMMANDS, application, LOGGER
+from Telegram import HELP_COMMANDS, LOGGER, application
 from Telegram.modules import ALL_MODULES
 
 
@@ -36,13 +36,20 @@ def setup() -> None:
             "help_msg": plugin_help,
         }
 
-    LOGGER.info("Total Modules: %s, Loaded Help Modules: %s", len(ALL_MODULES), len(HELP_COMMANDS))
-    application.add_handler(CallbackQueryHandler(verifyAnonymousAdmin, pattern=r"^anon."))
+    LOGGER.info(
+        "Total Modules: %s, Loaded Help Modules: %s",
+        len(ALL_MODULES),
+        len(HELP_COMMANDS),
+    )
+    application.add_handler(
+        CallbackQueryHandler(verifyAnonymousAdmin, pattern=r"^anon.")
+    )
 
     application.run_polling(
         drop_pending_updates=True,
         allowed_updates=Update.ALL_TYPES,
     )
+
 
 if __name__ == "__main__":
     setup()

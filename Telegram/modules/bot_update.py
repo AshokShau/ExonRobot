@@ -1,16 +1,16 @@
-from telegram import Update, ChatMember, InlineKeyboardMarkup, InlineKeyboardButton
+from ptbmod.decorator.cache import load_admin_cache
+from telegram import ChatMember, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ChatType
 from telegram.ext import ChatMemberHandler, ContextTypes
 
-from ptbmod.decorator.cache import load_admin_cache
-
 from Telegram import CMember
-
 from Telegram.database.chats_db import Chats
 
 
 @CMember(ChatMemberHandler.CHAT_MEMBER, group=-1)
-async def chat_member_update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def chat_member_update(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
     status_change = update.chat_member.difference().get("status")
 
     if status_change is None:
@@ -26,7 +26,9 @@ async def chat_member_update(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 
 @CMember(ChatMemberHandler.MY_CHAT_MEMBER, group=-1)
-async def my_chat_member_update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def my_chat_member_update(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> None:
     if update.effective_chat.type not in [ChatType.GROUP, ChatType.SUPERGROUP]:
         # we only care if we were added or removed from a group
         return None

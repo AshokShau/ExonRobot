@@ -1,14 +1,14 @@
 from datetime import datetime
-from typing import Union, Optional
+from typing import Optional, Union
 
-from telegram import Update, MessageEntity
+from telegram import MessageEntity, Update
 from telegram.ext import ContextTypes, filters
 from telegram.helpers import mention_html
 
 from Telegram import Cmd, Msg
 from Telegram.database.afk_db import AfkDB
 from Telegram.database.users_db import Users
-from Telegram.utils.msg_types import get_welcome_type, Types, send_cmd
+from Telegram.utils.msg_types import Types, get_welcome_type, send_cmd
 
 
 def till_date(date):
@@ -41,6 +41,7 @@ async def afkUser(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
     if reason:
         reply += f"\nReason: {reason}"
     await msg.reply_text(reply)
+
 
 @Msg(filters.ChatType.GROUPS, group=2)
 async def afk_checker(
@@ -152,6 +153,7 @@ async def afk_checker(
         await AfkDB(user.id).remove_afk()
     return
 
+
 __help__ = """
 Description:
 When someone mentions you in a chat, the user will be notified you are AFK. You can even provide a reason for going AFK, which will be provided to the user as well.
@@ -163,7 +165,6 @@ User Commands:
 • /afk replied to a sticker/photo: This will set you offline with an image or sticker.
 • /afk replied to a sticker/photo reason: This will set you AFK with an image and reason both.
 """
-
 
 __mod_name__ = "AFK"
 __alt_name__ = ["afk", "away"]

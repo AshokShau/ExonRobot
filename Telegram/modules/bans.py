@@ -3,7 +3,7 @@ import re
 
 from ptbmod import Admins
 from ptbmod.decorator.cache import is_admin
-from telegram import Update, Message, ChatPermissions, ChatMember
+from telegram import ChatMember, ChatPermissions, Message, Update
 from telegram.ext import ContextTypes
 from telegram.helpers import mention_html
 
@@ -26,9 +26,11 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
         await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
             if user_id is None
-            else "I can't ban myself."
-            if user_id == context.bot.id
-            else "What are you trying to do? You can't ban someone who's an admin."
+            else (
+                "I can't ban myself."
+                if user_id == context.bot.id
+                else "What are you trying to do? You can't ban someone who's an admin."
+            )
         )
         return None
 
@@ -81,9 +83,11 @@ async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | Non
         await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
             if user_id is None
-            else "wtf; What are you trying to do?"
-            if user_id == context.bot.id
-            else "What are you trying to do? You can't ban someone who's an admin."
+            else (
+                "wtf; What are you trying to do?"
+                if user_id == context.bot.id
+                else "What are you trying to do? You can't ban someone who's an admin."
+            )
         )
         return None
 
@@ -122,9 +126,11 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message:
         return await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
             if user_id is None
-            else "I can't kick myself."
-            if user_id == context.bot.id
-            else "What are you trying to do? You can't kick someone who's an admin."
+            else (
+                "I can't kick myself."
+                if user_id == context.bot.id
+                else "What are you trying to do? You can't kick someone who's an admin."
+            )
         )
 
     try:
@@ -154,20 +160,16 @@ async def mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message | 
     m = update.effective_message
     reply_msg = m.reply_to_message or m
 
-    user_id, user_first_name, user_name, _reason = await extract_user(
-        m, context
-    )
-    if (
-        not user_id
-        or user_id == context.bot.id
-        or await is_admin(chat.id, user_id)
-    ):
+    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+    if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
         return await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
             if user_id is None
-            else "I can't mute myself."
-            if user_id == context.bot.id
-            else "What are you trying to do? You can't mute someone who's an admin."
+            else (
+                "I can't mute myself."
+                if user_id == context.bot.id
+                else "What are you trying to do? You can't mute someone who's an admin."
+            )
         )
 
     delete = bool(m.text.startswith("/d") or m.text.startswith("!d"))
@@ -176,7 +178,7 @@ async def mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message | 
     match = re.match(r"([0-9]{1,})([dhms])*$", _reason) if _reason else None
     if match:
         ban_time = match.group(0)
-        reason = _reason[match.end():].strip()
+        reason = _reason[match.end() :].strip()
     else:
         ban_time = "367d"
         reason = _reason
@@ -216,9 +218,11 @@ async def unmute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | No
         await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
             if user_id is None
-            else "look I can speak."
-            if user_id == context.bot.id
-            else "What are you trying to do? This user is admin so how possible is it to unmute them."
+            else (
+                "look I can speak."
+                if user_id == context.bot.id
+                else "What are you trying to do? This user is admin so how possible is it to unmute them."
+            )
         )
         return None
 
@@ -231,7 +235,9 @@ async def unmute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | No
     silent = bool(m.text.startswith("/s") or m.text.startswith("!s"))
 
     try:
-        await chat.restrict_member(user_id, permissions=ChatPermissions.all_permissions())
+        await chat.restrict_member(
+            user_id, permissions=ChatPermissions.all_permissions()
+        )
     except Exception as e:
         await m.reply_text("Failed to unmute;")
         raise e

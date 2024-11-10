@@ -1,4 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
+
 from config import MONGO
 
 
@@ -8,7 +9,9 @@ class MongoDB:
         Initialize the MongoDB client.
         """
         if not MONGO:
-            raise SystemExit("MONGO environment variable is not configured. Please set it to connect to the database.")
+            raise SystemExit(
+                "MONGO environment variable is not configured. Please set it to connect to the database."
+            )
 
         self.client = AsyncIOMotorClient(MONGO)
         self.db = self.client.TelegramTest

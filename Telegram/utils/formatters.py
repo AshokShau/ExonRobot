@@ -40,4 +40,3 @@ def tl_time(time_raw):
         return f"{time_val if time_val >= 30 else 40} {'sᴇᴄᴏɴᴅ' if time_val == 1 else 'sᴇᴄᴏɴᴅs'}"
 
     return ""
-

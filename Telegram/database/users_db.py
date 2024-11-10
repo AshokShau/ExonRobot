@@ -1,7 +1,9 @@
 from typing import Optional, Union
+
 from pymongo.errors import PyMongoError
-from . import mongo
+
 from .. import LOGGER
+from . import mongo
 
 
 class Users:
@@ -25,18 +27,25 @@ class Users:
         collection = mongo.db[cls.collection_name]
 
         # Prepare the query based on user type
-        query = {"_id": user} if isinstance(user, int) else {"username": user.lstrip('@')}
+        query = (
+            {"_id": user} if isinstance(user, int) else {"username": user.lstrip("@")}
+        )
 
         try:
             user_info = await collection.find_one(query)
             if user_info:
-                LOGGER.info(f"Retrieved user info for {'ID' if isinstance(user, int) else 'username'} '{user}'.")
+                LOGGER.info(
+                    f"Retrieved user info for {'ID' if isinstance(user, int) else 'username'} '{user}'."
+                )
             else:
-                LOGGER.warning(f"No user found for {'ID' if isinstance(user, int) else 'username'} '{user}'.")
+                LOGGER.warning(
+                    f"No user found for {'ID' if isinstance(user, int) else 'username'} '{user}'."
+                )
             return user_info or {}
         except PyMongoError as e:
             LOGGER.error(
-                f"Error retrieving user info for {'ID' if isinstance(user, int) else 'username'} '{user}': {e}")
+                f"Error retrieving user info for {'ID' if isinstance(user, int) else 'username'} '{user}': {e}"
+            )
             return None
 
     async def get_user(self) -> Optional[dict]:
@@ -67,10 +76,13 @@ class Users:
                 LOGGER.info(f"User {self.user_id} updated successfully.")
             else:
                 LOGGER.info(
-                    f"User {self.user_id} created with fullName '{full_name}', username '{username}', and pm={pm}.")
+                    f"User {self.user_id} created with fullName '{full_name}', username '{username}', and pm={pm}."
+                )
             return True
         except PyMongoError as e:
-            LOGGER.error(f"Error updating or inserting user with ID {self.user_id}: {e}")
+            LOGGER.error(
+                f"Error updating or inserting user with ID {self.user_id}: {e}"
+            )
             return False
 
     async def remove_user(self) -> bool:

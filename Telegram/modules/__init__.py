@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def all_modules():
     """
     Returns a sorted list of all modules in this directory.
