@@ -1,4 +1,14 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from telegram.error import BadRequest, Forbidden
+
+
+async def try_to_delete(message: Message) -> bool:
+    try:
+        return await message.delete()
+    except BadRequest as exc:
+        return exc.message == "Reply message not found"
+    except Forbidden:
+        return False
 
 ParseWords: list[str] = [
     "first",
