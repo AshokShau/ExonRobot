@@ -31,7 +31,9 @@ async def get_help_msg(help_option: str):
     if help_option in help_cmd_keys:
         try:
             help_option_name = next(
-                HELP_COMMANDS[i] for i in HELP_COMMANDS if help_option in HELP_COMMANDS[i]["alt_cmd"]
+                HELP_COMMANDS[i]
+                for i in HELP_COMMANDS
+                if help_option in HELP_COMMANDS[i]["alt_cmd"]
             )
             help_option_value = help_option_name["help_msg"]
             ou = help_option_name["buttons"]

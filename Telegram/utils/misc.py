@@ -105,7 +105,9 @@ def ikb(rows=None, back=None):
     return InlineKeyboardMarkup(inline_keyboard=lines)
 
 
-def btn(text: str, value: str, button_type: str = "callback_data") -> InlineKeyboardButton:
+def btn(
+    text: str, value: str, button_type: str = "callback_data"
+) -> InlineKeyboardButton:
     """Helper function to create inline keyboard button.
 
     Args:

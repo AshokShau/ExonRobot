@@ -6,6 +6,7 @@ from telegram import Bot, Message
 @unique
 class Types(IntEnum):
     """Get type of message"""
+
     TEXT = 1
     DOCUMENT = 2
     PHOTO = 3
