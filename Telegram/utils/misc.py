@@ -3,6 +3,7 @@ from telegram.error import BadRequest, Forbidden
 
 
 async def try_to_delete(message: Message) -> bool:
+    """Try to delete message"""
     try:
         return await message.delete()
     except BadRequest as exc:
@@ -104,16 +105,15 @@ def ikb(rows=None, back=None):
     return InlineKeyboardMarkup(inline_keyboard=lines)
 
 
-def btn(text, value, type="callback_data"):
-    """
-    Helper function to create inline keyboard button.
+def btn(text: str, value: str, button_type: str = "callback_data") -> InlineKeyboardButton:
+    """Helper function to create inline keyboard button.
 
     Args:
-        text (str): Button text.
-        value (str): Callback data for the button.
-        type (str, optional): Type of the button. Defaults to "callback_data".
+        text: Button text.
+        value: Callback data for the button.
+        button_type: Type of the button. Defaults to "callback_data".
 
     Returns:
         InlineKeyboardButton: Inline keyboard button.
     """
-    return InlineKeyboardButton(text, **{type: value})
+    return InlineKeyboardButton(text, **{button_type: value})

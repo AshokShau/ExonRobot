@@ -12,11 +12,13 @@ from Telegram.utils.msg_types import Types, get_welcome_type, send_cmd
 
 
 def till_date(date):
+    """Converts date to datetime object"""
     form = "%Y-%m-%d %H:%M:%S"
     return datetime.strptime(date, form)
 
 
 def get_hours(hour: str):
+    """Converts time to hours, minutes and seconds"""
     tim = hour.strip().split(":")
     txt = ""
     if int(tim[0]):
@@ -31,6 +33,7 @@ def get_hours(hour: str):
 
 @Cmd(command=["afk", "brb"])
 async def afkUser(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sets you as AFK"""
     user = update.effective_user
     msg = update.effective_message
 
@@ -47,10 +50,11 @@ async def afkUser(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 async def afk_checker(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> Union[(Optional[int], Optional[str])]:
+    """Checks if user is AFK"""
     user = update.effective_user
     chat = update.effective_chat
     m = update.effective_message
-    bot, args = context.bot, context.args
+    bot, = context.bot
     repl = m.reply_to_message
 
     rep_user_id = None

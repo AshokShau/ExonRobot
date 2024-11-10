@@ -4,6 +4,7 @@ import pytz
 
 
 def create_time(time_raw: str) -> datetime:
+    """Creates a datetime object from time_raw string"""
     unit_map = {
         "d": "days",
         "h": "hours",
@@ -19,6 +20,7 @@ def create_time(time_raw: str) -> datetime:
 
 
 def tl_time(time_raw):
+    """Converts time_raw string to readable format"""
     time_val = int(time_raw[:-1])
     unit = time_raw[-1]
 

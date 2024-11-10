@@ -1,4 +1,4 @@
-from Telegram import HELP_COMMANDS
+from Telegram import HELP_COMMANDS, LOGGER
 from Telegram.utils.misc import ikb
 
 PM_START_TEXT = """
@@ -26,24 +26,18 @@ def gen_help_keyboard():
 
 async def get_help_msg(help_option: str):
     """Get help message and keyboard."""
-    help_cmd_keys = sorted(
-        k
-        for j in [HELP_COMMANDS[i]["alt_cmd"] for i in list(HELP_COMMANDS.keys())]
-        for k in j
-    )
+    help_cmd_keys = set(k for j in HELP_COMMANDS.values() for k in j["alt_cmd"])
 
     if help_option in help_cmd_keys:
-        help_option_name = next(
-            HELP_COMMANDS[i]
-            for i in HELP_COMMANDS
-            if help_option in HELP_COMMANDS[i]["alt_cmd"]
-        )
-        help_option_value = help_option_name["help_msg"]
-        ou = next(
-            HELP_COMMANDS[i]["buttons"]
-            for i in HELP_COMMANDS
-            if help_option in HELP_COMMANDS[i]["alt_cmd"]
-        )
+        try:
+            help_option_name = next(
+                HELP_COMMANDS[i] for i in HELP_COMMANDS if help_option in HELP_COMMANDS[i]["alt_cmd"]
+            )
+            help_option_value = help_option_name["help_msg"]
+            ou = help_option_name["buttons"]
+        except StopIteration:
+            LOGGER.warning(f"Help option {help_option} not found.")
+            return None, None
         help_kb = ikb(ou, "commands")
         help_msg = f"{help_option_value}"
     else:

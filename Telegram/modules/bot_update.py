@@ -11,6 +11,7 @@ from Telegram.database.chats_db import Chats
 async def chat_member_update(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
+    """Update admins cache when admins are added or removed from a group."""
     status_change = update.chat_member.difference().get("status")
 
     if status_change is None:
@@ -29,6 +30,7 @@ async def chat_member_update(
 async def my_chat_member_update(
     update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
+    """The bot was added or removed from a group."""
     if update.effective_chat.type not in [ChatType.GROUP, ChatType.SUPERGROUP]:
         # we only care if we were added or removed from a group
         return None
@@ -38,7 +40,7 @@ async def my_chat_member_update(
     if status_change is None:
         return None
 
-    old_status, new_status = status_change
+    _, new_status = status_change
     chats_db = Chats(update.effective_chat.id)
 
     if new_status in [

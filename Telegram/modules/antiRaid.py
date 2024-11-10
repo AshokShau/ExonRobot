@@ -11,6 +11,7 @@ from Telegram.utils.formatters import create_time, tl_time
 
 # Remove existing job by name
 def remove_job_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
+    """Remove existing job by name"""
     current_jobs = context.job_queue.get_jobs_by_name(name)
     if not current_jobs:
         return False
@@ -20,16 +21,19 @@ def remove_job_if_exists(name: str, context: ContextTypes.DEFAULT_TYPE) -> bool:
 
 
 # Anti-raid mode timeout function
-async def raid_timeout(context: ContextTypes.DEFAULT_TYPE):
+async def raid_timeout(context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Anti-raid mode timeout function"""
     await AntiRaidDB(context.job.chat_id).set_anti_raid(False)
     await context.bot.send_message(
         chat_id=context.job.chat_id, text="Anti-Raid mode has been disabled. Timeout!"
     )
+    return None
 
 
 @Cmd(command=["autoEndRaid", "endRaid"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def raid_raidTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Anti-raid mode timeout function"""
     m = update.effective_message
     db = AntiRaidDB(update.effective_chat.id)
     raid_db = await db.get_anti_raid()
@@ -56,6 +60,7 @@ async def raid_raidTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 @Cmd(command=["raidBanTime", "raidMuteTime"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def raid_banTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Set raid ban time"""
     m = update.effective_message
     db = AntiRaidDB(update.effective_chat.id)
     args = context.args
@@ -82,6 +87,7 @@ async def raid_banTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 @Cmd(command=["raidMode", "antiRaidMode"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def raid_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Set raid mode"""
     m = update.effective_message
     db = AntiRaidDB(update.effective_chat.id)
     args = context.args
@@ -109,6 +115,7 @@ async def raid_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @Cmd(command=["raid", "antiRaid"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def raid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Enable or disable Anti-Raid"""
     m = update.effective_message
     chat_id = update.effective_chat.id
     db = AntiRaidDB(chat_id)

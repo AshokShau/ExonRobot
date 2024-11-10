@@ -16,11 +16,12 @@ from Telegram.utils.misc import try_to_delete
 @Cmd(command=["ban", "dban", "tBan", "dtBan", "sBan", "stBan"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
+    """Ban a user."""
     chat = update.effective_chat
     m = update.effective_message
     reply_msg = m.reply_to_message or m
 
-    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+    user_id, user_first_name, _, _reason = await extract_user(m, context)
 
     if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
         await m.reply_text(
@@ -73,11 +74,12 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
 @Cmd(command=["unban", "sUnban"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
+    """Unban a user."""
     chat = update.effective_chat
     m = update.effective_message
     reply_msg = m.reply_to_message or m
 
-    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+    user_id, user_first_name, _, _reason = await extract_user(m, context)
 
     if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
         await m.reply_text(
@@ -116,11 +118,12 @@ async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | Non
 @Cmd(command=["kick", "dKick", "skick"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message:
+    """Kick a user."""
     chat = update.effective_chat
     m = update.effective_message
     reply_msg = m.reply_to_message or m
 
-    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+    user_id, user_first_name, _, _reason = await extract_user(m, context)
 
     if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
         return await m.reply_text(
@@ -156,11 +159,12 @@ async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message:
 @Cmd(command=["mute", "dMute", "sMute", "tMute"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message | None:
+    """Mute a user."""
     chat = update.effective_chat
     m = update.effective_message
     reply_msg = m.reply_to_message or m
 
-    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+    user_id, user_first_name, _, _reason = await extract_user(m, context)
     if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
         return await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
@@ -207,12 +211,13 @@ async def mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message | 
 @Cmd(command=["unmute", "sUnmute"])
 @Admins(permissions="can_restrict_members", is_both=True)
 async def unmute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
+    """Unmute a user."""
     chat = update.effective_chat
     m = update.effective_message
 
     reply_msg = m.reply_to_message or m
 
-    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+    user_id, user_first_name, _, _reason = await extract_user(m, context)
 
     if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
         await m.reply_text(

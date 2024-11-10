@@ -12,6 +12,7 @@ from ..utils.extract_user import extract_user
 @Cmd(command="adminList")
 @Admins(permissions="can_promote_members", is_bot=True)
 async def adminList(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Gets a list of admins in a chat."""
     chat = update.effective_chat
     _, admins = await load_admin_cache(context.bot, chat.id)
 
@@ -43,6 +44,7 @@ async def adminList(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @Cmd(command="promote")
 @Admins(permissions="can_promote_members", is_both=True)
 async def promote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Promotes a user to admin."""
     msg = update.effective_message
     chat = update.effective_chat
     user_id, name, _, custom_title = await extract_user(msg, context)
@@ -109,6 +111,7 @@ async def promote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @Cmd(command="demote")
 @Admins(permissions="can_promote_members", is_both=True)
 async def demote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Demotes an admin to a regular user."""
     msg = update.effective_message
     chat = update.effective_chat
     user_id, name, _, _ = await extract_user(msg, context)
@@ -145,6 +148,7 @@ async def demote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @Cmd(command="setTitle")
 @Admins(permissions="can_promote_members", is_both=True)
 async def setTitle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sets a custom title for an admin."""
     msg = update.effective_message
     chat = update.effective_chat
     user_id, name, _, custom_title = await extract_user(msg, context)
@@ -185,6 +189,7 @@ async def setTitle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @Cmd(command=["inviteLink", "link"])
 @Admins(permissions="can_invite_users", is_both=True)
 async def getInviteLinks(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
+    """Gets the invite link for a chat."""
     chat = update.effective_chat
     if chat.username:
         invite_link = f"https://t.me/{chat.username}"
@@ -196,6 +201,7 @@ async def getInviteLinks(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 
 @Cmd(command=["adminCache", "reload"])
 async def adminCache(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Reloads the admin cache."""
     chat = update.effective_chat
     user = update.effective_user
 

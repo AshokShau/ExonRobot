@@ -25,6 +25,7 @@ from Telegram.utils.start import (
 
 @Cmd(command="start")
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Start command"""
     args = context.args
     message = update.effective_message
     chat = update.effective_chat
@@ -109,6 +110,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 @Cmd(command="help")
 async def help_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message | None:
+    """Help command"""
     arg = context.args
     m = cast(Message, update.effective_message)
     if arg:
@@ -165,13 +167,8 @@ async def help_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message |
 
 @Cb(pattern="^modules.")
 async def modules(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Callback for help command"""
     q = cast(CallbackQuery, update.callback_query)
-    help_cmd_keys = sorted(
-        k
-        for j in [HELP_COMMANDS[i]["alt_cmd"] for i in list(HELP_COMMANDS.keys())]
-        for k in j
-    )
-
     module = q.data.split(".", 1)[1]
 
     help_msg = HELP_COMMANDS[f"modules.{module}"]["help_msg"]
@@ -202,6 +199,7 @@ async def modules(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 @Cb(pattern="^commands")
 async def commands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Callback for help command"""
     query = cast(CallbackQuery, update.callback_query)
     keyboard = ikb(gen_help_keyboard(), "start_back")
     try:
@@ -229,6 +227,7 @@ async def commands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 @Cb(pattern="^start_")
 async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Callback for help command"""
     query = cast(CallbackQuery, update.callback_query)
     if query.data == "start_back":
         await query.answer(text="Home menu")

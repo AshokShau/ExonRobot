@@ -6,6 +6,7 @@ from telegram.ext import CallbackQueryHandler
 
 from Telegram import HELP_COMMANDS, LOGGER, application
 from Telegram.modules import ALL_MODULES
+from Telegram.modules.errorHandler import error_handler
 
 
 def setup() -> None:
@@ -41,9 +42,11 @@ def setup() -> None:
         len(ALL_MODULES),
         len(HELP_COMMANDS),
     )
+
     application.add_handler(
         CallbackQueryHandler(verifyAnonymousAdmin, pattern=r"^anon.")
     )
+    application.add_error_handler(error_handler)
 
     application.run_polling(
         drop_pending_updates=True,

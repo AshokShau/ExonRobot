@@ -1,3 +1,4 @@
+import html
 import inspect
 import io
 import os
@@ -7,7 +8,6 @@ import sys
 import traceback
 import uuid
 from html import escape
-from os import execvp
 from sys import executable
 from typing import Any, List, Optional, Tuple, cast
 
@@ -23,13 +23,14 @@ from Telegram import LOGGER, Cmd
 @Cmd(command="logs")
 @Admins(no_reply=True, only_devs=True)
 async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    #   todo: implement this, logs file: Telegram/logs.txt
+    """Get bot logs"""
     pass
 
 
 @Cmd(command=["restart", "update"])
 @Admins(no_reply=True, only_devs=True)
 async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Message]:
+    """Update and Restart the bot"""
     m = cast(Message, update.effective_message)
     cmd = m.text.split(sep=None, maxsplit=1)
     command = cmd[0][1:]
@@ -39,8 +40,8 @@ async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Mess
     try:
         if command == "update":
             try:
-                out = sub.check_output(["git", "pull"]).decode("UTF-8")
-                if "Already up to date." in str(out):
+                out = sub.check_output(["git", "pull"], universal_newlines=True)
+                if "Already up to date." in out:
                     return await msg.edit_text("Already up to date.")
                 if len(out) > 4096:
                     with io.BytesIO(str.encode(out)) as out_file:
@@ -52,7 +53,7 @@ async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Mess
                             disable_notification=True,
                         )
                 else:
-                    await msg.edit_text(f"<pre>{out}</pre>")
+                    await msg.edit_text(f"<pre>{html.escape(out)}</pre>")
             except Exception as e:
                 return await msg.edit_text(str(e))
             await msg.reply_text("Restarting and pushing the changes...")
@@ -60,7 +61,7 @@ async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Mess
         if command == "restart":
             LOGGER.info("Restarting")
 
-        execvp(executable, args=[executable, "-m", "Telegram"])
+        os.execvp(executable, args=[executable, "-m", "Telegram"])
 
     except Exception as e:
         return await msg.edit_text(f"Failed to restart the bot due to\n{e}")
@@ -87,6 +88,7 @@ def format_exception(
 @Cmd(command="eval")
 @Admins(only_devs=True)
 async def eval_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Evaluates python code"""
     bot = context.bot
     m = update.effective_message
     text = m.text.split(None, 1)
@@ -137,7 +139,7 @@ async def eval_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             formatted_tb = format_exception(e, tb=stripped_tb)
             return "⚠️ Error executing snippet\n\n", formatted_tb
 
-    prefix, result = await _eval()
+    _, result = await _eval()
 
     if not out_buf.getvalue() or result is not None:
         print(result, file=out_buf)

@@ -11,7 +11,6 @@ from telegram.ext import Application, ApplicationBuilder, Defaults, PicklePersis
 import config
 from Telegram.database import mongo
 
-"""Setup Logger"""
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("logs.txt"), logging.StreamHandler()],

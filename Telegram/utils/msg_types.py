@@ -5,6 +5,7 @@ from telegram import Bot, Message
 
 @unique
 class Types(IntEnum):
+    """Get type of message"""
     TEXT = 1
     DOCUMENT = 2
     PHOTO = 3
@@ -19,6 +20,7 @@ class Types(IntEnum):
 
 
 async def send_cmd(bot: Bot, msg_type: int):
+    """Send Helper"""
     get_format = {
         Types.TEXT.value: bot.send_message,
         Types.DOCUMENT.value: bot.send_document,
@@ -103,6 +105,7 @@ async def get_note_type(m: Message):
 
 
 async def get_welcome_type(m: Message):
+    """Get type of welcome/AFK."""
     data_type = None
     content = None
     raw_text = m.text_html or m.caption_html
