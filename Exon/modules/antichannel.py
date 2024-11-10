@@ -60,7 +60,9 @@ def set_antilinkedchannel(update: Update, context: CallbackContext):
                 )
             else:
                 sql.enable_linked(chat.id)
-                message.reply_html(f"ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ɪɴ {html.escape(chat.title)}")
+                message.reply_html(
+                    f"ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ʟɪɴᴋᴇᴅ ᴄʜᴀɴɴᴇʟ ɪɴ {html.escape(chat.title)}"
+                )
         elif s in ["off", "no"]:
             sql.disable_linked(chat.id)
             message.reply_html(
@@ -180,10 +182,14 @@ def set_antipinchannel(update: Update, context: CallbackContext):
                 )
             else:
                 sql.enable_pin(chat.id)
-                message.reply_html(f"ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}")
+                message.reply_html(
+                    f"ᴇɴᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}"
+                )
         elif s in ["off", "no"]:
             sql.disable_pin(chat.id)
-            message.reply_html(f"ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}")
+            message.reply_html(
+                f"ᴅɪsᴀʙʟᴇᴅ ᴀɴᴛɪ ᴄʜᴀɴɴᴇʟ ᴘɪɴ ɪɴ {html.escape(chat.title)}"
+            )
         else:
             message.reply_text(f"ᴜɴʀᴇᴄᴏɢɴɪᴢᴇᴅ ᴀʀɢᴜᴍᴇɴᴛs {s}")
         return
@@ -236,5 +242,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "achannel_help")
+
 
 # """

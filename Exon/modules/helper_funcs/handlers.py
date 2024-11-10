@@ -41,11 +41,11 @@ CMD_STARTERS = ("/", "!", "-", "?")
 class AntiSpam:
     def __init__(self):
         self.whitelist = (
-                (DEV_USERS or [])
-                + (DRAGONS or [])
-                + (WOLVES or [])
-                + (DEMONS or [])
-                + (TIGERS or [])
+            (DEV_USERS or [])
+            + (DRAGONS or [])
+            + (WOLVES or [])
+            + (DEMONS or [])
+            + (TIGERS or [])
         )
         # Values are HIGHLY experimental, its recommended you pay attention to our commits as we will be adjusting the values over time with what suits best.
         Duration.CUSTOM = 15  # Custom duration, 15 seconds
@@ -84,7 +84,7 @@ class CustomCommandHandler(CommandHandler):
 
         if allow_edit is False:
             self.filters &= ~(
-                    Filters.update.edited_message | Filters.update.edited_channel_post
+                Filters.update.edited_message | Filters.update.edited_channel_post
             )
 
     def check_update(self, update):
@@ -103,7 +103,7 @@ class CustomCommandHandler(CommandHandler):
         if message.text and len(message.text) > 1:
             fst_word = message.text.split(None, 1)[0]
             if len(fst_word) > 1 and any(
-                    fst_word.startswith(start) for start in CMD_STARTERS
+                fst_word.startswith(start) for start in CMD_STARTERS
             ):
                 args = message.text.split()[1:]
                 command = fst_word[1:].split("@")
@@ -111,8 +111,8 @@ class CustomCommandHandler(CommandHandler):
                 if user_id == 1087968824:
                     user_id = update.effective_chat.id
                 if (
-                        command[0].lower() not in self.command
-                        or command[1].lower() != message.bot.username.lower()
+                    command[0].lower() not in self.command
+                    or command[1].lower() != message.bot.username.lower()
                 ):
                     return None
                 if SpamChecker.check_user(user_id):
@@ -147,7 +147,7 @@ class CustomMessageHandler(MessageHandler):
         super().__init__(filters, callback, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
-                    Filters.update.edited_message | Filters.update.edited_channel_post
+                Filters.update.edited_message | Filters.update.edited_channel_post
             )
 
         def check_update(self, update):

@@ -39,7 +39,7 @@ OFFICERS = [OWNER_ID] + DEV_USERS + DRAGONS + DEMONS
 async def is_administrator(user_id: int, message):
     admin = False
     async for user in telethn.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins
+        message.chat_id, filter=ChannelParticipantsAdmins
     ):
         if user_id == user.id or user_id in OFFICERS:
             admin = True
@@ -120,5 +120,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "zombies_help")
+
 
 # """

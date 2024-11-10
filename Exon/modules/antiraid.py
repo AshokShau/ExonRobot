@@ -84,9 +84,7 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                         "ᴅɪsᴀʙʟᴇ ʀᴀɪᴅ",
                         callback_data=f"disable_raid={chat.id}={time}",
                     ),
-                    InlineKeyboardButton(
-                        "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=1"
-                    ),
+                    InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=1"),
                 ]
             ]
         else:
@@ -97,9 +95,7 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                         "ᴇɴᴀʙʟᴇ ʀᴀɪᴅ",
                         callback_data=f"enable_raid={chat.id}={time}",
                     ),
-                    InlineKeyboardButton(
-                        "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"
-                    ),
+                    InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"),
                 ]
             ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -123,9 +119,7 @@ def setRaid(update: Update, context: CallbackContext) -> Optional[str]:
                             "ᴇɴᴀʙʟᴇ ʀᴀɪᴅ",
                             callback_data=f"enable_raid={chat.id}={time}",
                         ),
-                        InlineKeyboardButton(
-                            "ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"
-                        ),
+                        InlineKeyboardButton("ᴄᴀɴᴄᴇʟ", callback_data="cancel_raid=0"),
                     ]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)

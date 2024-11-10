@@ -49,9 +49,9 @@ class BlackListFilters(BASE):
 
     def __eq__(self, other):
         return (
-                isinstance(other, BlackListFilters)
-                and self.chat_id == other.chat_id
-                and self.trigger == other.trigger
+            isinstance(other, BlackListFilters)
+            and self.chat_id == other.chat_id
+            and self.trigger == other.trigger
         )
 
 
@@ -95,7 +95,7 @@ def add_to_blacklist(chat_id, trigger):
 def rm_from_blacklist(chat_id, trigger):
     with BLACKLIST_FILTER_INSERTION_LOCK:
         if blacklist_filt := SESSION.query(BlackListFilters).get(
-                (str(chat_id), trigger)
+            (str(chat_id), trigger)
         ):
             if trigger in CHAT_BLACKLISTS.get(str(chat_id), set()):  # sanity check
                 CHAT_BLACKLISTS.get(str(chat_id), set()).remove(trigger)
@@ -148,7 +148,9 @@ def set_blacklist_strength(chat_id, blacklist_type, value):
     # 6 = tban
     # 7 = tmute
     with BLACKLIST_SETTINGS_INSERTION_LOCK:
-        curr_setting = SESSION.query(BlacklistSettings).get(str(chat_id)) or BlacklistSettings(
+        curr_setting = SESSION.query(BlacklistSettings).get(
+            str(chat_id)
+        ) or BlacklistSettings(
             chat_id,
             blacklist_type=int(blacklist_type),
             value=value,

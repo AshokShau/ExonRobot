@@ -60,7 +60,6 @@ if is_module_loaded(FILENAME):
     DISABLE_OTHER = []
     ADMIN_CMDS = []
 
-
     class DisableAbleCommandHandler(CommandHandler):
         def __init__(self, command, callback, admin_ok=False, **kwargs):
             super().__init__(command, callback, **kwargs)
@@ -82,15 +81,15 @@ if is_module_loaded(FILENAME):
             if message.text and len(message.text) > 1:
                 fst_word = message.text.split(None, 1)[0]
                 if len(fst_word) > 1 and any(
-                        fst_word.startswith(start) for start in CMD_STARTERS
+                    fst_word.startswith(start) for start in CMD_STARTERS
                 ):
                     args = message.text.split()[1:]
                     command = fst_word[1:].split("@")
                     command.append(message.bot.username)
 
                     if (
-                            command[0].lower() not in self.command
-                            or command[1].lower() != message.bot.username.lower()
+                        command[0].lower() not in self.command
+                        or command[1].lower() != message.bot.username.lower()
                     ):
                         return None
                     chat = update.effective_chat
@@ -108,7 +107,6 @@ if is_module_loaded(FILENAME):
                             return (args, filter_result) if is_disabled else None
                         return args, filter_result
                     return False
-
 
     class DisableAbleMessageHandler(MessageHandler):
         def __init__(self, filters, callback, friendly, **kwargs):
@@ -135,7 +133,6 @@ if is_module_loaded(FILENAME):
                     return False
                 return args, filter_result
 
-
     class DisableAbleRegexHandler(RegexHandler):
         def __init__(self, pattern, callback, friendly="", filters=None, **kwargs):
             super().__init__(pattern, callback, filters, **kwargs)
@@ -146,7 +143,6 @@ if is_module_loaded(FILENAME):
             chat = update.effective_chat
             if super().check_update(update):
                 return not sql.is_command_disabled(chat.id, self.friendly)
-
 
     @connection_status
     @user_admin
@@ -169,7 +165,6 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I disable?")
-
 
     @connection_status
     @user_admin
@@ -223,7 +218,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I disable?")
 
-
     @connection_status
     @user_admin
     def enable(update: Update, context: CallbackContext):
@@ -244,7 +238,6 @@ if is_module_loaded(FILENAME):
 
         else:
             update.effective_message.reply_text("What should I enable?")
-
 
     @connection_status
     @user_admin
@@ -298,7 +291,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I enable?")
 
-
     @connection_status
     @user_admin
     def list_cmds(update: Update, context: CallbackContext):
@@ -315,7 +307,6 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("No commands can be disabled.")
 
-
     # do not async
     def build_curr_disabled(chat_id: Union[str, int]) -> str:
         disabled = sql.get_all_disabled(chat_id)
@@ -325,7 +316,6 @@ if is_module_loaded(FILENAME):
         result = "".join(f" - `{escape_markdown(cmd)}`\n" for cmd in disabled)
         return f"The following commands are currently restricted:\n{result}"
 
-
     @connection_status
     def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat
@@ -334,18 +324,14 @@ if is_module_loaded(FILENAME):
             parse_mode=ParseMode.MARKDOWN,
         )
 
-
     def __stats__():
         return f"× {sql.num_disabled()} ᴅɪsᴀʙʟᴇᴅ ɪᴛᴇᴍs, ᴀᴄʀᴏss {sql.num_chats()} ᴄʜᴀᴛs."
-
 
     def __migrate__(old_chat_id, new_chat_id):
         sql.migrate_chat(old_chat_id, new_chat_id)
 
-
     def __chat_settings__(chat_id, user_id):
         return build_curr_disabled(chat_id)
-
 
     DISABLE_HANDLER = CommandHandler("disable", disable, run_async=True)
     DISABLE_MODULE_HANDLER = CommandHandler(

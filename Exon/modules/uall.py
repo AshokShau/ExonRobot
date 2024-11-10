@@ -83,11 +83,11 @@ async def _(event):
         is_admin = False
     else:
         if isinstance(
-                cutiepii.participant,
-                (
-                        ChannelParticipantAdmin,
-                        ChannelParticipantCreator,
-                ),
+            cutiepii.participant,
+            (
+                ChannelParticipantAdmin,
+                ChannelParticipantCreator,
+            ),
         ):
             is_admin = True
     if not is_admin:
@@ -100,7 +100,7 @@ async def _(event):
     done = await event.reply("sᴇᴀʀᴄʜɪɴɢ ᴘᴀʀᴛɪᴄɪᴘᴀɴᴛ ʟɪsᴛs.")
     p = 0
     async for i in telethn.iter_participants(
-            event.chat_id, filter=ChannelParticipantsKicked, aggressive=True
+        event.chat_id, filter=ChannelParticipantsKicked, aggressive=True
     ):
         rights = ChatBannedRights(until_date=0, view_messages=False)
         try:
@@ -137,11 +137,11 @@ async def _(event):
         is_admin = False
     else:
         if isinstance(
-                cutiepii.participant,
-                (
-                        ChannelParticipantAdmin,
-                        ChannelParticipantCreator,
-                ),
+            cutiepii.participant,
+            (
+                ChannelParticipantAdmin,
+                ChannelParticipantCreator,
+            ),
         ):
             is_admin = True
     if not is_admin:
@@ -158,7 +158,7 @@ async def _(event):
     done = await event.reply("ᴡᴏʀᴋɪɴɢ ...")
     p = 0
     async for i in telethn.iter_participants(
-            event.chat_id, filter=ChannelParticipantsBanned, aggressive=True
+        event.chat_id, filter=ChannelParticipantsBanned, aggressive=True
     ):
         rights = ChatBannedRights(
             until_date=0,
@@ -221,5 +221,6 @@ from Exon.modules.language import gs
 
 def get_help(chat):
     return gs(chat, "uall_help")
+
 
 # """

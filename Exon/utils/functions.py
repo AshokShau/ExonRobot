@@ -110,7 +110,7 @@ def generate_captcha():
 
 def test_speedtest():
     def speed_convert(size):
-        power = 2 ** 10
+        power = 2**10
         zero = 0
         units = {0: "", 1: "Kb/s", 2: "Mb/s", 3: "Gb/s", 4: "Tb/s"}
         while size > power:
@@ -145,7 +145,7 @@ async def transfer_sh(file):
     async with aiofiles.open(file, "rb") as f:
         params = {file: await f.read()}
     async with aiohttp.ClientSession() as session, session.post(
-            "https://transfer.sh/", data=params
+        "https://transfer.sh/", data=params
     ) as resp:
         download_link = str(await resp.text()).strip()
     return download_link
@@ -261,9 +261,9 @@ async def extract_user(message):
 
 
 def get_file_id_from_message(
-        message,
-        max_file_size=3145728,
-        mime_types=None,
+    message,
+    max_file_size=3145728,
+    mime_types=None,
 ):
     if mime_types is None:
         mime_types = ["image/png", "image/jpeg"]

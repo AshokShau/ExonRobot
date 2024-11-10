@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
 from enum import IntEnum, unique
 
 from telegram import Message
@@ -182,9 +183,9 @@ def get_filter_type(msg: Message):
         data_type = Types.TEXT
 
     elif (
-            msg.reply_to_message
-            and msg.reply_to_message.text
-            and len(msg.text.split()) >= 2
+        msg.reply_to_message
+        and msg.reply_to_message.text
+        and len(msg.text.split()) >= 2
     ):
         content = None
         text = msg.reply_to_message.text
