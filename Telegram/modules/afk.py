@@ -127,10 +127,7 @@ async def afk_checker(
     if is_afk:
         txt = False
         if m.text:
-            try:
-                txt = m.text.split(None, 1)[0]
-            except Exception:
-                raise
+            txt = m.text.split(None, 1)[0]
 
         if txt and txt in ["!afk", "brb", "/afk"]:
             return None

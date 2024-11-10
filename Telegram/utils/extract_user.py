@@ -46,8 +46,7 @@ async def extract_user(
                 user["username"],
                 (m.text.split(None, 2) + [""])[2],
             )
-        else:
-            return None, None, None, (m.text.split(None, 2) + [""])[2]
+        return None, None, None, (m.text.split(None, 2) + [""])[2]
 
     if len(args) >= 1 and args[0].isdigit():
         user_id = int(args[0])

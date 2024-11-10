@@ -10,7 +10,6 @@ from telegram.ext import Application, ApplicationBuilder, Defaults, PicklePersis
 
 import config
 from Telegram.database import mongo
-from Telegram.modules import ALL_MODULES
 
 """Setup Logger"""
 logging.basicConfig(

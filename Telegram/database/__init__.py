@@ -5,9 +5,7 @@ from config import MONGO
 
 class MongoDB:
     def __init__(self):
-        """
-        Initialize the MongoDB client.
-        """
+        """Initialize the MongoDB client."""
         if not MONGO:
             raise SystemExit(
                 "MONGO environment variable is not configured. Please set it to connect to the database."
@@ -29,9 +27,7 @@ class MongoDB:
             raise SystemExit(f"Database connection failed: {e}")
 
     async def close(self) -> None:
-        """
-        Close the MongoDB connection.
-        """
+        """Close the MongoDB connection."""
         self.client.close()
 
 

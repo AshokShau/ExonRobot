@@ -10,9 +10,7 @@ class Users:
     collection_name = "Users"
 
     def __init__(self, user_id: int) -> None:
-        """
-        Initialize the Users class with a specific MongoDB collection.
-        """
+        """Initialize the Users class with a specific MongoDB collection."""
         self.collection = mongo.db[self.collection_name]
         self.user_id = user_id or 0
 

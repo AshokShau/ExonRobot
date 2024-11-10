@@ -53,15 +53,15 @@ async def promote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             "I don't know who you're talking about, you need to specify a user."
         )
         return
-    elif user_id < 0:
+    if user_id < 0:
         await msg.reply_text("This can only be used on regular users.")
         return
-    elif await is_admin(chat.id, user_id):
+    if await is_admin(chat.id, user_id):
         await msg.reply_text(
             f"{mention_html(user_id, name)} is already an admin, so promotion isn't necessary."
         )
         return
-    elif user_id == context.bot.id:
+    if user_id == context.bot.id:
         await msg.reply_text("I can't promote myself.")
         return
 
@@ -119,15 +119,15 @@ async def demote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             "I don't know who you're talking about, you need to specify a user."
         )
         return
-    elif user_id < 0:
+    if user_id < 0:
         await msg.reply_text("This can only be used on regular users.")
         return
-    elif not await is_admin(chat.id, user_id):
+    if not await is_admin(chat.id, user_id):
         await msg.reply_text(
             f"{mention_html(user_id, name)} is not an admin, so demotion isn't necessary."
         )
         return
-    elif user_id == context.bot.id:
+    if user_id == context.bot.id:
         await msg.reply_text("I can't demote myself.")
         return
 
@@ -155,13 +155,13 @@ async def setTitle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             "I don't know who you're talking about, you need to specify a user."
         )
         return
-    elif user_id < 0:
+    if user_id < 0:
         await msg.reply_text("This can only be used on regular users.")
         return
-    elif not await is_admin(chat.id, user_id):
+    if not await is_admin(chat.id, user_id):
         await msg.reply_text(f"{name} is not an admin, so demotion isn't necessary.")
         return
-    elif user_id == context.bot.id:
+    if user_id == context.bot.id:
         await msg.reply_text("I can't demote myself.")
         return
 

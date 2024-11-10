@@ -133,7 +133,7 @@ async def raid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             await m.reply_text(text)
             await db.set_anti_raid(True)
             return
-        elif args[0].lower() in ("off", "no"):
+        if args[0].lower() in ("off", "no"):
             await m.reply_text("Anti-Raid mode has been disabled.")
             await db.set_anti_raid(False)
             return
