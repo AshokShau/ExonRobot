@@ -3,7 +3,7 @@ import re
 
 from ptbmod import Admins
 from ptbmod.decorator.cache import is_admin
-from telegram import Update
+from telegram import Update, Message
 from telegram.ext import ContextTypes
 from telegram.helpers import mention_html
 
@@ -81,7 +81,7 @@ async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | Non
         await m.reply_text(
             "I don't know who you're talking about, you need to specify a user."
             if user_id is None
-            else "wtf are you trying to do?"
+            else "wtf; What are you trying to do?"
             if user_id == context.bot.id
             else "What are you trying to do? You can't ban someone who's an admin."
         )
@@ -107,3 +107,42 @@ async def unban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | Non
         text += f"\n<b>Reason:</b> <code>{_reason}</code>"
     await m.reply_text(text)
     return
+
+
+@Cmd(command=["kick", "dkick", "tKick", "dtKick", "sKick", "stKick"])
+@Admins(permissions="can_restrict_members", is_both=True)
+async def kick(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message:
+    chat = update.effective_chat
+    m = update.effective_message
+    reply_msg = m.reply_to_message or m
+
+    user_id, user_first_name, user_name, _reason = await extract_user(m, context)
+
+    if not user_id or user_id == context.bot.id or await is_admin(chat.id, user_id):
+        return await m.reply_text(
+            "I don't know who you're talking about, you need to specify a user."
+            if user_id is None
+            else "I can't kick myself."
+            if user_id == context.bot.id
+            else "What are you trying to do? You can't kick someone who's an admin."
+        )
+
+    try:
+        await chat.unban_member(user_id)
+    except Exception as e:
+        await m.reply_text("Failed to kick;")
+        raise e
+
+    delete = bool(m.text.startswith("/d") or m.text.startswith("!d"))
+    silent = bool(m.text.startswith("/s") or m.text.startswith("!s"))
+
+    if delete:
+        await try_to_delete(reply_msg)
+    elif silent:
+        await asyncio.gather(try_to_delete(reply_msg), try_to_delete(m))
+
+    text = f"<b>{mention_html(user_id, user_first_name)}</b> was kicked."
+    if _reason:
+        text += f"\n<b>Reason:</b> <code>{_reason}</code>"
+    await m.reply_text(text)
+
