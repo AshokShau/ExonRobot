@@ -15,8 +15,7 @@ class AfkDB:
 
     async def check_afk(self) -> Optional[dict]:
         try:
-            afk = await self.collection.find_one({"_id": self.user_id})
-            return afk
+            return await self.collection.find_one({"_id": self.user_id})
         except PyMongoError as e:
             LOGGER.error(f"Error retrieving afk for user {self.user_id}: {e}")
             return None
@@ -68,8 +67,7 @@ class AfkDB:
     async def get_afk(cls, user_id: int) -> Optional[dict]:
         collection = mongo.db[cls.collection_name]
         try:
-            afk = await collection.find_one({"_id": user_id})
-            return afk
+            return await collection.find_one({"_id": user_id})
         except PyMongoError as e:
             LOGGER.error(f"Error retrieving afk for user {user_id}: {e}")
             return None

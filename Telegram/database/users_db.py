@@ -49,8 +49,7 @@ class Users:
     async def get_user(self) -> Optional[dict]:
         """Retrieve a single user document by its ID."""
         try:
-            user = await self.collection.find_one({"_id": self.user_id})
-            return user
+            return await self.collection.find_one({"_id": self.user_id})
         except PyMongoError as e:
             LOGGER.error(f"Error retrieving user with ID {self.user_id}: {e}")
             return None

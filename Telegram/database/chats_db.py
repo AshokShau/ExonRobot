@@ -25,8 +25,7 @@ class Chats:
         :return: Chat document if found, otherwise None.
         """
         try:
-            chat = await self.collection.find_one({"_id": self.chat_id})
-            return chat
+            return await self.collection.find_one({"_id": self.chat_id})
         except PyMongoError as e:
             LOGGER.error(f"Error retrieving chat with ID {self.chat_id}: {e}")
             return None

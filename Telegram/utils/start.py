@@ -26,7 +26,7 @@ def gen_help_keyboard():
 
 async def get_help_msg(help_option: str):
     """Get help message and keyboard."""
-    help_cmd_keys = set(k for j in HELP_COMMANDS.values() for k in j["alt_cmd"])
+    help_cmd_keys = {k for j in HELP_COMMANDS.values() for k in j["alt_cmd"]}
 
     if help_option in help_cmd_keys:
         try:

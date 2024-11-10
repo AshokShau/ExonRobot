@@ -82,7 +82,7 @@ def format_exception(
 
     stack = "".join(traceback.format_list(tb))
     msg = str(exp)
-    return f"Traceback (most recent call last):\n{stack}{type(exp).__name__}{': ' + msg if msg else ''}"
+    return f"Traceback (most recent call last):\n{stack}{type(exp).__name__}{f': {msg}' if msg else ''}"
 
 
 @Cmd(command="eval")

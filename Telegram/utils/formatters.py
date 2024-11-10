@@ -25,18 +25,20 @@ def tl_time(time_raw):
     unit = time_raw[-1]
 
     if unit == "d":
-        if time_val > 366:
-            return "ғᴏʀᴇᴠᴇʀ"
-        return f"{time_val} {'ᴅᴀʏ' if time_val == 1 else 'ᴅᴀʏs'}"
-    if unit == "h":
+        return (
+            "ғᴏʀᴇᴠᴇʀ"
+            if time_val > 366
+            else f"{time_val} {'ᴅᴀʏ' if time_val == 1 else 'ᴅᴀʏs'}"
+        )
+    elif unit == "h":
         if time_val > 8786:
             return "ғᴏʀᴇᴠᴇʀ"
         return f"{time_val} {'ʜᴏᴜʀ' if time_val == 1 else 'ʜᴏᴜʀs'}"
-    if unit == "m":
+    elif unit == "m":
         if time_val > 525600:
             return "ғᴏʀᴇᴠᴇʀ"
         return f"{time_val} {'ᴍɪɴᴜᴛᴇ' if time_val == 1 else 'ᴍɪɴᴜᴛᴇs'}"
-    if unit == "s":
+    elif unit == "s":
         if time_val > 31539600:
             return "ғᴏʀᴇᴠᴇʀ"
         return f"{time_val if time_val >= 30 else 40} {'sᴇᴄᴏɴᴅ' if time_val == 1 else 'sᴇᴄᴏɴᴅs'}"

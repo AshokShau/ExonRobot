@@ -26,8 +26,7 @@ async def extract_user(
             user = reply_message.sender_chat
         return user.id, user.full_name, user.username, (m.text.split(None, 1) + [""])[1]
 
-    entities = list(m.parse_entities([MessageEntity.TEXT_MENTION]))
-    if entities:
+    if entities := list(m.parse_entities([MessageEntity.TEXT_MENTION])):
         ent = entities[0]
         if ent.offset == len(m.text) - len(m.text.split(None, 1)[1]):
             return (

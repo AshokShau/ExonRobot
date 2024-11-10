@@ -24,7 +24,7 @@ class MongoDB:
             await self.client.admin.command("ping")
             print("Successfully connected to the database.")
         except Exception as e:
-            raise SystemExit(f"Database connection failed: {e}")
+            raise SystemExit(f"Database connection failed: {e}") from e
 
     async def close(self) -> None:
         """Close the MongoDB connection."""

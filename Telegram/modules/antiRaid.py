@@ -47,14 +47,12 @@ async def raid_raidTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
         await db.set_raid_time(timeout)
         await m.reply_text(f"Anti-Raid mode will be disabled after {tl_time(timeout)}")
-    # Display current timeout if no argument is provided
-    raid_time = raid_db.get("raid_time")
-    if not raid_time:
-        await m.reply_text("No raid timeout is set.")
-    else:
+    if raid_time := raid_db.get("raid_time"):
         await m.reply_text(
             f"Anti-Raid mode will be disabled after {tl_time(raid_time)}"
         )
+    else:
+        await m.reply_text("No raid timeout is set.")
 
 
 @Cmd(command=["raidBanTime", "raidMuteTime"])
@@ -77,11 +75,10 @@ async def raid_banTime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     # Display current ban time if no argument is provided
     raid_db = await db.get_anti_raid()
-    ban_time = raid_db.get("ban_time")
-    if not ban_time:
-        await m.reply_text("No raid ban time is set.")
-    else:
+    if ban_time := raid_db.get("ban_time"):
         await m.reply_text(f"Current raid ban time is {tl_time(ban_time)}.")
+    else:
+        await m.reply_text("No raid ban time is set.")
 
 
 @Cmd(command=["raidMode", "antiRaidMode"])
@@ -105,11 +102,10 @@ async def raid_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     # Display current raid mode if no argument is provided
     raid_db = await db.get_anti_raid()
-    raidMode = raid_db.get("raid_mode")
-    if not raidMode:
-        await m.reply_text("No raid mode is set.")
-    else:
+    if raidMode := raid_db.get("raid_mode"):
         await m.reply_text(f"Current raid mode is {raidMode}.")
+    else:
+        await m.reply_text("No raid mode is set.")
 
 
 @Cmd(command=["raid", "antiRaid"])

@@ -39,10 +39,9 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
     reason = ""
 
     if _reason:
-        match = re.match(r"([0-9]{1,})([dhms])\s*(.*)", _reason)
-        if match:
-            ban_time = match.group(1) + match.group(2)
-            reason = match.group(3) if match.lastindex > 2 else ""
+        if match := re.match(r"([0-9]{1,})([dhms])\s*(.*)", _reason):
+            ban_time = match[1] + match[2]
+            reason = match[3] if match.lastindex > 2 else ""
         else:
             reason = _reason
 

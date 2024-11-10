@@ -89,7 +89,7 @@ async def promote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             )
             raise e
 
-        text = "Successfully promoted %s." % mention_html(user_id, name)
+        text = f"Successfully promoted {mention_html(user_id, name)}."
 
         # Set a custom title if provided and within character limit
         if custom_title:
@@ -142,7 +142,7 @@ async def demote(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
         raise e
 
-    await msg.reply_text("Successfully demoted %s." % name)
+    await msg.reply_text(f"Successfully demoted {name}.")
 
 
 @Cmd(command="setTitle")
@@ -180,9 +180,7 @@ async def setTitle(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         raise e
 
     await msg.reply_text(
-        "Successfully set custom title to {} for {}".format(
-            title, mention_html(user_id, name)
-        )
+        f"Successfully set custom title to {title} for {mention_html(user_id, name)}"
     )
 
 
