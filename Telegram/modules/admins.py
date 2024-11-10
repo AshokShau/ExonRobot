@@ -189,7 +189,7 @@ This module contains commands to manage admins and their permissions in the grou
 ────────────────────────
 
 <b>User Commands:</b>
-๏ <code>/adminlist</code><b>:</b> Lists all the admins in the group.
+๏ <code>/adminList</code><b>:</b> Lists all the admins in the group.
 
 <b>The Following Commands Are Admin Only:</b>
 ๏ <code>/promote</code><b>:</b> Promotes a user to an admin.
@@ -198,8 +198,8 @@ This module contains commands to manage admins and their permissions in the grou
 ๏ <code>/link</code><b>:</b> Gets the invite link of the group.
 ๏ <code>/reload</code><b>:</b> Reloads the admin cache.
 
-<b>Note:</b> The admin list may be cached for performance reasons. Use <code>/admincache</code> to reload the cache.
+<b>Note:</b> The admin list may be cached for performance reasons. Use <code>/adminCache</code> to reload the cache.
 """
 
 __mod_name__ = "Admins"
-__alt_name__ = ["admin", "admins", "adminlist", "promote", "demote", "title", "inviteLink", "link"]
+__alt_name__ = ["admin", "adminList", "promote", "demote", "title", "inviteLink", "link", "reload", "adminCache"]
