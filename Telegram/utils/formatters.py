@@ -31,13 +31,17 @@ def tl_time(time_raw):
             else f"{time_val} {'ᴅᴀʏ' if time_val == 1 else 'ᴅᴀʏs'}"
         )
     elif unit == "h":
-        if time_val > 8786:
-            return "ғᴏʀᴇᴠᴇʀ"
-        return f"{time_val} {'ʜᴏᴜʀ' if time_val == 1 else 'ʜᴏᴜʀs'}"
+        return (
+            "ғᴏʀᴇᴠᴇʀ"
+            if time_val > 8786
+            else f"{time_val} {'ʜᴏᴜʀ' if time_val == 1 else 'ʜᴏᴜʀs'}"
+        )
     elif unit == "m":
-        if time_val > 525600:
-            return "ғᴏʀᴇᴠᴇʀ"
-        return f"{time_val} {'ᴍɪɴᴜᴛᴇ' if time_val == 1 else 'ᴍɪɴᴜᴛᴇs'}"
+        return (
+            "ғᴏʀᴇᴠᴇʀ"
+            if time_val > 525600
+            else f"{time_val} {'ᴍɪɴᴜᴛᴇ' if time_val == 1 else 'ᴍɪɴᴜᴛᴇs'}"
+        )
     elif unit == "s":
         if time_val > 31539600:
             return "ғᴏʀᴇᴠᴇʀ"
