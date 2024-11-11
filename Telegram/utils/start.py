@@ -19,32 +19,46 @@ PM_HELP_TEXT = """
 
 
 def gen_help_keyboard():
-    """Generate a keyboard with all commands."""
+    """
+    Generate a keyboard layout for help commands.
+
+    This function creates a keyboard layout by organizing the keys of the HELP_COMMANDS into rows, with each row containing up to three keys. The keys are sorted alphabetically to ensure a consistent order in the generated keyboard.
+
+    Returns:
+        list: A list of lists, where each inner list contains up to three help command keys.
+
+    """
     kb = sorted(list(HELP_COMMANDS.keys()))
     return [kb[i : i + 3] for i in range(0, len(kb), 3)]
 
 
 async def get_help_msg(help_option: str):
-    """Get help message and keyboard."""
-    help_cmd_keys = {k for j in HELP_COMMANDS.values() for k in j["alt_cmd"]}
+    """
+    Get the help message and keyboard based on the provided help option.
 
-    if help_option in help_cmd_keys:
-        try:
-            help_option_name = next(
-                HELP_COMMANDS[i]
-                for i in HELP_COMMANDS
-                if help_option in HELP_COMMANDS[i]["alt_cmd"]
-            )
-            help_option_value = help_option_name["help_msg"]
-            ou = help_option_name["buttons"]
-        except StopIteration:
-            LOGGER.warning(f"Help option {help_option} not found.")
-            return None, None
-        help_kb = ikb(ou, "commands")
-        help_msg = f"{help_option_value}"
+    This asynchronous function retrieves a help message and a corresponding keyboard layout based on the specified help option. If the help option is found in the predefined commands, it returns the associated help message and buttons; otherwise, it returns a general help message and a default keyboard.
+
+    Args:
+        help_option (str): The help option to look up in the HELP_COMMANDS.
+
+    Returns:
+        tuple: A tuple containing the help message (str) and the keyboard layout (various types depending on ikb implementation).
+
+    """
+    if help_option_data := next(
+        (
+            data
+            for data in HELP_COMMANDS.values()
+            if help_option in data["alt_cmd"]
+        ),
+        None,
+    ):
+        help_msg = help_option_data["help_msg"]
+        buttons = help_option_data["buttons"]
+        help_kb = ikb(buttons, "commands")
     else:
         help_msg = PM_HELP_TEXT
-        ou = gen_help_keyboard()
-        help_kb = ikb(ou, "start_back")
+        buttons = gen_help_keyboard()
+        help_kb = ikb(buttons, "start_back")
 
     return help_msg, help_kb

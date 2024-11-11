@@ -47,9 +47,7 @@ async def afkUser(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 @Msg(filters.ChatType.GROUPS, group=2)
-async def afk_checker(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> Union[(Optional[int], Optional[str])]:
+async def afk_checker(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Union[(Optional[int], Optional[str])]:
     """Checks if user is AFK"""
     user = update.effective_user
     chat = update.effective_chat

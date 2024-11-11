@@ -1,4 +1,4 @@
-from importlib import import_module as imp_mod
+import importlib
 
 from ptbmod import verifyAnonymousAdmin
 from telegram import Update
@@ -20,7 +20,7 @@ def setup() -> None:
         SystemExit: If duplicate modules are found.
     """
     for single in ALL_MODULES:
-        imported_module = imp_mod(f"Telegram.modules.{single}")
+        imported_module = importlib.import_module(f"Telegram.modules.{single}")
         plugin_name = getattr(imported_module, "__mod_name__", single).lower()
         plugin_dict_name = f"modules.{plugin_name}"
 
@@ -52,7 +52,6 @@ def setup() -> None:
         drop_pending_updates=True,
         allowed_updates=Update.ALL_TYPES,
     )
-
 
 if __name__ == "__main__":
     setup()

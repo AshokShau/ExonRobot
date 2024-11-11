@@ -23,8 +23,9 @@ from Telegram import LOGGER, Cmd
 @Cmd(command="logs")
 @Admins(no_reply=True, only_devs=True)
 async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Get bot logs"""
     pass
+
+
 
 
 @Cmd(command=["restart", "update"])
@@ -84,11 +85,9 @@ def format_exception(
     msg = str(exp)
     return f"Traceback (most recent call last):\n{stack}{type(exp).__name__}{f': {msg}' if msg else ''}"
 
-
-@Cmd(command="eval")
+@Cmd(command=["py", "eval"], allow_edit=True)
 @Admins(only_devs=True)
 async def eval_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Evaluates python code"""
     bot = context.bot
     m = update.effective_message
     text = m.text.split(None, 1)
@@ -98,62 +97,93 @@ async def eval_(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     out_buf = io.StringIO()
 
     async def _eval() -> Tuple[str, Optional[str]]:
+        # Message sending helper for convenience
         async def send(*args: Any, **kwargs: Any) -> telegram.Message:
             return await m.reply_text(*args, **kwargs)
 
+        # Print wrapper to capture output
+        # We don't override sys.stdout to avoid interfering with other output
         def _print(*args: Any, **kwargs: Any) -> None:
             if "file" not in kwargs:
                 kwargs["file"] = out_buf
-            return print(*args, **kwargs)
+                return print(*args, **kwargs)
 
         eval_vars = {
+            # Contextual info,
             "bot": bot,
+            "c": bot,
+            "stdout": out_buf,
+            # Convenience aliases
             "update": update,
             "context": context,
             "m": m,
+            "msg": m,
             "reply": m.reply_to_message,
             "chat": update.effective_chat,
             "user": update.effective_user,
             "IKB": telegram.InlineKeyboardButton,
             "IKM": telegram.InlineKeyboardMarkup,
-            "telegram": telegram,
+            # Helper functions
             "send": send,
             "print": _print,
+            # Built-in modules
             "inspect": inspect,
             "os": os,
             "re": re,
             "sys": sys,
             "traceback": traceback,
+            # Third-party modules
+            "telegram": telegram,
+            "error": telegram.error,
         }
 
         try:
             return "", await meval(code, globals(), **eval_vars)
         except Exception as e:
+            # Find first traceback frame involving the snippet
+            first_snip_idx = -1
             tb = traceback.extract_tb(e.__traceback__)
-            first_snip_idx = next(
-                (i for i, frame in enumerate(tb) if frame.filename == "<string>"), -1
-            )
+            for i, frame in enumerate(tb):
+                if frame.filename == "<string>" or frame.filename.endswith("ast.py"):
+                    first_snip_idx = i
+                    break
+
+            # Re-raise exception if it wasn't caused by the snippet
             if first_snip_idx == -1:
                 raise e
+            # Return formatted stripped traceback
             stripped_tb = tb[first_snip_idx:]
             formatted_tb = format_exception(e, tb=stripped_tb)
-            return "⚠️ Error executing snippet\n\n", formatted_tb
+            return "⚠️ Error: \n\n", formatted_tb
 
-    _, result = await _eval()
+    prefix, result = await _eval()
 
+    # Always write result if no output has been collected thus far
     if not out_buf.getvalue() or result is not None:
         print(result, file=out_buf)
 
-    out = out_buf.getvalue().rstrip("\n")  # Strip only ONE final newline
-    result_msg = f"<b>Output:</b>\n<pre language='python'>{escape(out)}</pre>"
+    out = out_buf.getvalue()
+    # Strip only ONE final newline to compensate for our message formatting
+    if out.endswith("\n"):
+        out = out[:-1]
 
-    if len(result_msg) > 4096:
+    result = f"""{prefix}<b>Eval:</b>
+<pre language="python">{escape(code)}</pre>
+<b>ᴏᴜᴛ:</b>
+<pre language="python">{escape(out)}</pre>"""
+
+    if len(result) > 4096:
         with io.BytesIO(str.encode(out)) as out_file:
             out_file.name = str(uuid.uuid4()).split("-")[0].upper() + ".txt"
+            caption = f"""{prefix}<b>Eval:</b>
+<pre language="python">{escape(code)}</pre>"""
             await m.reply_document(
                 document=out_file,
+                caption=caption,
                 disable_notification=True,
             )
-        return
+        return None
 
-    await m.reply_text(result_msg)
+    await m.reply_text(
+        result,
+    )
