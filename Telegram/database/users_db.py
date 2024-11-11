@@ -2,8 +2,8 @@ from typing import Optional, Union
 
 from pymongo.errors import PyMongoError
 
-from .. import LOGGER
 from . import mongo
+from .. import LOGGER
 
 
 class Users:
@@ -54,7 +54,7 @@ class Users:
             LOGGER.error(f"Error retrieving user with ID {self.user_id}: {e}")
             return None
 
-    async def update_user(self, full_name: str, username: str, pm: bool) -> bool:
+    async def update_user(self, full_name: str, username: str, pm: bool = False) -> bool:
         """
         Update the fullName, username, and pm status of a user, or insert if it doesn't exist.
 

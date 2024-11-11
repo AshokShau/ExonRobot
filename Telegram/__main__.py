@@ -53,5 +53,6 @@ def setup() -> None:
         allowed_updates=Update.ALL_TYPES,
     )
 
+
 if __name__ == "__main__":
     setup()

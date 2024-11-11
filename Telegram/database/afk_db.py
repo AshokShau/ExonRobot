@@ -2,8 +2,8 @@ from typing import Optional
 
 from pymongo.errors import PyMongoError
 
-from .. import LOGGER
 from . import mongo
+from .. import LOGGER
 
 
 class AfkDB:

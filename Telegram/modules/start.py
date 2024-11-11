@@ -33,17 +33,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if args:
             help_option = args[0].lower()
             if help_option.startswith("rules") and (
-                help_option not in ("rule", "rules")
+                    help_option not in ("rule", "rules")
             ):
                 return None
 
             if help_option.startswith("note") and (
-                help_option not in ("note", "notes")
+                    help_option not in ("note", "notes")
             ):
                 return None
 
             if help_option.startswith("captcha") and (
-                help_option not in ("captcha", "captchas")
+                    help_option not in ("captcha", "captchas")
             ):
                 return None
 
@@ -228,7 +228,7 @@ async def commands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @Cb(pattern="^start_")
 async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Callback for help command"""
-    query = cast(CallbackQuery, update.callback_query)
+    query = update.callback_query
     if query.data == "start_back":
         await query.answer(text="Home menu")
         try:
@@ -262,5 +262,3 @@ async def callbacks(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
                 "Chat not found",
             ]:
                 raise exc
-    else:
-        return None

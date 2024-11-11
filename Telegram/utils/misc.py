@@ -106,7 +106,7 @@ def ikb(rows=None, back=None):
 
 
 def btn(
-    text: str, value: str, button_type: str = "callback_data"
+        text: str, value: str, button_type: str = "callback_data"
 ) -> InlineKeyboardButton:
     """Helper function to create inline keyboard button.
 

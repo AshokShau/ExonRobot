@@ -26,8 +26,6 @@ async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     pass
 
 
-
-
 @Cmd(command=["restart", "update"])
 @Admins(no_reply=True, only_devs=True)
 async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Message]:
@@ -69,7 +67,7 @@ async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Mess
 
 
 def format_exception(
-    exp: BaseException, tb: Optional[List[traceback.FrameSummary]] = None
+        exp: BaseException, tb: Optional[List[traceback.FrameSummary]] = None
 ) -> str:
     """Formats an exception traceback as a string."""
     if tb is None:
@@ -84,6 +82,7 @@ def format_exception(
     stack = "".join(traceback.format_list(tb))
     msg = str(exp)
     return f"Traceback (most recent call last):\n{stack}{type(exp).__name__}{f': {msg}' if msg else ''}"
+
 
 @Cmd(command=["py", "eval"], allow_edit=True)
 @Admins(only_devs=True)

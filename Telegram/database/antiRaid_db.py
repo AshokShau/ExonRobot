@@ -2,8 +2,8 @@ from typing import Dict, Optional, Union
 
 from pymongo.errors import PyMongoError
 
-from .. import LOGGER
 from . import mongo
+from .. import LOGGER
 
 
 class AntiRaidDB:
@@ -29,7 +29,7 @@ class AntiRaidDB:
             return default_settings
 
     async def set_raid_mode(
-        self, raid_mode: str
+            self, raid_mode: str
     ) -> Dict[str, Optional[Union[str, bool]]]:
         settings = await self.get_anti_raid()
         settings["raid_mode"] = raid_mode
@@ -43,7 +43,7 @@ class AntiRaidDB:
         return settings
 
     async def set_ban_time(
-        self, ban_time: str
+            self, ban_time: str
     ) -> Dict[str, Optional[Union[str, bool]]]:
         settings = await self.get_anti_raid()
         settings["ban_time"] = ban_time
@@ -57,7 +57,7 @@ class AntiRaidDB:
         return settings
 
     async def set_raid_time(
-        self, raid_time: str
+            self, raid_time: str
     ) -> Dict[str, Optional[Union[str, bool]]]:
         settings = await self.get_anti_raid()
         settings["raid_time"] = raid_time
@@ -71,7 +71,7 @@ class AntiRaidDB:
         return settings
 
     async def set_anti_raid(
-        self, anti_raid: bool
+            self, anti_raid: bool
     ) -> Dict[str, Optional[Union[str, bool]]]:
         settings = await self.get_anti_raid()
         settings["anti_raid"] = anti_raid

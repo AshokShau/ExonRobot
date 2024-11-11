@@ -2,11 +2,11 @@ from typing import Optional
 
 from pymongo.errors import PyMongoError
 
-from .. import LOGGER
 from . import mongo
+from .. import LOGGER
 
 
-class Chats:
+class ChatsDB:
     collection_name = "Chats"
 
     def __init__(self, chat_id: int) -> None:

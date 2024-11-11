@@ -4,12 +4,12 @@ from telegram.constants import ChatType
 from telegram.ext import ChatMemberHandler, ContextTypes
 
 from Telegram import CMember
-from Telegram.database.chats_db import Chats
+from Telegram.database.chats_db import ChatsDB
 
 
 @CMember(ChatMemberHandler.CHAT_MEMBER, group=-1)
 async def chat_member_update(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     """Update admins cache when admins are added or removed from a group."""
     status_change = update.chat_member.difference().get("status")
@@ -28,7 +28,7 @@ async def chat_member_update(
 
 @CMember(ChatMemberHandler.MY_CHAT_MEMBER, group=-1)
 async def my_chat_member_update(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
+        update: Update, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
     """The bot was added or removed from a group."""
     if update.effective_chat.type not in [ChatType.GROUP, ChatType.SUPERGROUP]:
@@ -41,7 +41,7 @@ async def my_chat_member_update(
         return None
 
     _, new_status = status_change
-    chats_db = Chats(update.effective_chat.id)
+    chats_db = ChatsDB(update.effective_chat.id)
 
     if new_status in [
         ChatMember.LEFT,
