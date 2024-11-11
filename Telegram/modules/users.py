@@ -23,23 +23,31 @@ async def _tracker(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 
     if reply := message.reply_to_message:
         if not reply.sender_chat and not reply.forward_origin:
-            await Users(reply.from_user.id).update_user(reply.from_user.full_name, reply.from_user.username, False)
+            await Users(reply.from_user.id).update_user(
+                reply.from_user.full_name, reply.from_user.username, False
+            )
 
         if isinstance(reply.forward_origin, MessageOriginUser):
-            await Users(reply.forward_origin.sender_user.id).update_user(reply.forward_origin.sender_user.full_name,
-                                                                         reply.forward_origin.sender_user.username,
-                                                                         False)
+            await Users(reply.forward_origin.sender_user.id).update_user(
+                reply.forward_origin.sender_user.full_name,
+                reply.forward_origin.sender_user.username,
+                False,
+            )
             await Users(user.id).update_user(user.full_name, user.username, False)
 
     if message and message.forward_origin:
         if isinstance(message.forward_origin, MessageOriginUser):
-            await Users(message.forward_origin.sender_user.id).update_user(message.forward_origin.sender_user.full_name,
-                                                                           reply.forward_origin.sender_user.username,
-                                                                           False)
-            await Users(message.from_user.id).update_user(message.from_user.full_name, message.from_user.username,
-                                                          False)
+            await Users(message.forward_origin.sender_user.id).update_user(
+                message.forward_origin.sender_user.full_name,
+                reply.forward_origin.sender_user.username,
+                False,
+            )
+            await Users(message.from_user.id).update_user(
+                message.from_user.full_name, message.from_user.username, False
+            )
         elif isinstance(message.forward_origin, MessageOriginChat):
-            await Users(message.from_user.id).update_user(message.from_user.full_name, message.from_user.username,
-                                                          False)
+            await Users(message.from_user.id).update_user(
+                message.from_user.full_name, message.from_user.username, False
+            )
 
     await Users(user.id).update_user(user.full_name, user.username, False)

@@ -1,7 +1,13 @@
 from typing import cast
 
-from telegram import Message, Update, MessageOriginUser, MessageOriginChat, MessageOriginChannel, \
-    MessageOriginHiddenUser
+from telegram import (
+    Message,
+    Update,
+    MessageOriginUser,
+    MessageOriginChat,
+    MessageOriginChannel,
+    MessageOriginHiddenUser,
+)
 from telegram.constants import ChatType, MessageOriginType
 from telegram.ext import ContextTypes
 
@@ -34,16 +40,25 @@ async def get_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message:
             )
 
         # Determine the forward origin type and add appropriate details
-        if isinstance(reply.forward_origin, MessageOriginUser) and reply.forward_origin.type == MessageOriginType.USER:
+        if (
+            isinstance(reply.forward_origin, MessageOriginUser)
+            and reply.forward_origin.type == MessageOriginType.USER
+        ):
             text += f"Forwarded User: {reply.forward_origin.sender_user.first_name} with ID: {reply.forward_origin.sender_user.id}\n"
-        elif isinstance(reply.forward_origin,
-                        MessageOriginChat) and reply.forward_origin.type == MessageOriginType.CHAT:
+        elif (
+            isinstance(reply.forward_origin, MessageOriginChat)
+            and reply.forward_origin.type == MessageOriginType.CHAT
+        ):
             text += f"Forwarded Chat: {reply.forward_origin.sender_chat.full_name} with ID: {reply.forward_origin.sender_chat.id}\n"
-        elif isinstance(reply.forward_origin,
-                        MessageOriginChannel) and reply.forward_origin.type == MessageOriginType.CHANNEL:
+        elif (
+            isinstance(reply.forward_origin, MessageOriginChannel)
+            and reply.forward_origin.type == MessageOriginType.CHANNEL
+        ):
             text += f"Forwarded Channel: {reply.forward_origin.chat.full_name} with ID: {reply.forward_origin.chat.id}\n"
-        elif isinstance(reply.forward_origin,
-                        MessageOriginHiddenUser) and reply.forward_origin.type == MessageOriginType.HIDDEN_USER:
+        elif (
+            isinstance(reply.forward_origin, MessageOriginHiddenUser)
+            and reply.forward_origin.type == MessageOriginType.HIDDEN_USER
+        ):
             text += f"Unable to retrieve the forwarded {reply.forward_origin.sender_user_name} ID.\n"
 
         # Additional media IDs if present

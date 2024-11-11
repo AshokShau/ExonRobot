@@ -33,17 +33,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if args:
             help_option = args[0].lower()
             if help_option.startswith("rules") and (
-                    help_option not in ("rule", "rules")
+                help_option not in ("rule", "rules")
             ):
                 return None
 
             if help_option.startswith("note") and (
-                    help_option not in ("note", "notes")
+                help_option not in ("note", "notes")
             ):
                 return None
 
             if help_option.startswith("captcha") and (
-                    help_option not in ("captcha", "captchas")
+                help_option not in ("captcha", "captchas")
             ):
                 return None
 

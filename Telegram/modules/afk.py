@@ -47,7 +47,9 @@ async def afkUser(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 @Msg(filters.ChatType.GROUPS, group=2)
-async def afk_checker(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Union[(Optional[int], Optional[str])]:
+async def afk_checker(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+) -> Union[(Optional[int], Optional[str])]:
     """Checks if user is AFK"""
     user = update.effective_user
     chat = update.effective_chat
@@ -59,7 +61,7 @@ async def afk_checker(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Uni
     rep_user_name = None
 
     if m.entities and m.parse_entities(
-            [MessageEntity.TEXT_MENTION, MessageEntity.MENTION],
+        [MessageEntity.TEXT_MENTION, MessageEntity.MENTION],
     ):
         entities = m.parse_entities(
             [MessageEntity.TEXT_MENTION, MessageEntity.MENTION],
@@ -72,7 +74,7 @@ async def afk_checker(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Uni
 
             elif ent.type == MessageEntity.MENTION:
                 userInfo = await Users.get_user_info(
-                    m.text[ent.offset: ent.offset + ent.length]
+                    m.text[ent.offset : ent.offset + ent.length]
                 )
                 try:
                     rep_user_id = userInfo["_id"]
@@ -113,10 +115,10 @@ async def afk_checker(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Uni
                 reply_to_message_id=m.id,
             )
         elif media_type in (
-                Types.STICKER,
-                Types.VIDEO_NOTE,
-                Types.CONTACT,
-                Types.ANIMATED_STICKER,
+            Types.STICKER,
+            Types.VIDEO_NOTE,
+            Types.CONTACT,
+            Types.ANIMATED_STICKER,
         ):
             await (await send_cmd(bot, media_type))(
                 chat.id, media, reply_to_message_id=m.id

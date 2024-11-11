@@ -67,7 +67,7 @@ async def update_(update: Update, _: ContextTypes.DEFAULT_TYPE) -> Optional[Mess
 
 
 def format_exception(
-        exp: BaseException, tb: Optional[List[traceback.FrameSummary]] = None
+    exp: BaseException, tb: Optional[List[traceback.FrameSummary]] = None
 ) -> str:
     """Formats an exception traceback as a string."""
     if tb is None:

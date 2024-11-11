@@ -54,7 +54,9 @@ class Users:
             LOGGER.error(f"Error retrieving user with ID {self.user_id}: {e}")
             return None
 
-    async def update_user(self, full_name: str, username: str, pm: bool = False) -> bool:
+    async def update_user(
+        self, full_name: str, username: str, pm: bool = False
+    ) -> bool:
         """
         Update the fullName, username, and pm status of a user, or insert if it doesn't exist.
 

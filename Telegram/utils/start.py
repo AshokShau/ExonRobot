@@ -29,7 +29,7 @@ def gen_help_keyboard():
 
     """
     kb = sorted(list(HELP_COMMANDS.keys()))
-    return [kb[i: i + 3] for i in range(0, len(kb), 3)]
+    return [kb[i : i + 3] for i in range(0, len(kb), 3)]
 
 
 async def get_help_msg(help_option: str):
@@ -46,12 +46,8 @@ async def get_help_msg(help_option: str):
 
     """
     if help_option_data := next(
-            (
-                    data
-                    for data in HELP_COMMANDS.values()
-                    if help_option in data["alt_cmd"]
-            ),
-            None,
+        (data for data in HELP_COMMANDS.values() if help_option in data["alt_cmd"]),
+        None,
     ):
         help_msg = help_option_data["help_msg"]
         buttons = help_option_data["buttons"]

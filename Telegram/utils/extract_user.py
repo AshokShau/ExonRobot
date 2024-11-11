@@ -8,9 +8,9 @@ from Telegram.database.users_db import Users
 
 
 async def extract_user(
-        m: Message,
-        context: ContextTypes.DEFAULT_TYPE,
-        sender: bool = False,
+    m: Message,
+    context: ContextTypes.DEFAULT_TYPE,
+    sender: bool = False,
 ) -> Tuple[Optional[int], Optional[str], Optional[str], Optional[str]]:
     """
     Extract user information from a message based on various conditions:
@@ -33,7 +33,7 @@ async def extract_user(
                 ent.user.id,
                 ent.user.full_name,
                 ent.user.username,
-                m.text[ent.offset + ent.length:],
+                m.text[ent.offset + ent.length :],
             )
 
     if len(args) >= 1 and args[0].startswith("@"):

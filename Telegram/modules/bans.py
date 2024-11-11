@@ -63,8 +63,8 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str | None:
         return
 
     text = (
-            f"<b>{mention_html(user_id, user_first_name)}</b> was banned for {tl_time(ban_time)}."
-            + (f"\n<b>Reason:</b> <code>{reason}</code>" if reason else "")
+        f"<b>{mention_html(user_id, user_first_name)}</b> was banned for {tl_time(ban_time)}."
+        + (f"\n<b>Reason:</b> <code>{reason}</code>" if reason else "")
     )
     await m.reply_text(text)
     return None
@@ -181,7 +181,7 @@ async def mute(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Message | 
     match = re.match(r"([0-9]{1,})([dhms])*$", _reason) if _reason else None
     if match:
         ban_time = match.group(0)
-        reason = _reason[match.end():].strip()
+        reason = _reason[match.end() :].strip()
     else:
         ban_time = "367d"
         reason = _reason
