@@ -13,12 +13,9 @@ class LockDB:
         self.collection = mongo.db[self.collection_name]
         self.chat_id = chat_id
 
-    async def get_locks(self) ->    dict[str, Union[list, bool]]:
+    async def get_locks(self) -> dict[str, Union[list, bool]]:
         # Default lock settings if not found in the database
-        default_settings = {
-            "locked": [],
-            "lock_warn": False
-        }
+        default_settings = {"locked": [], "lock_warn": False}
         try:
             locks = await self.collection.find_one({"_id": self.chat_id})
             return locks or default_settings
