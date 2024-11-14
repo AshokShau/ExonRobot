@@ -3,4 +3,5 @@
 /venv
 *.pyc
 *.pickle
-Telegram/logs.txt
+logs.txt
+__pycache__

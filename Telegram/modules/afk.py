@@ -54,7 +54,7 @@ async def afk_checker(
     user = update.effective_user
     chat = update.effective_chat
     m = update.effective_message
-    (bot,) = context.bot
+    bot = context.bot
     repl = m.reply_to_message
 
     rep_user_id = None
