@@ -32,7 +32,9 @@ async def purge(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await asyncio.gather(
             *(
                 bot.delete_messages(chat_id=m.chat.id, message_ids=x)
-                for x in (message_ids[i : i + 100] for i in range(0, len(message_ids), 100))
+                for x in (
+                    message_ids[i : i + 100] for i in range(0, len(message_ids), 100)
+                )
             )
         )
         await m.delete()
