@@ -41,7 +41,7 @@ telegraph==2.2.0
 motor
 pymongo==4.10.1
 odmantic==0.9.2
-opencv-python-headless==4.10.0.82
+opencv-python-headless==4.11.0.86
 pykeyboard
 wget==3.2
 wikipedia==1.4.0
