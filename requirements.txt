@@ -24,7 +24,7 @@ python-telegram-bot==13.15
 requests==2.32.3
 spamwatch==0.3.0
 speedtest-cli==2.1.3
-SQLAlchemy==1.4.44
+SQLAlchemy==2.0.40
 telethon==1.35.0
 ujson==5.8.0
 pycryptodome==3.20.0
