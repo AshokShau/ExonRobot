@@ -39,7 +39,7 @@ python-dotenv==1.1.0
 redis==5.2.0
 telegraph==2.2.0
 motor
-pymongo==4.12.0
+pymongo==4.12.1
 odmantic==0.9.2
 opencv-python-headless==4.10.0.82
 pykeyboard
