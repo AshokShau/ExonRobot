@@ -36,7 +36,7 @@ tgcrypto-pyrofork
 pyrofork
 python-arq==6.0.7
 python-dotenv==1.1.0
-redis==5.2.0
+redis==6.1.0
 telegraph==2.2.0
 motor
 pymongo==4.12.0
